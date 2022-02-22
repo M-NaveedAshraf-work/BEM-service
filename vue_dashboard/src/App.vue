@@ -2,29 +2,28 @@
   <v-app>
     <v-app-bar
       app
-      color="primary"
+      color="teal darken-4"
       dark
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+      <v-toolbar-title>BEM Interactive Dashboard</v-toolbar-title>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+      <v-spacer></v-spacer>
+
+      <div class="text-center">
+        <v-btn>
+          <router-link to="/">Input</router-link>
+        </v-btn>
+       <v-btn>
+          <router-link to="/CapX_Cal">CapX and Calibration</router-link>
+        </v-btn>
+        <v-btn>
+          <router-link to="/UQ">UQ</router-link>
+        </v-btn>
+        <v-btn>
+          <router-link to="/Output">Output</router-link>
+        </v-btn>
       </div>
-
+      
       <v-spacer></v-spacer>
 
       <v-btn
