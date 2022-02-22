@@ -43,12 +43,13 @@
 </template>
 
 <script>
+  import * as echarts from 'echarts';
 
-export default {
-  name: 'App',
+  export default {
+    name: 'App',
 
-  data: () => ({
-    //
-  }),
-};
+    data: () => ({
+      //
+    }),
+  };
 </script>

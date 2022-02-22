@@ -4,6 +4,7 @@ import Input from '../components/Input.vue'
 import CapX from '../components/CapX_Cal.vue'
 import UQ from '../components/UQ.vue'
 import Output from '../components/Output.vue'
+import 'echarts'
 
 Vue.use(VueRouter)
 
