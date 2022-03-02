@@ -53,6 +53,7 @@
                 align="center"
                 depressed
                 color="primary"
+                v-on:click="getData(); runBEM();"
               >
               Run BEM
               </v-btn>
@@ -129,7 +130,7 @@
                 outlined
                 dense
                 type="number"
-                @change="Volume=parseFloat(Volume)"
+                @change="jsonData.Volume=parseFloat(jsonData.Volume)"
                 ></v-text-field>
             </v-col>
           </v-row>
@@ -146,6 +147,7 @@
                 outlined
                 dense
                 type="number"
+                @change="jsonData.Height=parseFloat(jsonData.Height)"
                 ></v-text-field>
             </v-col>
           </v-row>
@@ -176,6 +178,7 @@
                           outlined
                           dense
                           type="number"
+                          @change="jsonData.DayLightingFactor=parseFloat(jsonData.DayLightingFactor)"
                         ></v-text-field>
                       </v-row>
                       <v-row>
@@ -185,6 +188,7 @@
                           outlined
                           dense
                           type="number"
+                          @change="jsonData.OccupancyFactor=parseFloat(jsonData.OccupancyFactor)"
                         ></v-text-field>
                       </v-row>
                       <v-row>
@@ -194,6 +198,7 @@
                           outlined
                           dense
                           type="number"
+                          @change="jsonData.LightingControlFactor=parseFloat(jsonData.LightingControlFactor)"
                         ></v-text-field>
                       </v-row>
                       <v-row>
@@ -218,6 +223,7 @@
                           outlined
                           dense
                           type="number"
+                          @change="jsonData.HeatingCOP=parseFloat(jsonData.HeatingCOP)"
                         ></v-text-field>
                       </v-row>
                       <v-row>
@@ -227,6 +233,7 @@
                           outlined
                           dense
                           type="number"
+                          @change="jsonData.CoolingCOP=parseFloat(jsonData.CoolingCOP)"
                         ></v-text-field>
                       </v-row>
                       <v-row>
@@ -236,6 +243,7 @@
                           outlined
                           dense
                           type="number"
+                          @change="jsonData.COP100=parseFloat(jsonData.COP100)"
                         ></v-text-field>
                       </v-row>
                       <v-row>
@@ -245,6 +253,7 @@
                           outlined
                           dense
                           type="number"
+                          @change="jsonData.COP75=parseFloat(jsonData.COP75)"
                         ></v-text-field>
                       </v-row>
                       <v-row>
@@ -254,6 +263,7 @@
                           outlined
                           dense
                           type="number"
+                          @change="jsonData.COP50=parseFloat(jsonData.COP50)"
                         ></v-text-field>
                       </v-row>
                       <v-row>
@@ -263,6 +273,7 @@
                           outlined
                           dense
                           type="number"
+                          @change="jsonData.COP25=parseFloat(jsonData.COP25)"
                         ></v-text-field>
                       </v-row>
                     </v-expansion-panel-content>
@@ -296,6 +307,7 @@
                           outlined
                           dense
                           type="number"
+                          @change="jsonData.ExtraVentilation=parseFloat(jsonData.ExtraVentilation)"
                         ></v-text-field>
                       </v-row>
                       <v-row>
@@ -323,6 +335,7 @@
                           outlined
                           dense
                           type="number"
+                          @change="jsonData.AirLeakageLevel=parseFloat(jsonData.AirLeakageLevel)"
                         ></v-text-field>
                       </v-row>
                       <v-row>
@@ -332,6 +345,7 @@
                           outlined
                           dense
                           type="number"
+                          @change="jsonData.SpecificFanPower=parseFloat(jsonData.SpecificFanPower)"
                         ></v-text-field>
                       </v-row>
                       <v-row>
@@ -341,6 +355,7 @@
                           outlined
                           dense
                           type="number"
+                          @change="jsonData.FanControlFactor=parseFloat(jsonData.FanControlFactor)"
                         ></v-text-field>
                       </v-row>
                       <v-row>
@@ -410,6 +425,7 @@
                           outlined
                           dense
                           type="number"
+                          @change="jsonData.PVArea=parseFloat(jsonData.PVArea)"
                         ></v-text-field>
                       </v-row>
                       <v-row>
@@ -437,6 +453,7 @@
                           outlined
                           dense
                           type="number"
+                          @change="jsonData.PVPeakPower=parseFloat(jsonData.PVPeakPower)"
                         ></v-text-field>
                       </v-row>
                       <v-row>
@@ -446,6 +463,7 @@
                           outlined
                           dense
                           type="number"
+                          @change="jsonData.PVPerformanceFactor=parseFloat(jsonData.PVPerformanceFactor)"
                         ></v-text-field>
                       </v-row>
                     </v-expansion-panel-content>
@@ -460,6 +478,7 @@
                           outlined
                           dense
                           type="number"
+                          @change="jsonData.SHWArea=parseFloat(jsonData.SHWArea)"
                         ></v-text-field>
                       </v-row>
                       <v-row>
@@ -492,6 +511,7 @@
                           outlined
                           dense
                           type="number"
+                          @change="jsonData.WindTurbineDiameter=parseFloat(jsonData.WindTurbineDiameter)"
                         ></v-text-field>
                       </v-row>
                       <v-row>
@@ -501,6 +521,7 @@
                           outlined
                           dense
                           type="number"
+                          @change="jsonData.WindTurbineEfficiency=parseFloat(jsonData.WindTurbineEfficiency)"
                         ></v-text-field>
                       </v-row>
                     </v-expansion-panel-content>
@@ -711,6 +732,7 @@ export default {
       E_Source3: ['Electicity', 'Natural Gas', 'Fuel'],
       lighting: ['Lighting Daylight Factor', 'Lighting Occupancy Factor', 'Lighting Constant Illumination Control Factor', 'Parasitic Lighting Energy'],
       jsonData : [],
+      StateBEM : false,
       dialog: false,
     }
   },
@@ -727,6 +749,30 @@ export default {
         console.error(error);
       })
     },
+
+    updateData() {
+      const path = 'http://127.0.0.1:5000/input'
+      axios.put(path, this.jsonData)
+      .then(() => {
+        this.getData();
+      })
+      .catch((error) => {
+        console.error(error);
+        this.getData
+      })
+    },
+
+    runBEM() {
+      const path = 'http://127.0.0.1:5000/BEM'
+      axios.get(path)
+      .then((res) => {
+        this.StateBEM = res.data
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+    },
+
     /*
     updateVar() {
       this.$store.commit("updateParams",[this.Name, this.TerrainClass, this.Volume, this.Height, this.HeatCapacity, this.DayLightingFactor, this.OccupancyFactor,
@@ -907,12 +953,11 @@ export default {
   },
 
   watch: {
-    /* '$store.state.DTW.run': function() {
-      if(this.$store.state.DTW.run === "updateVar1") {
-        this.updateVar()
-        this.$store.commit(json_data)
-      }
-    }, */
+
+    jsonData(v) {
+      this.Name = v
+    },
+
     'uploadFie': async function() {
       if (this.uploadFile != null) {
         this.uploadData = await this.OpenFile(this.uploadFile)
