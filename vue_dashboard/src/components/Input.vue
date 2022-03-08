@@ -559,7 +559,7 @@
                       <v-row>
                         <div class="text-center">
                           <v-dialog
-                            v-model="dialog"
+                            v-model="dialog1"
                             width="500"
                           >
                             <template v-slot:activator="{ on, attrs }">
@@ -574,13 +574,115 @@
                             </template>
 
                             <v-card>
-                              <v-card-title class="text-h5 grey lighten-2">
-                                Primary and Emission Factors
-                              </v-card-title>
+                              <v-card-title class="text-h5 grey lighten-2"></v-card-title>
+                              <v-card>
+                                <v-row>
+                                  <v-col>
+                                    <v-text-field
+                                      v-model="jsonData.Electricity.PrimaryEnergyFactor"
+                                      label="Electricity Primary Energy Factor"
+                                      md="2"
+                                      offset-md = "1"
+                                      outlined
+                                      dense
+                                      type="number"
+                                      @change="jsonData.Electricity.PrimaryEnergyFactor=parseFloat(jsonData.Electricity.PrimaryEnergyFactor)"
+                                    ></v-text-field>
+                                  </v-col>
+                                  <v-col>
+                                    <v-text-field
+                                      v-model="jsonData.Electricity.CO2EmissionCoefficient"
+                                      label="Electricity CO2 Emission Coeff"
+                                      md="2"
+                                      offset-md = "1"
+                                      outlined
+                                      dense
+                                      type="number"
+                                      @change="jsonData.Electricity.CO2EmissionCoefficient=parseFloat(jsonData.Electricity.CO2EmissionCoefficient)"
+                                    ></v-text-field>
+                                  </v-col>
+                                </v-row>
+                                <v-row>
+                                  <v-col>
+                                    <v-text-field
+                                      v-model="jsonData.NaturalGas.PrimaryEnergyFactor"
+                                      label="Natural Gas Primary Energy Factor"
+                                      md="2"
+                                      offset-md = "1"
+                                      outlined
+                                      dense
+                                      type="number"
+                                      @change="jsonData.NaturalGas.PrimaryEnergyFactor=parseFloat(jsonData.NaturalGas.PrimaryEnergyFactor)"
+                                    ></v-text-field>
+                                  </v-col>
+                                  <v-col>
+                                    <v-text-field
+                                      v-model="jsonData.NaturalGas.CO2EmissionCoefficient"
+                                      label="Natural Gas CO2 Emission Coeff"
+                                      md="2"
+                                      offset-md = "1"
+                                      outlined
+                                      dense
+                                      type="number"
+                                      @change="jsonData.NaturalGas.CO2EmissionCoefficient=parseFloat(jsonData.NaturalGas.CO2EmissionCoefficient)"
+                                    ></v-text-field>
+                                  </v-col>
+                                </v-row>
+                                <v-row>
+                                  <v-col>
+                                    <v-text-field
+                                      v-model="jsonData.Fuel.PrimaryEnergyFactor"
+                                      label="Fuel Primary Energy Factor"
+                                      md="2"
+                                      offset-md = "1"
+                                      outlined
+                                      dense
+                                      type="number"
+                                      @change="jsonData.Fuel.PrimaryEnergyFactor=parseFloat(jsonData.Fuel.PrimaryEnergyFactor)"
+                                    ></v-text-field>
+                                  </v-col>
+                                  <v-col>
+                                    <v-text-field
+                                      v-model="jsonData.Fuel.CO2EmissionCoefficient"
+                                      label="Fuel CO2 Emission Coeff"
+                                      md="2"
+                                      offset-md = "1"
+                                      outlined
+                                      dense
+                                      type="number"
+                                      @change="jsonData.Fuel.CO2EmissionCoefficient=parseFloat(jsonData.Fuel.CO2EmissionCoefficient)"
+                                    ></v-text-field>
+                                  </v-col>
+                                </v-row>
+                              </v-card>
 
-                              <v-card-text>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                              </v-card-text>
+                              <!-- <v-data-table ref="ElecGasFactors"
+                                :headers="emissionHeaders"
+                                :items="emissionData"
+                                :items-per-page="2"
+                                class="elevation-1"
+                              >
+                                <template v-slot:item.eFactor="props">
+                                  <v-text-field
+                                    v-model="props.item.eFactor"
+                                    name="value"
+                                    outlined
+                                    dense
+                                    @input="test"
+                                    type="number"
+                                    ></v-text-field>
+                                </template>
+                                <template v-slot:item.cFactor="props">
+                                  <v-text-field
+                                    v-model="props.item.cFactor"
+                                    name="value"
+                                    outlined
+                                    dense
+                                    @input="test"
+                                    type="number"
+                                    ></v-text-field>
+                                </template>
+                              </v-data-table> -->
 
                               <v-divider></v-divider>
 
@@ -589,7 +691,7 @@
                                 <v-btn
                                   color="primary"
                                   text
-                                  @click="dialog = false"
+                                  @click="dialog1 = false"
                                 >
                                   Close
                                 </v-btn>
@@ -609,6 +711,3713 @@
           <v-col>
             <v-card>
               <v-card-title>Building Operation</v-card-title>
+              <v-div>
+                <v-expansion-panels
+                multiple>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>Internal Heat Gain</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      <v-row>
+                        <v-text-field
+                          v-model="jsonData.Zone1.GrossFloorArea"
+                          label="Gross Floor Area (m2)"
+                          outlined
+                          dense
+                          type="number"
+                          @change="jsonData.Zone1.GrossFloorArea=parseFloat(jsonData.Zone1.GrossFloorArea)"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="jsonData.Zone1.Occupancy"
+                          label="Occupancy (m2/person)"
+                          outlined
+                          dense
+                          type="number"
+                          @change="jsonData.Zone1.Occupancy=parseFloat(jsonData.Zone1.Occupancy)"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="jsonData.Zone1.MatabolicRate"
+                          label="Metabolic Rate (W/person)"
+                          outlined
+                          dense
+                          type="number"
+                          @change="jsonData.Zone1.MatabolicRate=parseFloat(jsonData.Zone1.MatabolicRate)"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="jsonData.Zone1.Appliance"
+                          label="Appliance (W/m2)"
+                          outlined
+                          dense
+                          type="number"
+                          @change="jsonData.Zone1.Appliance=parseFloat(jsonData.Zone1.Appliance)"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="jsonData.Zone1.Lighting"
+                          label="Lighting (W/m2)"
+                          outlined
+                          dense
+                          type="number"
+                          @change="jsonData.Zone1.Lighting=parseFloat(jsonData.Zone1.Lighting)"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="jsonData.Zone1.OutdoorAir"
+                          label="Outdoor Air (liter/s/person)"
+                          outlined
+                          dense
+                          type="number"
+                          @change="jsonData.Zone1.OutdoorAir=parseFloat(jsonData.Zone1.OutdoorAir)"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="jsonData.Zone1.DHW"
+                          label="Outdoor Air (liter/m2/month)"
+                          outlined
+                          dense
+                          type="number"
+                          @change="jsonData.Zone1.DHW=parseFloat(jsonData.Zone1.DHW)"
+                        ></v-text-field>
+                      </v-row>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>Temperature Set Point Schedule</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      <v-row>
+                        <div class="text-center">
+                          <v-dialog
+                            v-model="dialog2"
+                            width="800"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                color="red lighten-2"
+                                dark
+                                v-bind="attrs"
+                                v-on="on"
+                              >
+                                Alter Set Point Schedule
+                              </v-btn>
+                            </template>
+                            <v-card>
+                              <v-row>
+                                <v-card-title>Temperature Set Point Schedule</v-card-title>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  <v-list-item-title>Hour</v-list-item-title>
+                                </v-col>
+                                <v-col>
+                                  <v-list-item-title>Weekday Cooling</v-list-item-title>
+                                </v-col>
+                                <v-col>
+                                  <v-list-item-title>Weekend Cooling</v-list-item-title>
+                                </v-col>
+                                <v-col>
+                                  <v-list-item-title>Weekday Heating</v-list-item-title>
+                                </v-col>
+                                <v-col>
+                                  <v-list-item-title>Weekend Heating</v-list-item-title>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 1
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour1.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour1.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour1.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour1.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour1.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour1.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour1.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour1.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour1.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour1.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour1.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour1.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 2
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour2.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour2.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour2.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour2.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour2.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour2.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour2.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour2.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour2.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour2.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour2.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour2.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 3
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour3.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour3.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour3.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour3.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour3.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour3.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour3.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour3.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour3.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour3.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour3.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour3.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 4
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour4.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour4.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour4.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour4.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour4.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour4.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour4.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour4.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour4.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour4.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour4.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour4.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 5
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour5.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour5.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour5.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour5.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour5.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour5.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour5.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour5.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour5.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour5.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour5.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour5.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 6
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour6.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour6.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour6.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour6.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour6.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour6.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour6.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour6.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour6.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour6.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour6.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour6.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 7
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour7.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour7.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour7.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour7.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour7.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour7.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour7.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour7.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour7.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour7.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour7.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour7.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 8
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour8.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour8.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour8.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour8.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour8.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour8.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour8.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour8.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour8.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour8.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour8.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour8.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 9
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour9.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour9.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour9.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour9.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour9.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour9.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour9.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour9.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour9.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour9.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour9.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour9.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 10
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour10.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour10.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour10.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour10.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour10.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour10.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour10.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour10.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour10.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour10.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour10.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour10.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 11
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour11.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour11.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour11.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour11.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour11.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour11.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour11.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour11.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour11.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour11.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour11.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour11.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 12
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour12.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour12.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour12.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour12.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour12.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour12.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour12.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour12.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour12.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour12.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour12.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour12.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 13
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour13.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour13.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour13.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour13.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour13.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour13.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour13.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour13.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour13.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour13.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour13.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour13.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 14
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour14.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour14.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour14.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour14.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour14.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour14.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour14.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour14.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour14.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour14.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour14.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour14.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 15
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour15.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour15.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour15.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour15.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour15.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour15.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour15.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour15.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour15.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour15.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour15.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour15.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 16
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour16.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour16.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour16.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour16.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour16.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour16.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour16.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour16.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour16.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour16.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour16.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour16.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 17
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour17.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour17.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour17.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour17.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour17.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour17.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour17.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour17.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour17.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour17.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour17.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour17.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 18
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour18.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour18.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour18.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour18.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour18.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour18.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour18.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour18.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour18.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour18.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour18.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour18.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 19
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour19.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour19.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour19.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour19.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour19.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour19.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour19.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour19.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour19.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour19.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour19.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour19.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 20
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour20.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour20.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour20.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour20.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour20.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour20.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour20.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour20.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour20.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour20.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour20.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour20.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 21
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour21.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour21.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour21.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour21.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour21.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour21.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour21.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour21.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour21.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour21.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour21.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour21.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 22
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour22.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour22.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour22.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour22.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour22.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour22.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour22.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour22.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour22.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour22.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour22.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour22.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 23
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour23.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour23.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour23.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour23.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour23.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour23.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour23.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour23.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour23.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour23.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour23.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour23.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 24
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour24.Cooling_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour24.Cooling_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour24.Cooling_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour24.Cooling_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour24.Cooling_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour24.Cooling_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour24.Heating_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour24.Heating_Weekday=parseFloat(jsonData.TemperatureSetPoint.Hour24.Heating_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.TemperatureSetPoint.Hour24.Heating_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.TemperatureSetPoint.Hour24.Heating_Weekend=parseFloat(jsonData.TemperatureSetPoint.Hour24.Heating_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+
+                              <v-divider></v-divider>
+
+                              <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                  color="primary"
+                                  text
+                                  @click="dialog2 = false"
+                                >
+                                  Close
+                                </v-btn>
+                              </v-card-actions>
+                            </v-card>
+                          </v-dialog>
+                        </div>
+                      </v-row>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>Zone Schedule</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      <v-row>
+                        <div class="text-center">
+                          <v-dialog
+                            v-model="dialog3"
+                            width="1200"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                color="red lighten-2"
+                                dark
+                                v-bind="attrs"
+                                v-on="on"
+                              >
+                                Alter Zone Schedule
+                              </v-btn>
+                            </template>
+
+                            <v-card>
+                              <v-row>
+                                <v-card-title>Zone Schedule</v-card-title>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  <v-list-item-title>Hour</v-list-item-title>
+                                </v-col>
+                                <v-col>
+                                  <v-list-item-title>Applicance Weekday</v-list-item-title>
+                                </v-col>
+                                <v-col>
+                                  <v-list-item-title>Appliance Weekend</v-list-item-title>
+                                </v-col>
+                                <v-col>
+                                  <v-list-item-title>Lighting Weekday</v-list-item-title>
+                                </v-col>
+                                <v-col>
+                                  <v-list-item-title>Lighting Weekend</v-list-item-title>
+                                </v-col>
+                                <v-col>
+                                  <v-list-item-title>Occupancy Weekday</v-list-item-title>
+                                </v-col>
+                                <v-col>
+                                  <v-list-item-title>Occupancy Weekend</v-list-item-title>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 1
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour1.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour1.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour1.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour1.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour1.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour1.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour1.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour1.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour1.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour1.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour1.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour1.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour1.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour1.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour1.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour1.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour1.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour1.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 2
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour2.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour2.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour2.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour2.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour2.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour2.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour2.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour2.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour2.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour2.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour2.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour2.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour2.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour2.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour2.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour2.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour2.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour2.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 3
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour3.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour3.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour3.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour3.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour3.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour3.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour3.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour3.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour3.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour3.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour3.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour3.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour3.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour3.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour3.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour3.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour3.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour3.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 4
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour4.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour4.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour4.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour4.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour4.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour4.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour4.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour4.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour4.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour4.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour4.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour4.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour4.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour4.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour4.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour4.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour4.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour4.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 5
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour5.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour5.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour5.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour5.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour5.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour5.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour5.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour5.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour5.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour5.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour5.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour5.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour5.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour5.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour5.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour5.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour5.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour5.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 6
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour6.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour6.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour6.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour6.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour6.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour6.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour6.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour6.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour6.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour6.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour6.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour6.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour6.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour6.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour6.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour6.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour6.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour6.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 7
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour7.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour7.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour7.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour7.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour7.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour7.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour7.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour7.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour7.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour7.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour7.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour7.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour7.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour7.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour7.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour7.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour7.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour7.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 8
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour8.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour8.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour8.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour8.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour8.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour8.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour8.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour8.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour8.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour8.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour8.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour8.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour8.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour8.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour8.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour8.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour8.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour8.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 9
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour9.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour9.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour9.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour9.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour9.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour9.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour9.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour9.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour9.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour9.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour9.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour9.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour9.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour9.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour9.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour9.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour9.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour9.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 10
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour10.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour10.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour10.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour10.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour10.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour10.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour10.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour10.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour10.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour10.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour10.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour10.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour10.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour10.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour10.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour10.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour10.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour10.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 11
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour11.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour11.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour11.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour11.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour11.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour11.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour11.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour11.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour11.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour11.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour11.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour11.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour11.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour11.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour11.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour11.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour11.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour11.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 12
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour12.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour12.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour12.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour12.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour12.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour12.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour12.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour12.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour12.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour12.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour12.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour12.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour12.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour12.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour12.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour12.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour12.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour12.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 13
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour13.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour13.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour13.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour13.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour13.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour13.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour13.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour13.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour13.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour13.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour13.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour13.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour13.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour13.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour13.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour13.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour13.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour13.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 14
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour14.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour14.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour14.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour14.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour14.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour14.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour14.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour14.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour14.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour14.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour14.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour14.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour14.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour14.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour14.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour14.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour14.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour14.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 15
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour15.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour15.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour15.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour15.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour15.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour15.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour15.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour15.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour15.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour15.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour15.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour15.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour15.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour15.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour15.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour15.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour15.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour15.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 16
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour16.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour16.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour16.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour16.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour16.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour16.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour16.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour16.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour16.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour16.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour16.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour16.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour16.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour16.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour16.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour16.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour16.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour16.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 17
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour17.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour17.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour17.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour17.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour17.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour17.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour17.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour17.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour17.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour17.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour17.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour17.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour17.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour17.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour17.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour17.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour17.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour17.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 18
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour18.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour18.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour18.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour18.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour18.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour18.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour18.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour18.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour18.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour18.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour18.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour18.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour18.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour18.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour18.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour18.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour18.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour18.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 19
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour19.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour19.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour19.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour19.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour19.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour19.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour19.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour19.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour19.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour19.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour19.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour19.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour19.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour19.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour19.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour19.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour19.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour19.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 20
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour20.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour20.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour20.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour20.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour20.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour20.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour20.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour20.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour20.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour20.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour20.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour20.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour20.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour20.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour20.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour20.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour20.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour20.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 21
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour21.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour21.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour21.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour21.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour21.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour21.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour21.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour21.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour21.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour21.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour21.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour21.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour21.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour21.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour21.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour21.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour21.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour21.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 22
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour22.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour22.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour22.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour22.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour22.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour22.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour22.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour22.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour22.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour22.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour22.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour22.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour22.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour22.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour22.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour22.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour22.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour22.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 23
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour23.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour23.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour23.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour23.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour23.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour23.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour23.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour23.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour23.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour23.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour23.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour23.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour23.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour23.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour23.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour23.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour23.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour23.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 24
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour24.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour24.Appliance_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour24.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour24.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour24.Appliance_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour24.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour24.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour24.Lighting_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour24.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour24.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour24.Lighting_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour24.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour24.Occupancy_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour24.Occupancy_Weekday=parseFloat(jsonData.Zone1_Schedule.Hour24.Occupancy_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Zone1_Schedule.Hour24.Occupancy_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Zone1_Schedule.Hour24.Occupancy_Weekend=parseFloat(jsonData.Zone1_Schedule.Hour24.Occupancy_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+
+                              <v-divider></v-divider>
+
+                              <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                  color="primary"
+                                  text
+                                  @click="dialog3 = false"
+                                >
+                                  Close
+                                </v-btn>
+                              </v-card-actions>
+                            </v-card>
+                          </v-dialog>
+                        </div>
+                      </v-row>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>Garage Schedule</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      <v-row>
+                        <div class="text-center">
+                          <v-dialog
+                            v-model="dialog4"
+                            width="1000"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                color="red lighten-2"
+                                dark
+                                v-bind="attrs"
+                                v-on="on"
+                              >
+                                Alter Garage Schedule
+                              </v-btn>
+                            </template>
+
+                            <v-card>
+                              <v-row>
+                                <v-card-title>Garage Schedule</v-card-title>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  <v-list-item-title>Hour</v-list-item-title>
+                                </v-col>
+                                <v-col>
+                                  <v-list-item-title>Applicance Weekday</v-list-item-title>
+                                </v-col>
+                                <v-col>
+                                  <v-list-item-title>Appliance Weekend</v-list-item-title>
+                                </v-col>
+                                <v-col>
+                                  <v-list-item-title>Lighting Weekday</v-list-item-title>
+                                </v-col>
+                                <v-col>
+                                  <v-list-item-title>Lighting Weekend</v-list-item-title>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 1
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour1.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour1.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour1.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour1.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour1.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour1.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour1.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour1.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour1.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour1.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour1.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour1.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 2
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour2.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour2.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour2.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour2.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour2.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour2.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour2.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour2.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour2.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour2.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour2.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour2.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 3
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour3.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour3.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour3.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour3.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour3.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour3.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour3.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour3.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour3.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour3.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour3.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour3.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 4
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour4.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour4.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour4.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour4.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour4.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour4.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour4.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour4.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour4.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour4.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour4.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour4.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 5
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour5.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour5.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour5.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour5.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour5.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour5.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour5.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour5.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour5.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour5.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour5.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour5.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 6
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour6.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour6.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour6.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour6.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour6.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour6.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour6.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour6.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour6.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour6.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour6.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour6.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 7
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour7.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour7.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour7.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour7.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour7.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour7.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour7.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour7.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour7.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour7.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour7.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour7.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 8
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour8.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour8.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour8.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour8.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour8.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour8.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour8.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour8.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour8.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour8.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour8.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour8.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 9
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour9.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour9.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour9.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour9.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour9.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour9.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour9.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour9.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour9.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour9.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour9.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour9.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 10
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour10.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour10.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour10.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour10.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour10.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour10.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour10.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour10.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour10.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour10.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour10.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour10.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 11
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour11.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour11.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour11.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour11.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour11.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour11.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour11.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour11.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour11.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour11.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour11.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour11.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 12
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour12.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour12.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour12.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour12.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour12.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour12.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour12.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour12.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour12.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour12.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour12.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour12.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 13
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour13.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour13.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour13.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour13.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour13.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour13.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour13.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour13.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour13.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour13.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour13.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour13.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 14
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour14.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour14.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour14.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour14.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour14.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour14.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour14.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour14.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour14.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour14.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour14.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour14.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 15
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour15.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour15.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour15.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour15.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour15.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour15.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour15.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour15.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour15.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour15.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour15.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour15.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 16
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour16.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour16.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour16.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour16.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour16.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour16.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour16.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour16.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour16.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour16.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour16.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour16.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 17
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour17.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour17.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour17.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour17.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour17.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour17.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour17.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour17.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour17.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour17.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour17.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour17.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 18
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour18.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour18.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour18.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour18.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour18.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour18.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour18.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour18.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour18.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour18.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour18.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour18.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 19
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour19.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour19.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour19.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour19.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour19.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour19.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour19.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour19.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour19.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour19.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour19.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour19.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 20
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour20.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour20.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour20.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour20.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour20.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour20.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour20.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour20.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour20.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour20.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour20.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour20.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 21
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour21.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour21.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour21.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour21.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour21.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour21.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour21.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour21.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour21.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour21.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour21.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour21.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 22
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour22.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour22.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour22.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour22.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour22.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour22.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour22.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour22.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour22.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour22.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour22.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour22.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 23
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour23.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour23.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour23.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour23.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour23.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour23.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour23.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour23.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour23.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour23.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour23.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour23.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col>
+                                  Hour 24
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour24.Appliance_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour24.Appliance_Weekday=parseFloat(jsonData.Garage_Schedule.Hour24.Appliance_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour24.Appliance_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour24.Appliance_Weekend=parseFloat(jsonData.Garage_Schedule.Hour24.Appliance_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour24.Lighting_Weekday"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour24.Lighting_Weekday=parseFloat(jsonData.Garage_Schedule.Hour24.Lighting_Weekday)"
+                                  ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                  <v-text-field
+                                    v-model="jsonData.Garage_Schedule.Hour24.Lighting_Weekend"
+                                    outlined
+                                    dense
+                                    type="number"
+                                    @change="jsonData.Garage_Schedule.Hour24.Lighting_Weekend=parseFloat(jsonData.Garage_Schedule.Hour24.Lighting_Weekend)"
+                                  ></v-text-field>
+                                </v-col>
+                              </v-row>
+
+
+                              <v-divider></v-divider>
+
+                              <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                  color="primary"
+                                  text
+                                  @click="dialog4 = false"
+                                >
+                                  Close
+                                </v-btn>
+                              </v-card-actions>
+                            </v-card>
+                          </v-dialog>
+                        </div>
+                      </v-row>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>Electric Vehicle Schedule</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      <v-row>
+                        <div class="text-center">
+                          <v-dialog
+                            v-model="dialog5"
+                            width="800"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                color="red lighten-2"
+                                dark
+                                v-bind="attrs"
+                                v-on="on"
+                              >
+                                Alter Electric Vehicle Schedule
+                              </v-btn>
+                            </template>
+
+                            <v-card>
+                              <v-card-title class="text-h5 grey lighten-2"></v-card-title>
+                              <v-card>
+                                <v-row>
+                                  <v-col>
+                                    <v-text-field
+                                      v-model="jsonData.Electricity.PrimaryEnergyFactor"
+                                      label="Electricity Primary Energy Factor"
+                                      md="2"
+                                      offset-md = "1"
+                                      outlined
+                                      dense
+                                      type="number"
+                                      @change="jsonData.Electricity.PrimaryEnergyFactor=parseFloat(jsonData.Electricity.PrimaryEnergyFactor)"
+                                    ></v-text-field>
+                                  </v-col>
+                                </v-row>
+                              </v-card>
+
+                              <v-divider></v-divider>
+
+                              <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                  color="primary"
+                                  text
+                                  @click="dialog5 = false"
+                                >
+                                  Close
+                                </v-btn>
+                              </v-card-actions>
+                            </v-card>
+                          </v-dialog>
+                        </div>
+                      </v-row>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </v-div>
             </v-card>
           </v-col>
         </v-row>
@@ -636,11 +4445,13 @@
 
 <script>
 
-import axios from 'axios'
+import axios from 'axios';
+import blank from '/home/rossrobertson/Desktop/BEM_Dashboard/vue_dashboard/src/assets/blank.json';
 
 export default {
 
   data: () => {
+
     return {
 
       uploadData: null,
@@ -727,23 +4538,58 @@ export default {
       BEM_Sys : [1, 2, 3, 4],
       Orient: ['S','SE','E','W','SW'],
       Angle: [0, 30, 45, 60, 90],
-      E_Source1: ['Electicity', 'Natural Gas', 'Fuel'],
-      E_Source2: ['Electicity', 'Natural Gas', 'Fuel'],
-      E_Source3: ['Electicity', 'Natural Gas', 'Fuel'],
+      E_Source1: ['Electricity', 'Natural Gas', 'Fuel'],
+      E_Source2: ['Electricity', 'Natural Gas', 'Fuel'],
+      E_Source3: ['Electricity', 'Natural Gas', 'Fuel'],
       lighting: ['Lighting Daylight Factor', 'Lighting Occupancy Factor', 'Lighting Constant Illumination Control Factor', 'Parasitic Lighting Energy'],
-      jsonData : [],
+      jsonData: blank,
+      jsonLoad: false,
+
+      monthlyDeliveredEnergy: [0,0,0,0,0,0,0,0,0,0,0,0],
+      monthlySchedule: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+
       StateBEM : false,
-      dialog: false,
+      dialog1: false,
+      dialog2: false,
+      dialog3: false,
+      dialog4: false,
+      dialog5: false,
+      dialog6: false,
+
+      emissionHeaders: [
+        {
+          text: 'Primary and Emission Factors',
+          align: 'left',
+          sortable: false,
+          value: 'name'
+        },
+        { text: 'Primary Energy Factor', value: 'eFactor'},
+        { text: 'CO2 Emission Coefficient', value: 'cFactor'},
+      ],
+      setpointHeaders: [
+        {
+          text: 'Set Point Temperature Schedule',
+          align: 'left',
+          sortable: false,
+          value: 'name',
+        },
+        { text: 'Hour 1', value: 'Hour1'},
+        { text: 'Weekend Cooling', value: 'Hour1.Cooling_Weekend'},
+      ]
     }
   },
   
   methods: {
 
+    test() {
+      console.log(this.emissionData[0].eFactor)
+    },
+
     getData() {
       const path = 'http://127.0.0.1:5000/input'
       axios.get(path)
       .then((res) => {
-        this.jsonData= res.data.jsonData;
+        this.jsonData = res.data.jsonData;
       })
       .catch((error) => {
         console.error(error);
@@ -767,102 +4613,13 @@ export default {
       axios.get(path)
       .then((res) => {
         this.StateBEM = res.data
+        this.monthlyDeliveredEnergy = res.data
+        console.log(this.monthlyDeliveredEnergy)
       })
       .catch((error) => {
         console.error(error);
       })
     },
-
-    /*
-    updateVar() {
-      this.$store.commit("updateParams",[this.Name, this.TerrainClass, this.Volume, this.Height, this.HeatCapacity, this.DayLightingFactor, this.OccupancyFactor,
-      this.LightingControlFactor, this.ParasiticLightingEnergy, this.ParasiticLightingEnergyAmount, this.HeatingCOP, this.CoolingCOP, this.COP100, this.COP75,
-      this.COP50, this.COP25, this.COPWeighting100, this.COPWeighting75, this.COPWeighting50, this.COPWeighting25, this.HVACSystemType, this.VentilationCoolingType,
-      this.RHThreshold, this.ExtraVentilation, this.HeatRecoveryType, this.ExhaustAirRecirculation, this.AirLeakageLevel, this.SpecificFanPower, this.FanControlFactor,
-      this.PumpCoolingControl, this.PumpHeatingControl, this.DHWDistrinutionSystem, this.DHWGenerationSystem, this.BEMType, this.PVArea, this.PVOrientation, this.PVTiltAngle,
-      this.PVPeakPower, this.PVPerformanceFactor, this.SHWArea, this.SHWOrientation, this.SHWTiltAngle, this.SHWEfficiency, this.WindTurbineDiameter, this.WindTurbineEfficiency,
-      this.HeatingEnergySource, this.DHWEnergySource, this.CoolingEnergySource, this.Electricity, this.NaturalGas, this.Fuel, this.Zone1, this.TemperatureSetPoint,
-      this.Zone1_Schedule, this.Envelope, this.Material, this.StartDay, this.NaturalVentilation, this.ElectricBattery, this.LightingDimmer, this.ElectricVehicle, 
-      this.RetailRefrig, this.Garage, this.Garage_Schedule]
-    )},
-
-    downloadInput() {
-      this.$store.commit(json_data,this.data.sort())
-      this.updateVar
-      this.$store.commit(json_data)
-    },
-
-    uploadInput() {
-      let obj = this.json_data
-
-      this.Name = obj.Name
-      this.TerrainClass = obj.TerrainClass 
-      this.Volume = obj.Volume 
-      this.Height = obj.Height 
-      this.HeatCapacity = obj.HeatCapacity 
-      this.DayLightingFactor = obj.DayLightingFactor
-      this.OccupancyFactor = obj.OccupancyFactor
-      this.LightingControlFactor = obj.LightingControlFactor
-      this.ParasiticLightingEnergy = obj.ParasiticLightingEnergy
-      this.ParasiticLightingEnergyAmount = obj.ParasiticLightingEnergyAmount
-      this.HeatingCOP = obj.HeatingCOP
-      this.CoolingCOP = obj.CoolingCOP
-      this.COP100 = obj.COP100
-      this.COP75 = obj.COP75
-      this.COP50 = obj.COP50
-      this.COP25 = obj.COP25
-      this.COPWeighting100 = obj.COPWeighting100
-      this.COPWeighting75 = obj.COPWeighting75
-      this.COPWeighting50 = obj.COPWeighting50
-      this.COPWeighting25 = obj.COPWeighting25
-      this.HVACSystemType = obj.HVACSystemType
-      this.VentilationCoolingType = obj.VentilationCoolingType
-      this.RHThreshold = obj.RHThreshold
-      this.ExtraVentilation = obj.ExtraVentilation
-      this.HeatRecoveryType = obj.HeatRecoveryType
-      this.ExhaustAirRecirculation = obj.ExhaustAirRecirculation
-      this.AirLeakageLevel = obj.AirLeakageLevel
-      this.SpecificFanPower = obj.SpecificFanPower
-      this.FanControlFactor = obj.FanControlFactor
-      this.PumpCoolingControl = obj.PumpCoolingControl
-      this.PumpHeatingControl = obj.PumpHeatingControl
-      this.DHWDistrinutionSystem = obj.DHWDistrinutionSystem
-      this.DHWGenerationSystem = obj.DHWGenerationSystem
-      this.BEMType = obj.BEMType
-      this.PVArea = obj.PVArea
-      this.PVOrientation = obj.PVOrientation
-      this.PVTiltAngle = obj.PVTiltAngle
-      this.PVPeakPower = obj.PVPeakPower
-      this.PVPerformanceFactor = obj.PVPerformanceFactor
-      this.SHWArea = obj.SHWArea
-      this.SHWOrientation = obj.SHWOrientation
-      this.SHWTiltAngle = obj.SHWTiltAngle
-      this.SHWEfficiency = obj.SHWEfficiency
-      this.WindTurbineDiameter = obj.WindTurbineDiameter
-      this.WindTurbineEfficiency = obj.WindTurbineEfficiency
-      this.HeatingEnergySource = obj.HeatingEnergySource
-      this.DHWEnergySource = obj.DHWEnergySource
-      this.CoolingEnergySource = obj.CoolingEnergySource
-      this.Electricity = obj.Electricity
-      this.NaturalGas = obj.NaturalGas
-      this.Fuel = obj.Fuel
-      this.Zone1 = obj.Zone1
-      this.TemperatureSetPoint = obj.TemperatureSetPoint
-      this.Zone1_Schedule = obj.Zone1_Schedule
-      this.Envelope = obj.Envelope
-      this.Material = obj.Material
-      this.StartDay = obj.StartDay
-      this.NaturalVentilation = obj.NaturalVentilation
-      this.ElectricBattery = obj.ElectricBattery
-      this.LightingDimmer = obj.LightingDimmer
-      this.ElectricVehicle = obj.ElectricVehicle
-      this.RetailRefrig = obj.RetailRefrig
-      this.Garage = obj.Garage
-      this.Garage_Schedule = obj.Garage_Schedule
-
-      this.updateVar()
-      this.$store.commit(json_data)
-    }, */
 
     async openFile(file) {
       return new Promise((resolve, reject) => {
@@ -873,79 +4630,55 @@ export default {
       })
     },
 
-    drawChart() {
+    async drawChart() {
       //Initialize the echarts instance based on the prepared dom
       let myChart = this.$echarts.init(this.$refs.chart);
       //Specify configuration items and data for the chart
       let option = {
-        legend: {},
+        title: {
+          text: 'Monthly Delivered Energy'
+        },
         tooltip: {
-          trigger: 'axis',
-          showContent: false
+          trigger: 'axis'
         },
-        dataset: {
-            source: [
-            ['product', '2012', '2013', '2014', '2015', '2016', '2017'],
-            ['Milk Tea', 56.5, 82.1, 88.7, 70.1, 53.4, 85.1],
-            ['Matcha Latte', 51.1, 51.4, 55.1, 53.3, 73.8, 68.7],
-            ['Cheese Cocoa', 40.1, 62.2, 69.5, 36.4, 45.2, 32.5],
-            ['Walnut Brownie', 25.2, 37.1, 41.2, 18, 33.9, 49.1]
-          ]
+        legend: {
+          data: ['BEM Output']
         },
-        xAxis: { type: 'category' },
-        yAxis: { gridIndex: 0 },
-        grid: { top: '55%' },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: this.monthlySchedule
+        },
+        yAxis: {
+          type: 'value'
+        },
         series: [
           {
+            name: 'Delivered Energy',
             type: 'line',
-            smooth: true,
-            seriesLayoutBy: 'row',
-            emphasis: { focus: 'series' }
+            stack: 'Total',
+            data: this.monthlyDeliveredEnergy
           },
-          {
-            type: 'line',
-            smooth: true,
-            seriesLayoutBy: 'row',
-            emphasis: { focus: 'series' }
-          },
-          {
-            type: 'line',
-            smooth: true,
-            seriesLayoutBy: 'row',
-            emphasis: { focus: 'series' }
-          },
-          {
-            type: 'line',
-            smooth: true,
-            seriesLayoutBy: 'row',
-            emphasis: { focus: 'series' }
-          },
-          {
-            type: 'pie',
-            id: 'pie',
-            radius: '30%',
-            center: ['50%', '25%'],
-            emphasis: {
-              focus: 'self'
-            },
-            label: {
-              formatter: '{b}: {@2012} ({d}%)'
-            },
-            encode: {
-              itemName: 'product',
-              value: '2012',
-              tooltip: '2012'
-            }
-          }
         ]
       };
-      //Use the configuration items and data just specified to display the chart.
-      myChart.setOption(option);
+      option && myChart.setOption(option);
     }
   },
 
   mounted() {
     this.drawChart();
+    this.getData();
   },
 
   created() {
@@ -957,6 +4690,11 @@ export default {
     jsonData(v) {
       this.Name = v
     },
+
+    monthlyDeliveredEnergy() {
+      this.drawChart()
+    },
+
 
     'uploadFie': async function() {
       if (this.uploadFile != null) {
