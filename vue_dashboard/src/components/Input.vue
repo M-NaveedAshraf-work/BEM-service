@@ -7,20 +7,35 @@
       <v-col
         md="5">
         <v-card>
-          <v-card-title>Input Files</v-card-title>
-          <v-card-text>Upload Weather File</v-card-text>
-          <v-file-input
-            accept="xls/*"
-            label="Weather File"
-          ></v-file-input>
-          <v-card-text>Upload Building JSON File</v-card-text>
-          <v-file-input
-            v-model = "uploadFile"
-            accept=".json, .JSON"
-            label="Building File"
-            chips
-            prependIcon=""
-          ></v-file-input>
+          <v-col>
+            <v-card-title>Input Files</v-card-title>
+            <v-row>
+              <v-card-text>Upload Weather File</v-card-text>
+              <v-file-input
+                accept=".xls, .xlsx*"
+                label="Click to Select a Weather File"
+                chips
+                outlined
+                v-model="chosenFileWeather"
+              ></v-file-input>
+            </v-row>
+            <v-row>
+              <v-btn @click="loadFileWeather" align="center" depressed color="primary">Read File</v-btn>
+            </v-row>
+            <v-row>
+              <v-card-text>Upload Building JSON File</v-card-text>
+              <v-file-input
+                accept=".json, .JSON"
+                label="Click to Select a Building File"
+                chips
+                outlined
+                v-model="chosenFileBuilding"
+              ></v-file-input>
+            </v-row>
+            <v-row>
+              <v-btn @click="loadFileBuilding" align="center" depressed color="primary">Read File</v-btn>
+            </v-row>
+          </v-col>
         </v-card>
         <v-card outlined color="transparent">
           <v-card-title>     </v-card-title>
@@ -56,6 +71,23 @@
                 v-on:click="getData(); updateData(); runBEM(); drawChart();"
               >
               Run BEM
+              </v-btn>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col
+              align="center"
+              cols="12"
+              md="10"
+              offset-md="1"
+            >
+              <v-btn
+                align="center"
+                depressed
+                color="primary"
+                v-on:click="saveInputFile();"
+              >
+              Save Current Run as Input File
               </v-btn>
             </v-col>
           </v-row>
@@ -5900,9 +5932,10 @@
 <script>
 
 import axios from 'axios';
-import blank from '/home/rossrobertson/Desktop/BEM_Dashboard/vue_dashboard/src/assets/blank.json';
+import blank from '/home/rossrobertson/Desktop/BEM_Dashboard/backend/BEM_Code/Input/blank.json'
 
 export default {
+  name: "input",
 
   data: () => {
 
@@ -5997,8 +6030,18 @@ export default {
       E_Source3: ['Electricity', 'Natural Gas', 'Fuel'],
       lighting: ['Lighting Daylight Factor', 'Lighting Occupancy Factor', 'Lighting Constant Illumination Control Factor', 'Parasitic Lighting Energy'],
       jsonData: blank,
+      weatherData: ['test'],
+      // weatherData: ['centergy_2019_epw_file.epw'],
       jsonLoad: false,
 
+      chosenFileWeather: null,
+      fileDataWeather: null,
+      chosenFileBuilding: null,
+      fileDataBuilding: null,
+
+      filename: null,
+
+      graphBool : false,
       monthlyDeliveredEnergy: [0,0,0,0,0,0,0,0,0,0,0,0],
       monthlySchedule: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
 
@@ -6013,26 +6056,26 @@ export default {
       dialog8: false,
       dialog9: false,
 
-      emissionHeaders: [
-        {
-          text: 'Primary and Emission Factors',
-          align: 'left',
-          sortable: false,
-          value: 'name'
-        },
-        { text: 'Primary Energy Factor', value: 'eFactor'},
-        { text: 'CO2 Emission Coefficient', value: 'cFactor'},
-      ],
-      setpointHeaders: [
-        {
-          text: 'Set Point Temperature Schedule',
-          align: 'left',
-          sortable: false,
-          value: 'name',
-        },
-        { text: 'Hour 1', value: 'Hour1'},
-        { text: 'Weekend Cooling', value: 'Hour1.Cooling_Weekend'},
-      ]
+      // emissionHeaders: [
+      //   {
+      //     text: 'Primary and Emission Factors',
+      //     align: 'left',
+      //     sortable: false,
+      //     value: 'name'
+      //   },
+      //   { text: 'Primary Energy Factor', value: 'eFactor'},
+      //   { text: 'CO2 Emission Coefficient', value: 'cFactor'},
+      // ],
+      // setpointHeaders: [
+      //   {
+      //     text: 'Set Point Temperature Schedule',
+      //     align: 'left',
+      //     sortable: false,
+      //     value: 'name',
+      //   },
+      //   { text: 'Hour 1', value: 'Hour1'},
+      //   { text: 'Weekend Cooling', value: 'Hour1.Cooling_Weekend'},
+      // ]
     }
   },
 
@@ -6057,15 +6100,12 @@ export default {
   
   methods: {
 
-    test() {
-      console.log(this.emissionData[0].eFactor)
-    },
-
     getData() {
       const path = 'http://127.0.0.1:5000/input'
       axios.get(path)
       .then((res) => {
         this.jsonData = res.data.jsonData;
+        this.weatherData = res.data.weatherData;
       })
       .catch((error) => {
         console.error(error);
@@ -6080,7 +6120,19 @@ export default {
       })
       .catch((error) => {
         console.error(error);
-        this.getData
+        this.getData();
+      })
+    },
+
+    updateWeatherData() {
+      const path = 'http://127.0.0.1:5000/input'
+      axios.put(path, this.weatherData)
+      .then(() => {
+        this.getData();
+      })
+      .catch((error) => {
+        console.error(error);
+        this.getData();
       })
     },
 
@@ -6095,16 +6147,49 @@ export default {
       })
     },
 
-    async openFile(file) {
-      return new Promise((resolve, reject) => {
-        const fileReader = new FileReader()
-        fileReader.onload = event => resolve(JSON.parse(event.target.result))
-        fileReader.onerror = error => reject(error)
-        fileReader.readAsText(file)
-      })
+    loadFileWeather(file) {
+      if (!this.chosenFileWeather){this.fileDataWeather = "No File Chosen"}
+      let reader = new FileReader();
+
+      reader.readAsText(this.chosenFileWeather);
+      reader.onload = () => {
+        this.fileDataWeather = reader.result;
+      }
     },
 
-    async drawChart() {
+    loadFileBuilding(file) {
+      if (!this.chosenFileBuilding){this.jsonData = "No File Chosen"}
+      let reader = new FileReader();
+
+      reader.readAsText(this.chosenFileBuilding);
+      reader.onload = () => {
+        this.jsonData = JSON.parse(reader.result);
+      }
+    },
+
+    saveInputFile() {
+      this.filename = this.jsonData.Name + '_input_file'
+      let jsonFile = JSON.stringify(this.jsonData)
+      let blob = new Blob([jsonFile], { type: 'application/json' })
+      if (navigator.msSaveBlob) { // IE 10+
+        navigator.msSaveBlob(blob, this.filename)
+      } else {
+        let link = document.createElement('a')
+        if (link.download !== undefined) { // feature detection
+          // Browsers that support HTML5 download attribute
+          let url = URL.createObjectURL(blob)
+          link.setAttribute('href', url)
+          link.setAttribute('download', this.filename)
+          link.style.visibility = 'hidden'
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+        }
+      }
+    },
+
+
+    drawChart() {
       //Initialize the echarts instance based on the prepared dom
       let myChart = this.$echarts.init(this.$refs.chart);
       //Specify configuration items and data for the chart
@@ -6151,6 +6236,7 @@ export default {
   },
 
   mounted() {
+    this.runBEM();
     this.drawChart();
     this.getData();
   },
