@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app id="main" :style="{background: $vuetify.theme.themes[theme].background}">
     <v-app-bar
       app
       color="teal darken-4"
@@ -27,11 +27,11 @@
       <v-spacer></v-spacer>
 
       <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        href="https://www.joulea.com/"
         target="_blank"
         text
       >
-        <span class="mr-2">Latest Release</span>
+        <span class="mr-2">Joulea Website</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
     </v-app-bar>
@@ -47,8 +47,13 @@
   export default {
     name: 'App',
 
+    computed: {
+      theme(){
+        return (this.$vuetify.theme.light) ? 'dark' : 'light'
+      }
+    },
+
     data: () => ({
-      jsonData: null
     }),
   };
 </script>
