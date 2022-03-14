@@ -6114,8 +6114,7 @@ export default {
 
     updateData() {
       const path = 'http://127.0.0.1:5000/input'
-      console.log(this.jsonData)
-      axios.put(path, this.jsonData)
+      axios.put(path, this.jsonData[0])
       .then(() => {
         this.getData();
       })
@@ -6200,9 +6199,6 @@ export default {
         },
         tooltip: {
           trigger: 'axis'
-        },
-        legend: {
-          data: ['BEM Output']
         },
         grid: {
           left: '3%',
