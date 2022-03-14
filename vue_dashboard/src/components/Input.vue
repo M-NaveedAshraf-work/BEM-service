@@ -6114,6 +6114,7 @@ export default {
 
     updateData() {
       const path = 'http://127.0.0.1:5000/input'
+      console.log(this.jsonData)
       axios.put(path, this.jsonData)
       .then(() => {
         this.getData();
