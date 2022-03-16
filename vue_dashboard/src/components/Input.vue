@@ -5932,7 +5932,7 @@
 <script>
 
 import axios from 'axios';
-import blank from '/home/rossrobertson/Desktop/BEM_Dashboard/backend/BEM_Code_Dashboard/Input/blank.json'
+import blank from '/home/rossrobertson/Desktop/BEM_Dashboard/backend/New_BEM_Code/Input/blank.json'
 
 export default {
   name: "input",
