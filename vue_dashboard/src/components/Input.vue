@@ -5932,7 +5932,7 @@
 <script>
 
 import axios from 'axios';
-import blank from '/home/rossrobertson/Desktop/BEM_Dashboard/backend/BEM_Code/Input/blank.json'
+import blank from '/home/rossrobertson/Desktop/BEM_Dashboard/backend/BEM_Code_Dashboard/Input/blank.json'
 
 export default {
   name: "input",
@@ -6114,7 +6114,7 @@ export default {
 
     updateData() {
       const path = 'http://127.0.0.1:5000/input'
-      axios.put(path, this.jsonData[0])
+      axios.put(path, this.jsonData)
       .then(() => {
         this.getData();
       })
