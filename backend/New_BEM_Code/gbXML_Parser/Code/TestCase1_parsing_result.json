@@ -1,0 +1,582 @@
+{
+    "Volume": 3604.9565902400004,
+    "HeatCapacity": "Very heavy: 370,000 * Af",
+    "AirLeakageLevel": 0.75,
+    "Envelope": {
+        "Opaque1": {
+            "S": {
+                "Area": 189.5444252568186
+            },
+            "SE": {
+                "Area": 0.0
+            },
+            "E": {
+                "Area": 159.3644755872079
+            },
+            "NE": {
+                "Area": 0.0
+            },
+            "N": {
+                "Area": 192.20665735931837
+            },
+            "NW": {
+                "Area": 0.0
+            },
+            "W": {
+                "Area": 159.3644755872079
+            },
+            "SW": {
+                "Area": 0.0
+            },
+            "Roof": {
+                "Area": 602.2066748839895
+            },
+            "BelowGrade": {
+                "Area": 0.0
+            }
+        },
+        "Window1": {
+            "S": {
+                "Area": 16.389761454000002
+            },
+            "SE": {
+                "Area": 0.0
+            },
+            "E": {
+                "Area": 9.833856872400002
+            },
+            "NE": {
+                "Area": 0.0
+            },
+            "N": {
+                "Area": 19.667713744799997
+            },
+            "NW": {
+                "Area": 0.0
+            },
+            "W": {
+                "Area": 9.833856872400002
+            },
+            "SW": {
+                "Area": 0.0
+            },
+            "Roof": {
+                "Area": 0.0
+            }
+        }
+    },
+    "Material": {
+        "Roof": {
+            "Uvalue": 0.14296332269790318,
+            "Absorptivity": 0.7
+        }
+    },
+    "Opaque1": {
+        "Uvalue": 0.14296332269790318,
+        "Absorptivity": 0.7
+    },
+    "WIndow1": {
+        "Uvalue": 3.688600000000001,
+        "SHGC": 0.8600000000000004
+    },
+    "Zone1": {
+        "GrossFloorArea": 483.0956,
+        "MatabolicRate": 131.88195000000002,
+        "Appliance": 5.812514127638505,
+        "Lighting": 6.458349030709449,
+        "OutdoorAir": 2.35973725
+    },
+    "Zone2": {
+        "GrossFloorArea": 483.0956,
+        "MatabolicRate": 131.88195000000002,
+        "Appliance": 16.145872576773623,
+        "Lighting": 11.840306556300659,
+        "OutdoorAir": 2.35973725
+    },
+    "TemperatureSetPoint": {
+        "Hour1": {
+            "Heating_Weekday": 20.0,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 25.0,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour2": {
+            "Heating_Weekday": 20.0,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 25.0,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour3": {
+            "Heating_Weekday": 20.0,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 25.0,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour4": {
+            "Heating_Weekday": 20.0,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 25.0,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour5": {
+            "Heating_Weekday": 20.0,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 25.0,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour6": {
+            "Heating_Weekday": 20.0,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 25.0,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour7": {
+            "Heating_Weekday": 20.0,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 25.0,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour8": {
+            "Heating_Weekday": 20.0,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 25.0,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour9": {
+            "Heating_Weekday": 21.11109,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 23.33331,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour10": {
+            "Heating_Weekday": 21.11109,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 23.33331,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour11": {
+            "Heating_Weekday": 21.11109,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 23.33331,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour12": {
+            "Heating_Weekday": 21.11109,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 23.33331,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour13": {
+            "Heating_Weekday": 21.11109,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 23.33331,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour14": {
+            "Heating_Weekday": 21.11109,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 23.33331,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour15": {
+            "Heating_Weekday": 21.11109,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 23.33331,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour16": {
+            "Heating_Weekday": 21.11109,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 23.33331,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour17": {
+            "Heating_Weekday": 21.11109,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 23.33331,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour18": {
+            "Heating_Weekday": 21.11109,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 23.33331,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour19": {
+            "Heating_Weekday": 20.0,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 25.0,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour20": {
+            "Heating_Weekday": 20.0,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 25.0,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour21": {
+            "Heating_Weekday": 20.0,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 25.0,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour22": {
+            "Heating_Weekday": 20.0,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 25.0,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour23": {
+            "Heating_Weekday": 20.0,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 25.0,
+            "Cooling_Weekend": 25.0
+        },
+        "Hour24": {
+            "Heating_Weekday": 20.0,
+            "Heating_Weekend": 20.0,
+            "Cooling_Weekday": 25.0,
+            "Cooling_Weekend": 25.0
+        }
+    },
+    "Zone1_Schedule": {
+        "Hour1": {
+            "Occupancy_Weekday": 0.0,
+            "Occupancy_Weekend": 0.0,
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour2": {
+            "Occupancy_Weekday": 0.0,
+            "Occupancy_Weekend": 0.0,
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour3": {
+            "Occupancy_Weekday": 0.0,
+            "Occupancy_Weekend": 0.0,
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour4": {
+            "Occupancy_Weekday": 0.0,
+            "Occupancy_Weekend": 0.0,
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour5": {
+            "Occupancy_Weekday": 0.0,
+            "Occupancy_Weekend": 0.0,
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour6": {
+            "Occupancy_Weekday": 0.0,
+            "Occupancy_Weekend": 0.0,
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour7": {
+            "Occupancy_Weekday": 0.0,
+            "Occupancy_Weekend": 0.0,
+            "Appliance_Weekday": 0.2,
+            "Appliance_Weekend": 0.04000000000000001,
+            "Lighting_Weekday": 0.2
+        },
+        "Hour8": {
+            "Occupancy_Weekday": 0.2,
+            "Occupancy_Weekend": 0.04000000000000001,
+            "Appliance_Weekday": 0.6,
+            "Appliance_Weekend": 0.12,
+            "Lighting_Weekday": 0.6
+        },
+        "Hour9": {
+            "Occupancy_Weekday": 0.4,
+            "Occupancy_Weekend": 0.08000000000000002,
+            "Appliance_Weekday": 1.8,
+            "Appliance_Weekend": 0.36000000000000004,
+            "Lighting_Weekday": 1.8
+        },
+        "Hour10": {
+            "Occupancy_Weekday": 1.9,
+            "Occupancy_Weekend": 0.38,
+            "Appliance_Weekday": 1.8,
+            "Appliance_Weekend": 0.36000000000000004,
+            "Lighting_Weekday": 1.8
+        },
+        "Hour11": {
+            "Occupancy_Weekday": 1.9,
+            "Occupancy_Weekend": 0.38,
+            "Appliance_Weekday": 1.8,
+            "Appliance_Weekend": 0.36000000000000004,
+            "Lighting_Weekday": 1.8
+        },
+        "Hour12": {
+            "Occupancy_Weekday": 0.9,
+            "Occupancy_Weekend": 0.18000000000000002,
+            "Appliance_Weekday": 1.8,
+            "Appliance_Weekend": 0.36000000000000004,
+            "Lighting_Weekday": 1.8
+        },
+        "Hour13": {
+            "Occupancy_Weekday": 0.9,
+            "Occupancy_Weekend": 0.18000000000000002,
+            "Appliance_Weekday": 1.6,
+            "Appliance_Weekend": 0.32000000000000006,
+            "Lighting_Weekday": 1.6
+        },
+        "Hour14": {
+            "Occupancy_Weekday": 1.9,
+            "Occupancy_Weekend": 0.38,
+            "Appliance_Weekday": 1.8,
+            "Appliance_Weekend": 0.36000000000000004,
+            "Lighting_Weekday": 1.8
+        },
+        "Hour15": {
+            "Occupancy_Weekday": 1.9,
+            "Occupancy_Weekend": 0.38,
+            "Appliance_Weekday": 1.8,
+            "Appliance_Weekend": 0.36000000000000004,
+            "Lighting_Weekday": 1.8
+        },
+        "Hour16": {
+            "Occupancy_Weekday": 1.9,
+            "Occupancy_Weekend": 0.38,
+            "Appliance_Weekday": 1.8,
+            "Appliance_Weekend": 0.36000000000000004,
+            "Lighting_Weekday": 1.8
+        },
+        "Hour17": {
+            "Occupancy_Weekday": 1.9,
+            "Occupancy_Weekend": 0.38,
+            "Appliance_Weekday": 1.8,
+            "Appliance_Weekend": 0.36000000000000004,
+            "Lighting_Weekday": 1.8
+        },
+        "Hour18": {
+            "Occupancy_Weekday": 1.9,
+            "Occupancy_Weekend": 0.38,
+            "Appliance_Weekday": 1.0,
+            "Appliance_Weekend": 0.2,
+            "Lighting_Weekday": 1.0
+        },
+        "Hour19": {
+            "Occupancy_Weekday": 0.6,
+            "Occupancy_Weekend": 0.12,
+            "Appliance_Weekday": 0.6,
+            "Appliance_Weekend": 0.12,
+            "Lighting_Weekday": 0.6
+        },
+        "Hour20": {
+            "Occupancy_Weekday": 0.2,
+            "Occupancy_Weekend": 0.04000000000000001,
+            "Appliance_Weekday": 0.6,
+            "Appliance_Weekend": 0.12,
+            "Lighting_Weekday": 0.6
+        },
+        "Hour21": {
+            "Occupancy_Weekday": 0.2,
+            "Occupancy_Weekend": 0.04000000000000001,
+            "Appliance_Weekday": 0.4,
+            "Appliance_Weekend": 0.08000000000000002,
+            "Lighting_Weekday": 0.4
+        },
+        "Hour22": {
+            "Occupancy_Weekday": 0.2,
+            "Occupancy_Weekend": 0.04000000000000001,
+            "Appliance_Weekday": 0.4,
+            "Appliance_Weekend": 0.08000000000000002,
+            "Lighting_Weekday": 0.4
+        },
+        "Hour23": {
+            "Occupancy_Weekday": 0.0,
+            "Occupancy_Weekend": 0.0,
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour24": {
+            "Occupancy_Weekday": 0.0,
+            "Occupancy_Weekend": 0.0,
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0
+        }
+    },
+    "Zone2_Schedule": {
+        "Hour1": {
+            "Occupancy_Weekday": 0.0,
+            "Occupancy_Weekend": 0.0,
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour2": {
+            "Occupancy_Weekday": 0.0,
+            "Occupancy_Weekend": 0.0,
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour3": {
+            "Occupancy_Weekday": 0.0,
+            "Occupancy_Weekend": 0.0,
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour4": {
+            "Occupancy_Weekday": 0.0,
+            "Occupancy_Weekend": 0.0,
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour5": {
+            "Occupancy_Weekday": 0.0,
+            "Occupancy_Weekend": 0.0,
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour6": {
+            "Occupancy_Weekday": 0.0,
+            "Occupancy_Weekend": 0.0,
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour7": {
+            "Occupancy_Weekday": 0.0,
+            "Occupancy_Weekend": 0.0,
+            "Appliance_Weekday": 0.2,
+            "Appliance_Weekend": 0.04000000000000001,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour8": {
+            "Occupancy_Weekday": 0.2,
+            "Occupancy_Weekend": 0.04000000000000001,
+            "Appliance_Weekday": 0.6,
+            "Appliance_Weekend": 0.12,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour9": {
+            "Occupancy_Weekday": 0.4,
+            "Occupancy_Weekend": 0.08000000000000002,
+            "Appliance_Weekday": 1.8,
+            "Appliance_Weekend": 0.36000000000000004,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour10": {
+            "Occupancy_Weekday": 1.9,
+            "Occupancy_Weekend": 0.38,
+            "Appliance_Weekday": 1.8,
+            "Appliance_Weekend": 0.36000000000000004,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour11": {
+            "Occupancy_Weekday": 1.9,
+            "Occupancy_Weekend": 0.38,
+            "Appliance_Weekday": 1.8,
+            "Appliance_Weekend": 0.36000000000000004,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour12": {
+            "Occupancy_Weekday": 0.9,
+            "Occupancy_Weekend": 0.18000000000000002,
+            "Appliance_Weekday": 1.8,
+            "Appliance_Weekend": 0.36000000000000004,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour13": {
+            "Occupancy_Weekday": 0.9,
+            "Occupancy_Weekend": 0.18000000000000002,
+            "Appliance_Weekday": 1.6,
+            "Appliance_Weekend": 0.32000000000000006,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour14": {
+            "Occupancy_Weekday": 1.9,
+            "Occupancy_Weekend": 0.38,
+            "Appliance_Weekday": 1.8,
+            "Appliance_Weekend": 0.36000000000000004,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour15": {
+            "Occupancy_Weekday": 1.9,
+            "Occupancy_Weekend": 0.38,
+            "Appliance_Weekday": 1.8,
+            "Appliance_Weekend": 0.36000000000000004,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour16": {
+            "Occupancy_Weekday": 1.9,
+            "Occupancy_Weekend": 0.38,
+            "Appliance_Weekday": 1.8,
+            "Appliance_Weekend": 0.36000000000000004,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour17": {
+            "Occupancy_Weekday": 1.9,
+            "Occupancy_Weekend": 0.38,
+            "Appliance_Weekday": 1.8,
+            "Appliance_Weekend": 0.36000000000000004,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour18": {
+            "Occupancy_Weekday": 1.9,
+            "Occupancy_Weekend": 0.38,
+            "Appliance_Weekday": 1.0,
+            "Appliance_Weekend": 0.2,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour19": {
+            "Occupancy_Weekday": 0.6,
+            "Occupancy_Weekend": 0.12,
+            "Appliance_Weekday": 0.6,
+            "Appliance_Weekend": 0.12,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour20": {
+            "Occupancy_Weekday": 0.2,
+            "Occupancy_Weekend": 0.04000000000000001,
+            "Appliance_Weekday": 0.6,
+            "Appliance_Weekend": 0.12,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour21": {
+            "Occupancy_Weekday": 0.2,
+            "Occupancy_Weekend": 0.04000000000000001,
+            "Appliance_Weekday": 0.4,
+            "Appliance_Weekend": 0.08000000000000002,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour22": {
+            "Occupancy_Weekday": 0.2,
+            "Occupancy_Weekend": 0.04000000000000001,
+            "Appliance_Weekday": 0.4,
+            "Appliance_Weekend": 0.08000000000000002,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour23": {
+            "Occupancy_Weekday": 0.0,
+            "Occupancy_Weekend": 0.0,
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0
+        },
+        "Hour24": {
+            "Occupancy_Weekday": 0.0,
+            "Occupancy_Weekend": 0.0,
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0
+        }
+    }
+}

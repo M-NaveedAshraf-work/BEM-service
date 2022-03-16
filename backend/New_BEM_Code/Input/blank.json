@@ -1,0 +1,808 @@
+{
+    "Name": "",
+    "TerrainClass": "",
+    "Volume": 0,
+    "Height": 0,
+    "HeatCapacity": "",
+    "DaylightingFactor": 0,
+    "OccupancyFactor": 0,
+    "LightingControlFactor": 0,
+    "ParasiticLightingEnergy": "",
+    "ParasiticLightingEnergyAmount": 0,
+    "HeatingCOP": 0,
+    "CoolingCOP": 0,
+    "COP100": 0,
+    "COP75": 0,
+    "COP50": 0,
+    "COP25": 0,
+    "COPWeighting100": 0,
+    "COPWeighting75": 0,
+    "COPWeighting50": 0,
+    "COPWeighting25": 0,
+    "HVACSystemType": "",
+    "VentilationCoolingType": "",
+    "RHThreshold": 0,
+    "ExtraVentilation": 0,
+    "HeatRecoveryType": "",
+    "ExhaustAirRecirculation": "",
+    "AirLeakageLevel": 0,
+    "SpecificFanPower": 0,
+    "FanControlFactor": 0,
+    "PumpCoolingControl": "",
+    "PumpHeatingControl": "",
+    "DHWDistrinutionSystem": "",
+    "DHWGenerationSystem": "",
+    "BEMType": 0,
+    "PVArea": 0,
+    "PVOrientation": "",
+    "PVTiltAngle": 0,
+    "PVPeakPower": 0,
+    "PVPerformanceFactor": 0,
+    "SHWArea": 0,
+    "SHWOrientation": "",
+    "SHWTiltAngle": 0,
+    "SHWEfficiency": 0,
+    "WindTurbineDiameter": 0.0,
+    "WindTurbineEfficiency": 0,
+    "HeatingEnergySource": "",
+    "DHWEnergySource": "",
+    "CoolingEnergySource": "",
+    "Electricity": {
+        "PrimaryEnergyFactor": 0,
+        "CO2EmissionCoefficient": 0
+    },
+    "NaturalGas": {
+        "PrimaryEnergyFactor": 0,
+        "CO2EmissionCoefficient": 0
+    },
+    "Fuel": {
+        "PrimaryEnergyFactor": 0,
+        "CO2EmissionCoefficient": 0
+    },
+    "Zone1": {
+        "SpaceName": "",
+        "GrossFloorArea": 0,
+        "Occupancy": 0,
+        "MatabolicRate": 0,
+        "Appliance": 0,
+        "Lighting": 0,
+        "OutdoorAir": 0,
+        "DHW": 0
+    },
+    "TemperatureSetPoint": {
+        "Hour1": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour2": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour3": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour4": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour5": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour6": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour7": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour8": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour9": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour10": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour11": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour12": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour13": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour14": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour15": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour16": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour17": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour18": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour19": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour20": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour21": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour22": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour23": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        },
+        "Hour24": {
+            "Heating_Weekday": 0,
+            "Heating_Weekend": 0,
+            "Cooling_Weekday": 0,
+            "Cooling_Weekend": 0
+        }
+    },
+    "Zone1_Schedule": {
+        "Hour1": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour2": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour3": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour4": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour5": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour6": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour7": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour8": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour9": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour10": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour11": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour12": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour13": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour14": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour15": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour16": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour17": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour18": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour19": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour20": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour21": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour22": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour23": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        },
+        "Hour24": {
+            "Occupancy_Weekday": 0,
+            "Occupancy_Weekend": 0,
+            "Appliance_Weekday": 0,
+            "Appliance_Weekend": 0,
+            "Lighting_Weekday": 0,
+            "Lighting_Weekend": 0
+        }
+    },
+    "Envelope": {
+        "Opaque1": {
+            "S": {
+                "Area": 0
+            },
+            "SE": {
+                "Area": 0
+            },
+            "E": {
+                "Area": 0
+            },
+            "NE": {
+                "Area": 0
+            },
+            "N": {
+                "Area": 0
+            },
+            "NW": {
+                "Area": 0
+            },
+            "W": {
+                "Area": 0
+            },
+            "SW": {
+                "Area": 0
+            },
+            "Roof": {
+                "Area": 0
+            },
+            "BelowGrade": {
+                "Area": 0
+            }
+        },
+        "Window1": {
+            "S": {
+                "Area": 0,
+                "OverhangAngle": 0,
+                "FinAngle": 0,
+                "HorizonAngle": 0,
+                "SRF": 0
+            },
+            "SE": {
+                "Area": 0,
+                "OverhangAngle": 0,
+                "FinAngle": 0,
+                "HorizonAngle": 0,
+                "SRF": 0
+            },
+            "E": {
+                "Area": 0,
+                "OverhangAngle": 0,
+                "FinAngle": 0,
+                "HorizonAngle": 0,
+                "SRF": 0
+            },
+            "NE": {
+                "Area": 0,
+                "OverhangAngle": 0,
+                "FinAngle": 0,
+                "HorizonAngle": 0,
+                "SRF": 0
+            },
+            "N": {
+                "Area": 0,
+                "OverhangAngle": 0,
+                "FinAngle": 0,
+                "HorizonAngle": 0,
+                "SRF": 0
+            },
+            "NW": {
+                "Area": 0,
+                "OverhangAngle": 0,
+                "FinAngle": 0,
+                "HorizonAngle": 0,
+                "SRF": 0
+            },
+            "W": {
+                "Area": 0,
+                "OverhangAngle": 0,
+                "FinAngle": 0,
+                "HorizonAngle": 0,
+                "SRF": 0
+            },
+            "SW": {
+                "Area": 0,
+                "OverhangAngle": 0,
+                "FinAngle": 0,
+                "HorizonAngle": 0,
+                "SRF": 0
+            },
+            "Roof": {
+                "Area": 0,
+                "OverhangAngle": 0,
+                "FinAngle": 0,
+                "HorizonAngle": 0,
+                "SRF": 0
+            },
+            "BelowGrade": {
+                "Area": 0,
+                "OverhangAngle": 0,
+                "FinAngle": 0,
+                "HorizonAngle": 0,
+                "SRF": 0
+            }
+        }
+    },
+    "Material": {
+        "Roof1": {
+            "UValue": 0,
+            "Absorptivity": 0,
+            "Emissivity": 0
+        },
+        "Opaque1": {
+            "UValue": 0,
+            "Absorptivity": 0,
+            "Emissivity": 0
+        },
+        "Window1": {
+            "UValue": 0,
+            "Absorptivity": 0,
+            "Emissivity": 0
+        }
+    },
+    "StartDay": "Tuesday",
+    "NaturalVentilation": {
+        "Width": 0.0,
+        "Height": 0.0,
+        "EffectiveAngle": 0.0
+    },
+    "ElectricBattery": {
+        "Capacity": 0.0,
+        "ChargingEfficiency": 0.0,
+        "DischargingEfficiency": 0.0,
+        "ChargingPowerLimit": 0.0,
+        "DischargingPowerLimit": 0.0
+    },
+    "LightingDimmer": {
+        "DimmerSaving_WD": 0.0,
+        "DimmerSaving_WE": 0.0
+    },
+    "ElectricVehicle": {
+        "No_EVCharger": 0.0,
+        "ChargingPower": 0.0,
+        "Hour1": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour2": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour3": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour4": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour5": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour6": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour7": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour8": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour9": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour10": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour11": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour12": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour13": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour14": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour15": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour16": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour17": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour18": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour19": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour20": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour21": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour22": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour23": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        },
+        "Hour24": {
+            "EV_Weekday": 0.0,
+            "EV_Weekend": 0.0
+        }
+    },
+    "RetailRefrig": {
+        "Capacity": 0.0,
+        "Zone": ""
+    },
+    "Garage": {
+        "SpaceName": "",
+        "Occupancy": 0.0,
+        "Appliance": 0,
+        "Lighting": 0
+    },
+    "Garage_Schedule": {
+        "Hour1": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour2": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour3": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour4": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour5": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour6": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour7": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour8": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour9": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour10": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour11": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour12": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour13": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour14": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour15": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour16": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour17": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour18": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour19": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour20": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour21": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour22": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour23": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        },
+        "Hour24": {
+            "Appliance_Weekday": 0.0,
+            "Appliance_Weekend": 0.0,
+            "Lighting_Weekday": 0.0,
+            "Lighting_Weekend": 0.0
+        }
+    }
+}
