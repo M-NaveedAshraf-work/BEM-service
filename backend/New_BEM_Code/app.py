@@ -22,7 +22,7 @@ app.config.from_object(__name__)
 # enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})
 
-f = open('/home/rossrobertson/Desktop/BEM_Dashboard/backend/New_BEM_Code/Input/centergy_BEM_2019.json')
+f = open('./Input/centergy_BEM_2019.json')
 data = json.load(f)
 weatherData = "centergy_2019_epw_file.epw"
 calData = [
