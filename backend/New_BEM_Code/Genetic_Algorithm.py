@@ -15,27 +15,31 @@ import matplotlib.pyplot as plt
 
 class BEMP_Calibration_CapX(BEM):
 
-    def __init__(self, buildingName, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Essol_30, Essol_45, Essol_60,
+    def __init__(self, jsonData, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Essol_30, Essol_45, Essol_60,
                  Essol_90, original_file_name, result_file_name):
         self.original_file_name = original_file_name
-        with open(buildingName) as f:
-            data = json.load(f)
+        buildingName = "centergy_BEM_2019.json"
+        # with open(buildingName) as f:
+        #     data = json.load(f)
+        data = jsonData
         buildingName = "".join(["./Input/", self.original_file_name, "_intermediate", ".json"])
         with open(buildingName, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
         # Inherits BEM class
-        BEM.__init__(self, buildingName, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Essol_30, Essol_45, Essol_60,
+        BEM.__init__(self, jsonData, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Essol_30, Essol_45, Essol_60,
                      Essol_90)
         self.genetic_algorithm_setting = {}
         self.calibration_setting = {};
         self.CapX_setting = {}
         self.calibration_param_info = {}
         self.result_file_name = result_file_name
-        # with open(self.buildingName) as f:
-        #     data = json.load(f)
-        # building_name = "".join([self.buildingName[:-5], "_intermediate" ,".json"])
-        # with open(building_name, 'w', encoding='utf-8') as f:
-        #     json.dump(data, f, ensure_ascii=False, indent=4)
+        # buildingName = "centergy_BEM_2019.json"
+        self.buildingName = buildingName
+        with open(self.buildingName) as f:
+            data = json.load(f)
+        building_name = "".join([buildingName[:-5], "_intermediate" ,".json"])
+        with open(building_name, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)
         # 1. Open the "Calibration" excel file
         file = openpyxl.load_workbook('./Input/BEM_Optimization_Input_'+original_file_name+'.xlsx', data_only=True)
         file_sheet = file['GeneticAlgorithm_Setting']
@@ -170,6 +174,7 @@ class BEMP_Calibration_CapX(BEM):
 
             # print(f"calibration_param_info:\n{self.calibration_param_info}")
             # print(f"calibration_parameters:\n{self.calibration_parameters}")
+
             # 4. Read the input elec/natural gas data
             if self.calibration_setting["Data_interval"] == "Monthly":
                 self.measuredData = np.zeros((12, 2))
@@ -218,6 +223,61 @@ class BEMP_Calibration_CapX(BEM):
 
             elif self.calibration_setting["Elec_data"] == "No" and self.calibration_setting["NaturalGas_data"] == "Yes":
                 self.y_bar = self.measuredData.mean(axis=0)[1]
+
+            # 6. Calculating All Data Formats for graphing in BEM Dashboard
+
+            # Monthly
+            self.MonthlyData = np.zeros((12, 2))
+            self.data_sheet = file['Calibration_Monthly_Data']
+            self.num_of_loop_month = 12  # needed in the "Evaluation" method
+
+            for i in range(12):
+                if self.calibration_setting["Elec_data"] == "Yes":
+                    self.MonthlyData[i, 0] = self.data_sheet.cell(row=i + 3, column=2).value
+                if self.calibration_setting["NaturalGas_data"] == "Yes":
+                    self.MonthlyData[i, 1] = self.data_sheet.cell(row=i + 3, column=3).value
+
+            # Daily
+            self.DailyData = np.zeros((365, 2))
+            self.data_sheet = file['Calibration_Daily_Data']
+            self.num_of_loop_day = 365
+
+            for i in range(365):
+                if self.calibration_setting["Elec_data"] == "Yes":
+                    self.DailyData[i, 0] = self.data_sheet.cell(row=i + 3, column=2).value
+                if self.calibration_setting["NaturalGas_data"] == "Yes":
+                    self.DailyData[i, 1] = self.data_sheet.cell(row=i + 3, column=3).value
+
+            # Hourly
+            self.HourlyData = np.zeros((8760, 2))
+            self.data_sheet = file['Calibration_Hourly_Data']
+            self.num_of_loop_hour = 8760
+
+            for i in range(8760):
+                if self.calibration_setting["Elec_data"] == "Yes":
+                    self.HourlyData[i, 0] = self.data_sheet.cell(row=i + 3, column=3).value
+                if self.calibration_setting["NaturalGas_data"] == "Yes":
+                    self.HourlyData[i, 1] = self.data_sheet.cell(row=i + 3, column=4).value
+
+
+            #Calculate the average data value
+            # self.y_bar = 0;
+            self.number_of_data_real = 1  # y_bar: average utility data -> needed for cvRMSE calculation
+            if self.calibration_setting["Elec_data"] == "Yes" and self.calibration_setting["NaturalGas_data"] == "Yes":
+                self.y_bar_Monthly = self.MonthlyData.mean()
+                self.y_bar_Daily = self.DailyData.mean()
+                self.y_bar_Hourly = self.HourlyData.mean()
+                self.number_of_data_real = 2
+
+            elif self.calibration_setting["Elec_data"] == "Yes" and self.calibration_setting["NaturalGas_data"] == "No":
+                self.y_bar_Monthly = self.MonthlyData.mean(axis=0)[0]
+                self.y_bar_Daily = self.DailyData.mean(axis=0)[0]
+                self.y_bar_Hourly = self.HourlyData.mean(axis=0)[0]
+
+            elif self.calibration_setting["Elec_data"] == "No" and self.calibration_setting["NaturalGas_data"] == "Yes":
+                self.y_bar_Monthly = self.MonthlyData.mean(axis=0)[1]
+                self.y_bar_Daily = self.DailyData.mean(axis=0)[1]
+                self.y_bar_Hourly = self.HourlyData.mean(axis=0)[1]
 
 
         elif self.genetic_algorithm_setting["calibration_or_CapX"] == "CapX":
@@ -335,9 +395,10 @@ class BEMP_Calibration_CapX(BEM):
     def JSON_Modification(self, chromosome, row_of_chromesome, calibrated=False):
 
         # Open JSON instnace
-
+        # self.buildingName = "centergy_BEM_2019.json"
         with open(self.buildingName) as f:
             data = json.load(f)
+        data = self.jsonData
 
         # Change the parameter values in JSON
         if self.genetic_algorithm_setting["calibration_or_CapX"] == "Calibration":
@@ -742,7 +803,7 @@ class BEMP_Calibration_CapX(BEM):
             self.PumpSystemEnergy()
             self.DHWandSolarWaterHeating()
 
-            outcome, outcome2, outcome3 = self.hourly_BEM()  # outcome: self.deliveredEnergy, outcome2: self.Overall_deliveredEnergy, outcome3: self.deliveredEnergy_fuel
+            outcome, outcome2, outcome3, grouped = self.hourly_BEM()  # outcome: self.deliveredEnergy, outcome2: self.Overall_deliveredEnergy, outcome3: self.deliveredEnergy_fuel
             """
             The fitness function is CVRMSE (Coefficient of variation of the Root Mean Square Error)
             CVRMSE = (1/y_bar) * sqrt(((sigma (yi - yhat_i)^2)/(n-p))
@@ -1005,8 +1066,9 @@ class BEMP_Calibration_CapX(BEM):
                     else:  # FLOAT or temperature setpint or schedule
                         offspring[i, j] = uniform(self.calibration_param_info[self.calibration_parameters[j]]["Min"],
                                                   self.calibration_param_info[self.calibration_parameters[j]]["Max"])
-            with open(self.buildingName) as f:
-                data = json.load(f)
+            # with open(self.buildingName) as f:
+            #     data = json.load(f)
+            data = self.jsonData
             initial_chrom = []
             for j, name in enumerate(self.calibration_parameters):
                 if name == "Heating COP":
@@ -1268,6 +1330,7 @@ class BEMP_Calibration_CapX(BEM):
                 [sum_evaluation_from_iteration_method / x for x in evaluation_from_iteration_method])
             RWS = [(sum_evaluation_from_iteration_method / x) / reverse_cvRMSE_sum for x in
                    evaluation_from_iteration_method]
+
             RSW_selected_row_numbers = np.random.choice(RSW_entire_row_numbers,
                                                         self.genetic_algorithm_setting["num_of_population"] - lowest,
                                                         replace=True, p=RWS)
@@ -1317,6 +1380,9 @@ class BEMP_Calibration_CapX(BEM):
             for k in best_so_far_chromosome:
                 csvwriter.writerow(k)
         # def visualize_best(self):
+        # file = openpyxl.load_workbook('./Input/BEM_Optimization_Input_' + original_file_name + '.xlsx', data_only=True)
+        # file_sheet = file['GeneticAlgorithm_Setting']
+        # self.genetic_algorithm_setting["calibration_or_CapX"] = file_sheet.cell(row=7, column=3).value
         if self.genetic_algorithm_setting["calibration_or_CapX"] == "Calibration":
             best = np.zeros((2, self.num_of_parameters))
             best[0, :] = best_so_far_chromosome[-1]
@@ -1334,7 +1400,7 @@ class BEMP_Calibration_CapX(BEM):
             self.PumpSystemEnergy()
             self.DHWandSolarWaterHeating()
 
-            outcome, outcome2, outcome3 = self.hourly_BEM()
+            outcome, outcome2, outcome3, grouped = self.hourly_BEM()
             out = np.asarray(outcome[:, -1]) * self.totalArea / 1000
 
             manipulated_result = np.zeros((12, 1))
@@ -1357,31 +1423,43 @@ class BEMP_Calibration_CapX(BEM):
             # cvRMSE = (1 / self.y_bar) * sqrt(deviation / (self.num_of_loop * self.number_of_data - 1)) * 100
 
             data = pd.DataFrame(out, columns=['Delivered'])
-            data['Month'] = 'blank'
-            data.loc[:743, 'Month'] = 'January'
-            data.loc[744:1415, 'Month'] = 'February'
-            data.loc[1416:2159, 'Month'] = 'March'
-            data.loc[2160:2879, 'Month'] = 'April'
-            data.loc[2880:3623, 'Month'] = 'May'
-            data.loc[3624:4343, 'Month'] = 'June'
-            data.loc[4344:5087, 'Month'] = 'July'
-            data.loc[5088:5831, 'Month'] = 'August'
-            data.loc[5832:6551, 'Month'] = 'Septemeber'
-            data.loc[6552:7295, 'Month'] = 'October'
-            data.loc[7296:8015, 'Month'] = 'November'
-            data.loc[8016:8759, 'Month'] = 'December'
-            grouped = (data.groupby(['Month'], sort=False).sum()).reset_index()
-            plt.figure(figsize=(14, 8))
-            plt.plot(grouped.Month.values, grouped.Delivered.values, label="Model", marker='o')
-            plt.plot(grouped.Month.values, self.measuredData[:, 0], label="Utility", marker='o')
-            plt.ylim(0, (self.y_max + 100000))
-            plt.legend()
-            plt.xlabel('Month')
-            plt.ylabel('Energy Consumption (kWh)')
-            plt.title(f"Model Results vs. Utility Data for CV RMSE of {round(best_so_far_fitness_value[-1],3)}%")
-            plt.ticklabel_format(style='plain', axis='y')
-            plt.savefig(f"calibration_result_{self.result_file_name}.png")
-            plt.show()
+
+            # Outputting Simulated Data into Monthly, Daily, Hourly Format
+
+            if self.calibration_setting["Data_interval"] == "Monthly":
+                data['Month'] = 'blank'
+                data.loc[:743, 'Month'] = 'January'
+                data.loc[744:1415, 'Month'] = 'February'
+                data.loc[1416:2159, 'Month'] = 'March'
+                data.loc[2160:2879, 'Month'] = 'April'
+                data.loc[2880:3623, 'Month'] = 'May'
+                data.loc[3624:4343, 'Month'] = 'June'
+                data.loc[4344:5087, 'Month'] = 'July'
+                data.loc[5088:5831, 'Month'] = 'August'
+                data.loc[5832:6551, 'Month'] = 'Septemeber'
+                data.loc[6552:7295, 'Month'] = 'October'
+                data.loc[7296:8015, 'Month'] = 'November'
+                data.loc[8016:8759, 'Month'] = 'December'
+                grouped = (data.groupby(['Month'], sort=False).sum()).reset_index()
+                self.simulated = grouped.Delivered.values.tolist()
+            elif self.calibration_setting["Data_interval"] == "Hourly":
+                self.delivered = pd.DataFrame(out, columns=['Delivered'])
+                self.simulated = self.delivered.Delivered.values.tolist()
+            # plt.figure(figsize=(14, 8))
+            # plt.plot(grouped.Month.values, grouped.Delivered.values, label="Model", marker='o')
+            # plt.plot(grouped.Month.values, self.measuredData[:, 0], label="Utility", marker='o')
+            # plt.ylim(0, (self.y_max + 100000))
+            # plt.legend()
+            # plt.xlabel('Month')
+            # plt.ylabel('Energy Consumption (kWh)')
+            # plt.title(f"Model Results vs. Utility Data for CV RMSE of {round(best_so_far_fitness_value[-1],3)}%")
+            # plt.ticklabel_format(style='plain', axis='y')
+            # plt.savefig(f"calibration_result_{self.result_file_name}.png")
+            # plt.show()
+
+            return self.simulated, list(self.measuredData[:, 0]), self.calibration_setting["Data_interval"]
+
+
         else:
             best = np.zeros((2, self.num_of_parameters))
             best[0, :] = best_so_far_chromosome[-1]
@@ -1399,7 +1477,7 @@ class BEMP_Calibration_CapX(BEM):
             self.PumpSystemEnergy()
             self.DHWandSolarWaterHeating()
 
-            outcome, outcome2, outcome3 = self.hourly_BEM()
+            outcome, outcome2, outcome3, grouped = self.hourly_BEM()
             out = np.asarray(outcome[:, -1]) * self.totalArea / 1000
 
             manipulated_result = np.zeros((12, 1))
@@ -1417,30 +1495,55 @@ class BEMP_Calibration_CapX(BEM):
             manipulated_result[11, 0] = np.sum(outcome3[8016:8760, 0])
 
             data = pd.DataFrame(out, columns=['Delivered'])
-            data['Month'] = 'blank'
-            data.loc[:743, 'Month'] = 'January'
-            data.loc[744:1415, 'Month'] = 'February'
-            data.loc[1416:2159, 'Month'] = 'March'
-            data.loc[2160:2879, 'Month'] = 'April'
-            data.loc[2880:3623, 'Month'] = 'May'
-            data.loc[3624:4343, 'Month'] = 'June'
-            data.loc[4344:5087, 'Month'] = 'July'
-            data.loc[5088:5831, 'Month'] = 'August'
-            data.loc[5832:6551, 'Month'] = 'Septemeber'
-            data.loc[6552:7295, 'Month'] = 'October'
-            data.loc[7296:8015, 'Month'] = 'November'
-            data.loc[8016:8759, 'Month'] = 'December'
-            grouped = (data.groupby(['Month'], sort=False).sum()).reset_index()
-            plt.figure(figsize=(14, 8))
-            plt.plot(grouped.Month.values, grouped.Delivered.values, label="Model", marker='o')
 
-            plt.legend()
-            plt.xlabel('Month')
-            plt.ylabel('Energy Consumption (kWh)')
-            plt.title(f"Model Results vs. Utility Data for CV RMSE of {round(best_so_far_fitness_value[-1],3)}%")
-            plt.ticklabel_format(style='plain', axis='y')
-            plt.savefig(f"calibration_result_{self.result_file_name}.png")
-            plt.show()
+            if self.calibration_setting["Data_interval"] == "Monthly":
+                data['Month'] = 'blank'
+                data.loc[:743, 'Month'] = 'January'
+                data.loc[744:1415, 'Month'] = 'February'
+                data.loc[1416:2159, 'Month'] = 'March'
+                data.loc[2160:2879, 'Month'] = 'April'
+                data.loc[2880:3623, 'Month'] = 'May'
+                data.loc[3624:4343, 'Month'] = 'June'
+                data.loc[4344:5087, 'Month'] = 'July'
+                data.loc[5088:5831, 'Month'] = 'August'
+                data.loc[5832:6551, 'Month'] = 'Septemeber'
+                data.loc[6552:7295, 'Month'] = 'October'
+                data.loc[7296:8015, 'Month'] = 'November'
+                data.loc[8016:8759, 'Month'] = 'December'
+                grouped = (data.groupby(['Month'], sort=False).sum()).reset_index()
+                self.simulated = grouped.Delivered.values.tolist()
+            elif self.calibration_setting["Data_interval"] == "Hourly":
+                self.delivered = pd.DataFrame(out, columns=['Delivered'])
+                self.simulated = self.delivered.Delivered.values.tolist()
+            # data['Month'] = 'blank'
+            # data.loc[:743, 'Month'] = 'January'
+            # data.loc[744:1415, 'Month'] = 'February'
+            # data.loc[1416:2159, 'Month'] = 'March'
+            # data.loc[2160:2879, 'Month'] = 'April'
+            # data.loc[2880:3623, 'Month'] = 'May'
+            # data.loc[3624:4343, 'Month'] = 'June'
+            # data.loc[4344:5087, 'Month'] = 'July'
+            # data.loc[5088:5831, 'Month'] = 'August'
+            # data.loc[5832:6551, 'Month'] = 'Septemeber'
+            # data.loc[6552:7295, 'Month'] = 'October'
+            # data.loc[7296:8015, 'Month'] = 'November'
+            # data.loc[8016:8759, 'Month'] = 'December'
+            # grouped = (data.groupby(['Month'], sort=False).sum()).reset_index()
+            # plt.figure(figsize=(14, 8))
+            # plt.plot(grouped.Month.values, grouped.Delivered.values, label="Model", marker='o')
+
+            # plt.legend()
+            # plt.xlabel('Month')
+            # plt.ylabel('Energy Consumption (kWh)')
+            # plt.title(f"Model Results vs. Utility Data for CV RMSE of {round(best_so_far_fitness_value[-1],3)}%")
+            # plt.ticklabel_format(style='plain', axis='y')
+            # plt.savefig(f"calibration_result_{self.result_file_name}.png")
+            # plt.show()
+
+            self.grouped = grouped.Delivered.values
+
+            return self.simulated, list(self.measuredData[:, 0]), self.calibration_setting["Data_interval"]
+
 
         # for j in range(self.num_of_loop):
         #     if self.calibration_setting["Elec_data"] == "Yes":
@@ -1462,8 +1565,10 @@ def BEMP_Optimization(buildingName, weatherData, SRF_overhang, SRF_fin, SRF_hori
     instance.FanEnergy()
     instance.PumpSystemEnergy()
     instance.DHWandSolarWaterHeating()
-    outcome, outcome2, outcome3 = instance.hourly_BEM()
-    instance.Genetic_Algorithm_Loop()
+    outcome, outcome2, outcome3, grouped = instance.hourly_BEM()
+    real, simulated, interval = instance.Genetic_Algorithm_Loop()
+
+    return simulated, real, interval
 
 
 if __name__ == '__main__':

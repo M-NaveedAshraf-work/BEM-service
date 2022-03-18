@@ -35,6 +35,19 @@
             <v-row>
               <v-btn @click="loadFileBuilding" align="center" depressed color="primary">Read File</v-btn>
             </v-row>
+            <v-row>
+              <v-card-text>Upload Building Hourly Data File</v-card-text>
+              <v-file-input
+                accept=".xls, .xlsx"
+                label="Click to Select a Data File"
+                chips
+                outlined
+                v-model="chosenFileData"
+              ></v-file-input>
+            </v-row>
+            <v-row>
+              <v-btn @click="loadFileData" align="center" depressed color="primary">Read File</v-btn>
+            </v-row>
           </v-col>
         </v-card>
         <v-card outlined color="transparent">
@@ -5918,7 +5931,7 @@
       <v-col
       md="8"
       >
-        <v-card>
+        <v-card v-resize="onResize" height="100%">
           <div id="input">
             <div id="chart" ref="chart" style="width: 1100px;height:700px;"></div>
           </div>
@@ -6038,6 +6051,8 @@ export default {
       fileDataWeather: null,
       chosenFileBuilding: null,
       fileDataBuilding: null,
+      chosenFileData: null,
+      fileDataHourly: null,
 
       filename: null,
 
@@ -6056,26 +6071,8 @@ export default {
       dialog8: false,
       dialog9: false,
 
-      // emissionHeaders: [
-      //   {
-      //     text: 'Primary and Emission Factors',
-      //     align: 'left',
-      //     sortable: false,
-      //     value: 'name'
-      //   },
-      //   { text: 'Primary Energy Factor', value: 'eFactor'},
-      //   { text: 'CO2 Emission Coefficient', value: 'cFactor'},
-      // ],
-      // setpointHeaders: [
-      //   {
-      //     text: 'Set Point Temperature Schedule',
-      //     align: 'left',
-      //     sortable: false,
-      //     value: 'name',
-      //   },
-      //   { text: 'Hour 1', value: 'Hour1'},
-      //   { text: 'Weekend Cooling', value: 'Hour1.Cooling_Weekend'},
-      // ]
+      // Graph Data 
+      chart: null,
     }
   },
 
@@ -6167,6 +6164,16 @@ export default {
       }
     },
 
+    loadFileData(file) {
+      if (!this.chosenFileBuilding){this.jsonData = "No File Chosen"}
+      let reader = new FileReader();
+
+      reader.readAsText(this.chosenFileData);
+      reader.onload = () => {
+        this.jsonData = JSON.parse(reader.result);
+      }
+    },
+
     saveInputFile() {
       this.filename = this.jsonData.Name + '_input_file'
       let jsonFile = JSON.stringify(this.jsonData)
@@ -6229,13 +6236,21 @@ export default {
         ]
       };
       option && myChart.setOption(option);
-    }
+      window.onresize = function() {
+        plot.resize();
+      };
+    },
+
+    // onResize() {
+    //   if(this.myChart)_.debounce(this.myChart.resize,100)()
+    // },
   },
 
   mounted() {
     this.runBEM();
     this.drawChart();
     this.getData();
+    this.onResize();
   },
 
   created() {

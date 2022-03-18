@@ -33,6 +33,12 @@ calData = [
         "max": "1.0",
     }
 ]
+capxData = [
+    {
+        "name": "Heating COP",
+        "data": "Continuous",
+    }
+]
 
 
 # Hosting the JSON File that can be Read by Scripts and Edited by Vue frontend
@@ -62,6 +68,16 @@ def bem_model():
 
     return jsonify(response_object)
 
+@app.route('/Calibration', methods=['GET'])
+def calibration_model():
+    response_object = {'status': 'success'}
+    simulated, real, interval = main(mode="calibration", building_name=data, epw_file_name=weatherData, original_file_name="centergy_BEM_2019", result_file_name="iteration1")
+    response_object['real'] = real
+    response_object['modeled'] = simulated
+    response_object['interval'] = interval
+
+    return jsonify(response_object)
+
 @app.route('/Cal', methods = ['GET', 'PUT'])
 def calComponents():
     response_object = {'status': 'success'}
@@ -73,6 +89,19 @@ def calComponents():
         response_object['message'] = "Parameters Updated"
     else:
         response_object['calData'] = calData
+    return jsonify(response_object)
+
+@app.route('/Capx', methods = ['GET', 'PUT'])
+def capxComponents():
+    response_object = {'status': 'success'}
+    if request.method == 'PUT':
+        post_data = request.get_json("capxData")
+        global capxData
+        capxData = post_data
+        response_object['capxData'] = data
+        response_object['message'] = "Parameters Updated"
+    else:
+        response_object['capxData'] = capxData
     return jsonify(response_object)
 
 # @app.route('/Cal/<cal_id>', methods=['PUT'])
