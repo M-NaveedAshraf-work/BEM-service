@@ -24,6 +24,8 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 
 f = open('./Input/centergy_BEM_2019.json')
 data = json.load(f)
+d = open('./Input/energystar_input.json')
+estarData = json.load(d)
 weatherData = "centergy_2019_epw_file.epw"
 calData = [
     {
@@ -104,28 +106,18 @@ def capxComponents():
         response_object['capxData'] = capxData
     return jsonify(response_object)
 
-# @app.route('/Cal/<cal_id>', methods=['PUT'])
-# def single_cal(cal_id):
-#     response_object = {'status': 'success'}
-#     if request.method == 'PUT':
-#         post_data = request.get_json()
-#         remove_param(cal_id)
-#         calData.append({
-#             'id': uuid.uuid4().hex,
-#             "name": post_data.get('name'),
-#             "data": post_data.get('data'),
-#             "min": post_data.get('min'),
-#             "max": post_data.get('max'),
-#         })
-#         response_object['message'] = 'Cal updated!'
-#     return jsonify(response_object)
-#
-# def remove_param(cal_id):
-#     for cal in calData:
-#         if cal['id'] == cal_id:
-#             calData.remove(cal)
-#             return True
-#         return False
+@app.route('/energystar', methods = ['GET', 'PUT'])
+def estarComponents():
+    response_object = {'status': 'success'}
+    if request.method == 'PUT':
+        post_data = request.get_json("estarData")
+        global estarData
+        estarData = post_data
+        response_object['estarData'] = data
+        response_object['message'] = "Parameters Updated"
+    else:
+        response_object['estarData'] = estarData
+    return jsonify(response_object)
 
 if __name__ == '__main__':
     app.run()

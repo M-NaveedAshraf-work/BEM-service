@@ -1,2137 +1,2428 @@
 <template>
   <v-container grid-list-md>
-    <v-row>
-      <v-col>
-        <v-card>
-          <v-card-title>Genetic Algorithm Inputs</v-card-title>
-          <v-col offset-md="1" md="10">
-            <div>
-              <v-expansion-panels multiple>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>Edit Inputs</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-row>
-                      <v-text-field
-                        label = "Population Size [ea]"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row>
-                      <v-text-field
-                        label = "Crossover Rate"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row>
-                      <v-text-field
-                        label = "Mutation Rate"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row>
-                      <v-text-field
-                        label = "Random Seed"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row>
-                      <v-text-field
-                        label = "Maximum Code Execution Time [min]"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row>
-                      <v-select
-                        :items="calCapBool"
-                        label = "Calibration or CapX?"
-                        outlined
-                        dense
-                      ></v-select>
-                    </v-row>
-                    <v-row>
-                      <v-text-field
-                        label = "Top Percentage of Selection"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row>
-                      <v-select
-                        :items="dateInterval"
-                        label = "Calibration Data Interval"
-                        outlined
-                        dense
-                      ></v-select>
-                    </v-row>
-                    <v-row>
-                      <v-select
-                        :items="ynBool"
-                        label = "Electricity Data"
-                        outlined
-                        dense
-                      ></v-select>
-                    </v-row>
-                    <v-row>
-                      <v-select
-                        :items="ynBool"
-                        label = "Natural Gas Data"
-                        outlined
-                        dense
-                      ></v-select>
-                    </v-row>
-                    <v-row>
-                      <v-text-field
-                        label = "cvRMSE Criterion [%]"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row>
-                      <v-text-field
-                        label = "Convergence Difference"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row>
-                      <v-text-field
-                        label = "N Times of Convergence"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-              </v-expansion-panels>
-            </div>
+    <v-sheet color="teal darken-4" elevation="8" rounded shaped>
+      <v-container>
+        <v-row>
+          <v-col>
+            <v-card>
+              <v-card-title>Genetic Algorithm Inputs</v-card-title>
+              <v-col offset-md="1" md="10">
+                <div>
+                  <v-expansion-panels multiple>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>Edit Inputs</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-text-field
+                            label = "Population Size [ea]"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            label = "Crossover Rate"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            label = "Mutation Rate"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            label = "Random Seed"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            label = "Maximum Code Execution Time [min]"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-select
+                            :items="calCapBool"
+                            label = "Calibration or CapX?"
+                            outlined
+                            dense
+                          ></v-select>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            label = "Top Percentage of Selection"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-select
+                            :items="dateInterval"
+                            label = "Calibration Data Interval"
+                            outlined
+                            dense
+                          ></v-select>
+                        </v-row>
+                        <v-row>
+                          <v-select
+                            :items="ynBool"
+                            label = "Electricity Data"
+                            outlined
+                            dense
+                          ></v-select>
+                        </v-row>
+                        <v-row>
+                          <v-select
+                            :items="ynBool"
+                            label = "Natural Gas Data"
+                            outlined
+                            dense
+                          ></v-select>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            label = "cvRMSE Criterion [%]"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            label = "Convergence Difference"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            label = "N Times of Convergence"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                  </v-expansion-panels>
+                </div>
+              </v-col>
+            </v-card>
           </v-col>
-        </v-card>
-      </v-col>
-      <v-col>
-        <v-card>
-          <v-card-title>Calibration Setting Inputs</v-card-title>
-          <v-col offset-md="1" md="10">
-            <div>
-              <v-expansion-panels>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>Edit Inputs</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-row>
-                      <v-text-field
-                        label = "Discount Rate"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row>
-                      <v-text-field
-                        label = "Period of Analysis [years]"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row>
-                      <v-text-field
-                        label = "Energy Efficient Measure Budget Restriciton [$]"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row>
-                      <v-text-field
-                        label = "EUI Restriction [kWh/m2/yr]"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row>
-                      <v-text-field
-                        label = "Electricity Cost [$/kWh]"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row>
-                      <v-text-field
-                        label = "Natural Gas Cost [$/kWh]"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row>
-                      <v-text-field
-                        label = "Upfront Cost Restriction [$]"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row>
-                      <v-text-field
-                        label = "Max Discrete Converges"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-              </v-expansion-panels>
-            </div>
+          <v-col>
+            <v-card>
+              <v-card-title>Calibration Setting Inputs</v-card-title>
+              <v-col offset-md="1" md="10">
+                <div>
+                  <v-expansion-panels>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>Edit Inputs</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-text-field
+                            label = "Discount Rate"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            label = "Period of Analysis [years]"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            label = "Energy Efficient Measure Budget Restriciton [$]"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            label = "EUI Restriction [kWh/m2/yr]"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            label = "Electricity Cost [$/kWh]"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            label = "Natural Gas Cost [$/kWh]"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            label = "Upfront Cost Restriction [$]"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            label = "Max Discrete Converges"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                  </v-expansion-panels>
+                </div>
+              </v-col>
+            </v-card>
           </v-col>
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-card>
-          <v-col offset-md="1">
-            <v-card-title>Calibration Parameters</v-card-title>
-            <v-row>
-              <v-data-table
-                :headers="calHeaders"
-                :items="calParams"
-              >
-                <template v-slot:top>
-                  <v-toolbar
-                    flat
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-card>
+              <v-col offset-md="1">
+                <v-card-title>Calibration Parameters</v-card-title>
+                <v-row>
+                  <v-data-table
+                    :headers="calHeaders"
+                    :items="calParams"
                   >
-                    <v-toolbar-title>My Calibration Parameters</v-toolbar-title>
-                    <v-divider
-                      class="mx-4"
-                      inset
-                      vertical
-                    ></v-divider>
-                    <v-spacer></v-spacer>
-                    <v-dialog
-                      v-model="dialog"
-                      max-width="500px"
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          color="primary"
-                          dark
-                          class="mb-2"
-                          v-bind="attrs"
-                          v-on="on"
+                    <template v-slot:top>
+                      <v-toolbar
+                        flat
+                      >
+                        <v-toolbar-title>My Calibration Parameters</v-toolbar-title>
+                        <v-divider
+                          class="mx-4"
+                          inset
+                          vertical
+                        ></v-divider>
+                        <v-spacer></v-spacer>
+                        <v-dialog
+                          v-model="dialog"
+                          max-width="500px"
                         >
-                          Add Calibration Parameter
-                        </v-btn>
-                      </template>
-                      <v-card>
-                        <v-card-title>
-                          <span class="text-h5">{{ formTitle }}</span>
-                        </v-card-title>
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                              color="primary"
+                              dark
+                              class="mb-2"
+                              v-bind="attrs"
+                              v-on="on"
+                            >
+                              Add Calibration Parameter
+                            </v-btn>
+                          </template>
+                          <v-card>
+                            <v-card-title>
+                              <span class="text-h5">{{ formTitle }}</span>
+                            </v-card-title>
 
-                        <v-card-text>
-                          <v-container>
-                            <v-row>
-                              <v-col
-                                cols="12"
-                                sm="12"
-                                md="12"
-                              >
-                                <v-select
-                                  v-model="editCalForm.name"
-                                  :items='calOptions'
-                                  label="Parameter Name"
-                                ></v-select>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="12"
-                                md="12"
-                              >
-                                <v-select
-                                  v-model="editCalForm.data"
-                                  :items="floatInt"
-                                  label="Data Type"
-                                ></v-select>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="12"
-                                md="12"
-                              >
-                                <v-text-field
-                                  v-model="editCalForm.min"
-                                  type="number"
-                                  label="Minimum Value"
-                                ></v-text-field>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="12"
-                                md="12"
-                              >
-                                <v-text-field
-                                  v-model="editCalForm.max"
-                                  label="Maximum Value"
-                                ></v-text-field>
-                              </v-col>
-                            </v-row>
-                          </v-container>
-                        </v-card-text>
+                            <v-card-text>
+                              <v-container>
+                                <v-row>
+                                  <v-col
+                                    cols="12"
+                                    sm="12"
+                                    md="12"
+                                  >
+                                    <v-select
+                                      v-model="editCalForm.name"
+                                      :items='calOptions'
+                                      label="Parameter Name"
+                                    ></v-select>
+                                  </v-col>
+                                  <v-col
+                                    cols="12"
+                                    sm="12"
+                                    md="12"
+                                  >
+                                    <v-select
+                                      v-model="editCalForm.data"
+                                      :items="floatInt"
+                                      label="Data Type"
+                                    ></v-select>
+                                  </v-col>
+                                  <v-col
+                                    cols="12"
+                                    sm="12"
+                                    md="12"
+                                  >
+                                    <v-text-field
+                                      v-model="editCalForm.min"
+                                      type="number"
+                                      label="Minimum Value"
+                                    ></v-text-field>
+                                  </v-col>
+                                  <v-col
+                                    cols="12"
+                                    sm="12"
+                                    md="12"
+                                  >
+                                    <v-text-field
+                                      v-model="editCalForm.max"
+                                      label="Maximum Value"
+                                    ></v-text-field>
+                                  </v-col>
+                                </v-row>
+                              </v-container>
+                            </v-card-text>
 
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn
-                            color="blue darken-1"
-                            text
-                            @click="calClose"
-                          >
-                            Cancel
-                          </v-btn>
-                          <v-btn
-                            color="blue darken-1"
-                            text
-                            @click="calSave"
-                          >
-                            Save
-                          </v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog>
-                    <v-dialog v-model="dialogDelete" max-width="500px">
-                      <v-card>
-                        <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn color="blue darken-1" text @click="calCloseDelete">Cancel</v-btn>
-                          <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
-                          <v-spacer></v-spacer>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog>
-                  </v-toolbar>
-                </template>
-                <template v-slot:item.actions="{ item }">
-                  <v-icon
-                    small
-                    class="mr-2"
-                    @click="editItem(item)"
-                  >
-                    mdi-pencil
-                  </v-icon>
-                  <v-icon
-                    small
-                    @click="deleteItem(item)"
-                  >
-                    mdi-delete
-                  </v-icon>
-                </template>
-                <template v-slot:no-data>
-                  <v-btn
-                    color="primary"
-                    @click="getMessage"
-                  >
-                    Reset
-                  </v-btn>
-                </template>
-              </v-data-table>
-            </v-row>
+                            <v-card-actions>
+                              <v-spacer></v-spacer>
+                              <v-btn
+                                color="blue darken-1"
+                                text
+                                @click="calClose"
+                              >
+                                Cancel
+                              </v-btn>
+                              <v-btn
+                                color="blue darken-1"
+                                text
+                                @click="calSave"
+                              >
+                                Save
+                              </v-btn>
+                            </v-card-actions>
+                          </v-card>
+                        </v-dialog>
+                        <v-dialog v-model="dialogDelete" max-width="500px">
+                          <v-card>
+                            <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+                            <v-card-actions>
+                              <v-spacer></v-spacer>
+                              <v-btn color="blue darken-1" text @click="calCloseDelete">Cancel</v-btn>
+                              <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+                              <v-spacer></v-spacer>
+                            </v-card-actions>
+                          </v-card>
+                        </v-dialog>
+                      </v-toolbar>
+                    </template>
+                    <template v-slot:item.actions="{ item }">
+                      <v-icon
+                        small
+                        class="mr-2"
+                        @click="editItem(item)"
+                      >
+                        mdi-pencil
+                      </v-icon>
+                      <v-icon
+                        small
+                        @click="deleteItem(item)"
+                      >
+                        mdi-delete
+                      </v-icon>
+                    </template>
+                    <template v-slot:no-data>
+                      <v-btn
+                        color="primary"
+                        @click="getMessage"
+                      >
+                        Reset
+                      </v-btn>
+                    </template>
+                  </v-data-table>
+                </v-row>
+              </v-col>
+              <v-row justify="center">
+                <v-btn 
+                  class = "ma-2"
+                  :loading="loading"
+                  :disabled="loading"
+                  align="center"
+                  depressed
+                  color="primary"
+                  v-on:click="sendMessage(); loadState(); runCalibration();"
+                >Run Calibration</v-btn>
+              </v-row>
+            </v-card>
           </v-col>
-          <v-row justify="center">
-            <v-btn 
-              class = "ma-2"
-              :loading="loading"
-              :disabled="loading"
-              align="center"
-              depressed
-              color="primary"
-              v-on:click="sendMessage(); loadState(); runCalibration();"
-            >Run Calibration</v-btn>
-          </v-row>
-        </v-card>
-      </v-col>
-      <v-col>
-        <v-card>
-          <div id="Cal">
-            <div id="calchart" style="width: 800px;height:500px;"></div>
-          </div>
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-divider></v-divider>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-card>
-          <v-card-title>Energy Star</v-card-title>
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-divider></v-divider>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-card>
-          <v-card-title>CapX Settings</v-card-title>
-          <v-col offset-md="1" md="10">
-            <div>
-              <v-expansion-panels multiple>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>Edit Inputs</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-row>
-                      <v-text-field
-                        label = "Discount Rate"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row>
-                      <v-text-field
-                        label = "Period of Analysis [years]"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row>
-                      <v-text-field
-                        label = "Energy Efficient Measure Budget Restriction [$]"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row>
-                      <v-text-field
-                        label = "Total Delivered Energy Restrictions [kWh/m2/yr]"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row>
-                      <v-text-field
-                        label = "Electricity Cost [$/kWh]"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row>
-                      <v-text-field
-                        label = "Natural Gas Cost [$/kWh]"
-                        outlined
-                        dense
-                        type="number"
-                      ></v-text-field>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-              </v-expansion-panels>
-            </div>
+          <v-col>
+            <v-card>
+              <div id="Cal">
+                <div id="calchart" style="width: 800px;height:500px;"></div>
+              </div>
+            </v-card>
           </v-col>
-        </v-card>
-      </v-col>
-      <v-col>
-        <v-card>
-          <v-card-title>CapX Parameter Values</v-card-title>
-          <v-col offset-md="1" md="10">
-            <div>
-              <v-expansion-panels>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>Heating Efficiency (COP)</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-row>
-                      <v-col>
-                        Technology Levels
-                      </v-col>
-                      <v-col>
-                        Cost ($)
-                      </v-col>
-                      <v-col>
-                        Parameter
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Electric Water Boiler
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "COP"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Gas Water Boiler
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "COP"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Oil Water Boiler
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "COP"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Electric Steam Boiler
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "COP"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Gas Steam Boiler
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "COP"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Oil Steam Boiler
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "COP"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>Cooling Efficiency (COP)</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-row>
-                      <v-col>
-                        Technology Levels
-                      </v-col>
-                      <v-col>
-                        Cost ($)
-                      </v-col>
-                      <v-col>
-                        Parameter
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Reciprocating Air Chiller
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "COP"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Reciprocating Water Chiller
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "COP"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Centrifugal Water Chiller
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "COP"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Absorption Water Chiller
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "COP"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>Heating and Cooling Plants Efficiencies (COP)</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-row>
-                      <v-col>
-                        Technology Levels
-                      </v-col>
-                      <v-col>
-                        Cost ($)
-                      </v-col>
-                      <v-col>
-                        Parameter 1
-                      </v-col>
-                      <v-col>
-                        Parameter 2
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Heat Pump air-air
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Heating COP"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cooling COP"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Heat Pump water-air
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Heating COP"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cooling COP"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>Heat Recovery Type</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-row>
-                      <v-col>
-                        Technology Levels
-                      </v-col>
-                      <v-col>
-                        Cost ($)
-                      </v-col>
-                      <v-col>
-                        Parameter
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        No Heat Revcovery
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Efficiency"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Heat Exchange Plates
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Efficiency"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Two Element HX (Shell and Tube)
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Efficiency"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Heat Exchange Pipes
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Efficiency"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Rotation Intermittent HX
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Efficiency"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>Building Air Leakage Level</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-row>
-                      <v-col>
-                        Technology Levels
-                      </v-col>
-                      <v-col>
-                        Cost ($)
-                      </v-col>
-                      <v-col>
-                        Parameter
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Minimum Value
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Airflow m3/hr per floor area"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Maximum Value
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Airflow m3/hr per floor area"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>Specific Fan Power</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-row>
-                      <v-col>
-                        Technology Levels
-                      </v-col>
-                      <v-col>
-                        Cost ($)
-                      </v-col>
-                      <v-col>
-                        Parameter
-                      </v-col>
-                      <v-col>
-                        kW of Fans
-                      </v-col>
-                      <v-col>
-                        CFM Value
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Inline Centrifugal
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Specific Fan Power"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "kW of Fans"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "CFM Value"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Blower
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Specific Fan Power"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "kW of Fans"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "CFM Value"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Axial
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Specific Fan Power"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "kW of Fans"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "CFM Value"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>DHW Generation System</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-row>
-                      <v-col>
-                        Technology Levels
-                      </v-col>
-                      <v-col>
-                        Cost ($)
-                      </v-col>
-                      <v-col>
-                        Parameter
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Electric
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Efficiency"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        VR-Boiler
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Efficiency"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Gas Boiler, HR-Boiler
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Efficiency"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Co-Generation
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Efficiency"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        District Heating
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Efficiency"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Heat Pump
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Efficiency"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Steam
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Efficiency"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>PV Module</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-row>
-                      <v-col>
-                        Technology Levels
-                      </v-col>
-                      <v-col>
-                        Cost ($)
-                      </v-col>
-                      <v-col>
-                        Parameter
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Minimum Value
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Performance Factor"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Maximum Value
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Performance Factor"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>Solar Collector</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-row>
-                      <v-col>
-                        Technology Levels
-                      </v-col>
-                      <v-col>
-                        Cost ($)
-                      </v-col>
-                      <v-col>
-                        Parameter
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Minimum Value
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Efficiency"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Maximum Value
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Efficiency"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>Appliance</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-row>
-                      <v-col>
-                        Technology Levels
-                      </v-col>
-                      <v-col>
-                        Cost ($)
-                      </v-col>
-                      <v-col>
-                        Parameter
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Energy-Star Baseline
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "W/m^2"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Energy-Star Top 10%
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "W/m^2"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Energy-Star Top 5%
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "W/m^2"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>Lighting</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-row>
-                      <v-col>
-                        Technology Levels
-                      </v-col>
-                      <v-col>
-                        Cost ($)
-                      </v-col>
-                      <v-col>
-                        Parameter
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        100% CFL
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "W/m^2"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Number of Fixtures"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        LED and CFL Combo
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "W/m^2"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Number of Fixtures"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        LED
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "W/m^2"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Number of Fixtures"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>Wind Turbine</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-row>
-                      <v-col>
-                        Technology Levels
-                      </v-col>
-                      <v-col>
-                        Cost ($)
-                      </v-col>
-                      <v-col>
-                        Parameter
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Minimum Diameter
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Diameter"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Maximum Diameter
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Diameter"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>Natural Ventilation</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-row>
-                      <v-col>
-                        Technology Levels
-                      </v-col>
-                      <v-col>
-                        Cost ($)
-                      </v-col>
-                      <v-col>
-                        Parameter 1
-                      </v-col>
-                       <v-col>
-                        Parameter 2
-                      </v-col>
-                       <v-col>
-                        Parameter 3
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        NV Baseline
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Width [m]"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Height [m]"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Angle [degree]"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        NV Improvement 1
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Width [m]"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Height [m]"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Angle [degree]"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        NV Improvement 2
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Width [m]"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Height [m]"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Angle [degree]"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>Electric Battery</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-row>
-                      <v-col>
-                        Technology Levels
-                      </v-col>
-                      <v-col>
-                        Cost ($)
-                      </v-col>
-                      <v-col>
-                        Parameter 1
-                      </v-col>
-                       <v-col>
-                        Parameter 2
-                      </v-col>
-                       <v-col>
-                        Parameter 3
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Electric Battery Baseline
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Battery Capacity [kWh]"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Charging Efficiency"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Discharging Efficiency"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Electric Battery Improvement 1
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Battery Capacity [kWh]"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Charging Efficiency"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Discharging Efficiency"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Electric Battery Improvement 2
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Battery Capacity [kWh]"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Charging Efficiency"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Discharging Efficiency"
-                          outlined
-                          dense
-                          disabled
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>Lighting Dimmer</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-row>
-                      <v-col>
-                        Technology Levels
-                      </v-col>
-                      <v-col>
-                        Cost ($)
-                      </v-col>
-                      <v-col>
-                        Parameter
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Minimum Number of Dimmer
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Number of Dimmers"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        Maximum Number of Dimmer
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Cost"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                          label = "Number of Dimmers"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>Table Inputs</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-row>
-                      <v-col>
-                        <v-btn>Overhang</v-btn>
-                      </v-col>
-                      <v-col>
-                        <v-btn>Fin</v-btn>
-                      </v-col>
-                      <v-col>
-                        <v-btn>Window SRF</v-btn>
-                      </v-col>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-              </v-expansion-panels>
-            </div>
-          </v-col>
-        </v-card>
-      </v-col>
-    </v-row>
+        </v-row>
+      </v-container>
+    </v-sheet>
     <v-row>
-      <v-col>
-        <v-card>
-          <v-col offset-md="1">
-            <v-card-title>CapX Parameters</v-card-title>
-            <v-row>
-              <v-data-table
-                :headers="capxHeaders"
-                :items="capxParams"
-              >
-                <template v-slot:top>
-                  <v-toolbar
-                    flat
+      <v-container></v-container>
+    </v-row>
+    <v-sheet color="teal darken-4" elevation="8" rounded shaped>
+      <v-container>
+        <v-row>
+          <v-col>
+            <v-card>
+              <v-card-title>Energy Star Inputs</v-card-title>
+              <v-col offset-md="1" md="10">
+                <v-expansion-panels>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>Energy Star Score Inputs</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.score.grossArea"
+                          label = "Non-Scoreble Gross Floor Area"
+                          outlined
+                          dense
+                          type="number"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.score.dataGrossArea"
+                          label = "Data Center Gross Area"
+                          outlined
+                          dense
+                          type="number"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.score.officeGrossArea"
+                          label = "Scoreable Gross Area"
+                          outlined
+                          dense
+                          type="number"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.score.weeklyOperation"
+                          label = "Weekly Operating Hours"
+                          outlined
+                          dense
+                          type="number"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.score.workers"
+                          label = "Number of Main Shift Workers"
+                          outlined
+                          dense
+                          type="number"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.score.computers"
+                          label = "Number of Computers"
+                          outlined
+                          dense
+                          type="number"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.score.percentCooled"
+                          label = "% of the Building that can be Cooled"
+                          outlined
+                          dense
+                          type="number"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.score.coolingDays"
+                          label = "Cooling Degree Days"
+                          outlined
+                          dense
+                          type="number"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.score.heatingDays"
+                          label = "Heating Degree Days"
+                          outlined
+                          dense
+                          type="number"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.score.siteEUI"
+                          label = "EUI of Site"
+                          outlined
+                          dense
+                          type="number"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.score.sourceEUI"
+                          label = "EUI of Source"
+                          outlined
+                          dense
+                          type="number"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.score.siteConsumption"
+                          label = "Energy Consuption of Site (kBTU)"
+                          outlined
+                          dense
+                          type="number"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.score.sourceConsumption"
+                          label = "Energy Consumption of Source (kBTU)"
+                          outlined
+                          dense
+                          type="number"
+                        ></v-text-field>
+                      </v-row>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>Energystar Target Score Inputs</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.targetScore.target"
+                          label = "Target Energy Star Score"
+                          outlined
+                          dense
+                          type="number"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.targetScore.current"
+                          label = "Current Energystar Score"
+                          outlined
+                          dense
+                          type="number"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.targetScore.area"
+                          label = "Scoreable Gross Floor Area"
+                          outlined
+                          dense
+                          type="number"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.targetScore.unit"
+                          label = "Converts Units form KBTU to kWh"
+                          outlined
+                          dense
+                        ></v-text-field>
+                      </v-row>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>Benchmarking Inputs</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.benchmarkInput.currentEUI"
+                          label = "Current Source Building EUI"
+                          outlined
+                          type="number"
+                          dense
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.benchmarkInput.minSQFT"
+                          label = "Minimum Square Feet"
+                          outlined
+                          type="number"
+                          dense
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.benchmarkInput.maxSQFT"
+                          label = "Maximum Square Feet"
+                          outlined
+                          type="number"
+                          dense
+                        ></v-text-field>
+                      </v-row>
+                      <v-row>
+                        <v-text-field
+                          v-model="energystarData.benchmarkInput.minYear"
+                          label = "Minium Year Database Building was Built"
+                          outlined
+                          type="number"
+                          dense
+                        ></v-text-field>
+                      </v-row>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </v-col>
+            </v-card>
+          </v-col>
+          <v-col>
+            <v-card>
+              <v-card-title>Energy Star Outputs</v-card-title>
+              <v-container full-height>
+                <v-row>
+                  <h1>Score</h1>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-text-field
+                      v-model="energystarData.benchmarkInput.score"
+                      label = "Energy Star Score"
+                      outlined
+                      disabled
+                      dense
+                    ></v-text-field>
+                  </v-col>
+                  <v-col>
+                    <v-text-field
+                      v-model="energystarData.benchmarkInput.predictEUI"
+                      label = "Predicted EUI"
+                      outlined
+                      disabled
+                      dense
+                    ></v-text-field>
+                  </v-col>
+                  <v-col>
+                    <v-text-field
+                      v-model="energystarData.benchmarkInput.adjustedEUI"
+                      label = "Adjusted EUI"
+                      outlined
+                      disabled
+                      dense
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-divider></v-divider>
+                <v-row>
+                  <h1>Target Score</h1>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-text-field
+                      v-model="energystarData.benchmarkInput.usage"
+                      label = "Energy Savings Needed to Meet Target Score"
+                      outlined
+                      disabled
+                      dense
+                    ></v-text-field>
+                  </v-col>
+                  <v-col>
+                    <v-text-field
+                      v-model="energystarData.benchmarkInput.targetEUI"
+                      label = "Source EUI Needed to Meet Target Score"
+                      outlined
+                      disabled
+                      dense
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-card>
+              <v-card-title>Graphs</v-card-title>
+              <v-row>
+                <v-col>
+                  <div id="energystarchart" style="width: 700px;height:500px;"></div>
+                </v-col>
+                <v-col>
+                  <div id="energystarpie" style="width: 600px;height:500px;"></div>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-sheet>
+    <v-row>
+      <v-container></v-container>
+    </v-row>
+    <v-sheet color="teal darken-4" elevation="8" rounded shaped>
+      <v-container>
+        <v-row>
+          <v-col>
+            <v-card>
+              <v-card-title>CapX Settings</v-card-title>
+              <v-col offset-md="1" md="10">
+                <div>
+                  <v-row>
+                    <v-text-field
+                      label = "Discount Rate"
+                      outlined
+                      dense
+                      type="number"
+                    ></v-text-field>
+                  </v-row>
+                  <v-row>
+                    <v-text-field
+                      label = "Period of Analysis [years]"
+                      outlined
+                      dense
+                      type="number"
+                    ></v-text-field>
+                  </v-row>
+                  <v-row>
+                    <v-text-field
+                      label = "Energy Efficient Measure Budget Restriction [$]"
+                      outlined
+                      dense
+                      type="number"
+                    ></v-text-field>
+                  </v-row>
+                  <v-row>
+                    <v-text-field
+                      label = "Total Delivered Energy Restrictions [kWh/m2/yr]"
+                      outlined
+                      dense
+                      type="number"
+                    ></v-text-field>
+                  </v-row>
+                  <v-row>
+                    <v-text-field
+                      label = "Electricity Cost [$/kWh]"
+                      outlined
+                      dense
+                      type="number"
+                    ></v-text-field>
+                  </v-row>
+                  <v-row>
+                    <v-text-field
+                      label = "Natural Gas Cost [$/kWh]"
+                      outlined
+                      dense
+                      type="number"
+                    ></v-text-field>
+                  </v-row>
+                </div>
+              </v-col>
+            </v-card>
+          </v-col>
+          <v-col>
+            <v-card>
+              <v-card-title>CapX Parameter Values</v-card-title>
+              <v-col offset-md="1" md="10">
+                <div>
+                  <v-expansion-panels>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>Heating Efficiency (COP)</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-col>
+                            Technology Levels
+                          </v-col>
+                          <v-col>
+                            Cost ($)
+                          </v-col>
+                          <v-col>
+                            Parameter
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Electric Water Boiler
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "COP"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Gas Water Boiler
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "COP"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Oil Water Boiler
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "COP"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Electric Steam Boiler
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "COP"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Gas Steam Boiler
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "COP"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Oil Steam Boiler
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "COP"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>Cooling Efficiency (COP)</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-col>
+                            Technology Levels
+                          </v-col>
+                          <v-col>
+                            Cost ($)
+                          </v-col>
+                          <v-col>
+                            Parameter
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Reciprocating Air Chiller
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "COP"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Reciprocating Water Chiller
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "COP"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Centrifugal Water Chiller
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "COP"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Absorption Water Chiller
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "COP"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>Heating and Cooling Plants Efficiencies (COP)</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-col>
+                            Technology Levels
+                          </v-col>
+                          <v-col>
+                            Cost ($)
+                          </v-col>
+                          <v-col>
+                            Parameter 1
+                          </v-col>
+                          <v-col>
+                            Parameter 2
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Heat Pump air-air
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Heating COP"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cooling COP"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Heat Pump water-air
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Heating COP"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cooling COP"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>Heat Recovery Type</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-col>
+                            Technology Levels
+                          </v-col>
+                          <v-col>
+                            Cost ($)
+                          </v-col>
+                          <v-col>
+                            Parameter
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            No Heat Revcovery
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Efficiency"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Heat Exchange Plates
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Efficiency"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Two Element HX (Shell and Tube)
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Efficiency"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Heat Exchange Pipes
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Efficiency"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Rotation Intermittent HX
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Efficiency"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>Building Air Leakage Level</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-col>
+                            Technology Levels
+                          </v-col>
+                          <v-col>
+                            Cost ($)
+                          </v-col>
+                          <v-col>
+                            Parameter
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Minimum Value
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Airflow m3/hr per floor area"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Maximum Value
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Airflow m3/hr per floor area"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>Specific Fan Power</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-col>
+                            Technology Levels
+                          </v-col>
+                          <v-col>
+                            Cost ($)
+                          </v-col>
+                          <v-col>
+                            Parameter
+                          </v-col>
+                          <v-col>
+                            kW of Fans
+                          </v-col>
+                          <v-col>
+                            CFM Value
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Inline Centrifugal
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Specific Fan Power"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "kW of Fans"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "CFM Value"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Blower
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Specific Fan Power"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "kW of Fans"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "CFM Value"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Axial
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Specific Fan Power"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "kW of Fans"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "CFM Value"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>DHW Generation System</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-col>
+                            Technology Levels
+                          </v-col>
+                          <v-col>
+                            Cost ($)
+                          </v-col>
+                          <v-col>
+                            Parameter
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Electric
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Efficiency"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            VR-Boiler
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Efficiency"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Gas Boiler, HR-Boiler
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Efficiency"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Co-Generation
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Efficiency"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            District Heating
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Efficiency"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Heat Pump
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Efficiency"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Steam
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Efficiency"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>PV Module</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-col>
+                            Technology Levels
+                          </v-col>
+                          <v-col>
+                            Cost ($)
+                          </v-col>
+                          <v-col>
+                            Parameter
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Minimum Value
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Performance Factor"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Maximum Value
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Performance Factor"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>Solar Collector</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-col>
+                            Technology Levels
+                          </v-col>
+                          <v-col>
+                            Cost ($)
+                          </v-col>
+                          <v-col>
+                            Parameter
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Minimum Value
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Efficiency"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Maximum Value
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Efficiency"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>Appliance</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-col>
+                            Technology Levels
+                          </v-col>
+                          <v-col>
+                            Cost ($)
+                          </v-col>
+                          <v-col>
+                            Parameter
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Energy-Star Baseline
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "W/m^2"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Energy-Star Top 10%
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "W/m^2"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Energy-Star Top 5%
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "W/m^2"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>Lighting</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-col>
+                            Technology Levels
+                          </v-col>
+                          <v-col>
+                            Cost ($)
+                          </v-col>
+                          <v-col>
+                            Parameter
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            100% CFL
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "W/m^2"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Number of Fixtures"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            LED and CFL Combo
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "W/m^2"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Number of Fixtures"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            LED
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "W/m^2"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Number of Fixtures"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>Wind Turbine</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-col>
+                            Technology Levels
+                          </v-col>
+                          <v-col>
+                            Cost ($)
+                          </v-col>
+                          <v-col>
+                            Parameter
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Minimum Diameter
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Diameter"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Maximum Diameter
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Diameter"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>Natural Ventilation</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-col>
+                            Technology Levels
+                          </v-col>
+                          <v-col>
+                            Cost ($)
+                          </v-col>
+                          <v-col>
+                            Parameter 1
+                          </v-col>
+                          <v-col>
+                            Parameter 2
+                          </v-col>
+                          <v-col>
+                            Parameter 3
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            NV Baseline
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Width [m]"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Height [m]"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Angle [degree]"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            NV Improvement 1
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Width [m]"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Height [m]"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Angle [degree]"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            NV Improvement 2
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Width [m]"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Height [m]"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Angle [degree]"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>Electric Battery</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-col>
+                            Technology Levels
+                          </v-col>
+                          <v-col>
+                            Cost ($)
+                          </v-col>
+                          <v-col>
+                            Parameter 1
+                          </v-col>
+                          <v-col>
+                            Parameter 2
+                          </v-col>
+                          <v-col>
+                            Parameter 3
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Electric Battery Baseline
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Battery Capacity [kWh]"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Charging Efficiency"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Discharging Efficiency"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Electric Battery Improvement 1
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Battery Capacity [kWh]"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Charging Efficiency"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Discharging Efficiency"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Electric Battery Improvement 2
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Battery Capacity [kWh]"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Charging Efficiency"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Discharging Efficiency"
+                              outlined
+                              dense
+                              disabled
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>Lighting Dimmer</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-col>
+                            Technology Levels
+                          </v-col>
+                          <v-col>
+                            Cost ($)
+                          </v-col>
+                          <v-col>
+                            Parameter
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Minimum Number of Dimmer
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Number of Dimmers"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            Maximum Number of Dimmer
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Cost"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-text-field
+                              label = "Number of Dimmers"
+                              outlined
+                              dense
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>Table Inputs</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-col>
+                            <v-btn>Overhang</v-btn>
+                          </v-col>
+                          <v-col>
+                            <v-btn>Fin</v-btn>
+                          </v-col>
+                          <v-col>
+                            <v-btn>Window SRF</v-btn>
+                          </v-col>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                  </v-expansion-panels>
+                </div>
+              </v-col>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-card>
+              <v-col offset-md="1">
+                <v-card-title>CapX Parameters</v-card-title>
+                <v-row>
+                  <v-data-table
+                    :headers="capxHeaders"
+                    :items="capxParams"
                   >
-                    <v-toolbar-title>My CapX Parameters</v-toolbar-title>
-                    <v-divider
-                      class="mx-4"
-                      inset
-                      vertical
-                    ></v-divider>
-                    <v-spacer></v-spacer>
-                    <v-dialog
-                      v-model="dialogCapx"
-                      max-width="500px"
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          color="primary"
-                          dark
-                          class="mb-2"
-                          v-bind="attrs"
-                          v-on="on"
+                    <template v-slot:top>
+                      <v-toolbar
+                        flat
+                      >
+                        <v-toolbar-title>My CapX Parameters</v-toolbar-title>
+                        <v-divider
+                          class="mx-4"
+                          inset
+                          vertical
+                        ></v-divider>
+                        <v-spacer></v-spacer>
+                        <v-dialog
+                          v-model="dialogCapx"
+                          max-width="500px"
                         >
-                          Add CapX Parameter
-                        </v-btn>
-                      </template>
-                      <v-card>
-                        <v-card-title>
-                          <span class="text-h5">{{ formTitle }}</span>
-                        </v-card-title>
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                              color="primary"
+                              dark
+                              class="mb-2"
+                              v-bind="attrs"
+                              v-on="on"
+                            >
+                              Add CapX Parameter
+                            </v-btn>
+                          </template>
+                          <v-card>
+                            <v-card-title>
+                              <span class="text-h5">{{ formTitle }}</span>
+                            </v-card-title>
 
-                        <v-card-text>
-                          <v-container>
-                            <v-row>
-                              <v-col
-                                cols="12"
-                                sm="12"
-                                md="12"
-                              >
-                                <v-select
-                                  v-model="editCapxForm.name"
-                                  :items='capxOptions'
-                                  label="Parameter Name"
-                                ></v-select>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="12"
-                                md="12"
-                              >
-                                <v-select
-                                  v-model="editCapxForm.data"
-                                  :items="disCont"
-                                  label="Data Type"
-                                ></v-select>
-                              </v-col>
-                            </v-row>
-                          </v-container>
-                        </v-card-text>
+                            <v-card-text>
+                              <v-container>
+                                <v-row>
+                                  <v-col
+                                    cols="12"
+                                    sm="12"
+                                    md="12"
+                                  >
+                                    <v-select
+                                      v-model="editCapxForm.name"
+                                      :items='capxOptions'
+                                      label="Parameter Name"
+                                    ></v-select>
+                                  </v-col>
+                                  <v-col
+                                    cols="12"
+                                    sm="12"
+                                    md="12"
+                                  >
+                                    <v-select
+                                      v-model="editCapxForm.data"
+                                      :items="disCont"
+                                      label="Data Type"
+                                    ></v-select>
+                                  </v-col>
+                                </v-row>
+                              </v-container>
+                            </v-card-text>
 
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn
-                            color="blue darken-1"
-                            text
-                            @click="capxClose"
-                          >
-                            Cancel
-                          </v-btn>
-                          <v-btn
-                            color="blue darken-1"
-                            text
-                            @click="capxSave"
-                          >
-                            Save
-                          </v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog>
-                    <v-dialog v-model="dialogDeleteCapx" max-width="500px">
-                      <v-card>
-                        <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn color="blue darken-1" text @click="capxCloseDelete">Cancel</v-btn>
-                          <v-btn color="blue darken-1" text @click="deleteItemConfirmCapx">OK</v-btn>
-                          <v-spacer></v-spacer>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog>
-                  </v-toolbar>
-                </template>
-                <template v-slot:item.actions="{ item }">
-                  <v-icon
-                    small
-                    class="mr-2"
-                    @click="editItemCapx(item)"
-                  >
-                    mdi-pencil
-                  </v-icon>
-                  <v-icon
-                    small
-                    @click="deleteItemCapx(item)"
-                  >
-                    mdi-delete
-                  </v-icon>
-                </template>
-                <template v-slot:no-data>
-                  <v-btn
-                    color="primary"
-                    @click="getCapx"
-                  >
-                    Reset
-                  </v-btn>
-                </template>
-              </v-data-table>
-            </v-row>
+                            <v-card-actions>
+                              <v-spacer></v-spacer>
+                              <v-btn
+                                color="blue darken-1"
+                                text
+                                @click="capxClose"
+                              >
+                                Cancel
+                              </v-btn>
+                              <v-btn
+                                color="blue darken-1"
+                                text
+                                @click="capxSave"
+                              >
+                                Save
+                              </v-btn>
+                            </v-card-actions>
+                          </v-card>
+                        </v-dialog>
+                        <v-dialog v-model="dialogDeleteCapx" max-width="500px">
+                          <v-card>
+                            <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+                            <v-card-actions>
+                              <v-spacer></v-spacer>
+                              <v-btn color="blue darken-1" text @click="capxCloseDelete">Cancel</v-btn>
+                              <v-btn color="blue darken-1" text @click="deleteItemConfirmCapx">OK</v-btn>
+                              <v-spacer></v-spacer>
+                            </v-card-actions>
+                          </v-card>
+                        </v-dialog>
+                      </v-toolbar>
+                    </template>
+                    <template v-slot:item.actions="{ item }">
+                      <v-icon
+                        small
+                        class="mr-2"
+                        @click="editItemCapx(item)"
+                      >
+                        mdi-pencil
+                      </v-icon>
+                      <v-icon
+                        small
+                        @click="deleteItemCapx(item)"
+                      >
+                        mdi-delete
+                      </v-icon>
+                    </template>
+                    <template v-slot:no-data>
+                      <v-btn
+                        color="primary"
+                        @click="getCapx"
+                      >
+                        Reset
+                      </v-btn>
+                    </template>
+                  </v-data-table>
+                </v-row>
+              </v-col>
+              <v-row justify="center">
+                <v-btn 
+                  class = "ma-2"
+                  :loading="loading"
+                  :disabled="loading"
+                  align="center"
+                  depressed
+                  color="primary"
+                  v-on:click="sendCapx(); loadState2();"
+                >Run CapX</v-btn>
+              </v-row>
+            </v-card>
           </v-col>
-          <v-row justify="center">
-            <v-btn 
-              class = "ma-2"
-              :loading="loading"
-              :disabled="loading"
-              align="center"
-              depressed
-              color="primary"
-              v-on:click="sendCapx(); loadState2();"
-            >Run CapX</v-btn>
-          </v-row>
-        </v-card>
-      </v-col>
-      <v-col>
-        <v-card>
-          <div id="CapX">
-            <div id="capxchart" style="width: 800px;height:500px;"></div>
-          </div>
-        </v-card>
-      </v-col>
-    </v-row>
+          <v-col>
+            <v-card>
+              <div id="CapX">
+                <div id="capxchart" style="width: 800px;height:500px;"></div>
+              </div>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-sheet>
   </v-container>
 </template>
 
 <script>
 import axios from 'axios'
+import blank_estar from '../../../backend/New_BEM_Code/Input/blank_estar.json'
 
 export default{
   name: "CapX_Cal",
@@ -2306,7 +2597,10 @@ export default{
       actualData: [0,0,0,0,0,0,0,0,0,0,0,0],
       calData: [0,0,0,0,0,0,0,0,0,0,0,0],
       capxData: [0,0,0,0,0,0,0,0,0,0,0,0],
+      energystarGraphData: [0,0,0,0,0,0,0,0,0,0,0,0],
+      energystarAxis: [0,0,0,0,0,0,0,0,0,0,0,0],
       msg: null,
+      energystarData: blank_estar,
     }
 
   },
@@ -2319,10 +2613,13 @@ export default{
 
   created() {
     this.getMessage();
+    this.getCapx();
+    this.getEnergystar();
   },
 
   mounted() {
-    this.drawChartCal()
+    this.drawChartCal();
+    this.drawChartCapx();
   },
 
   watch: {
@@ -2368,12 +2665,23 @@ export default{
         });
     },
 
-      getCapx() {
+    getCapx() {
       const path = 'http://localhost:5000/Capx';
       axios.get(path)
         .then((res) => {
           this.capxParams = res.data.capxData;
-          console.log(this.capxParams)
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error);
+        });
+    },
+
+    getEnergystar() {
+      const path = 'http://localhost:5000/energystar';
+      axios.get(path)
+        .then((res) => {
+          this.energystarData = res.data.estarData;
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -2404,6 +2712,19 @@ export default{
       .catch((error) => {
         console.error(error);
         this.getCapx();
+      })
+    },
+
+    sendEnergystar() {
+      const path = 'http://127.0.0.1:5000/energystar'
+      let estarData = this.capxParams
+      axios.put(path, energystarData)
+      .then(() => {
+        this.getEnergystar();
+      })
+      .catch((error) => {
+        console.error(error);
+        this.getEnergystar();
       })
     },
 
@@ -2664,11 +2985,119 @@ export default{
       option && myChart.setOption(option);
     },
 
+    drawChartEnergystar() {
+      //Initialize the echarts instance based on the prepared dom
+      let myChart = this.$echarts.init(document.getElementById("energystarchart"));
+      //Specify configuration items and data for the chart
+      let option = {
+        title: {
+          text: 'Energystar Benchmark'
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '10%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            dataZoom: {
+              yAxisIndex: 'none'
+            },
+            saveAsImage: {}
+          }
+        },
+        dataZoom: [
+          {
+            show: true,
+            realtime: true,
+            start: 0,
+            end: 100,
+            xAxisIndex: [0,1]
+          },
+          {
+            type: 'inside',
+            realtime: true,
+            start: 0,
+            end: 100,
+            xAxisIndex: [0,1]
+          }
+        ],
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: this.energystarAxis
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [
+          {
+            name: 'Actual Delivered Energy',
+            type: 'line',
+            stack: 'Total',
+            data: this.energystarGraphData
+          },
+        ]
+      };
+      option && myChart.setOption(option);
+    },
+
+    drawPieEnergystar() {
+      //Initialize the echarts instance based on the prepared dom
+      let myChart = this.$echarts.init(document.getElementById("energystarpie"));
+      //Specify configuration items and data for the chart
+      let option = {
+        title: {
+          text: 'Energy Use Break Down',
+          left: 'center'
+        },
+        tooltip: {
+          trigger: 'item'
+        },
+        legend: {
+          orient: 'vertical',
+          left: 'left'
+        },
+        series: [
+          {
+            name: 'Access From',
+            type: 'pie',
+            radius: '50%',
+            data: [
+              { value: 1048, name: 'Heating' },
+              { value: 735, name: 'Cooling' },
+              { value: 580, name: 'Lighting' },
+              { value: 484, name: 'Fans' },
+              { value: 300, name: 'Pumps' },
+              { value: 250, name: 'Plug Load' },
+              { value: 200, name: 'DHW' },
+              { value: 150, name: 'PV' },
+              { value: 100, name: 'Wind' },
+            ],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            }
+          }
+        ]
+      };
+      option && myChart.setOption(option);
+    },
+
   },
 
   mounted() {
     this.drawChartCal()
     this.drawChartCapx()
+    this.drawChartEnergystar()
+    this.drawPieEnergystar()
   },
 
 }

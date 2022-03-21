@@ -1,0 +1,36 @@
+{
+    "score": {
+        "grossArea": 200,
+        "dataGrossArea": 50,
+        "officeGrossArea": 75,
+        "weeklyOperation": 40,
+        "workers": 100,
+        "computers": 50,
+        "percentCooled": 25,
+        "coolingDays": 200,
+        "heatingDays": 165,
+        "siteEUI": 1,
+        "sourceEUI": 1,
+        "siteConsumption": 1000,
+        "sourceConsumption": 1200,
+        "score": 0,
+        "predictEUI": 0,
+        "adjustedEUI": 0
+    },
+    "targetScore": {
+        "target": 2,
+        "current": 3,
+        "area": 500,
+        "unit": "blank",
+        "usage": 4,
+        "targetEUI": 4
+
+    },
+    "benchmarkInput": {
+        "currentEUI": 4,
+        "minYear": 2014,
+        "minSQFT": 200,
+        "maxSQFT": 400
+    },
+    "benchmark": 1
+}
