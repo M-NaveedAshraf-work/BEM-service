@@ -7,18 +7,18 @@ import seaborn as sns
 import os
 
 def processing(building, epw_file, min_sqft, max_sqft, year = None):
-""" This function takes in a building file and exports out the data needed in the form of a JSON file
-- Inputs:
-    - building: building file name in either csv or Json
-    - epw_file: weather file name
-    - min_sqft (category variable: check microbook):  the minimum sqft each building in the benchmark data needs to be over
-    - max_sqft (category variable: check microbook): the max sqft that the benchmark data needs to be lower than
-    - year: the minimum year that the buildings in the database have to be built
-Outputs:
-    -  benchmark_data_end_use.json: end use values of building in database
-    - delivered_data.json: kWh results of model by month
-    - need_data: cooling and heating need
-    - end_use.json: end use data of specific building in question"""
+# """ This function takes in a building file and exports out the data needed in the form of a JSON file
+# - Inputs:
+#     - building: building file name in either csv or Json
+#     - epw_file: weather file name
+#     - min_sqft (category variable: check microbook):  the minimum sqft each building in the benchmark data needs to be over
+#     - max_sqft (category variable: check microbook): the max sqft that the benchmark data needs to be lower than
+#     - year: the minimum year that the buildings in the database have to be built
+# Outputs:
+#     -  benchmark_data_end_use.json: end use values of building in database
+#     - delivered_data.json: kWh results of model by month
+#     - need_data: cooling and heating need
+#     - end_use.json: end use data of specific building in question"""
     delivered_energy, sum_delivered_energy, fuel_energy_use,overall, area = main(building_name= building, epw_file_name=epw_file)
     
     ##To group the data by month
@@ -80,6 +80,7 @@ Outputs:
         print(value)
         end_use[name] = value / 1000 * conversion
     df2 = pd.read_csv('2012_public_use_data_aug2016.csv')
+    print(df2)
     
     offices = df2[df2.PBA == 2]
     benchmark = offices.loc[(offices.SQFTC >= min_sqft) & (offices.SQFTC <= max_sqft)& (offices.PBA == 2) & offices.NGUSED == 2]

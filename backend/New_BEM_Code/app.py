@@ -7,7 +7,7 @@ import pandas as pd
 
 from flask_cors import CORS
 from main import main
-from BEMP import Hourly_BEM_JSON
+from energystar import runEnergystar
 
 import os
 from fontTools.misc.py23 import xrange
@@ -87,7 +87,7 @@ def calComponents():
         post_data = request.get_json("calData")
         global calData
         calData = post_data
-        response_object['calData'] = data
+        response_object['calData'] = calData
         response_object['message'] = "Parameters Updated"
     else:
         response_object['calData'] = calData
@@ -100,7 +100,7 @@ def capxComponents():
         post_data = request.get_json("capxData")
         global capxData
         capxData = post_data
-        response_object['capxData'] = data
+        response_object['capxData'] = capxData
         response_object['message'] = "Parameters Updated"
     else:
         response_object['capxData'] = capxData
@@ -113,7 +113,17 @@ def estarComponents():
         post_data = request.get_json("estarData")
         global estarData
         estarData = post_data
-        response_object['estarData'] = data
+
+        estarData.score.score, estarData.score.predictEUI, estarData.score.adjustedEUI = score(estarData.score.grossArea, estarData.score.dataGrossArea, estarData.score.officeGrossArea, estarData.score.weeklyOperation, estarData.score.workers, estarData.score.computers, estarData.score.percentCooled, estarData.score.coolingDays, estarData.score.heatingDays, estarData.score.siteEUI, estarData.score.sourceEUI, estarData.score.siteConsumption, estarData.score.sourceConsumption)
+        estarData.targetScore.usage, estarData.targetScore.targetEUI = target_score(estarData.targetScore.target, estarData.targetScore.current, estarData.score.predictEUI, estarData.targetScore.area, estarData.targetScore.unit)
+        estarData.benchmark = benchmark(estarData.benchmarkInput.currentEUI, estarData.benchmarkInput.minSQFT, estarData.benchmarkInput.maxSQFT, estarData.benchmarkInput.minYear)
+
+        #TODO: Update this section to run energystar updated code
+        non_gfa, data_gfa, office_gfa, wkhrs, workers, cpus, pctcooled, cdd, hdd, site_eui, source_eui, site, source, target, predicted_eui, area, unit, current_eui, min_sqft, max_sqft, year
+
+        estarData.score.score, estarData.score.predictEUI, estarData.score.adjustedEUI, estarData.targetScore.usage, estarData.targetScore.targetEUI, estarData.benchmark = runEnergystar()
+
+        response_object['estarData'] = estarData
         response_object['message'] = "Parameters Updated"
     else:
         response_object['estarData'] = estarData

@@ -386,211 +386,222 @@
             <v-card>
               <v-card-title>Energy Star Inputs</v-card-title>
               <v-col offset-md="1" md="10">
-                <v-expansion-panels>
-                  <v-expansion-panel>
-                    <v-expansion-panel-header>Energy Star Score Inputs</v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.score.grossArea"
-                          label = "Non-Scoreble Gross Floor Area"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-row>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.score.dataGrossArea"
-                          label = "Data Center Gross Area"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-row>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.score.officeGrossArea"
-                          label = "Scoreable Gross Area"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-row>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.score.weeklyOperation"
-                          label = "Weekly Operating Hours"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-row>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.score.workers"
-                          label = "Number of Main Shift Workers"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-row>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.score.computers"
-                          label = "Number of Computers"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-row>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.score.percentCooled"
-                          label = "% of the Building that can be Cooled"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-row>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.score.coolingDays"
-                          label = "Cooling Degree Days"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-row>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.score.heatingDays"
-                          label = "Heating Degree Days"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-row>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.score.siteEUI"
-                          label = "EUI of Site"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-row>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.score.sourceEUI"
-                          label = "EUI of Source"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-row>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.score.siteConsumption"
-                          label = "Energy Consuption of Site (kBTU)"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-row>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.score.sourceConsumption"
-                          label = "Energy Consumption of Source (kBTU)"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-row>
-                    </v-expansion-panel-content>
-                  </v-expansion-panel>
-                  <v-expansion-panel>
-                    <v-expansion-panel-header>Energystar Target Score Inputs</v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.targetScore.target"
-                          label = "Target Energy Star Score"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-row>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.targetScore.current"
-                          label = "Current Energystar Score"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-row>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.targetScore.area"
-                          label = "Scoreable Gross Floor Area"
-                          outlined
-                          dense
-                          type="number"
-                        ></v-text-field>
-                      </v-row>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.targetScore.unit"
-                          label = "Converts Units form KBTU to kWh"
-                          outlined
-                          dense
-                        ></v-text-field>
-                      </v-row>
-                    </v-expansion-panel-content>
-                  </v-expansion-panel>
-                  <v-expansion-panel>
-                    <v-expansion-panel-header>Benchmarking Inputs</v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.benchmarkInput.currentEUI"
-                          label = "Current Source Building EUI"
-                          outlined
-                          type="number"
-                          dense
-                        ></v-text-field>
-                      </v-row>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.benchmarkInput.minSQFT"
-                          label = "Minimum Square Feet"
-                          outlined
-                          type="number"
-                          dense
-                        ></v-text-field>
-                      </v-row>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.benchmarkInput.maxSQFT"
-                          label = "Maximum Square Feet"
-                          outlined
-                          type="number"
-                          dense
-                        ></v-text-field>
-                      </v-row>
-                      <v-row>
-                        <v-text-field
-                          v-model="energystarData.benchmarkInput.minYear"
-                          label = "Minium Year Database Building was Built"
-                          outlined
-                          type="number"
-                          dense
-                        ></v-text-field>
-                      </v-row>
-                    </v-expansion-panel-content>
-                  </v-expansion-panel>
-                </v-expansion-panels>
+                <v-row>
+                  <v-expansion-panels>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>Energy Star Score Inputs</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.score.grossArea"
+                            label = "Non-Scoreble Gross Floor Area"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.score.dataGrossArea"
+                            label = "Data Center Gross Area"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.score.officeGrossArea"
+                            label = "Scoreable Gross Area"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.score.weeklyOperation"
+                            label = "Weekly Operating Hours"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.score.workers"
+                            label = "Number of Main Shift Workers"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.score.computers"
+                            label = "Number of Computers"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.score.percentCooled"
+                            label = "% of the Building that can be Cooled"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.score.coolingDays"
+                            label = "Cooling Degree Days"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.score.heatingDays"
+                            label = "Heating Degree Days"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.score.siteEUI"
+                            label = "EUI of Site"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.score.sourceEUI"
+                            label = "EUI of Source"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.score.siteConsumption"
+                            label = "Energy Consuption of Site (kBTU)"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.score.sourceConsumption"
+                            label = "Energy Consumption of Source (kBTU)"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>Energystar Target Score Inputs</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.targetScore.target"
+                            label = "Target Energy Star Score"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.targetScore.current"
+                            label = "Current Energystar Score"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.targetScore.area"
+                            label = "Scoreable Gross Floor Area"
+                            outlined
+                            dense
+                            type="number"
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.targetScore.unit"
+                            label = "Converts Units form KBTU to kWh"
+                            outlined
+                            dense
+                          ></v-text-field>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>Benchmarking Inputs</v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.benchmarkInput.currentEUI"
+                            label = "Current Source Building EUI"
+                            outlined
+                            type="number"
+                            dense
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.benchmarkInput.minSQFT"
+                            label = "Minimum Square Feet"
+                            outlined
+                            type="number"
+                            dense
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.benchmarkInput.maxSQFT"
+                            label = "Maximum Square Feet"
+                            outlined
+                            type="number"
+                            dense
+                          ></v-text-field>
+                        </v-row>
+                        <v-row>
+                          <v-text-field
+                            v-model="energystarData.benchmarkInput.minYear"
+                            label = "Minium Year Database Building was Built"
+                            outlined
+                            type="number"
+                            dense
+                          ></v-text-field>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                  </v-expansion-panels>
+                </v-row>
+                <v-row>
+                  <v-btn
+                  class = "ma-2"
+                  align="center"
+                  depressed
+                  color="primary"
+                  v-on:click="sendEnergystar(); getEnergystar();"
+                  >Run Energystar Calculation</v-btn>
+                </v-row>
               </v-col>
             </v-card>
           </v-col>

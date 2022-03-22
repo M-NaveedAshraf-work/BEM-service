@@ -5,100 +5,136 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from scipy.stats import percentileofscore
 
-class Energystar():
+class Energystar(BEM):
 
-    def score(self, non_gfa,data_gfa, office_gfa, wkhrs,workers,cpus,pctcooled,cdd,hdd, site_eui = None, source_eui = None, site = None, source = None):
-"""A function that finds the energy star score for buildings that use Electricity as their sole energy source
-    Inputs:
-        - non_gfa: non-scoreable gross floor area (GFA)
-        - data_gfa: data center GFA
-        - office_gfa: scorable GFA
-        - whrs: weekly operating hours
-        - workers: number of workers on main shift
-        - cpus: number of computers
-        - pctcooled: percent of the building that can be cooled (if >50% then it defaults as 1)
-        - cdd: cooling degree days
-        - hdd: heating degree days
-        - site_eui: EUI of site
-        - source_eui: EUI of source
-        - site: energy consumption of site in kBTU
-        - source: energy consumption of source in kBTU
-    Outputs:
-        - score: Energy star score
-        - predict_eui: predicted source EUI
-        - adjusted_eui: adjusted score eui"""
-        if site:
-            source = site * 2.8
-        if source_eui:
-            source = source_eui * (non_gfa + data_gfa + office_gfa)
-        elif site_eui:
-            source = site_eui * 2.8 * (non_gfa + data_gfa + office_gfa)
+    def __init__(self, non_gfa,data_gfa, office_gfa, wkhrs,workers,cpus,pctcooled,cdd,hdd, site_eui, source_eui, site, source, target, predicted_eui, area, unit, current_eui, min_sqft, max_sqft, year):
+        self.non_gfa = non_gfa
+        self.data_gfa = data_gfa
+        self.office_gfa = office_gfa
+        self.wkhrs = wkhrs
+        self.workers = workers
+        self.cpus = cpus
+        self.pctcolled = pctcooled
+        self.cdd = cdd
+        self.hdd = hdd
+        self.site_eui = site_eui
+        self.source_eui = source_eui
+        self.site = site
+        self.source = source
+        self.target = target
+        self.current_eui = current_eui
+        self.predicted_eui = predicted_eui
+        self.area = area
+        self.unit = unit
+        self.min_sqft = min_sqft
+        self.max_sqft = max_sqft
+        self.year = year
+
+    def score(self):
+        # A function that finds the energy star score for buildings that use Electricity as their sole energy source
+        #     Inputs:
+        #     - non_gfa: non-scoreable gross floor area (GFA)
+        #     - data_gfa: data center GFA
+        #     - office_gfa: scorable GFA
+        #     - whrs: weekly operating hours
+        #     - workers: number of workers on main shift
+        #     - cpus: number of computers
+        #     - pctcooled: percent of the building that can be cooled (if >50% then it defaults as 1)
+        #     - cdd: cooling degree days
+        #     - hdd: heating degree days
+        #     - site_eui: EUI of site
+        #     - source_eui: EUI of source
+        #     - site: energy consumption of site in kBTU
+        #     - source: energy consumption of source in kBTU
+        # Outputs:
+        #     - score: Energy star score
+        #     - predict_eui: predicted source EUI
+        #     - adjusted_eui: adjusted score eui
+        if self.site:
+            source = self.site * 2.8
+        if self.source_eui:
+            self.source = self.source_eui * (self.non_gfa + self.data_gfa + self.office_gfa)
+        elif self.site_eui:
+            self.source = self.site_eui * 2.8 * (self.non_gfa + self.data_gfa + self.office_gfa)
         centered = [12342, 54.09, 2.056, 3.028, 6.332, 924]
         coeff = [0.0006768,0.6130, 15.90, 10.13, 4.529, 0.004693]
-        workers = workers / office_gfa * 1000
-        cpus = cpus / office_gfa *1000
-        pctcooled = pctcooled / 100
-        if office_gfa > 100000:
-            adj_office_gfa = 100000
-        if hdd >= 924:
-            predict_eui = (adj_office_gfa - centered[0])*coeff[0] + (wkhrs - centered[1])* coeff[1] + (workers - centered[2]) * coeff[2] + (cpus - centered[3])*coeff[3] + ((pctcooled * np.log(cdd) - centered[4]))*coeff[4] + (hdd - centered[5])*coeff[5] + 143.1
+        self.workers = self.workers / self.office_gfa * 1000
+        self.cpus = self.cpus / self.office_gfa *1000
+        self.pctcooled = self.pctcooled / 100
+        if self.office_gfa > 100000:
+            self.adj_office_gfa = 100000
+        if self.hdd >= 924:
+            self.predict_eui = (self.adj_office_gfa - centered[0])*coeff[0] + (self.wkhrs - centered[1])* coeff[1] + (self.workers - centered[2]) * coeff[2] + (self.cpus - centered[3])*coeff[3] + ((self.pctcooled * np.log(self.cdd) - centered[4]))*coeff[4] + (self.hdd - centered[5])*coeff[5] + 143.1
         else:
-            predict_eui = (afj_office_gfa - centered[0])*coeff[0] + (wkhrs - centered[1])* coeff[1] + (workers - centered[2]) * coeff[2] + (cpus - centered[3])*coeff[3] + ((pctcooled * np.log(cdd) - centered[4]))*coeff[4] + 143.1
-        if data_gfa != 0:
-            data_est = data_gfa * 2000
-            adjusted_source = source - data_est
+            self.predict_eui = (self.afj_office_gfa - centered[0])*coeff[0] + (self.wkhrs - centered[1])* coeff[1] + (self.workers - centered[2]) * coeff[2] + (self.cpus - centered[3])*coeff[3] + ((self.pctcooled * np.log(self.cdd) - centered[4]))*coeff[4] + 143.1
+        if self.data_gfa != 0:
+            self.data_est = self.data_gfa * 2000
+            self.adjusted_source = self.source - self.data_est
         else:
-            adjusted_source = source
-        adjusted_eui = adjusted_source / (non_gfa + data_gfa + office_gfa)
-        ratio = adjusted_eui / predict_eui
+            self.adjusted_source = self.source
+        self.adjusted_eui = self.adjusted_source / (self.non_gfa + self.data_gfa + self.office_gfa)
+        ratio = self.adjusted_eui / self.predict_eui
         df = pd.read_csv('estarscore.csv')
-        score = df[(ratio >= df['Min_ratio']) & (df['Max_ratio'] >= ratio)]['Score'].values[0]
-        return score, predict_eui, adjusted_eui
-    def target_score(self,target,current_eui,predicted_eui, area, unit = 'kWh'):
-"""A function that outputs the kwh in savings needed to for a certain target energy star score
-    Inputs:
-        - target: target energy star score
-        - current_eui: Current source EUI
-        - predicted_eui: predicted source EUI (output from score function)
-        - area: scorable GFA
-        - unit: converts units from kBTU to kWh
-    Outputs:
-        - usage: energy that needs to be saved to reach target score
-        - target_eui: target source EUI needed to reach target score"""
+        self.score = df[(ratio >= df['Min_ratio']) & (df['Max_ratio'] >= ratio)]['Score'].values[0]
+        return self.score, self.predict_eui, self.adjusted_eui
+    def target_score(self):
+# """A function that outputs the kwh in savings needed to for a certain target energy star score
+#     Inputs:
+#         - target: target energy star score
+#         - current_eui: Current source EUI
+#         - predicted_eui: predicted source EUI (output from score function)
+#         - area: scorable GFA
+#         - unit: converts units from kBTU to kWh
+#     Outputs:
+#         - usage: energy that needs to be saved to reach target score
+#         - target_eui: target source EUI needed to reach target score"""
         df = pd.read_csv('estarscore.csv')
-        target_eui = max(df[df.Score == target].to_numpy()[0][1:3] * predicted_eui)
-        usage = (current_eui - target_eui) * area / 2.8
-        if unit == 'kWh' or unit == 'kwh':
-            usage /= 3.4121416331
-        return usage, target_eui
-    def benchmark(self,current_eui, min_sqft, max_sqft, year = None):
-"""A function that plots a distribution graph of source EUIs and plots a red line
-    of the source EUI of the building in question
-    Inputs:
-        - current_eui: current source EUI of building
-        - min_sqft: the minimum sqft each building in the benchmark data needs to be over
-        - max_sqft: the max sqft that the benchmark data needs to be lower than
-        - year: the minimum year that the buildings in the database have to be built
-    Output:
-        - a json file of the source EUI of the benchmark data
-"""
+        self.target_eui = max(df[df.Score == self.target].to_numpy()[0][1:3] * self.predicted_eui)
+        self.usage = (self.current_eui - self.target_eui) * self.area / 2.8
+        if self.unit == 'kWh' or self.unit == 'kwh':
+            self.usage /= 3.4121416331
+        return self.usage, self.target_eui
+
+    def benchmark(self):
+# """A function that plots a distribution graph of source EUIs and plots a red line
+#     of the source EUI of the building in question
+#     Inputs:
+#         - current_eui: current source EUI of building
+#         - min_sqft: the minimum sqft each building in the benchmark data needs to be over
+#         - max_sqft: the max sqft that the benchmark data needs to be lower than
+#         - year: the minimum year that the buildings in the database have to be built
+#     Output:
+#         - a json file of the source EUI of the benchmark data
+# """
         df = pd.read_csv('2012_public_use_data_aug2016.csv')
-        test = df.loc[(df.SQFTC >= min_sqft) & (df.SQFTC <= max_sqft)& (df.PBA == 2)]
-        if year:
-            test.loc[test.YRCON >= year]
+        test = df.loc[(df.SQFTC >= self.min_sqft) & (df.SQFTC <= self.max_sqft)& (df.PBA == 2)]
+        if self.year:
+            test.loc[test.YRCON >= self.year]
         sqft = test.SQFT * test.FINALWT
         elec = test.ELBTU * test.FINALWT
-        eui = elec / sqft
+        self.eui = elec / sqft
         plt.figure(figsize = (12,8))
         sns.set_style("dark")
-        sns.distplot(eui, bins = 100)
-        plt.axvline(current_eui, 0,.85, color = 'r', label = f'Your building = {current_eui} $kBtu/ft^{2}$')
+        sns.distplot(self.eui, bins = 100)
+        plt.axvline(self.current_eui, 0,.85, color = 'r', label = f'Your building = {self.current_eui} $kBtu/ft^{2}$')
         plt.xlabel('Site EUI', fontsize = 'x-large')
         plt.ylabel('Frequency',fontsize = 'x-large')
         plt.title('')
         plt.legend(loc='upper center', bbox_to_anchor=(0.4, .8), fontsize = 'x-large')
-        plt.show()
-        data = {'EUI values': list(eui.values) }
+        # plt.show()
+        data = {'EUI values': list(self.eui.values) }
         with open('benchmark_data.json', 'w') as f:
             json.dump(data, f)
-        return data
+        return self.eui
+        # return data
+
+def runEnergystar(non_gfa,data_gfa, office_gfa, wkhrs,workers,cpus,pctcooled,cdd,hdd, site_eui, source_eui, site, source, target, predicted_eui, area, unit, current_eui, min_sqft, max_sqft, year):
+    instance = Energystar(non_gfa,data_gfa, office_gfa, wkhrs,workers,cpus,pctcooled,cdd,hdd, site_eui, source_eui, site, source, target, predicted_eui, area, unit, current_eui, min_sqft, max_sqft, year)
+    score, predict_eui, adjusted_eui = instance.score()
+    usage, target_eui = instance.target_score()
+    eui = instance.benchmark()
+
+    return score, predict_eui, adjusted_eui, usage, target_eui, eui
+
+if __name__ == '__main__':
+    print("Please execute the 'main.py' script.")
