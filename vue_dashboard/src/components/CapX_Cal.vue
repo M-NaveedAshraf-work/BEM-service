@@ -2728,8 +2728,8 @@ export default{
 
     sendEnergystar() {
       const path = 'http://127.0.0.1:5000/energystar'
-      let estarData = this.capxParams
-      axios.put(path, energystarData)
+      let estarData = this.energystarData
+      axios.put(path, estarData)
       .then(() => {
         this.getEnergystar();
       })

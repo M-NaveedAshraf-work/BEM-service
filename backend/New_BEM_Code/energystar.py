@@ -5,7 +5,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from scipy.stats import percentileofscore
 
-class Energystar(BEM):
+class Energystar():
 
     def __init__(self, non_gfa,data_gfa, office_gfa, wkhrs,workers,cpus,pctcooled,cdd,hdd, site_eui, source_eui, site, source, target, predicted_eui, area, unit, current_eui, min_sqft, max_sqft, year):
         self.non_gfa = non_gfa
@@ -14,7 +14,7 @@ class Energystar(BEM):
         self.wkhrs = wkhrs
         self.workers = workers
         self.cpus = cpus
-        self.pctcolled = pctcooled
+        self.pctcooled = pctcooled
         self.cdd = cdd
         self.hdd = hdd
         self.site_eui = site_eui
@@ -51,7 +51,7 @@ class Energystar(BEM):
         #     - predict_eui: predicted source EUI
         #     - adjusted_eui: adjusted score eui
         if self.site:
-            source = self.site * 2.8
+            self.source = self.site * 2.8
         if self.source_eui:
             self.source = self.source_eui * (self.non_gfa + self.data_gfa + self.office_gfa)
         elif self.site_eui:
@@ -63,10 +63,12 @@ class Energystar(BEM):
         self.pctcooled = self.pctcooled / 100
         if self.office_gfa > 100000:
             self.adj_office_gfa = 100000
+        else:
+            self.adj_office_gfa = self.office_gfa
         if self.hdd >= 924:
             self.predict_eui = (self.adj_office_gfa - centered[0])*coeff[0] + (self.wkhrs - centered[1])* coeff[1] + (self.workers - centered[2]) * coeff[2] + (self.cpus - centered[3])*coeff[3] + ((self.pctcooled * np.log(self.cdd) - centered[4]))*coeff[4] + (self.hdd - centered[5])*coeff[5] + 143.1
         else:
-            self.predict_eui = (self.afj_office_gfa - centered[0])*coeff[0] + (self.wkhrs - centered[1])* coeff[1] + (self.workers - centered[2]) * coeff[2] + (self.cpus - centered[3])*coeff[3] + ((self.pctcooled * np.log(self.cdd) - centered[4]))*coeff[4] + 143.1
+            self.predict_eui = (self.adj_office_gfa - centered[0])*coeff[0] + (self.wkhrs - centered[1])* coeff[1] + (self.workers - centered[2]) * coeff[2] + (self.cpus - centered[3])*coeff[3] + ((self.pctcooled * np.log(self.cdd) - centered[4]))*coeff[4] + 143.1
         if self.data_gfa != 0:
             self.data_est = self.data_gfa * 2000
             self.adjusted_source = self.source - self.data_est
@@ -107,25 +109,27 @@ class Energystar(BEM):
 #         - a json file of the source EUI of the benchmark data
 # """
         df = pd.read_csv('2012_public_use_data_aug2016.csv')
-        test = df.loc[(df.SQFTC >= self.min_sqft) & (df.SQFTC <= self.max_sqft)& (df.PBA == 2)]
+        test = df.loc[(df.SQFT >= self.min_sqft) & (df.SQFT <= self.max_sqft)& (df.PBA == 2)]
         if self.year:
             test.loc[test.YRCON >= self.year]
         sqft = test.SQFT * test.FINALWT
         elec = test.ELBTU * test.FINALWT
         self.eui = elec / sqft
-        plt.figure(figsize = (12,8))
-        sns.set_style("dark")
-        sns.distplot(self.eui, bins = 100)
-        plt.axvline(self.current_eui, 0,.85, color = 'r', label = f'Your building = {self.current_eui} $kBtu/ft^{2}$')
-        plt.xlabel('Site EUI', fontsize = 'x-large')
-        plt.ylabel('Frequency',fontsize = 'x-large')
-        plt.title('')
-        plt.legend(loc='upper center', bbox_to_anchor=(0.4, .8), fontsize = 'x-large')
-        # plt.show()
-        data = {'EUI values': list(self.eui.values) }
-        with open('benchmark_data.json', 'w') as f:
-            json.dump(data, f)
-        return self.eui
+        # plt.figure(figsize = (12,8))
+        # sns.set_style("dark")
+        # sns.distplot(self.eui, bins = 100)
+        # plt.axvline(self.current_eui, 0,.85, color = 'r', label = f'Your building = {self.current_eui} $kBtu/ft^{2}$')
+        # plt.xlabel('Site EUI', fontsize = 'x-large')
+        # plt.ylabel('Frequency',fontsize = 'x-large')
+        # plt.title('')
+        # plt.legend(loc='upper center', bbox_to_anchor=(0.4, .8), fontsize = 'x-large')
+        # # plt.show()
+        # data = {'EUI values': list(self.eui.values) }
+        # with open('benchmark_data.json', 'w') as f:
+        #     json.dump(data, f)
+        # TODO: Fix
+        data = self.eui.values.tolist()
+        return data
         # return data
 
 def runEnergystar(non_gfa,data_gfa, office_gfa, wkhrs,workers,cpus,pctcooled,cdd,hdd, site_eui, source_eui, site, source, target, predicted_eui, area, unit, current_eui, min_sqft, max_sqft, year):

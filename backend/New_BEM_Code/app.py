@@ -114,16 +114,15 @@ def estarComponents():
         global estarData
         estarData = post_data
 
-        estarData.score.score, estarData.score.predictEUI, estarData.score.adjustedEUI = score(estarData.score.grossArea, estarData.score.dataGrossArea, estarData.score.officeGrossArea, estarData.score.weeklyOperation, estarData.score.workers, estarData.score.computers, estarData.score.percentCooled, estarData.score.coolingDays, estarData.score.heatingDays, estarData.score.siteEUI, estarData.score.sourceEUI, estarData.score.siteConsumption, estarData.score.sourceConsumption)
-        estarData.targetScore.usage, estarData.targetScore.targetEUI = target_score(estarData.targetScore.target, estarData.targetScore.current, estarData.score.predictEUI, estarData.targetScore.area, estarData.targetScore.unit)
-        estarData.benchmark = benchmark(estarData.benchmarkInput.currentEUI, estarData.benchmarkInput.minSQFT, estarData.benchmarkInput.maxSQFT, estarData.benchmarkInput.minYear)
+        # estarData.score.score, estarData.score.predictEUI, estarData.score.adjustedEUI = score(estarData.score.grossArea, estarData.score.dataGrossArea, estarData.score.officeGrossArea, estarData.score.weeklyOperation, estarData.score.workers, estarData.score.computers, estarData.score.percentCooled, estarData.score.coolingDays, estarData.score.heatingDays, estarData.score.siteEUI, estarData.score.sourceEUI, estarData.score.siteConsumption, estarData.score.sourceConsumption)
+        # estarData.targetScore.usage, estarData.targetScore.targetEUI = target_score(estarData.targetScore.target, estarData.targetScore.current, estarData.score.predictEUI, estarData.targetScore.area, estarData.targetScore.unit)
+        # estarData.benchmark = benchmark(estarData.benchmarkInput.currentEUI, estarData.benchmarkInput.minSQFT, estarData.benchmarkInput.maxSQFT, estarData.benchmarkInput.minYear)
 
-        #TODO: Update this section to run energystar updated code
-        non_gfa, data_gfa, office_gfa, wkhrs, workers, cpus, pctcooled, cdd, hdd, site_eui, source_eui, site, source, target, predicted_eui, area, unit, current_eui, min_sqft, max_sqft, year
-
-        estarData.score.score, estarData.score.predictEUI, estarData.score.adjustedEUI, estarData.targetScore.usage, estarData.targetScore.targetEUI, estarData.benchmark = runEnergystar()
+        estarData['score']['score'], estarData["score"]["predictEUI"], estarData["score"]["adjustedEUI"], estarData["targetScore"]["usage"], estarData["targetScore"]["targetEUI"], estarData["benchmark"] = runEnergystar(estarData["score"]["grossArea"], estarData["score"]["dataGrossArea"], estarData["score"]["officeGrossArea"], estarData["score"]["weeklyOperation"], estarData["score"]["workers"], estarData["score"]["computers"], estarData["score"]["percentCooled"], estarData["score"]["coolingDays"], estarData["score"]["heatingDays"], estarData["score"]["siteEUI"], estarData["score"]["sourceEUI"], estarData["score"]["siteConsumption"], estarData["score"]["sourceConsumption"], estarData["targetScore"]["target"], estarData["score"]["predictEUI"], estarData["targetScore"]["area"], estarData["targetScore"]["unit"], estarData["targetScore"]["current"], estarData["benchmarkInput"]["minSQFT"], estarData["benchmarkInput"]["maxSQFT"], estarData["benchmarkInput"]["minYear"])
 
         response_object['estarData'] = estarData
+        print(response_object)
+
         response_object['message'] = "Parameters Updated"
     else:
         response_object['estarData'] = estarData

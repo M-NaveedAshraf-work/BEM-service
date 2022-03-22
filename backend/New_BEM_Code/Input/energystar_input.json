@@ -1,36 +1,35 @@
 {
     "score": {
-        "grossArea": 200,
-        "dataGrossArea": 50,
-        "officeGrossArea": 75,
-        "weeklyOperation": 40,
-        "workers": 100,
-        "computers": 50,
-        "percentCooled": 25,
-        "coolingDays": 200,
-        "heatingDays": 165,
-        "siteEUI": 1,
-        "sourceEUI": 1,
-        "siteConsumption": 1000,
-        "sourceConsumption": 1200,
+        "grossArea": 507979,
+        "dataGrossArea": 37156,
+        "officeGrossArea": 470823,
+        "weeklyOperation": 61,
+        "workers": 546,
+        "computers": 2055,
+        "percentCooled": 50,
+        "coolingDays": 65,
+        "heatingDays": 300,
+        "siteEUI": 63.9,
+        "sourceEUI": 178.9,
+        "siteConsumption": 32433503.7,
+        "sourceConsumption": 90813810.4,
         "score": 0,
         "predictEUI": 0,
         "adjustedEUI": 0
     },
     "targetScore": {
-        "target": 2,
-        "current": 3,
-        "area": 500,
-        "unit": "blank",
-        "usage": 4,
-        "targetEUI": 4
+        "target": 72,
+        "current": 69,
+        "area": 507979,
+        "unit": "kWh",
+        "usage": 0,
+        "targetEUI": 0
 
     },
     "benchmarkInput": {
-        "currentEUI": 4,
         "minYear": 2014,
-        "minSQFT": 200,
-        "maxSQFT": 400
+        "minSQFT": 50000,
+        "maxSQFT": 507979
     },
     "benchmark": 1
 }
