@@ -26,6 +26,7 @@ f = open('./Input/centergy_BEM_2019.json')
 data = json.load(f)
 d = open('./Input/energystar_input.json')
 estarData = json.load(d)
+build_index = []
 weatherData = "centergy_2019_epw_file.epw"
 calData = [
     {
@@ -112,20 +113,19 @@ def estarComponents():
     if request.method == 'PUT':
         post_data = request.get_json("estarData")
         global estarData
+        global build_index
         estarData = post_data
+        build_index = []
 
-        # estarData.score.score, estarData.score.predictEUI, estarData.score.adjustedEUI = score(estarData.score.grossArea, estarData.score.dataGrossArea, estarData.score.officeGrossArea, estarData.score.weeklyOperation, estarData.score.workers, estarData.score.computers, estarData.score.percentCooled, estarData.score.coolingDays, estarData.score.heatingDays, estarData.score.siteEUI, estarData.score.sourceEUI, estarData.score.siteConsumption, estarData.score.sourceConsumption)
-        # estarData.targetScore.usage, estarData.targetScore.targetEUI = target_score(estarData.targetScore.target, estarData.targetScore.current, estarData.score.predictEUI, estarData.targetScore.area, estarData.targetScore.unit)
-        # estarData.benchmark = benchmark(estarData.benchmarkInput.currentEUI, estarData.benchmarkInput.minSQFT, estarData.benchmarkInput.maxSQFT, estarData.benchmarkInput.minYear)
-
-        estarData['score']['score'], estarData["score"]["predictEUI"], estarData["score"]["adjustedEUI"], estarData["targetScore"]["usage"], estarData["targetScore"]["targetEUI"], estarData["benchmark"] = runEnergystar(estarData["score"]["grossArea"], estarData["score"]["dataGrossArea"], estarData["score"]["officeGrossArea"], estarData["score"]["weeklyOperation"], estarData["score"]["workers"], estarData["score"]["computers"], estarData["score"]["percentCooled"], estarData["score"]["coolingDays"], estarData["score"]["heatingDays"], estarData["score"]["siteEUI"], estarData["score"]["sourceEUI"], estarData["score"]["siteConsumption"], estarData["score"]["sourceConsumption"], estarData["targetScore"]["target"], estarData["score"]["predictEUI"], estarData["targetScore"]["area"], estarData["targetScore"]["unit"], estarData["targetScore"]["current"], estarData["benchmarkInput"]["minSQFT"], estarData["benchmarkInput"]["maxSQFT"], estarData["benchmarkInput"]["minYear"])
+        estarData['score']['score'], estarData["score"]["predictEUI"], estarData["score"]["adjustedEUI"], estarData["targetScore"]["usage"], estarData["targetScore"]["targetEUI"], estarData["benchmark"], build_index = runEnergystar(estarData["score"]["grossArea"], estarData["score"]["dataGrossArea"], estarData["score"]["officeGrossArea"], estarData["score"]["weeklyOperation"], estarData["score"]["workers"], estarData["score"]["computers"], estarData["score"]["percentCooled"], estarData["score"]["coolingDays"], estarData["score"]["heatingDays"], estarData["score"]["siteEUI"], estarData["score"]["sourceEUI"], estarData["score"]["siteConsumption"], estarData["score"]["sourceConsumption"], estarData["targetScore"]["target"], estarData["score"]["predictEUI"], estarData["targetScore"]["area"], estarData["targetScore"]["unit"], estarData["targetScore"]["current"], estarData["benchmarkInput"]["minSQFT"], estarData["benchmarkInput"]["maxSQFT"], estarData["benchmarkInput"]["minYear"])
 
         response_object['estarData'] = estarData
-        print(response_object)
+        response_object['build_index'] = build_index
 
         response_object['message'] = "Parameters Updated"
     else:
         response_object['estarData'] = estarData
+        response_object['build_index'] = build_index
     return jsonify(response_object)
 
 if __name__ == '__main__':
