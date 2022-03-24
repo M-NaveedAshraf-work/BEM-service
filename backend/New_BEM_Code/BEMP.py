@@ -1785,6 +1785,36 @@ class BEM:
 
         self.out = np.asarray(self.outcome[:, -1]) * self.totalArea / 1000
 
+        subDeliveredEnergy = np.zeros((12,11))
+        for i in range(11):
+            subDeliveredEnergy[0, i] = np.sum(self.outcome[0:744, i])
+            subDeliveredEnergy[1, i] = np.sum(self.outcome[744:1416, i])
+            subDeliveredEnergy[2, i] = np.sum(self.outcome[0:744, i])
+            subDeliveredEnergy[3, i] = np.sum(self.outcome[1416:2159, i])
+            subDeliveredEnergy[4, i] = np.sum(self.outcome[2159:2880, i])
+            subDeliveredEnergy[5, i] = np.sum(self.outcome[2880:3624, i])
+            subDeliveredEnergy[6, i] = np.sum(self.outcome[3624:4344, i])
+            subDeliveredEnergy[7, i] = np.sum(self.outcome[4344:5088, i])
+            subDeliveredEnergy[8, i] = np.sum(self.outcome[5088:5832, i])
+            subDeliveredEnergy[9, i] = np.sum(self.outcome[5832:6552, i])
+            subDeliveredEnergy[10, i] = np.sum(self.outcome[6552:7296, i])
+            subDeliveredEnergy[11, i] = np.sum(self.outcome[8016:8760, i])
+
+        subMonthlyTotal = np.zeros((12,1))
+        subMonthlyTotal[0, 0] = np.sum(subDeliveredEnergy[:, 0])
+        subMonthlyTotal[1, 0] = np.sum(subDeliveredEnergy[:, 1])
+        subMonthlyTotal[2, 0] = np.sum(subDeliveredEnergy[:, 2])
+        subMonthlyTotal[3, 0] = np.sum(subDeliveredEnergy[:, 3])
+        subMonthlyTotal[4, 0] = np.sum(subDeliveredEnergy[:, 4])
+        subMonthlyTotal[5, 0] = np.sum(subDeliveredEnergy[:, 5])
+        subMonthlyTotal[6, 0] = np.sum(subDeliveredEnergy[:, 6])
+        subMonthlyTotal[7, 0] = np.sum(subDeliveredEnergy[:, 7])
+        subMonthlyTotal[8, 0] = np.sum(subDeliveredEnergy[:, 8])
+        subMonthlyTotal[9, 0] = np.sum(subDeliveredEnergy[:, 9])
+        subMonthlyTotal[10, 0] = np.sum(subDeliveredEnergy[:, 10])
+
+
+
         manipulated_result = np.zeros((12, 1))
         manipulated_result[0, 0] = np.sum(self.outcome3[0:744, 0])
         manipulated_result[1, 0] = np.sum(self.outcome3[744:1416, 0])

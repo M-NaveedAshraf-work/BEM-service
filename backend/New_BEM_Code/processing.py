@@ -19,10 +19,10 @@ def processing(building, epw_file, min_sqft, max_sqft, year = None):
 #     - delivered_data.json: kWh results of model by month
 #     - need_data: cooling and heating need
 #     - end_use.json: end use data of specific building in question"""
-    delivered_energy, sum_delivered_energy, fuel_energy_use,overall, area = main(building_name= building, epw_file_name=epw_file)
-    
+    delivered_energy, sum_delivered_energy, fuel_energy_use, overall, area = main(building_name = building, epw_file_name=epw_file)
+
     ##To group the data by month
-    
+
     df = pd.DataFrame(delivered_energy,columns = ['heating energy',
                                              'cooling', 'light', 'fan',
                                              'pump','equipment', 'DHW',
@@ -47,7 +47,7 @@ def processing(building, epw_file, min_sqft, max_sqft, year = None):
     grouped = data.groupby(['Month'],sort = False).sum()
     delivered = grouped.iloc[:,:10]
     need = grouped.iloc[:,10:13]
-    
+
     # to create the heating and cooling need bar plot and end-use pie chart
     ax = delivered.plot.bar(y = 'Etotal')
     ax.set_xlabel("Month")
@@ -62,7 +62,7 @@ def processing(building, epw_file, min_sqft, max_sqft, year = None):
     fig = plt.figure(figsize =(12, 8))
     plt.pie(data, labels = new_arr, autopct='%1.1f%%')
     plt.tight_layout()
-    
+
     ax2 = need.plot.bar(y = ['Heating Need','Cooling Need','Cooling Need after Natural Cooling'])
     ax2.set_xlabel("Month")
     ax2.set_ylabel("Need")
@@ -71,7 +71,7 @@ def processing(building, epw_file, min_sqft, max_sqft, year = None):
     consumption = delivered.loc[:,'Etotal'] / 1000 * area
     delivered.loc['Total',:]= delivered.sum(axis=0)
     need.loc['Total',:]= need.sum(axis=0)
-    
+
     # creates eui and end-use of building to then benchmark it
     conversion = 3.4121416331/10.76391
     eui = delivered.loc['Total', 'Etotal'] / 1000 * conversion
@@ -81,11 +81,11 @@ def processing(building, epw_file, min_sqft, max_sqft, year = None):
         end_use[name] = value / 1000 * conversion
     df2 = pd.read_csv('2012_public_use_data_aug2016.csv')
     print(df2)
-    
+
     offices = df2[df2.PBA == 2]
     benchmark = offices.loc[(offices.SQFTC >= min_sqft) & (offices.SQFTC <= max_sqft)& (offices.PBA == 2) & offices.NGUSED == 2]
-        if year:
-            benchmark.loc[benchmark.YRCON >= year]
+    if year:
+        benchmark.loc[benchmark.YRCON >= year]
     benchmark = benchmark.loc[:,['SQFT','FINALWT','ELHTBTU','ELCLBTU','ELVNBTU','ELWTBTU','ELLTBTU','ELCKBTU','ELRFBTU','ELOFBTU','ELPCBTU','ELOTBTU']]
     benchmark['Heating'] = benchmark['ELHTBTU'] / benchmark['SQFT']
     benchmark['Cooling'] = benchmark['ELCLBTU'] / benchmark['SQFT']
@@ -93,14 +93,14 @@ def processing(building, epw_file, min_sqft, max_sqft, year = None):
     benchmark['Plug Load'] = benchmark['ELOFBTU'] / benchmark['SQFT'] + benchmark['ELPCBTU'] / benchmark['SQFT']
     benchmark['Fans'] = benchmark['ELVNBTU'] / benchmark['SQFT']
     benchmark['DHW'] = benchmark['ELWTBTU'] / benchmark['SQFT']
-    
+
     benchmark = benchmark.loc[:,['Heating','Cooling','Lighting','Fans','DHW','Plug Load']]
     bench_data = {}
-    
+
     # benchmark data for end use
     for name in benchmark.columns:
         bench_data[name] = list(benchmark[name].values)
-        
+
     #creates the json file
 #    for name in ['Heating','Cooling','Lighting','Fans','DHW','Plug Load']:
 #        plt.figure(figsize = (12,8))
@@ -128,7 +128,7 @@ def processing(building, epw_file, min_sqft, max_sqft, year = None):
     with open('end_use.json', 'w') as g:
         json.dump(end_use, g)
     os.chdir('../')
-    return eui, end_use, consumption,benchmark
+    return eui, end_use, consumption, benchmark
 
 if __name__ == '__main__':
 

@@ -4,10 +4,12 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import json
 import pandas as pd
+import numpy as np
 
 from flask_cors import CORS
 from main import main
 from energystar import runEnergystar
+from processing import processing
 
 import os
 from fontTools.misc.py23 import xrange
@@ -67,7 +69,36 @@ def bem_model():
     hourly_delivered_energy, sum_delivered_energy, energy_use_by_fuel, grouped = main(mode="simulation", building_name=data, epw_file_name=weatherData,
         original_file_name="centergy_BEM_2019", result_file_name="iteration1")
 
+    subDeliveredEnergy = np.zeros((12, 11))
+    for i in range(11):
+        subDeliveredEnergy[0, i] = np.sum(hourly_delivered_energy[0:744, i])
+        subDeliveredEnergy[1, i] = np.sum(hourly_delivered_energy[744:1416, i])
+        subDeliveredEnergy[2, i] = np.sum(hourly_delivered_energy[0:744, i])
+        subDeliveredEnergy[3, i] = np.sum(hourly_delivered_energy[1416:2159, i])
+        subDeliveredEnergy[4, i] = np.sum(hourly_delivered_energy[2159:2880, i])
+        subDeliveredEnergy[5, i] = np.sum(hourly_delivered_energy[2880:3624, i])
+        subDeliveredEnergy[6, i] = np.sum(hourly_delivered_energy[3624:4344, i])
+        subDeliveredEnergy[7, i] = np.sum(hourly_delivered_energy[4344:5088, i])
+        subDeliveredEnergy[8, i] = np.sum(hourly_delivered_energy[5088:5832, i])
+        subDeliveredEnergy[9, i] = np.sum(hourly_delivered_energy[5832:6552, i])
+        subDeliveredEnergy[10, i] = np.sum(hourly_delivered_energy[6552:7296, i])
+        subDeliveredEnergy[11, i] = np.sum(hourly_delivered_energy[8016:8760, i])
+
+    subMonthlyTotal = np.zeros((12, 1))
+    subMonthlyTotal[0, 0] = np.sum(subDeliveredEnergy[:, 0])
+    subMonthlyTotal[1, 0] = np.sum(subDeliveredEnergy[:, 1])
+    subMonthlyTotal[2, 0] = np.sum(subDeliveredEnergy[:, 2])
+    subMonthlyTotal[3, 0] = np.sum(subDeliveredEnergy[:, 3])
+    subMonthlyTotal[4, 0] = np.sum(subDeliveredEnergy[:, 4])
+    subMonthlyTotal[5, 0] = np.sum(subDeliveredEnergy[:, 5])
+    subMonthlyTotal[6, 0] = np.sum(subDeliveredEnergy[:, 6])
+    subMonthlyTotal[7, 0] = np.sum(subDeliveredEnergy[:, 7])
+    subMonthlyTotal[8, 0] = np.sum(subDeliveredEnergy[:, 8])
+    subMonthlyTotal[9, 0] = np.sum(subDeliveredEnergy[:, 9])
+    subMonthlyTotal[10, 0] = np.sum(subDeliveredEnergy[:, 10])
+
     response_object['monthly'] = grouped.Delivered.tolist()
+    response_object['subs'] = subMonthlyTotal.tolist()
 
     return jsonify(response_object)
 
@@ -118,7 +149,8 @@ def estarComponents():
         build_index = []
 
         estarData['score']['score'], estarData["score"]["predictEUI"], estarData["score"]["adjustedEUI"], estarData["targetScore"]["usage"], estarData["targetScore"]["targetEUI"], estarData["benchmark"], build_index = runEnergystar(estarData["score"]["grossArea"], estarData["score"]["dataGrossArea"], estarData["score"]["officeGrossArea"], estarData["score"]["weeklyOperation"], estarData["score"]["workers"], estarData["score"]["computers"], estarData["score"]["percentCooled"], estarData["score"]["coolingDays"], estarData["score"]["heatingDays"], estarData["score"]["siteEUI"], estarData["score"]["sourceEUI"], estarData["score"]["siteConsumption"], estarData["score"]["sourceConsumption"], estarData["targetScore"]["target"], estarData["score"]["predictEUI"], estarData["targetScore"]["area"], estarData["targetScore"]["unit"], estarData["targetScore"]["current"], estarData["benchmarkInput"]["minSQFT"], estarData["benchmarkInput"]["maxSQFT"], estarData["benchmarkInput"]["minYear"])
-
+        # eui, end_use, consumption, benchmark = processing(data, 'park_center_2019_epw_file.epw', estarData["benchmarkInput"]["minSQFT"], estarData["benchmarkInput"]["maxSQFT"], estarData["benchmarkInput"]["minYear"] )
+        # print(eui, end_use, consumption, benchmark)
         response_object['estarData'] = estarData
         response_object['build_index'] = build_index
 
