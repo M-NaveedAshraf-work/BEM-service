@@ -44,6 +44,17 @@ capxData = [
         "data": "Continuous",
     }
 ]
+UQData = [
+    {
+        "param": "HeatingCOP"
+    }
+]
+HeatData = [
+    {
+        "param": "HeatingCOP",
+        "month": "Jan"
+    }
+]
 
 
 # Hosting the JSON File that can be Read by Scripts and Edited by Vue frontend
@@ -123,6 +134,24 @@ def calComponents():
         response_object['message'] = "Parameters Updated"
     else:
         response_object['calData'] = calData
+    return jsonify(response_object)
+
+@app.route('/UQ', methods = ['GET', 'PUT'])
+def UQComponents():
+    response_object = {'status': 'success'}
+    if request.method == 'PUT':
+        post_data = request.get_json("UQData")
+        heat_data = request.get_json("HeatData")
+        global UQData
+        global HeatData
+        UQData = post_data
+        HeatData = heat_data
+        response_object['UQData'] = UQData
+        response_object['heatData'] = HeatData
+        response_object['message'] = "Parameters Updated"
+    else:
+        response_object['UQData'] = UQData
+        response_object['heatData'] = HeatData
     return jsonify(response_object)
 
 @app.route('/Capx', methods = ['GET', 'PUT'])

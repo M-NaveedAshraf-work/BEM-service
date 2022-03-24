@@ -58,7 +58,7 @@ class UQ_Object(BEM):
         self.lhd = lhs(self.param_info["num_vars"], samples=self.num_of_sample)
 
     def LHS(self):
-        # quantify variables' distributions using Lating HyperCube Sampling method
+        # quantify variables' distributions using Latin HyperCube Sampling method
         """
         Distribution of each parameter (reference: UQ_Repository)
         1. Heating COP:               Normal distribution (s.d. 0.01)
@@ -218,8 +218,10 @@ class UQ_Object(BEM):
 
         for i in range(self.num_of_sample):  # i: row, j: column
             # Open JSON instance
-            with open(self.buildingName) as f:
+            with open(self.jsonData) as f:
                 data = json.load(f)
+            # with open(self.buildingName) as f:
+            #     data = json.load(f)
 
             for j in range(self.param_info["num_vars"]):
                 # Change the parameter values in JSON instance
@@ -357,7 +359,9 @@ class UQ_Object(BEM):
                         data["Monthly_InternalHeatGain"]["Lighting"]["Dec"] = self.lhd[i, j]
 
             # Save the JSON instance
-            with open(self.buildingName, 'w', encoding='utf-8') as f:
+            # with open(self.buildingName, 'w', encoding='utf-8') as f:
+            #     json.dump(data, f, ensure_ascii=False, indent=4)
+            with open(self.jsonData, 'w', encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False, indent=4)
 
             # Re-iterations
@@ -367,7 +371,7 @@ class UQ_Object(BEM):
             self.VentilationAirFlowandVentilationHeatTransfer()
             self.PumpSystemEnergy()
             self.DHWandSolarWaterHeating()
-            outcome, outcome2, outcome3 = self.hourly_BEM()
+            outcome, outcome2, outcome3, grouped = self.hourly_BEM()
 
             if self.output_utilized == "Delivered Energy":
                 result_compilation[i, 0] = outcome2  # unit: kWh/m2
@@ -470,7 +474,7 @@ def UQ(buildingName, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Esol_30, E
     instance.FanEnergy()
     instance.PumpSystemEnergy()
     instance.DHWandSolarWaterHeating()
-    outcome, outcome2, outcome3 = instance.hourly_BEM()
+    outcome, outcome2, outcome3, grouped = instance.hourly_BEM()
     instance.LHS()
     instance.SAUA()
 
