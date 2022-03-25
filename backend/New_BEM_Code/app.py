@@ -28,8 +28,11 @@ f = open('./Input/centergy_BEM_2019.json')
 data = json.load(f)
 d = open('./Input/energystar_input.json')
 estarData = json.load(d)
+h = open('./Input/UQ_Input.json')
+UQData = json.load(h)
 build_index = []
 weatherData = "centergy_2019_epw_file.epw"
+
 calData = [
     {
         "name": "Heating COP",
@@ -42,11 +45,6 @@ capxData = [
     {
         "name": "Heating COP",
         "data": "Continuous",
-    }
-]
-UQData = [
-    {
-        "param": "HeatingCOP"
     }
 ]
 HeatData = [
@@ -141,17 +139,31 @@ def UQComponents():
     response_object = {'status': 'success'}
     if request.method == 'PUT':
         post_data = request.get_json("UQData")
-        heat_data = request.get_json("HeatData")
         global UQData
-        global HeatData
         UQData = post_data
-        HeatData = heat_data
         response_object['UQData'] = UQData
-        response_object['heatData'] = HeatData
         response_object['message'] = "Parameters Updated"
+        # uq_data = post_data["UQParams"]
+        # heat_data = post_data["heatParams"]
+        # uq_inputs = post_data["UQInputs"]
+        # global UQData
+        # global HeatData
+        # global UQInputs
+        # UQData = uq_data
+        # HeatData = heat_data
+        # UQInputs = uq_inputs
+        #
+        # response_object['UQData'] = UQData
+        # response_object['heatData'] = HeatData
+        # response_object['UQInputs'] = UQInputs
+        # response_object['message'] = "Parameters Updated"
+
     else:
+        # response_object['UQData'] = UQData
+        # response_object['heatData'] = HeatData
+        # response_object['UQInputs'] = UQInputs
         response_object['UQData'] = UQData
-        response_object['heatData'] = HeatData
+
     return jsonify(response_object)
 
 @app.route('/Capx', methods = ['GET', 'PUT'])

@@ -148,11 +148,11 @@ class BEM:
         self.Overall_Array[:,26] = 10
     
     def readJSON(self):
-        with open(self.jsonData) as f:
-           self.BEMP_JSON = json.load(f)
+        # with open(self.jsonData) as f:
+        #    self.BEMP_JSON = json.load(f)
         # with open(self.buildingName) as f:
         #    self.BEMP_JSON = json.load(f)
-        # self.BEMP_JSON = self.jsonData
+        self.BEMP_JSON = self.jsonData
 
         self.left_numeric[0,0] = self.BEMP_JSON["Volume"]
         self.left_numeric[1,0] = self.BEMP_JSON["Height"]

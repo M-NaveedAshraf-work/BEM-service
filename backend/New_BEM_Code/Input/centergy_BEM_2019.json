@@ -9,8 +9,8 @@
     "LightingControlFactor": 1.0,
     "ParasiticLightingEnergy": "Yes",
     "ParasiticLightingEnergyAmount": 6.0,
-    "HeatingCOP": 0.7831524618766196,
-    "CoolingCOP": 4.682203535777126,
+    "HeatingCOP": 0.7452668159525578,
+    "CoolingCOP": 4.6836437236367265,
     "COP100": 1.0,
     "COP75": 0.9,
     "COP50": 0.82,
@@ -64,8 +64,8 @@
         "GrossFloorArea": 43213.11,
         "Occupancy": 30.91,
         "MatabolicRate": 105.0,
-        "Appliance": 13.101716322981117,
-        "Lighting": 10.27975060018939,
+        "Appliance": 13.099276456946004,
+        "Lighting": 10.27254555831506,
         "OutdoorAir": 8.33,
         "DHW": 4.1
     },
@@ -519,16 +519,16 @@
         "Roof1": {
             "UValue": 0.21,
             "Absorptivity": 0.85,
-            "Emissivity": 0.8194166981644181
+            "Emissivity": 0.7929518053345709
         },
         "Opaque1": {
-            "UValue": 0.4187849121839926,
+            "UValue": 0.37840367791539986,
             "Absorptivity": 0.7,
             "Emissivity": 0.92
         },
         "Window1": {
-            "UValue": 0.29102520307724766,
-            "Emissivity": -0.027800719709740785,
+            "UValue": 0.2935935299380026,
+            "Emissivity": -0.036142153396077986,
             "SolarTrasmittance": 0.41
         }
     },

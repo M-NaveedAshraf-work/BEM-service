@@ -25,6 +25,7 @@ class UQ_Object(BEM):
         file_sheet = file['UQ_Setting']
 
         self.UQ_mode = file_sheet.cell(row=2, column=3).value
+        self.UQ_mode = "Sensitivity Analysis"
         self.num_of_sample = file_sheet.cell(row=3, column=3).value
         self.output_utilized = file_sheet.cell(row=4, column=3).value
 

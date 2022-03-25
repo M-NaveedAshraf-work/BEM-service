@@ -4,14 +4,6 @@ from CSV_to_JSON import json_Insance_Generation
 import numpy as np
 import time
 
-# app = Flask(__name__)
-# app.config.from_object(__name__)
-# CORS(app, resources={r'/*': {'origins': '*'}})
-#
-# @app.route('/ping', methods=['GET'])
-# def ping_pong():
-#     return "<p>Hello, World</p>"
-
 np.set_printoptions(linewidth=2000); np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 
 def main(mode, building_name, epw_file_name, original_file_name = None, result_file_name = None): # mode i) simulaiton ii) calibration iii) UQ
