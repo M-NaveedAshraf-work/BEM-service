@@ -5,6 +5,7 @@ from flask_cors import CORS
 import json
 import pandas as pd
 import numpy as np
+import time
 
 from flask_cors import CORS
 from main import main
@@ -30,6 +31,8 @@ d = open('./Input/energystar_input.json')
 estarData = json.load(d)
 h = open('./Input/UQ_Input.json')
 UQData = json.load(h)
+j = open('./Input/runUQ_input.json')
+runUQData = json.load(j)
 build_index = []
 weatherData = "centergy_2019_epw_file.epw"
 
@@ -139,30 +142,39 @@ def UQComponents():
     response_object = {'status': 'success'}
     if request.method == 'PUT':
         post_data = request.get_json("UQData")
+        print(post_data)
         global UQData
         UQData = post_data
         response_object['UQData'] = UQData
         response_object['message'] = "Parameters Updated"
-        # uq_data = post_data["UQParams"]
-        # heat_data = post_data["heatParams"]
-        # uq_inputs = post_data["UQInputs"]
-        # global UQData
-        # global HeatData
-        # global UQInputs
-        # UQData = uq_data
-        # HeatData = heat_data
-        # UQInputs = uq_inputs
-        #
-        # response_object['UQData'] = UQData
-        # response_object['heatData'] = HeatData
-        # response_object['UQInputs'] = UQInputs
-        # response_object['message'] = "Parameters Updated"
-
     else:
-        # response_object['UQData'] = UQData
-        # response_object['heatData'] = HeatData
-        # response_object['UQInputs'] = UQInputs
+        print(UQData)
         response_object['UQData'] = UQData
+
+    return jsonify(response_object)
+
+@app.route('/runUQ', methods = ['GET'])
+def UQRuns():
+    response_object = {'status': 'success'}
+    time.sleep(2)
+    global runUQData
+    response_object = runUQData
+    firstGraphNames, firstGraphData, secondGraphNames, secondGraphData = main(mode="UQ", building_name=data,
+                                                                              epw_file_name=weatherData,
+                                                                              original_file_name=UQData,
+                                                                              result_file_name="iteration1")
+    if UQData['UQInputs']['UQMode'] == "Sensitivity Analysis":
+        response_object['firstGraphNamesSA'] = firstGraphNames.tolist()
+        response_object['firstGraphDataSA'] = firstGraphData.tolist()
+        response_object['secondGraphNamesSA'] = secondGraphNames.tolist()
+        response_object['secondGraphDataSA'] = secondGraphData
+    elif UQData['UQInputs']['UQMode'] == "Uncertainty Analysis":
+        response_object['firstGraphNamesUA'] = firstGraphNames
+        response_object['firstGraphDataUA'] = firstGraphData
+        response_object['secondGraphNamesUA'] = secondGraphNames
+        response_object['secondGraphDataUA'] = secondGraphData.tolist()
+
+    runUQData = response_object
 
     return jsonify(response_object)
 

@@ -4,57 +4,88 @@ import pandas as pd
 from scipy.stats import norm, lognorm
 from pyDOE import lhs
 from SALib.analyze import morris
+# from app import UQData
 import json
 import openpyxl
 import csv
 
-
+#TODO: Need to pass UQdata in thorugh function not by calling it from app. It will not update
 class UQ_Object(BEM):
 
     def __init__(self, buildingName, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Essol_30, Essol_45, Essol_60,
-                 Essol_90, graph=False):
+                 Essol_90, originalFile):
 
         # inherits BEM class
         BEM.__init__(self, buildingName, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Essol_30, Essol_45, Essol_60,
                      Essol_90)
 
-        self.graph = graph
+        self.graph = True
 
         # read the "UQ_Input" Excel file
-        file = openpyxl.load_workbook('./Input/UQ_Input.xlsx', data_only=True)
-        file_sheet = file['UQ_Setting']
+        # file = openpyxl.load_workbook('./Input/UQ_Input.xlsx', data_only=True)
+        # file_sheet = file['UQ_Setting']
+        #
+        # self.UQ_mode = file_sheet.cell(row=2, column=3).value
+        # self.num_of_sample = file_sheet.cell(row=3, column=3).value
+        # self.output_utilized = file_sheet.cell(row=4, column=3).value
+        UQData = originalFile
+        self.UQ_mode = UQData['UQInputs']['UQMode']
+        self.num_of_sample = int(UQData['UQInputs']['totalSamples'])
+        self.output_utilized = UQData['UQInputs']['energyOutput']
 
-        self.UQ_mode = file_sheet.cell(row=2, column=3).value
-        self.UQ_mode = "Sensitivity Analysis"
-        self.num_of_sample = file_sheet.cell(row=3, column=3).value
-        self.output_utilized = file_sheet.cell(row=4, column=3).value
-
-        i = 7;
+        i = 0;
         self.param_info = {"num_vars": 0, "names": []}
-        while 1:
-            if file_sheet.cell(row=i, column=3).value == None:
+        # while 1:
+        #     if file_sheet.cell(row=i, column=3).value == None:
+        #         break
+        #     else:
+        #         self.param_info["num_vars"] += 1
+        #         self.param_info["names"].append(file_sheet.cell(row=i, column=3).value)
+        #         i += 1
+        state = 'go'
+        while state != 'end':
+            if UQData['UQParams'] == []:
                 break
             else:
                 self.param_info["num_vars"] += 1
-                self.param_info["names"].append(file_sheet.cell(row=i, column=3).value)
+                self.param_info["names"].append(UQData['UQParams'][i]['param'])
                 i += 1
+                if i >= len(UQData['UQParams']):
+                    state = 'end'
 
-        i = 28;  ####
+        # i = 28;  ####
+        # while 1:
+        #     if file_sheet.cell(row=i, column=2).value == None:
+        #         break
+        #     else:
+        #         self.param_info["num_vars"] += 1
+        #         self.param_info["names"].append(
+        #             "".join([file_sheet.cell(row=i, column=2).value, '_', file_sheet.cell(row=i, column=3).value]))
+        #         i += 1
+
+        i = 0;  ####
         while 1:
-            if file_sheet.cell(row=i, column=2).value == None:
+            print(UQData['heatParams'])
+            if UQData['heatParams'] == []:
                 break
             else:
                 self.param_info["num_vars"] += 1
                 self.param_info["names"].append(
-                    "".join([file_sheet.cell(row=i, column=2).value, '_', file_sheet.cell(row=i, column=3).value]))
+                    "".join([UQData['heatParams'][i]['param'], '_', UQData['heatParams'][i]['month']]))
                 i += 1
+                if i >= len(UQData['heatParams']):
+                    break
+
+        # if self.UQ_mode == "Sensitivity Analysis":
+        #     self.confidence_level = file_sheet.cell(row=5, column=3).value
+        #     self.num_levels = file_sheet.cell(row=6, column=3).value
 
         if self.UQ_mode == "Sensitivity Analysis":
-            self.confidence_level = file_sheet.cell(row=5, column=3).value
-            self.num_levels = file_sheet.cell(row=6, column=3).value
+            self.confidence_level = float(UQData['UQInputs']['confidenceLevel'])
+            self.num_levels = int(UQData['UQInputs']['numLevels'])
 
         # close the "UQ_Input" excel file
-        file.save('./Input/UQ_Input.xlsx')
+        # file.save('./Input/UQ_Input.xlsx')
 
         self.lhd = lhs(self.param_info["num_vars"], samples=self.num_of_sample)
 
@@ -219,10 +250,11 @@ class UQ_Object(BEM):
 
         for i in range(self.num_of_sample):  # i: row, j: column
             # Open JSON instance
-            with open(self.jsonData) as f:
-                data = json.load(f)
+            # with open(self.jsonData) as f:
+            #     data = json.load(f)
             # with open(self.buildingName) as f:
             #     data = json.load(f)
+            data = self.jsonData
 
             for j in range(self.param_info["num_vars"]):
                 # Change the parameter values in JSON instance
@@ -362,8 +394,8 @@ class UQ_Object(BEM):
             # Save the JSON instance
             # with open(self.buildingName, 'w', encoding='utf-8') as f:
             #     json.dump(data, f, ensure_ascii=False, indent=4)
-            with open(self.jsonData, 'w', encoding='utf-8') as f:
-                json.dump(data, f, ensure_ascii=False, indent=4)
+            # with open(self.jsonData, 'w', encoding='utf-8') as f:
+            #     json.dump(data, f, ensure_ascii=False, indent=4)
 
             # Re-iterations
             self.readJSON()
@@ -391,9 +423,14 @@ class UQ_Object(BEM):
         if self.UQ_mode == "Sensitivity Analysis":
             # conduct the Morris method
             self.Y = self.BEMP_Iterator()
+            print(self.param_info)
+            print(self.lhd)
+            print(self.Y)
+            print(self.confidence_level)
+            print(self.num_levels)
             SA_result = morris.analyze(self.param_info, self.lhd, self.Y, conf_level=self.confidence_level,
-                                       print_to_console=True, num_levels=self.num_levels)
-
+                                       print_to_console=False, num_levels = self.num_levels)
+            print(SA_result)
             # save the result in CSV
             output = []
             for i in range(len(SA_result["names"])):
@@ -417,17 +454,21 @@ class UQ_Object(BEM):
                 fig.set_figwidth(13)
 
                 new_data = SA_result.sort_values(["mu_star"], ascending=True)
-                ax1.barh(new_data["names"], new_data["mu_star"].values, height=0.6)
-                ax1.set_xlabel("mu*", fontsize=12)
-
-                ax2.scatter(SA_result["mu_star"], SA_result["sigma"])
-                for i, label in enumerate(SA_result["names"]):
-                    ax2.annotate(label, (SA_result["mu_star"][i], SA_result["sigma"][i]))
-
-                ax2.set_xlabel("mu*", fontsize=13)
-                ax2.set_ylabel("sigma", fontsize=13)
-                ax2.grid()
-                plt.show()
+                # ax1.barh(new_data["names"], new_data["mu_star"].values, height=0.6)
+                # ax1.set_xlabel("mu*", fontsize=12)
+                #
+                # ax2.scatter(SA_result["mu_star"], SA_result["sigma"])
+                # for i, label in enumerate(SA_result["names"]):
+                #     ax2.annotate(label, (SA_result["mu_star"][i], SA_result["sigma"][i]))
+                #
+                # ax2.set_xlabel("mu*", fontsize=13)
+                # ax2.set_ylabel("sigma", fontsize=13)
+                # ax2.grid()
+                # plt.show()
+                firstGraphNames = new_data["names"]
+                firstGraphData = new_data["mu_star"].values
+                secondGraphNames = new_data["names"]
+                secondGraphData = [i for i in zip(SA_result["mu_star"], SA_result["sigma"])]
 
         elif self.UQ_mode == "Uncertainty Analysis":
             UQ_result = self.BEMP_Iterator()
@@ -439,33 +480,44 @@ class UQ_Object(BEM):
 
             # visualization
             if self.graph == True:
-                import matplotlib.pyplot as plt
-                fig, (ax1, ax2) = plt.subplots(1, 2, )
-                fig.set_figheight(5)
-                fig.set_figwidth(13)
-
-                ax1.hist(df["output"], color='b', bins=50)
-                ax1.set_xlabel(self.output_utilized, fontsize=13)
-                ax1.set_ylabel("Frequency", fontsize=13)
-                ax1.axvline(x = df.output.mean(), color='r', ymax =  .9, label = f'Mean = {np.round(df.output.mean(),2)}')
-
+                # import matplotlib.pyplot as plt
+                # fig, (ax1, ax2) = plt.subplots(1, 2, )
+                # fig.set_figheight(5)
+                # fig.set_figwidth(13)
+                #
+                # ax1.hist(df["output"], color='b', bins=50)
+                # ax1.set_xlabel(self.output_utilized, fontsize=13)
+                # ax1.set_ylabel("Frequency", fontsize=13)
+                # ax1.axvline(x = df.output.mean(), color='r', ymax =  .9, label = f'Mean = {np.round(df.output.mean(),2)}')
+                #
                 count, bins_count = np.histogram(df["output"])
                 cdf = np.cumsum(count / sum(count))
-                ax2.plot(bins_count[1:], cdf, label="CDF", color='b', linewidth=2)
-                ax2.axvline(x = df.output.mean(), color='r', label = f'Mean = {np.round(df.output.mean(),2)}')
-                ax2.set_xlabel(self.output_utilized, fontsize=13)
-                ax2.set_ylabel("Cumulative Probability", fontsize=13)
-                ax2.grid()
+                # ax2.plot(bins_count[1:], cdf, label="CDF", color='b', linewidth=2)
+                # ax2.axvline(x = df.output.mean(), color='r', label = f'Mean = {np.round(df.output.mean(),2)}')
+                # ax2.set_xlabel(self.output_utilized, fontsize=13)
+                # ax2.set_ylabel("Cumulative Probability", fontsize=13)
+                # ax2.grid()
 
-                handles, labels = ax1.get_legend_handles_labels()
-                fig.legend(handles, labels, loc='upper right')
+                # handles, labels = ax1.get_legend_handles_labels()
+                # fig.legend(handles, labels, loc='upper right')
 
-                plt.show()
+                # plt.show()
+                firstGraphNames = self.output_utilized
+                firstGraphData = df["output"]
+                A = []
+                for i in range(len(firstGraphData)):
+                    A.append([])
+                    A[i].append(firstGraphData[i])
+                firstGraphData = A
+                secondGraphNames = cdf.tolist()
+                secondGraphData = bins_count[1:]
+
+        return firstGraphNames, firstGraphData, secondGraphNames, secondGraphData
 
 
-def UQ(buildingName, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Esol_30, Esol_45, Esol_60, Esol_90, graph=False):
+def UQ(buildingName, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Esol_30, Esol_45, Esol_60, Esol_90, originalFile):
     instance = UQ_Object(buildingName, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Esol_30, Esol_45, Esol_60,
-                         Esol_90, graph=graph)
+                         Esol_90, originalFile)
     instance.readJSON()
     instance.GeneralDataProcessing()
     instance.TransmissionHeatTransfer()
@@ -477,7 +529,9 @@ def UQ(buildingName, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Esol_30, E
     instance.DHWandSolarWaterHeating()
     outcome, outcome2, outcome3, grouped = instance.hourly_BEM()
     instance.LHS()
-    instance.SAUA()
+    firstGraphNames, firstGraphData, secoundGraphNames, secondGraphData = instance.SAUA()
+
+    return firstGraphNames, firstGraphData, secoundGraphNames, secondGraphData
 
 
 if __name__ == '__main__':

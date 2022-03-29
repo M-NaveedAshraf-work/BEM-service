@@ -3,19 +3,12 @@
       "UQMode": "Uncertainty Analysis", 
       "confidenceLevel": 0.95, 
       "energyOutput": "Delivered Energy", 
-      "numLevels": 3, 
+      "numLevels": 4, 
       "status": "success", 
-      "totalSamples": 50
+      "totalSamples": 5
     }, 
     "UQParams": [
-      {
-        "param": "HeatingCOP"
-      }
     ], 
     "heatParams": [
-      {
-        "month": "Jan", 
-        "param": "HeatingCOP"
-      }
     ]
 }

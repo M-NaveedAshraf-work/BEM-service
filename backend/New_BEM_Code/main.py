@@ -59,7 +59,10 @@ def main(mode, building_name, epw_file_name, original_file_name = None, result_f
 
     elif mode == "UQ":
         from Uncertainty_Analysis import UQ
-        UQ("".join(["./Input/",building_name]), climate_data, overhang, fin, horizon, solar_30, solar_45, solar_60, solar_90, graph=True)
+        # UQ("".join(["./Input/",building_name]), climate_data, overhang, fin, horizon, solar_30, solar_45, solar_60, solar_90, graph=True)
+        firstGraphNames, firstGraphData, secoundGraphNames, secoundGraphData = UQ(building_name, climate_data, overhang, fin, horizon, solar_30, solar_45, solar_60,
+           solar_90, original_file_name)
+        return firstGraphNames, firstGraphData, secoundGraphNames, secoundGraphData
 
     else:
         raise Exception("Please check the mode input")
