@@ -32,7 +32,9 @@ estarData = json.load(d)
 h = open('./Input/UQ_Input.json')
 UQData = json.load(h)
 j = open('./Input/runUQ_input.json')
+global runUQData
 runUQData = json.load(j)
+global build_index
 build_index = []
 weatherData = "centergy_2019_epw_file.epw"
 
@@ -56,6 +58,17 @@ HeatData = [
         "month": "Jan"
     }
 ]
+global real
+real = []
+global simulated
+simulated = []
+global interval
+interval = []
+global monthly
+monthly = []
+global subs
+subs = []
+
 
 
 # Hosting the JSON File that can be Read by Scripts and Edited by Vue frontend
@@ -108,9 +121,12 @@ def bem_model():
     subMonthlyTotal[8, 0] = np.sum(subDeliveredEnergy[:, 8])
     subMonthlyTotal[9, 0] = np.sum(subDeliveredEnergy[:, 9])
     subMonthlyTotal[10, 0] = np.sum(subDeliveredEnergy[:, 10])
-
-    response_object['monthly'] = grouped.Delivered.tolist()
-    response_object['subs'] = subMonthlyTotal.tolist()
+    global monthly
+    monthly = grouped.Delivered.tolist()
+    global subs
+    subs = subMonthlyTotal.tolist()
+    response_object['monthly'] = monthly
+    response_object['subs'] = subs
 
     return jsonify(response_object)
 
@@ -211,6 +227,35 @@ def estarComponents():
     else:
         response_object['estarData'] = estarData
         response_object['build_index'] = build_index
+    return jsonify(response_object)
+
+@app.route('/graph', methods = ['GET', 'PUT'])
+def graphComponents():
+    response_object = {'status': 'success'}
+    if request.method == 'PUT':
+        response_object['UQData'] = UQData
+        response_object['estarData'] = estarData
+        response_object['build_index'] = build_index
+        response_object['capxData'] = capxData
+        response_object['calData'] = calData
+        response_object['real'] = real
+        response_object['modeled'] = simulated
+        response_object['interval'] = interval
+        response_object['runUQData'] = runUQData
+        response_object['monthly'] = monthly
+        response_object['subs'] = subs
+    else:
+        response_object['UQData'] = UQData
+        response_object['estarData'] = estarData
+        response_object['build_index'] = build_index
+        response_object['capxData'] = capxData
+        response_object['calData'] = calData
+        response_object['real'] = real
+        response_object['modeled'] = simulated
+        response_object['interval'] = interval
+        response_object['runUQData'] = runUQData
+        response_object['monthly'] = monthly
+        response_object['subs'] = subs
     return jsonify(response_object)
 
 if __name__ == '__main__':
