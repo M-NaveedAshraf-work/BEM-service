@@ -1,0 +1,648 @@
+{
+    "type": "calibration",
+    "ga_settings": {
+        "population_size": 100,
+        "crossover_rate": 0.9,
+        "mutation_rate": 0.2,
+        "random_seed": "None",
+        "max_time": 30,
+        "top_percentage": 10
+    },
+    "capx_paramters": [
+        {
+            "name": "string",
+            "data": "continuous"
+        },
+        {
+            "name": "string",
+            "data": "discrete"
+        },
+        {
+            "name": "string",
+            "data": "discrete"
+        }
+    ],
+    "heatingEfficiency": {
+        "electricWaterBoiler": {
+            "cost": "33734 -1010 MBH",
+            "param": 0.99
+        },
+        "gasWaterBoiler": {
+            "cost": "43409 -1088 MBH",
+            "param": 0.93
+        },
+        "oilWaterBoiler": {
+            "cost": "53309 -1168 MBH",
+            "param": 0.93
+        },
+        "electricSteamBoiler": {
+            "cost": "43509 -1023 MBH",
+            "param": 0.61
+        },
+        "gasSteamBoiler": {
+            "cost": "49109 -1275 MBH",
+            "param": 0.61
+        },
+        "oilSteamBoiler": {
+            "cost": "53409 -1360 MBH",
+            "param": 0.61
+        }
+    },
+    "coolingEfficiency": {
+        "reciprocatingAirChiller": {
+            "cost": "121600 -150 ton",
+            "param1": 2.8
+        },
+        "reciprocatingWaterChiller": {
+            "cost": "106200 -155 ton",
+            "param1": 5
+        },
+        "centrifugalWaterChiller": {
+            "cost": "164300 -400 ton",
+            "param1": 7.1
+        },
+        "absorptionWaterChiller": {
+            "cost": "240300 -148 ton",
+            "param1": 1.9
+        }
+    },
+    "heatingCoolingEfficiency": {
+        "heatPumpAA": {
+            "cost": "11900 -10 ton",
+            "param1": 2.05,
+            "param2": 2.8
+        },
+        "heatPumpWA": {
+            "cost": "11650 -10 ton",
+            "param1": 2.28,
+            "param2": 3.21
+        }
+    },
+    "heatRecovery": {
+        "None": {
+            "cost": "0 -O GPM",
+            "param": 0
+        },
+        "heatExchangePlates": {
+            "cost": "64625 -800 GPM",
+            "param": 0.9
+        },
+        "twoElement": {
+            "cost": "25800 -152 GPM",
+            "param": 0.65
+        },
+        "heatExchangePipes": {
+            "cost": "3550 -1700 CFM",
+            "param": 0.6
+        },
+        "rotation": {
+            "cost": "2000 -",
+            "param": 0.75
+        }
+    },
+    "airLeakage": {
+        "minimum": {
+            "cost": 0,
+            "param": 0
+        },
+        "maximum": {
+            "cost": 0,
+            "param": 0
+        }
+    },
+    "specificFanPower": {
+        "inlineCentrifugal": {
+            "cost": "1470 -3400 CFM",
+            "kw": 1000,
+            "CFM": 3400,
+            "param": 623
+        },
+        "blower": {
+            "cost": "2305 -3600 CFM",
+            "kw": 1000,
+            "CFM": 3400,
+            "param": 623
+        },
+        "axial": {
+            "cost": "1470 -3400 CFM",
+            "kw": 1000,
+            "CFM": 3400,
+            "param": 623
+        }
+    },
+    "DHWGenerationSystem": {
+        "electric": {
+            "cost": "33734 -1010 MBH",
+            "param": 0.75
+        },
+        "VRBoiler": {
+            "cost": "43409 -1088 MBH",
+            "param": 0.61
+        },
+        "gasBoiler": {
+            "cost": "43409 -1088 MBH",
+            "param": 0.75
+        },
+        "coGeneration": {
+            "cost": "50000 -b",
+            "param": 0.9
+        },
+        "districtHeating": {
+            "cost": "50000 -b",
+            "param": 0.9
+        },
+        "heatPump": {
+            "cost": "52100 -50 ton",
+            "param": 2
+        },
+        "steam": {
+            "cost": "43509 -1023 MBH",
+            "param": 0.61
+        }
+    },
+    "PVModule": {
+        "minimum": {
+            "cost": 0,
+            "param": 0
+        },
+        "maximum": {
+            "cost": 43056,
+            "param": 500
+        }
+    },
+    "solarCollector": {
+        "minimum": {
+            "cost": 9025,
+            "param": 40
+        },
+        "maximum": {
+            "cost": 30900,
+            "param": 216
+        }
+    },
+    "appliance": {
+        "eStarBaseline": {
+            "cost": 0,
+            "param": 12
+        },
+        "eStarTop10": {
+            "cost": 1350,
+            "param": 20
+        },
+        "eStarTop5": {
+            "cost": 2120,
+            "param": 25
+        }
+    },
+    "lighting": {
+        "100CFL": {
+            "cost": 0,
+            "fixtures": 100,
+            "param": 33
+        },
+        "LEDCFL": {
+            "cost": 7000,
+            "fixtures": 100,
+            "param": 14000
+        },
+        "LED": {
+            "cost": 14000,
+            "fixtures": 100,
+            "param": 25
+        }
+    },
+    "roof1": {
+        "baseline": {
+            "cost": 0,
+            "param1": 0.24,
+            "param2": 0.7,
+            "param3": 0.6
+        },
+        "improvement1": {
+            "cost": 600,
+            "param1": 0.18,
+            "param2": 0.6,
+            "param3": 0.6
+        },
+        "improvement2": {
+            "cost": 2700,
+            "param1": 0.12,
+            "param2": 0.5,
+            "param3": 0.7
+        }
+    },
+    "opaque1": {
+        "baseline": {
+            "cost": 0,
+            "param1": 0.42,
+            "param2": 0.7,
+            "param3": 0.6
+        },
+        "improvement1": {
+            "cost": 3460,
+            "param1": 0.38,
+            "param2": 0.6,
+            "param3": 0.7
+        },
+        "improvement2": {
+            "cost": 6840,
+            "param1": 0.26,
+            "param2": 0.6,
+            "param3": 0.8
+        }
+    },
+    "window1": {
+        "baseline": {
+            "cost": 0,
+            "param1": 2.5,
+            "param2": 0.7,
+            "param3": 0.5
+        },
+        "improvement1": {
+            "cost": 2140,
+            "param1": 1.53,
+            "param2": 0.16,
+            "param3": 0.2
+        },
+        "improvement2": {
+            "cost": 8700,
+            "param1": 1.2,
+            "param2": 0.24,
+            "param3": 0.2
+        }
+    },
+    "overhangS": {
+        "overhang1": {
+            "cost": 0,
+            "param": 0
+        },
+        "overhang2": {
+            "cost": 2500,
+            "param": 30
+        },
+        "overhang3": {
+            "cost": 2500,
+            "param": 45
+        }
+    },
+    "overhangSE": {
+        "overhang1": {
+            "cost": 0,
+            "param": 0
+        },
+        "overhang2": {
+            "cost": 2500,
+            "param": 30
+        },
+        "overhang3": {
+            "cost": 2500,
+            "param": 45
+        }
+    },
+    "overhangE": {
+        "overhang1": {
+            "cost": 0,
+            "param": 0
+        },
+        "overhang2": {
+            "cost": 2500,
+            "param": 30
+        },
+        "overhang3": {
+            "cost": 2500,
+            "param": 45
+        }
+    },
+    "overhangNE": {
+        "overhang1": {
+            "cost": 0,
+            "param": 0
+        },
+        "overhang2": {
+            "cost": 2500,
+            "param": 30
+        },
+        "overhang3": {
+            "cost": 2500,
+            "param": 45
+        }
+    },
+    "overhangN": {
+        "overhang1": {
+            "cost": 0,
+            "param": 0
+        },
+        "overhang2": {
+            "cost": 2500,
+            "param": 30
+        },
+        "overhang3": {
+            "cost": 2500,
+            "param": 45
+        }
+    },
+    "overhangNW": {
+        "overhang1": {
+            "cost": 0,
+            "param": 0
+        },
+        "overhang2": {
+            "cost": 2500,
+            "param": 30
+        },
+        "overhang3": {
+            "cost": 2500,
+            "param": 45
+        }
+    },
+    "overhangW": {
+        "overhang1": {
+            "cost": 0,
+            "param": 0
+        },
+        "overhang2": {
+            "cost": 2500,
+            "param": 30
+        },
+        "overhang3": {
+            "cost": 2500,
+            "param": 45
+        }
+    },
+    "overhangSW": {
+        "overhang1": {
+            "cost": 0,
+            "param": 0
+        },
+        "overhang2": {
+            "cost": 2500,
+            "param": 30
+        },
+        "overhang3": {
+            "cost": 2500,
+            "param": 45
+        }
+    },
+    "FinS": {
+        "fin1": {
+            "cost": 0,
+            "param": 11
+        },
+        "fin2": {
+            "cost": 2500,
+            "param": 8
+        },
+        "fin3": {
+            "cost": 2500,
+            "param": 9
+        }
+    },
+    "FinSE": {
+        "fin1": {
+            "cost": 0,
+            "param": 0
+        },
+        "fin2": {
+            "cost": 2500,
+            "param": 30
+        },
+        "fin3": {
+            "cost": 2500,
+            "param": 45
+        }
+    },
+    "FinE": {
+        "fin1": {
+            "cost": 0,
+            "param": 0
+        },
+        "fin2": {
+            "cost": 2500,
+            "param": 30
+        },
+        "fin3": {
+            "cost": 2500,
+            "param": 45
+        }
+    },
+    "FinNE": {
+        "fin1": {
+            "cost": 0,
+            "param": 0
+        },
+        "fin2": {
+            "cost": 2500,
+            "param": 30
+        },
+        "fin3": {
+            "cost": 2500,
+            "param": 45
+        }
+    },
+    "FinN": {
+        "fin1": {
+            "cost": 0,
+            "param": 11
+        },
+        "fin2": {
+            "cost": 2500,
+            "param": 8
+        },
+        "fin3": {
+            "cost": 2500,
+            "param": 9
+        }
+    },
+    "FinNW": {
+        "fin1": {
+            "cost": 0,
+            "param": 0
+        },
+        "fin2": {
+            "cost": 2500,
+            "param": 30
+        },
+        "fin3": {
+            "cost": 2500,
+            "param": 45
+        }
+    },
+    "FinW": {
+        "fin1": {
+            "cost": 0,
+            "param": 11
+        },
+        "fin2": {
+            "cost": 2500,
+            "param": 8
+        },
+        "fin3": {
+            "cost": 2500,
+            "param": 9
+        }
+    },
+    "FinSW": {
+        "fin1": {
+            "cost": 0,
+            "param": 0
+        },
+        "fin2": {
+            "cost": 2500,
+            "param": 30
+        },
+        "fin3": {
+            "cost": 2500,
+            "param": 45
+        }
+    },
+    "windTurbine": {
+        "minimumDiameter": {
+            "cost": 0,
+            "param1": 0
+        },
+        "maximumDiameter": {
+            "cost": 260000,
+            "param1": 500
+        }
+    },
+    "naturalVentilation": {
+        "baseline": {
+            "cost": 0,
+            "param1": 1,
+            "param2": 1,
+            "param3": 270
+        },
+        "improve1": {
+            "cost": 3460,
+            "param1": 2,
+            "param2": 1,
+            "param3": 270
+        },
+        "improve2": {
+            "cost": 6840,
+            "param1": 1,
+            "param2": 3,
+            "param3": 270
+        }
+    },
+    "electricBattery": {
+        "baseline": {
+            "cost": 0,
+            "param1": 150,
+            "param2": 0.98,
+            "param3": 0.98
+        },
+        "improve1": {
+            "cost": 3460,
+            "param1": 200,
+            "param2": 0.98,
+            "param3": 0.95
+        },
+        "improve2": {
+            "cost": 6840,
+            "param1": 250,
+            "param2": 0.96,
+            "param3": 0.96
+        }
+    },
+    "lightingDimmer": {
+        "minimumDimmer": {
+            "cost": 0,
+            "param1": 0
+        },
+        "maximumDimmer": {
+            "cost": 8000,
+            "param1": 30
+        }
+    },
+    "windowSRF_S": {
+        "minimumSRF": {
+            "cost": 0,
+            "param1": 0
+        },
+        "maximumSRF": {
+            "cost": 8000,
+            "param1": 0.6
+        }
+    },
+    "windowSRF_SE": {
+        "minimumSRF": {
+            "cost": 0,
+            "param1": 0
+        },
+        "maximumSRF": {
+            "cost": 8000,
+            "param1": 0.6
+        }
+    },
+    "windowSRF_E": {
+        "minimumSRF": {
+            "cost": 0,
+            "param1": 0
+        },
+        "maximumSRF": {
+            "cost": 8000,
+            "param1": 0.6
+        }
+    },
+    "windowSRF_NE": {
+        "minimumSRF": {
+            "cost": 0,
+            "param1": 0
+        },
+        "maximumSRF": {
+            "cost": 8000,
+            "param1": 0.6
+        }
+    },
+    "windowSRF_N": {
+        "minimumSRF": {
+            "cost": 0,
+            "param1": 0
+        },
+        "maximumSRF": {
+            "cost": 8000,
+            "param1": 0.6
+        }
+    },
+    "windowSRF_NW": {
+        "minimumSRF": {
+            "cost": 0,
+            "param1": 0
+        },
+        "maximumSRF": {
+            "cost": 8000,
+            "param1": 0.6
+        }
+    },
+    "windowSRF_W": {
+        "minimumSRF": {
+            "cost": 0,
+            "param1": 0
+        },
+        "maximumSRF": {
+            "cost": 8000,
+            "param1": 0.6
+        }
+    },
+    "windowSRF_SW": {
+        "minimumSRF": {
+            "cost": 0,
+            "param1": 0
+        },
+        "maximumSRF": {
+            "cost": 8000,
+            "param1": 0.6
+        }
+    },
+    "windowSRF_Roof": {
+        "minimumSRF": {
+            "cost": 0,
+            "param1": 0
+        },
+        "maximumSRF": {
+            "cost": 8000,
+            "param1": 0.6
+        }
+    }
+}

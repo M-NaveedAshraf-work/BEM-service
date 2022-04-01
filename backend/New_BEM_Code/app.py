@@ -24,7 +24,8 @@ app.config.from_object(__name__)
 
 # enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})
-
+e = open('./Input/hourlyXAxis.json')
+hourlyXAxis = json.load(e)
 f = open('./Input/centergy_BEM_2019.json')
 data = json.load(f)
 d = open('./Input/energystar_input.json')
@@ -37,15 +38,9 @@ runUQData = json.load(j)
 global build_index
 build_index = []
 weatherData = "centergy_2019_epw_file.epw"
+a = open('./Input/example_calibration.json')
+calData = json.load(a)
 
-calData = [
-    {
-        "name": "Heating COP",
-        "data": "Float",
-        "min": "0.6",
-        "max": "1.0",
-    }
-]
 capxData = [
     {
         "name": "Heating COP",
@@ -127,13 +122,15 @@ def bem_model():
     subs = subMonthlyTotal.tolist()
     response_object['monthly'] = monthly
     response_object['subs'] = subs
+    response_object['hourlyXAxis'] = hourlyXAxis
 
     return jsonify(response_object)
 
 @app.route('/Calibration', methods=['GET'])
 def calibration_model():
     response_object = {'status': 'success'}
-    simulated, real, interval = main(mode="calibration", building_name=data, epw_file_name=weatherData, original_file_name="centergy_BEM_2019", result_file_name="iteration1")
+    data["OutputPeriod"] == "Monthly"
+    simulated, real, interval = main(mode="calibration", building_name=data, epw_file_name=weatherData, original_file_name=calData, result_file_name="iteration1")
     response_object['real'] = real
     response_object['modeled'] = simulated
     response_object['interval'] = interval
@@ -143,8 +140,10 @@ def calibration_model():
 @app.route('/Cal', methods = ['GET', 'PUT'])
 def calComponents():
     response_object = {'status': 'success'}
+    data["OutputPeriod"] == "Monthly"
     if request.method == 'PUT':
         post_data = request.get_json("calData")
+        print(post_data)
         global calData
         calData = post_data
         response_object['calData'] = calData
@@ -156,9 +155,9 @@ def calComponents():
 @app.route('/UQ', methods = ['GET', 'PUT'])
 def UQComponents():
     response_object = {'status': 'success'}
+    data["OutputPeriod"] == "Monthly"
     if request.method == 'PUT':
         post_data = request.get_json("UQData")
-        print(post_data)
         global UQData
         UQData = post_data
         response_object['UQData'] = UQData
@@ -172,7 +171,8 @@ def UQComponents():
 @app.route('/runUQ', methods = ['GET'])
 def UQRuns():
     response_object = {'status': 'success'}
-    time.sleep(2)
+    time.sleep(3)
+    data["OutputPeriod"] == "Monthly"
     global runUQData
     response_object = runUQData
     firstGraphNames, firstGraphData, secondGraphNames, secondGraphData = main(mode="UQ", building_name=data,
@@ -197,6 +197,7 @@ def UQRuns():
 @app.route('/Capx', methods = ['GET', 'PUT'])
 def capxComponents():
     response_object = {'status': 'success'}
+    data["OutputPeriod"] == "Monthly"
     if request.method == 'PUT':
         post_data = request.get_json("capxData")
         global capxData
@@ -210,6 +211,7 @@ def capxComponents():
 @app.route('/energystar', methods = ['GET', 'PUT'])
 def estarComponents():
     response_object = {'status': 'success'}
+    data["OutputPeriod"] == "Monthly"
     if request.method == 'PUT':
         post_data = request.get_json("estarData")
         global estarData

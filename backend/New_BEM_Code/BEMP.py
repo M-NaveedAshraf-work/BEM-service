@@ -154,6 +154,8 @@ class BEM:
         #    self.BEMP_JSON = json.load(f)
         self.BEMP_JSON = self.jsonData
 
+        self.outputPeriod = self.BEMP_JSON["OutputPeriod"]
+
         self.left_numeric[0,0] = self.BEMP_JSON["Volume"]
         self.left_numeric[1,0] = self.BEMP_JSON["Height"]
         self.left_numeric[2,0] = self.BEMP_JSON["DaylightingFactor"]
@@ -1835,24 +1837,29 @@ class BEM:
         # for j in range(self.num_of_loop):
         #     deviation += (self.measuredData[j, 0] - manipulated_result[j, 0]) ** 2
         # cvRMSE = (1 / self.y_bar) * sqrt(deviation / (self.num_of_loop * self.number_of_data - 1)) * 100
+        if self.outputPeriod == "Monthly":
+            plot_data = pd.DataFrame(self.out, columns=['Delivered'])
+            plot_data['Month'] = 'blank'
+            plot_data.loc[:743, 'Month'] = 'January'
+            plot_data.loc[744:1415, 'Month'] = 'February'
+            plot_data.loc[1416:2159, 'Month'] = 'March'
+            plot_data.loc[2160:2879, 'Month'] = 'April'
+            plot_data.loc[2880:3623, 'Month'] = 'May'
+            plot_data.loc[3624:4343, 'Month'] = 'June'
+            plot_data.loc[4344:5087, 'Month'] = 'July'
+            plot_data.loc[5088:5831, 'Month'] = 'August'
+            plot_data.loc[5832:6551, 'Month'] = 'Septemeber'
+            plot_data.loc[6552:7295, 'Month'] = 'October'
+            plot_data.loc[7296:8015, 'Month'] = 'November'
+            plot_data.loc[8016:8759, 'Month'] = 'December'
 
-        plot_data = pd.DataFrame(self.out, columns=['Delivered'])
-        plot_data['Month'] = 'blank'
-        plot_data.loc[:743, 'Month'] = 'January'
-        plot_data.loc[744:1415, 'Month'] = 'February'
-        plot_data.loc[1416:2159, 'Month'] = 'March'
-        plot_data.loc[2160:2879, 'Month'] = 'April'
-        plot_data.loc[2880:3623, 'Month'] = 'May'
-        plot_data.loc[3624:4343, 'Month'] = 'June'
-        plot_data.loc[4344:5087, 'Month'] = 'July'
-        plot_data.loc[5088:5831, 'Month'] = 'August'
-        plot_data.loc[5832:6551, 'Month'] = 'Septemeber'
-        plot_data.loc[6552:7295, 'Month'] = 'October'
-        plot_data.loc[7296:8015, 'Month'] = 'November'
-        plot_data.loc[8016:8759, 'Month'] = 'December'
+            self.grouped = (plot_data.groupby(['Month'], sort=False).sum()).reset_index()
+        elif self.outputPeriod == "Hourly":
+            self.grouped = pd.DataFrame(self.out, columns=['Delivered'])
 
 
-        self.grouped = (plot_data.groupby(['Month'], sort=False).sum()).reset_index()
+
+        #self.grouped = (plot_data.groupby(['Month'], sort=False).sum()).reset_index()
 
 
         # plt.figure(figsize=(14, 8))

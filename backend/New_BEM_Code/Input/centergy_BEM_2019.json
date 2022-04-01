@@ -1,5 +1,6 @@
 {
     "Name": "Building_Name",
+    "OutputPeriod": "Monthly",
     "TerrainClass": "Urban / City",
     "Volume": 198218.0,
     "Height": 52.0,

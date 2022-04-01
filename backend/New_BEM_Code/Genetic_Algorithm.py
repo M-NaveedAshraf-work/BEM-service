@@ -17,11 +17,12 @@ class BEMP_Calibration_CapX(BEM):
 
     def __init__(self, jsonData, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Essol_30, Essol_45, Essol_60,
                  Essol_90, original_file_name, result_file_name):
-        self.original_file_name = original_file_name
         buildingName = "centergy_BEM_2019.json"
         # with open(buildingName) as f:
         #     data = json.load(f)
         data = jsonData
+        calSettings = original_file_name
+        self.original_file_name = "centergy_BEM_2019"
         buildingName = "".join(["./Input/", self.original_file_name, "_intermediate", ".json"])
         with open(buildingName, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
@@ -41,59 +42,98 @@ class BEMP_Calibration_CapX(BEM):
         with open(building_name, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
         # 1. Open the "Calibration" excel file
-        file = openpyxl.load_workbook('./Input/BEM_Optimization_Input_'+original_file_name+'.xlsx', data_only=True)
-        file_sheet = file['GeneticAlgorithm_Setting']
+        # file = openpyxl.load_workbook('./Input/BEM_Optimization_Input_'+original_file_name+'.xlsx', data_only=True)
+        # file = openpyxl.load_workbook('./Input/BEM_Optimization_Input_v2_centergy_BEM_2019.xlsx', data_only=True)
+        # file_sheet = file['GeneticAlgorithm_Setting']
+        file_sheet = calSettings
         # 2. Read the genetic algorithm/calibration settings
-        if file_sheet.cell(row=2, column=3).value < 2:
+
+        # Starting Modification to Read Calibration Settings
+
+        # if file_sheet.cell(row=2, column=3).value < 2:
+        #     raise Exception("The number of population must be greater than 1. Please input the number greater than 1.")
+        # else:
+        #     self.genetic_algorithm_setting["num_of_population"] = file_sheet.cell(row=2, column=3).value
+
+        if file_sheet["ga_settings"]["population_size"] < 2:
             raise Exception("The number of population must be greater than 1. Please input the number greater than 1.")
         else:
-            self.genetic_algorithm_setting["num_of_population"] = file_sheet.cell(row=2, column=3).value
+            self.genetic_algorithm_setting["num_of_population"] = file_sheet["ga_settings"]["population_size"]
 
-        self.genetic_algorithm_setting["crossover_rate"] = file_sheet.cell(row=3, column=3).value
-        self.genetic_algorithm_setting["mutation_rate"] = file_sheet.cell(row=4, column=3).value
-        self.genetic_algorithm_setting["random_seed"] = file_sheet.cell(row=5, column=3).value
-        self.genetic_algorithm_setting["Code_Execution_Time"] = file_sheet.cell(row=6, column=3).value
-        self.genetic_algorithm_setting["calibration_or_CapX"] = file_sheet.cell(row=7, column=3).value
-        self.genetic_algorithm_setting["top_percentage_selection"] = file_sheet.cell(row=8, column=3).value
+        # self.genetic_algorithm_setting["crossover_rate"] = file_sheet.cell(row=3, column=3).value
+        # self.genetic_algorithm_setting["mutation_rate"] = file_sheet.cell(row=4, column=3).value
+        # self.genetic_algorithm_setting["random_seed"] = file_sheet.cell(row=5, column=3).value
+        # self.genetic_algorithm_setting["Code_Execution_Time"] = file_sheet.cell(row=6, column=3).value
+        # self.genetic_algorithm_setting["calibration_or_CapX"] = file_sheet.cell(row=7, column=3).value
+        # self.genetic_algorithm_setting["top_percentage_selection"] = file_sheet.cell(row=8, column=3).value
+
+        self.genetic_algorithm_setting["crossover_rate"] = file_sheet["ga_settings"]["crossover_rate"]
+        self.genetic_algorithm_setting["mutation_rate"] = file_sheet["ga_settings"]["mutation_rate"]
+        self.genetic_algorithm_setting["random_seed"] = file_sheet["ga_settings"]["random_seed"]
+        self.genetic_algorithm_setting["Code_Execution_Time"] = file_sheet["ga_settings"]["max_time"]
+        self.genetic_algorithm_setting["calibration_or_CapX"] = file_sheet["type"]
+        self.genetic_algorithm_setting["top_percentage_selection"] = file_sheet["ga_settings"][
+            "top_percentage"]
 
         print(f'genetic_algorithm_setting: {self.genetic_algorithm_setting}')
 
-        self.genetic_algorithm_setting["crossover_rate"] = file_sheet.cell(row=3, column=3).value
-        self.genetic_algorithm_setting["mutation_rate"] = file_sheet.cell(row=4, column=3).value
-        self.genetic_algorithm_setting["random_seed"] = file_sheet.cell(row=5, column=3).value
-        self.genetic_algorithm_setting["Code_Execution_Time"] = file_sheet.cell(row=6, column=3).value
-        self.genetic_algorithm_setting["calibration_or_CapX"] = file_sheet.cell(row=7, column=3).value
-
         if self.genetic_algorithm_setting["calibration_or_CapX"] == "Calibration":
-            self.calibration_setting["Data_interval"] = file_sheet.cell(row=10, column=3).value
-            self.calibration_setting["Elec_data"] = file_sheet.cell(row=11, column=3).value
-            self.calibration_setting["NaturalGas_data"] = file_sheet.cell(row=12, column=3).value
-            self.calibration_setting["cvRMSE_criterion"] = file_sheet.cell(row=13, column=3).value
-            self.calibration_setting["Convergence"] = file_sheet.cell(row=14, column=3).value
-            self.calibration_setting["N_times_Convergence"] = file_sheet.cell(row=15, column=3).value
+            # self.calibration_setting["Data_interval"] = file_sheet.cell(row=10, column=3).value
+            # self.calibration_setting["Elec_data"] = file_sheet.cell(row=11, column=3).value
+            # self.calibration_setting["NaturalGas_data"] = file_sheet.cell(row=12, column=3).value
+            # self.calibration_setting["cvRMSE_criterion"] = file_sheet.cell(row=13, column=3).value
+            # self.calibration_setting["Convergence"] = file_sheet.cell(row=14, column=3).value
+            # self.calibration_setting["N_times_Convergence"] = file_sheet.cell(row=15, column=3).value
+
+            self.calibration_setting["Data_interval"] = file_sheet["calibration_settings"]["data_interval"]
+            self.calibration_setting["Elec_data"] = file_sheet["calibration_settings"]["electricity_data"]
+            self.calibration_setting["NaturalGas_data"] = file_sheet["calibration_settings"]["natural_gas_data"]
+            self.calibration_setting["cvRMSE_criterion"] = file_sheet["calibration_settings"]["cvrmse_criterion"]
+            self.calibration_setting["Convergence"] = file_sheet["calibration_settings"]["convergence_diff"]
+            self.calibration_setting["N_times_Convergence"] = file_sheet["calibration_settings"]["n_times_converge"]
 
             # 3. Read the calibration parameter name/min/max
-            i = 19;
+            # i = 19;
+            i = 0;
             self.num_of_parameters = 0;
             self.calibration_parameters = []
-            while 1:
-                if file_sheet.cell(row=i, column=3).value == None and file_sheet.cell(row=i, column=4).value == None:
-                    break
-                elif file_sheet.cell(row=i, column=3).value != None and file_sheet.cell(row=i, column=4).value != None:
-                    self.calibration_param_info[file_sheet.cell(row=i, column=2).value] = {}
-                    self.calibration_param_info[file_sheet.cell(row=i, column=2).value]["Type"] = file_sheet.cell(row=i,
-                                                                                                                  column=3).value
-                    self.calibration_param_info[file_sheet.cell(row=i, column=2).value]["Min"] = file_sheet.cell(row=i,
-                                                                                                                 column=4).value
-                    self.calibration_param_info[file_sheet.cell(row=i, column=2).value]["Max"] = file_sheet.cell(row=i,
-                                                                                                                 column=5).value
+            # while 1:
+            #     if file_sheet.cell(row=i, column=3).value == None and file_sheet.cell(row=i, column=4).value == None:
+            #         break
+            #     elif file_sheet.cell(row=i, column=3).value != None and file_sheet.cell(row=i, column=4).value != None:
+            #         self.calibration_param_info[file_sheet.cell(row=i, column=2).value] = {}
+            #         self.calibration_param_info[file_sheet.cell(row=i, column=2).value]["Type"] = file_sheet.cell(row=i,
+            #                                                                                                       column=3).value
+            #         self.calibration_param_info[file_sheet.cell(row=i, column=2).value]["Min"] = file_sheet.cell(row=i,
+            #                                                                                                      column=4).value
+            #         self.calibration_param_info[file_sheet.cell(row=i, column=2).value]["Max"] = file_sheet.cell(row=i,
+            #                                                                                                      column=5).value
+            #
+            #         if file_sheet.cell(row=i, column=4).value >= file_sheet.cell(row=i, column=5).value:
+            #             raise Exception(
+            #                 f"Max value {file_sheet.cell(row=i, column=5).value} must be greater than min value {file_sheet.cell(row=i, column=4).value}.")
+            #
+            #         self.num_of_parameters += 1
+            #         self.calibration_parameters.append(file_sheet.cell(row=i, column=2).value)
+            #     else:
+            #         raise Exception("Please check the 'Calibration Parameters' table.")
+            #     i += 1
 
-                    if file_sheet.cell(row=i, column=4).value >= file_sheet.cell(row=i, column=5).value:
+            while 1:
+                if file_sheet["calibration_parameters"][i] == []:
+                    break
+                elif file_sheet["calibration_parameters"][i] != []:
+                    self.calibration_param_info[file_sheet["calibration_parameters"][i]["name"]] = {}
+                    self.calibration_param_info[file_sheet["calibration_parameters"][i]["name"]]["Type"] = file_sheet["calibration_parameters"][i]["data"]
+                    self.calibration_param_info[file_sheet["calibration_parameters"][i]["name"]]["Min"] = file_sheet["calibration_parameters"][i]["min"]
+                    self.calibration_param_info[file_sheet["calibration_parameters"][i]["name"]]["Max"] = file_sheet["calibration_parameters"][i]["max"]
+
+                    if file_sheet["calibration_parameters"][i]["min"] >= file_sheet["calibration_parameters"][i]["max"]:
                         raise Exception(
-                            f"Max value {file_sheet.cell(row=i, column=5).value} must be greater than min value {file_sheet.cell(row=i, column=4).value}.")
+                            f"Max value must be greater than min value.")
 
                     self.num_of_parameters += 1
-                    self.calibration_parameters.append(file_sheet.cell(row=i, column=2).value)
+                    self.calibration_parameters.append(file_sheet["calibration_parameters"][i]["name"])
                 else:
                     raise Exception("Please check the 'Calibration Parameters' table.")
                 i += 1
@@ -102,23 +142,48 @@ class BEMP_Calibration_CapX(BEM):
             import random
             self.randomlist = list(
                 map(str, random.sample(range(10, 20), 6)))  # generate 6 2-digit integers in str format
-            i = 46;
+            # i = 46;
+            # k = 0
+            # while 1:
+            #     if file_sheet.cell(row=i, column=3).value == None and file_sheet.cell(row=i, column=4).value == None:
+            #         break
+            #     elif file_sheet.cell(row=i, column=3).value != None and file_sheet.cell(row=i, column=4).value != None:
+            #         self.calibration_param_info[self.randomlist[k]] = {}
+            #         self.calibration_param_info[self.randomlist[k]]["Name"] = file_sheet.cell(row=i, column=2).value
+            #         self.calibration_param_info[self.randomlist[k]]["Type"] = file_sheet.cell(row=i, column=3).value
+            #         self.calibration_param_info[self.randomlist[k]]["Hour_Min"] = file_sheet.cell(row=i, column=4).value
+            #         self.calibration_param_info[self.randomlist[k]]["Hour_Max"] = file_sheet.cell(row=i, column=5).value
+            #         self.calibration_param_info[self.randomlist[k]]["Min"] = file_sheet.cell(row=i, column=6).value
+            #         self.calibration_param_info[self.randomlist[k]]["Max"] = file_sheet.cell(row=i, column=7).value
+            #
+            #         if file_sheet.cell(row=i, column=6).value >= file_sheet.cell(row=i, column=7).value:
+            #             raise Exception(
+            #                 f"Max value {file_sheet.cell(row=i, column=7).value} must be greater than min value {file_sheet.cell(row=i, column=6).value}.")
+            #
+            #         self.num_of_parameters += 1
+            #         self.calibration_parameters.append(self.randomlist[k])
+            #     else:
+            #         raise Exception("Please check the 'Schedule Calibration Parameters' table.")
+            #     i += 1;
+            #     k += 1
+
+            i = 0;
             k = 0
             while 1:
-                if file_sheet.cell(row=i, column=3).value == None and file_sheet.cell(row=i, column=4).value == None:
+                if file_sheet["schedule_parameters"][i] == []:
                     break
-                elif file_sheet.cell(row=i, column=3).value != None and file_sheet.cell(row=i, column=4).value != None:
+                elif file_sheet["schedule_parameters"][i] != []:
                     self.calibration_param_info[self.randomlist[k]] = {}
-                    self.calibration_param_info[self.randomlist[k]]["Name"] = file_sheet.cell(row=i, column=2).value
-                    self.calibration_param_info[self.randomlist[k]]["Type"] = file_sheet.cell(row=i, column=3).value
-                    self.calibration_param_info[self.randomlist[k]]["Hour_Min"] = file_sheet.cell(row=i, column=4).value
-                    self.calibration_param_info[self.randomlist[k]]["Hour_Max"] = file_sheet.cell(row=i, column=5).value
-                    self.calibration_param_info[self.randomlist[k]]["Min"] = file_sheet.cell(row=i, column=6).value
-                    self.calibration_param_info[self.randomlist[k]]["Max"] = file_sheet.cell(row=i, column=7).value
+                    self.calibration_param_info[self.randomlist[k]]["Name"] = file_sheet["schedule_parameters"][i]["name"]
+                    self.calibration_param_info[self.randomlist[k]]["Type"] = file_sheet["schedule_parameters"][i]["day"]
+                    self.calibration_param_info[self.randomlist[k]]["Hour_Min"] = file_sheet["schedule_parameters"][i]["min_hour"]
+                    self.calibration_param_info[self.randomlist[k]]["Hour_Max"] = file_sheet["schedule_parameters"][i]["max_hour"]
+                    self.calibration_param_info[self.randomlist[k]]["Min"] = file_sheet["schedule_parameters"][i]["min"]
+                    self.calibration_param_info[self.randomlist[k]]["Max"] = file_sheet["schedule_parameters"][i]["max"]
 
-                    if file_sheet.cell(row=i, column=6).value >= file_sheet.cell(row=i, column=7).value:
+                    if file_sheet["schedule_parameters"][i]["min"] >= file_sheet["schedule_parameters"][i]["max"]:
                         raise Exception(
-                            f"Max value {file_sheet.cell(row=i, column=7).value} must be greater than min value {file_sheet.cell(row=i, column=6).value}.")
+                            f"Max value must be greater than min value.")
 
                     self.num_of_parameters += 1
                     self.calibration_parameters.append(self.randomlist[k])
@@ -129,42 +194,85 @@ class BEMP_Calibration_CapX(BEM):
 
             # 3.2 Read the calibration monthly internal heat gain parameters ####
             self.month_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-            i = 65
+            # i = 65
+            # x = 1
+            # y = 1
+            # z = 1
+            # while 1:
+            #     if file_sheet.cell(row=i, column=3).value == None and file_sheet.cell(row=i, column=4).value == None:
+            #         break
+            #     elif file_sheet.cell(row=i, column=3).value != None and file_sheet.cell(row=i, column=4).value != None:
+            #         if file_sheet.cell(row=i, column=2).value not in self.calibration_param_info:
+            #             tempo_name = file_sheet.cell(row=i, column=2).value
+            #             self.calibration_param_info[tempo_name] = {}
+            #         else:  # if name already exists
+            #             if file_sheet.cell(row=i, column=2).value[:9] == "Occupancy":
+            #                 tempo_name = "".join([file_sheet.cell(row=i, column=2).value, "_", str(x)])
+            #                 self.calibration_param_info[tempo_name] = {}
+            #                 x += 1
+            #
+            #             elif file_sheet.cell(row=i, column=2).value[:9] == "Appliance":
+            #                 tempo_name = "".join([file_sheet.cell(row=i, column=2).value, "_", str(y)])
+            #                 self.calibration_param_info[tempo_name] = {}
+            #                 y += 1
+            #
+            #             elif file_sheet.cell(row=i, column=2).value[:8] == "Lighting":
+            #                 tempo_name = "".join([file_sheet.cell(row=i, column=2).value, "_", str(z)])
+            #                 self.calibration_param_info[tempo_name] = {}
+            #                 z += 1
+            #
+            #         self.calibration_param_info[tempo_name]["Type"] = file_sheet.cell(row=i, column=3).value
+            #         self.calibration_param_info[tempo_name]["Min"] = file_sheet.cell(row=i, column=4).value
+            #         self.calibration_param_info[tempo_name]["Max"] = file_sheet.cell(row=i, column=5).value
+            #         self.calibration_param_info[tempo_name]["Month_Min"] = file_sheet.cell(row=i, column=6).value
+            #         self.calibration_param_info[tempo_name]["Month_Max"] = file_sheet.cell(row=i, column=7).value
+            #
+            #         if file_sheet.cell(row=i, column=4).value >= file_sheet.cell(row=i, column=5).value:
+            #             raise Exception(
+            #                 f"Max value {file_sheet.cell(row=i, column=5).value} must be greater than min value {file_sheet.cell(row=i, column=4).value}.")
+            #
+            #         self.num_of_parameters += 1
+            #         self.calibration_parameters.append(tempo_name)
+            #     else:
+            #         raise Exception("Please check the 'Monthly Internal Heat Gains' table.")
+            #     i += 1
+
+            i = 0
             x = 1
             y = 1
             z = 1
             while 1:
-                if file_sheet.cell(row=i, column=3).value == None and file_sheet.cell(row=i, column=4).value == None:
+                if file_sheet["monthly_internal"][i] == []:
                     break
-                elif file_sheet.cell(row=i, column=3).value != None and file_sheet.cell(row=i, column=4).value != None:
-                    if file_sheet.cell(row=i, column=2).value not in self.calibration_param_info:
-                        tempo_name = file_sheet.cell(row=i, column=2).value
+                elif file_sheet["monthly_internal"][i] != []:
+                    if file_sheet["monthly_internal"][i]["name"] not in self.calibration_param_info:
+                        tempo_name = file_sheet["monthly_internal"][i]["name"]
                         self.calibration_param_info[tempo_name] = {}
                     else:  # if name already exists
-                        if file_sheet.cell(row=i, column=2).value[:9] == "Occupancy":
-                            tempo_name = "".join([file_sheet.cell(row=i, column=2).value, "_", str(x)])
+                        if file_sheet["monthly_internal"][i]["name"] == "Occupancy":
+                            tempo_name = "".join([file_sheet["monthly_internal"][i]["name"], "_", str(x)])
                             self.calibration_param_info[tempo_name] = {}
                             x += 1
 
-                        elif file_sheet.cell(row=i, column=2).value[:9] == "Appliance":
-                            tempo_name = "".join([file_sheet.cell(row=i, column=2).value, "_", str(y)])
+                        elif file_sheet["monthly_internal"][i]["name"] == "Appliance":
+                            tempo_name = "".join([file_sheet["monthly_internal"][i]["name"], "_", str(y)])
                             self.calibration_param_info[tempo_name] = {}
                             y += 1
 
-                        elif file_sheet.cell(row=i, column=2).value[:8] == "Lighting":
-                            tempo_name = "".join([file_sheet.cell(row=i, column=2).value, "_", str(z)])
+                        elif file_sheet["monthly_internal"][i]["name"] == "Lighting":
+                            tempo_name = "".join([file_sheet["monthly_internal"][i]["name"], "_", str(z)])
                             self.calibration_param_info[tempo_name] = {}
                             z += 1
 
-                    self.calibration_param_info[tempo_name]["Type"] = file_sheet.cell(row=i, column=3).value
-                    self.calibration_param_info[tempo_name]["Min"] = file_sheet.cell(row=i, column=4).value
-                    self.calibration_param_info[tempo_name]["Max"] = file_sheet.cell(row=i, column=5).value
-                    self.calibration_param_info[tempo_name]["Month_Min"] = file_sheet.cell(row=i, column=6).value
-                    self.calibration_param_info[tempo_name]["Month_Max"] = file_sheet.cell(row=i, column=7).value
+                    self.calibration_param_info[tempo_name]["Type"] = file_sheet["monthly_internal"][i]["day"]
+                    self.calibration_param_info[tempo_name]["Min"] = file_sheet["monthly_internal"][i]["min"]
+                    self.calibration_param_info[tempo_name]["Max"] = file_sheet["monthly_internal"][i]["max"]
+                    self.calibration_param_info[tempo_name]["Month_Min"] = file_sheet["monthly_internal"][i]["min_month"]
+                    self.calibration_param_info[tempo_name]["Month_Max"] = file_sheet["monthly_internal"][i]["max_month"]
 
-                    if file_sheet.cell(row=i, column=4).value >= file_sheet.cell(row=i, column=5).value:
+                    if file_sheet["monthly_internal"][i]["min"] >= file_sheet["monthly_internal"][i]["max"]:
                         raise Exception(
-                            f"Max value {file_sheet.cell(row=i, column=5).value} must be greater than min value {file_sheet.cell(row=i, column=4).value}.")
+                            f"Max value must be greater than min value.")
 
                     self.num_of_parameters += 1
                     self.calibration_parameters.append(tempo_name)
@@ -389,7 +497,7 @@ class BEMP_Calibration_CapX(BEM):
         ##            print(f"\nCapX_parameters_no_duplicate: {self.CapX_parameters_no_duplicate}\n")
 
         # Close the "Calibration_Input" excel file
-        file.save('./Input/BEM_Optimization_Input.xlsx')
+        # file.save('./Input/BEM_Optimization_Input.xlsx')
 
     # def JSON_Modification(self, chromosome, row_of_chromesome,building_name, calibrated = False):
     def JSON_Modification(self, chromosome, row_of_chromesome, calibrated=False):
@@ -521,84 +629,84 @@ class BEMP_Calibration_CapX(BEM):
                     else:
                         raise Exception(
                             "Please check the 'Monthly_Min' and 'Monthly_Max' in the 'Monthly Internal Heat Gains' table.")
+                #TODO: this was commented out below
+                elif name[:9] == "Occupancy":
+                    if name == "Occupancy Jan":
+                        data["Monthly_InternalHeatGain"]["Occupancy"]["Jan"] = chromosome[row_of_chromesome, j]
+                    elif name == "Occupancy Feb":
+                        data["Monthly_InternalHeatGain"]["Occupancy"]["Feb"] = chromosome[row_of_chromesome, j]
+                    elif name == "Occupancy Mar":
+                        data["Monthly_InternalHeatGain"]["Occupancy"]["Mar"] = chromosome[row_of_chromesome, j]
+                    elif name == "Occupancy Apr":
+                        data["Monthly_InternalHeatGain"]["Occupancy"]["Apr"] = chromosome[row_of_chromesome, j]
+                    elif name == "Occupancy May":
+                        data["Monthly_InternalHeatGain"]["Occupancy"]["May"] = chromosome[row_of_chromesome, j]
+                    elif name == "Occupancy Jun":
+                        data["Monthly_InternalHeatGain"]["Occupancy"]["Jun"] = chromosome[row_of_chromesome, j]
+                    elif name == "Occupancy Jul":
+                        data["Monthly_InternalHeatGain"]["Occupancy"]["Jul"] = chromosome[row_of_chromesome, j]
+                    elif name == "Occupancy Aug":
+                        data["Monthly_InternalHeatGain"]["Occupancy"]["Aug"] = chromosome[row_of_chromesome, j]
+                    elif name == "Occupancy Sep":
+                        data["Monthly_InternalHeatGain"]["Occupancy"]["Sep"] = chromosome[row_of_chromesome, j]
+                    elif name == "Occupancy Oct":
+                        data["Monthly_InternalHeatGain"]["Occupancy"]["Oct"] = chromosome[row_of_chromesome, j]
+                    elif name == "Occupancy Nov":
+                        data["Monthly_InternalHeatGain"]["Occupancy"]["Nov"] = chromosome[row_of_chromesome, j]
+                    elif name == "Occupancy Dec":
+                        data["Monthly_InternalHeatGain"]["Occupancy"]["Dec"] = chromosome[row_of_chromesome, j]
 
-                # elif name[:9] == "Occupancy":
-                #     if name == "Occupancy Jan":
-                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Jan"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Occupancy Feb":
-                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Feb"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Occupancy Mar":
-                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Mar"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Occupancy Apr":
-                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Apr"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Occupancy May":
-                #         data["Monthly_InternalHeatGain"]["Occupancy"]["May"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Occupancy Jun":
-                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Jun"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Occupancy Jul":
-                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Jul"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Occupancy Aug":
-                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Aug"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Occupancy Sep":
-                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Sep"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Occupancy Oct":
-                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Oct"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Occupancy Nov":
-                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Nov"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Occupancy Dec":
-                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Dec"] = chromosome[row_of_chromesome, j]
-                #
-                # elif name[:9] == "Appliance":
-                #     if name == "Appliance Jan":
-                #         data["Monthly_InternalHeatGain"]["Appliance"]["Jan"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Appliance Feb":
-                #         data["Monthly_InternalHeatGain"]["Appliance"]["Feb"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Appliance Mar":
-                #         data["Monthly_InternalHeatGain"]["Appliance"]["Mar"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Appliance Apr":
-                #         data["Monthly_InternalHeatGain"]["Appliance"]["Apr"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Appliance May":
-                #         data["Monthly_InternalHeatGain"]["Appliance"]["May"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Appliance Jun":
-                #         data["Monthly_InternalHeatGain"]["Appliance"]["Jun"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Appliance Jul":
-                #         data["Monthly_InternalHeatGain"]["Appliance"]["Jul"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Appliance Aug":
-                #         data["Monthly_InternalHeatGain"]["Appliance"]["Aug"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Appliance Sep":
-                #         data["Monthly_InternalHeatGain"]["Appliance"]["Sep"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Appliance Oct":
-                #         data["Monthly_InternalHeatGain"]["Appliance"]["Oct"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Appliance Nov":
-                #         data["Monthly_InternalHeatGain"]["Appliance"]["Nov"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Appliance Dec":
-                #         data["Monthly_InternalHeatGain"]["Appliance"]["Dec"] = chromosome[row_of_chromesome, j]
-                #
-                # elif name[:8] == "Lighting":
-                #     if name == "Lighting Jan":
-                #         data["Monthly_InternalHeatGain"]["Lighting"]["Jan"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Lighting Feb":
-                #         data["Monthly_InternalHeatGain"]["Lighting"]["Feb"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Lighting Mar":
-                #         data["Monthly_InternalHeatGain"]["Lighting"]["Mar"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Lighting Apr":
-                #         data["Monthly_InternalHeatGain"]["Lighting"]["Apr"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Lighting May":
-                #         data["Monthly_InternalHeatGain"]["Lighting"]["May"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Lighting Jun":
-                #         data["Monthly_InternalHeatGain"]["Lighting"]["Jun"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Lighting Jul":
-                #         data["Monthly_InternalHeatGain"]["Lighting"]["Jul"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Lighting Aug":
-                #         data["Monthly_InternalHeatGain"]["Lighting"]["Aug"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Lighting Sep":
-                #         data["Monthly_InternalHeatGain"]["Lighting"]["Sep"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Lighting Oct":
-                #         data["Monthly_InternalHeatGain"]["Lighting"]["Oct"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Lighting Nov":
-                #         data["Monthly_InternalHeatGain"]["Lighting"]["Nov"] = chromosome[row_of_chromesome, j]
-                #     elif name == "Lighting Dec":
-                #         data["Monthly_InternalHeatGain"]["Lighting"]["Dec"] = chromosome[row_of_chromesome, j]
+                elif name[:9] == "Appliance":
+                    if name == "Appliance Jan":
+                        data["Monthly_InternalHeatGain"]["Appliance"]["Jan"] = chromosome[row_of_chromesome, j]
+                    elif name == "Appliance Feb":
+                        data["Monthly_InternalHeatGain"]["Appliance"]["Feb"] = chromosome[row_of_chromesome, j]
+                    elif name == "Appliance Mar":
+                        data["Monthly_InternalHeatGain"]["Appliance"]["Mar"] = chromosome[row_of_chromesome, j]
+                    elif name == "Appliance Apr":
+                        data["Monthly_InternalHeatGain"]["Appliance"]["Apr"] = chromosome[row_of_chromesome, j]
+                    elif name == "Appliance May":
+                        data["Monthly_InternalHeatGain"]["Appliance"]["May"] = chromosome[row_of_chromesome, j]
+                    elif name == "Appliance Jun":
+                        data["Monthly_InternalHeatGain"]["Appliance"]["Jun"] = chromosome[row_of_chromesome, j]
+                    elif name == "Appliance Jul":
+                        data["Monthly_InternalHeatGain"]["Appliance"]["Jul"] = chromosome[row_of_chromesome, j]
+                    elif name == "Appliance Aug":
+                        data["Monthly_InternalHeatGain"]["Appliance"]["Aug"] = chromosome[row_of_chromesome, j]
+                    elif name == "Appliance Sep":
+                        data["Monthly_InternalHeatGain"]["Appliance"]["Sep"] = chromosome[row_of_chromesome, j]
+                    elif name == "Appliance Oct":
+                        data["Monthly_InternalHeatGain"]["Appliance"]["Oct"] = chromosome[row_of_chromesome, j]
+                    elif name == "Appliance Nov":
+                        data["Monthly_InternalHeatGain"]["Appliance"]["Nov"] = chromosome[row_of_chromesome, j]
+                    elif name == "Appliance Dec":
+                        data["Monthly_InternalHeatGain"]["Appliance"]["Dec"] = chromosome[row_of_chromesome, j]
+
+                elif name[:8] == "Lighting":
+                    if name == "Lighting Jan":
+                        data["Monthly_InternalHeatGain"]["Lighting"]["Jan"] = chromosome[row_of_chromesome, j]
+                    elif name == "Lighting Feb":
+                        data["Monthly_InternalHeatGain"]["Lighting"]["Feb"] = chromosome[row_of_chromesome, j]
+                    elif name == "Lighting Mar":
+                        data["Monthly_InternalHeatGain"]["Lighting"]["Mar"] = chromosome[row_of_chromesome, j]
+                    elif name == "Lighting Apr":
+                        data["Monthly_InternalHeatGain"]["Lighting"]["Apr"] = chromosome[row_of_chromesome, j]
+                    elif name == "Lighting May":
+                        data["Monthly_InternalHeatGain"]["Lighting"]["May"] = chromosome[row_of_chromesome, j]
+                    elif name == "Lighting Jun":
+                        data["Monthly_InternalHeatGain"]["Lighting"]["Jun"] = chromosome[row_of_chromesome, j]
+                    elif name == "Lighting Jul":
+                        data["Monthly_InternalHeatGain"]["Lighting"]["Jul"] = chromosome[row_of_chromesome, j]
+                    elif name == "Lighting Aug":
+                        data["Monthly_InternalHeatGain"]["Lighting"]["Aug"] = chromosome[row_of_chromesome, j]
+                    elif name == "Lighting Sep":
+                        data["Monthly_InternalHeatGain"]["Lighting"]["Sep"] = chromosome[row_of_chromesome, j]
+                    elif name == "Lighting Oct":
+                        data["Monthly_InternalHeatGain"]["Lighting"]["Oct"] = chromosome[row_of_chromesome, j]
+                    elif name == "Lighting Nov":
+                        data["Monthly_InternalHeatGain"]["Lighting"]["Nov"] = chromosome[row_of_chromesome, j]
+                    elif name == "Lighting Dec":
+                        data["Monthly_InternalHeatGain"]["Lighting"]["Dec"] = chromosome[row_of_chromesome, j]
 
                 elif isinstance(int(name), int) == True:  # Temperature setpoint or Schedule
                     hour_max = self.calibration_param_info[name]["Hour_Max"]
@@ -1180,7 +1288,7 @@ class BEMP_Calibration_CapX(BEM):
                     else:
                         raise Exception(
                             "Please check the 'Monthly_Min' and 'Monthly_Max' in the 'Monthly Internal Heat Gains' table.")
-
+                #TODO: Look into set point
                 elif isinstance(int(name), int)== True: # Temperature setpoint or Schedule
                     hour_max = self.calibration_param_info[name]["Hour_Max"]
                     hour_min = self.calibration_param_info[name]["Hour_Min"]
