@@ -80,7 +80,7 @@
     },
     "heatRecovery": {
         "None": {
-            "cost": "0 -O GPM",
+            "cost": "0 -0 GPM",
             "param": 0
         },
         "heatExchangePlates": {

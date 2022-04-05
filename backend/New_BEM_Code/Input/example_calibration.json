@@ -1,5 +1,5 @@
 {
-    "type": "calibration",
+    "type": "Calibration",
     "ga_settings": {
         "population_size": 100,
         "crossover_rate": 0.9,
@@ -34,27 +34,27 @@
         "heatingEfficiency": {
             "electricWaterBoiler": {
                 "cost": "33734 -1010 MBH",
-                "param": 0.99
+                "param1": 0.99
             },
             "gasWaterBoiler": {
                 "cost": "43409 -1088 MBH",
-                "param": 0.93
+                "param1": 0.93
             },
             "oilWaterBoiler": {
                 "cost": "53309 -1168 MBH",
-                "param": 0.93
+                "param1": 0.93
             },
             "electricSteamBoiler": {
                 "cost": "43509 -1023 MBH",
-                "param": 0.61
+                "param1": 0.61
             },
             "gasSteamBoiler": {
                 "cost": "49109 -1275 MBH",
-                "param": 0.61
+                "param1": 0.61
             },
             "oilSteamBoiler": {
                 "cost": "53409 -1360 MBH",
-                "param": 0.61
+                "param1": 0.61
             }
         },
         "coolingEfficiency": {
@@ -90,33 +90,33 @@
         "heatRecovery": {
             "None": {
                 "cost": "0 -O GPM",
-                "param": 0
+                "param1": 0
             },
             "heatExchangePlates": {
                 "cost": "64625 -800 GPM",
-                "param": 0.9
+                "param1": 0.9
             },
             "twoElement": {
                 "cost": "25800 -152 GPM",
-                "param": 0.65
+                "param1": 0.65
             },
             "heatExchangePipes": {
                 "cost": "3550 -1700 CFM",
-                "param": 0.6
+                "param1": 0.6
             },
             "rotation": {
                 "cost": "2000 -",
-                "param": 0.75
+                "param1": 0.75
             }
         },
         "airLeakage": {
             "minimum": {
                 "cost": 0,
-                "param": 0
+                "param1": 0
             },
             "maximum": {
                 "cost": 0,
-                "param": 0
+                "param1": 0
             }
         },
         "specificFanPower": {
@@ -124,100 +124,100 @@
                 "cost": "1470 -3400 CFM",
                 "kw": 1000,
                 "CFM": 3400,
-                "param": 623
+                "param1": 623
             },
             "blower": {
                 "cost": "2305 -3600 CFM",
                 "kw": 1000,
                 "CFM": 3400,
-                "param": 623
+                "param1": 623
             },
             "axial": {
                 "cost": "1470 -3400 CFM",
                 "kw": 1000,
                 "CFM": 3400,
-                "param": 623
+                "param1": 623
             }
         },
         "DHWGenerationSystem": {
             "electric": {
                 "cost": "33734 -1010 MBH",
-                "param": 0.75
+                "param1": 0.75
             },
             "VRBoiler": {
                 "cost": "43409 -1088 MBH",
-                "param": 0.61
+                "param1": 0.61
             },
             "gasBoiler": {
                 "cost": "43409 -1088 MBH",
-                "param": 0.75
+                "param1": 0.75
             },
             "coGeneration": {
                 "cost": "50000 -b",
-                "param": 0.9
+                "param1": 0.9
             },
             "districtHeating": {
                 "cost": "50000 -b",
-                "param": 0.9
+                "param1": 0.9
             },
             "heatPump": {
                 "cost": "52100 -50 ton",
-                "param": 2
+                "param1": 2
             },
             "steam": {
                 "cost": "43509 -1023 MBH",
-                "param": 0.61
+                "param1": 0.61
             }
         },
         "PVModule": {
             "minimum": {
                 "cost": 0,
-                "param": 0
+                "param1": 0
             },
             "maximum": {
                 "cost": 43056,
-                "param": 500
+                "param1": 500
             }
         },
         "solarCollector": {
             "minimum": {
                 "cost": 9025,
-                "param": 40
+                "param1": 40
             },
             "maximum": {
                 "cost": 30900,
-                "param": 216
+                "param1": 216
             }
         },
         "appliance": {
             "eStarBaseline": {
                 "cost": 0,
-                "param": 12
+                "param1": 12
             },
             "eStarTop10": {
                 "cost": 1350,
-                "param": 20
+                "param1": 20
             },
             "eStarTop5": {
                 "cost": 2120,
-                "param": 25
+                "param1": 25
             }
         },
         "lighting": {
-            "100CFL": {
+            "allCFL": {
                 "cost": 0,
                 "fixtures": 100,
-                "param": 33
+                "param1": 33
             },
             "LEDCFL": {
                 "cost": 7000,
                 "fixtures": 100,
-                "param": 14000
+                "param1": 14000
             },
             "LED": {
                 "cost": 14000,
                 "fixtures": 100,
-                "param": 25
+                "param1": 25
             }
         },
         "roof1": {
@@ -283,225 +283,225 @@
         "overhangS": {
             "overhang1": {
                 "cost": 0,
-                "param": 0
+                "param1": 0
             },
             "overhang2": {
                 "cost": 2500,
-                "param": 30
+                "param1": 30
             },
             "overhang3": {
                 "cost": 2500,
-                "param": 45
+                "param1": 45
             }
         },
         "overhangSE": {
             "overhang1": {
                 "cost": 0,
-                "param": 0
+                "param1": 0
             },
             "overhang2": {
                 "cost": 2500,
-                "param": 30
+                "param1": 30
             },
             "overhang3": {
                 "cost": 2500,
-                "param": 45
+                "param1": 45
             }
         },
         "overhangE": {
             "overhang1": {
                 "cost": 0,
-                "param": 0
+                "param1": 0
             },
             "overhang2": {
                 "cost": 2500,
-                "param": 30
+                "param1": 30
             },
             "overhang3": {
                 "cost": 2500,
-                "param": 45
+                "param1": 45
             }
         },
         "overhangNE": {
             "overhang1": {
                 "cost": 0,
-                "param": 0
+                "param1": 0
             },
             "overhang2": {
                 "cost": 2500,
-                "param": 30
+                "param1": 30
             },
             "overhang3": {
                 "cost": 2500,
-                "param": 45
+                "param1": 45
             }
         },
         "overhangN": {
             "overhang1": {
                 "cost": 0,
-                "param": 0
+                "param1": 0
             },
             "overhang2": {
                 "cost": 2500,
-                "param": 30
+                "param1": 30
             },
             "overhang3": {
                 "cost": 2500,
-                "param": 45
+                "param1": 45
             }
         },
         "overhangNW": {
             "overhang1": {
                 "cost": 0,
-                "param": 0
+                "param1": 0
             },
             "overhang2": {
                 "cost": 2500,
-                "param": 30
+                "param1": 30
             },
             "overhang3": {
                 "cost": 2500,
-                "param": 45
+                "param1": 45
             }
         },
         "overhangW": {
             "overhang1": {
                 "cost": 0,
-                "param": 0
+                "param1": 0
             },
             "overhang2": {
                 "cost": 2500,
-                "param": 30
+                "param1": 30
             },
             "overhang3": {
                 "cost": 2500,
-                "param": 45
+                "param1": 45
             }
         },
         "overhangSW": {
             "overhang1": {
                 "cost": 0,
-                "param": 0
+                "param1": 0
             },
             "overhang2": {
                 "cost": 2500,
-                "param": 30
+                "param1": 30
             },
             "overhang3": {
                 "cost": 2500,
-                "param": 45
+                "param1": 45
             }
         },
         "FinS": {
             "fin1": {
                 "cost": 0,
-                "param": 11
+                "param1": 11
             },
             "fin2": {
                 "cost": 2500,
-                "param": 8
+                "param1": 8
             },
             "fin3": {
                 "cost": 2500,
-                "param": 9
+                "param1": 9
             }
         },
         "FinSE": {
             "fin1": {
                 "cost": 0,
-                "param": 0
+                "param1": 0
             },
             "fin2": {
                 "cost": 2500,
-                "param": 30
+                "param1": 30
             },
             "fin3": {
                 "cost": 2500,
-                "param": 45
+                "param1": 45
             }
         },
         "FinE": {
             "fin1": {
                 "cost": 0,
-                "param": 0
+                "param1": 0
             },
             "fin2": {
                 "cost": 2500,
-                "param": 30
+                "param1": 30
             },
             "fin3": {
                 "cost": 2500,
-                "param": 45
+                "param1": 45
             }
         },
         "FinNE": {
             "fin1": {
                 "cost": 0,
-                "param": 0
+                "param1": 0
             },
             "fin2": {
                 "cost": 2500,
-                "param": 30
+                "param1": 30
             },
             "fin3": {
                 "cost": 2500,
-                "param": 45
+                "param1": 45
             }
         },
         "FinN": {
             "fin1": {
                 "cost": 0,
-                "param": 11
+                "param1": 11
             },
             "fin2": {
                 "cost": 2500,
-                "param": 8
+                "param1": 8
             },
             "fin3": {
                 "cost": 2500,
-                "param": 9
+                "param1": 9
             }
         },
         "FinNW": {
             "fin1": {
                 "cost": 0,
-                "param": 0
+                "param1": 0
             },
             "fin2": {
                 "cost": 2500,
-                "param": 30
+                "param1": 30
             },
             "fin3": {
                 "cost": 2500,
-                "param": 45
+                "param1": 45
             }
         },
         "FinW": {
             "fin1": {
                 "cost": 0,
-                "param": 11
+                "param1": 11
             },
             "fin2": {
                 "cost": 2500,
-                "param": 8
+                "param1": 8
             },
             "fin3": {
                 "cost": 2500,
-                "param": 9
+                "param1": 9
             }
         },
         "FinSW": {
             "fin1": {
                 "cost": 0,
-                "param": 0
+                "param1": 0
             },
             "fin2": {
                 "cost": 2500,
-                "param": 30
+                "param1": 30
             },
             "fin3": {
                 "cost": 2500,
-                "param": 45
+                "param1": 45
             }
         },
         "windTurbine": {

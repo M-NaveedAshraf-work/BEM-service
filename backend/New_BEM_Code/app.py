@@ -130,7 +130,8 @@ def bem_model():
 def calibration_model():
     response_object = {'status': 'success'}
     data["OutputPeriod"] == "Monthly"
-    simulated, real, interval = main(mode="calibration", building_name=data, epw_file_name=weatherData, original_file_name=calData, result_file_name="iteration1")
+    calData["type"] = "Calibration"
+    simulated, real, interval = main(mode="calibration", building_name=data, epw_file_name=weatherData, original_file_name=calData, result_file_name="BEM_Optimization_Input_v2_centergy_BEM_2019")
     response_object['real'] = real
     response_object['modeled'] = simulated
     response_object['interval'] = interval
@@ -194,18 +195,17 @@ def UQRuns():
 
     return jsonify(response_object)
 
-@app.route('/Capx', methods = ['GET', 'PUT'])
+@app.route('/Capx', methods = ['GET'])
 def capxComponents():
     response_object = {'status': 'success'}
+    calData["type"] = "CapX"
     data["OutputPeriod"] == "Monthly"
-    if request.method == 'PUT':
-        post_data = request.get_json("capxData")
-        global capxData
-        capxData = post_data
-        response_object['capxData'] = capxData
-        response_object['message'] = "Parameters Updated"
-    else:
-        response_object['capxData'] = capxData
+    simulated, real, interval = main(mode="capX", building_name=data, epw_file_name=weatherData,
+                                     original_file_name=calData, result_file_name="BEM_Optimization_Input_v2_centergy_BEM_2019")
+    response_object['real'] = real
+    response_object['modeled'] = simulated
+    response_object['interval'] = interval
+
     return jsonify(response_object)
 
 @app.route('/energystar', methods = ['GET', 'PUT'])

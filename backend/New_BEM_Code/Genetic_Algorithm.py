@@ -29,6 +29,8 @@ class BEMP_Calibration_CapX(BEM):
         # Inherits BEM class
         BEM.__init__(self, jsonData, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Essol_30, Essol_45, Essol_60,
                      Essol_90)
+        self.num_of_parameters = 0
+        self.CapX_parameters_no_duplicate = {}
         self.genetic_algorithm_setting = {}
         self.calibration_setting = {};
         self.CapX_setting = {}
@@ -42,6 +44,7 @@ class BEMP_Calibration_CapX(BEM):
         with open(building_name, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
         # 1. Open the "Calibration" excel file
+        file = openpyxl.load_workbook('./Input/'+self.result_file_name+'.xlsx', data_only=True)
         # file = openpyxl.load_workbook('./Input/BEM_Optimization_Input_'+original_file_name+'.xlsx', data_only=True)
         # file = openpyxl.load_workbook('./Input/BEM_Optimization_Input_v2_centergy_BEM_2019.xlsx', data_only=True)
         # file_sheet = file['GeneticAlgorithm_Setting']
@@ -55,10 +58,10 @@ class BEMP_Calibration_CapX(BEM):
         # else:
         #     self.genetic_algorithm_setting["num_of_population"] = file_sheet.cell(row=2, column=3).value
 
-        if file_sheet["ga_settings"]["population_size"] < 2:
+        if int(file_sheet["ga_settings"]["population_size"]) < 2:
             raise Exception("The number of population must be greater than 1. Please input the number greater than 1.")
         else:
-            self.genetic_algorithm_setting["num_of_population"] = file_sheet["ga_settings"]["population_size"]
+            self.genetic_algorithm_setting["num_of_population"] = int(file_sheet["ga_settings"]["population_size"])
 
         # self.genetic_algorithm_setting["crossover_rate"] = file_sheet.cell(row=3, column=3).value
         # self.genetic_algorithm_setting["mutation_rate"] = file_sheet.cell(row=4, column=3).value
@@ -67,16 +70,19 @@ class BEMP_Calibration_CapX(BEM):
         # self.genetic_algorithm_setting["calibration_or_CapX"] = file_sheet.cell(row=7, column=3).value
         # self.genetic_algorithm_setting["top_percentage_selection"] = file_sheet.cell(row=8, column=3).value
 
-        self.genetic_algorithm_setting["crossover_rate"] = file_sheet["ga_settings"]["crossover_rate"]
-        self.genetic_algorithm_setting["mutation_rate"] = file_sheet["ga_settings"]["mutation_rate"]
+        self.genetic_algorithm_setting["crossover_rate"] = float(file_sheet["ga_settings"]["crossover_rate"])
+        self.genetic_algorithm_setting["mutation_rate"] = float(file_sheet["ga_settings"]["mutation_rate"])
         self.genetic_algorithm_setting["random_seed"] = file_sheet["ga_settings"]["random_seed"]
-        self.genetic_algorithm_setting["Code_Execution_Time"] = file_sheet["ga_settings"]["max_time"]
+        self.genetic_algorithm_setting["Code_Execution_Time"] = int(file_sheet["ga_settings"]["max_time"])
         self.genetic_algorithm_setting["calibration_or_CapX"] = file_sheet["type"]
-        self.genetic_algorithm_setting["top_percentage_selection"] = file_sheet["ga_settings"][
-            "top_percentage"]
+        self.genetic_algorithm_setting["top_percentage_selection"] = int(file_sheet["ga_settings"][
+            "top_percentage"])
 
         print(f'genetic_algorithm_setting: {self.genetic_algorithm_setting}')
 
+        self.calibration_setting["Data_interval"] = file_sheet["calibration_settings"]["data_interval"]
+        self.calibration_setting["Elec_data"] = file_sheet["calibration_settings"]["electricity_data"]
+        self.calibration_setting["NaturalGas_data"] = file_sheet["calibration_settings"]["natural_gas_data"]
         if self.genetic_algorithm_setting["calibration_or_CapX"] == "Calibration":
             # self.calibration_setting["Data_interval"] = file_sheet.cell(row=10, column=3).value
             # self.calibration_setting["Elec_data"] = file_sheet.cell(row=11, column=3).value
@@ -88,9 +94,9 @@ class BEMP_Calibration_CapX(BEM):
             self.calibration_setting["Data_interval"] = file_sheet["calibration_settings"]["data_interval"]
             self.calibration_setting["Elec_data"] = file_sheet["calibration_settings"]["electricity_data"]
             self.calibration_setting["NaturalGas_data"] = file_sheet["calibration_settings"]["natural_gas_data"]
-            self.calibration_setting["cvRMSE_criterion"] = file_sheet["calibration_settings"]["cvrmse_criterion"]
-            self.calibration_setting["Convergence"] = file_sheet["calibration_settings"]["convergence_diff"]
-            self.calibration_setting["N_times_Convergence"] = file_sheet["calibration_settings"]["n_times_converge"]
+            self.calibration_setting["cvRMSE_criterion"] = float(file_sheet["calibration_settings"]["cvrmse_criterion"])
+            self.calibration_setting["Convergence"] = float(file_sheet["calibration_settings"]["convergence_diff"])
+            self.calibration_setting["N_times_Convergence"] = int(file_sheet["calibration_settings"]["n_times_converge"])
 
             # 3. Read the calibration parameter name/min/max
             # i = 19;
@@ -118,17 +124,17 @@ class BEMP_Calibration_CapX(BEM):
             #     else:
             #         raise Exception("Please check the 'Calibration Parameters' table.")
             #     i += 1
-
-            while 1:
-                if file_sheet["calibration_parameters"][i] == []:
+            state = "go"
+            while state != 'end':
+                if file_sheet["calibration_parameters"] == []:
                     break
-                elif file_sheet["calibration_parameters"][i] != []:
+                elif file_sheet["calibration_parameters"] != []:
                     self.calibration_param_info[file_sheet["calibration_parameters"][i]["name"]] = {}
                     self.calibration_param_info[file_sheet["calibration_parameters"][i]["name"]]["Type"] = file_sheet["calibration_parameters"][i]["data"]
-                    self.calibration_param_info[file_sheet["calibration_parameters"][i]["name"]]["Min"] = file_sheet["calibration_parameters"][i]["min"]
-                    self.calibration_param_info[file_sheet["calibration_parameters"][i]["name"]]["Max"] = file_sheet["calibration_parameters"][i]["max"]
+                    self.calibration_param_info[file_sheet["calibration_parameters"][i]["name"]]["Min"] = float(file_sheet["calibration_parameters"][i]["min"])
+                    self.calibration_param_info[file_sheet["calibration_parameters"][i]["name"]]["Max"] = float(file_sheet["calibration_parameters"][i]["max"])
 
-                    if file_sheet["calibration_parameters"][i]["min"] >= file_sheet["calibration_parameters"][i]["max"]:
+                    if float(file_sheet["calibration_parameters"][i]["min"]) >= float(file_sheet["calibration_parameters"][i]["max"]):
                         raise Exception(
                             f"Max value must be greater than min value.")
 
@@ -137,6 +143,8 @@ class BEMP_Calibration_CapX(BEM):
                 else:
                     raise Exception("Please check the 'Calibration Parameters' table.")
                 i += 1
+                if i >= len(file_sheet['calibration_parameters']):
+                    state = 'end'
 
             # 3.1 Read the calibration SCHEDULE parameters
             import random
@@ -169,19 +177,20 @@ class BEMP_Calibration_CapX(BEM):
 
             i = 0;
             k = 0
-            while 1:
-                if file_sheet["schedule_parameters"][i] == []:
+            state = 'go'
+            while state != 'end':
+                if file_sheet["schedule_parameters"] == []:
                     break
-                elif file_sheet["schedule_parameters"][i] != []:
+                elif file_sheet["schedule_parameters"] != []:
                     self.calibration_param_info[self.randomlist[k]] = {}
                     self.calibration_param_info[self.randomlist[k]]["Name"] = file_sheet["schedule_parameters"][i]["name"]
                     self.calibration_param_info[self.randomlist[k]]["Type"] = file_sheet["schedule_parameters"][i]["day"]
-                    self.calibration_param_info[self.randomlist[k]]["Hour_Min"] = file_sheet["schedule_parameters"][i]["min_hour"]
-                    self.calibration_param_info[self.randomlist[k]]["Hour_Max"] = file_sheet["schedule_parameters"][i]["max_hour"]
-                    self.calibration_param_info[self.randomlist[k]]["Min"] = file_sheet["schedule_parameters"][i]["min"]
-                    self.calibration_param_info[self.randomlist[k]]["Max"] = file_sheet["schedule_parameters"][i]["max"]
+                    self.calibration_param_info[self.randomlist[k]]["Hour_Min"] = int(file_sheet["schedule_parameters"][i]["min_hour"])
+                    self.calibration_param_info[self.randomlist[k]]["Hour_Max"] = int(file_sheet["schedule_parameters"][i]["max_hour"])
+                    self.calibration_param_info[self.randomlist[k]]["Min"] = float(file_sheet["schedule_parameters"][i]["min"])
+                    self.calibration_param_info[self.randomlist[k]]["Max"] = float(file_sheet["schedule_parameters"][i]["max"])
 
-                    if file_sheet["schedule_parameters"][i]["min"] >= file_sheet["schedule_parameters"][i]["max"]:
+                    if float(file_sheet["schedule_parameters"][i]["min"]) >= float(file_sheet["schedule_parameters"][i]["max"]):
                         raise Exception(
                             f"Max value must be greater than min value.")
 
@@ -191,6 +200,8 @@ class BEMP_Calibration_CapX(BEM):
                     raise Exception("Please check the 'Schedule Calibration Parameters' table.")
                 i += 1;
                 k += 1
+                if i >= len(file_sheet['schedule_parameters']):
+                    state = 'end'
 
             # 3.2 Read the calibration monthly internal heat gain parameters ####
             self.month_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -241,10 +252,11 @@ class BEMP_Calibration_CapX(BEM):
             x = 1
             y = 1
             z = 1
-            while 1:
-                if file_sheet["monthly_internal"][i] == []:
+            state = 'go'
+            while state != 'end':
+                if file_sheet["monthly_internal"] == []:
                     break
-                elif file_sheet["monthly_internal"][i] != []:
+                elif file_sheet["monthly_internal"] != []:
                     if file_sheet["monthly_internal"][i]["name"] not in self.calibration_param_info:
                         tempo_name = file_sheet["monthly_internal"][i]["name"]
                         self.calibration_param_info[tempo_name] = {}
@@ -265,12 +277,12 @@ class BEMP_Calibration_CapX(BEM):
                             z += 1
 
                     self.calibration_param_info[tempo_name]["Type"] = file_sheet["monthly_internal"][i]["day"]
-                    self.calibration_param_info[tempo_name]["Min"] = file_sheet["monthly_internal"][i]["min"]
-                    self.calibration_param_info[tempo_name]["Max"] = file_sheet["monthly_internal"][i]["max"]
+                    self.calibration_param_info[tempo_name]["Min"] = float(file_sheet["monthly_internal"][i]["min"])
+                    self.calibration_param_info[tempo_name]["Max"] = float(file_sheet["monthly_internal"][i]["max"])
                     self.calibration_param_info[tempo_name]["Month_Min"] = file_sheet["monthly_internal"][i]["min_month"]
                     self.calibration_param_info[tempo_name]["Month_Max"] = file_sheet["monthly_internal"][i]["max_month"]
 
-                    if file_sheet["monthly_internal"][i]["min"] >= file_sheet["monthly_internal"][i]["max"]:
+                    if float(file_sheet["monthly_internal"][i]["min"]) >= float(file_sheet["monthly_internal"][i]["max"]):
                         raise Exception(
                             f"Max value must be greater than min value.")
 
@@ -279,125 +291,134 @@ class BEMP_Calibration_CapX(BEM):
                 else:
                     raise Exception("Please check the 'Monthly Internal Heat Gains' table.")
                 i += 1
+                if i >= len(file_sheet['monthly_internal']):
+                    state = 'end'
 
             # print(f"calibration_param_info:\n{self.calibration_param_info}")
             # print(f"calibration_parameters:\n{self.calibration_parameters}")
-
+            #Todo: Indent starts here
             # 4. Read the input elec/natural gas data
-            if self.calibration_setting["Data_interval"] == "Monthly":
-                self.measuredData = np.zeros((12, 2))
-                self.data_sheet = file['Calibration_Monthly_Data']
-                self.num_of_loop = 12  # needed in the "Evaluation" method
-
-                for i in range(12):
-                    if self.calibration_setting["Elec_data"] == "Yes":
-                        self.measuredData[i, 0] = self.data_sheet.cell(row=i + 3, column=2).value
-                    if self.calibration_setting["NaturalGas_data"] == "Yes":
-                        self.measuredData[i, 1] = self.data_sheet.cell(row=i + 3, column=3).value
-
-            elif self.calibration_setting["Data_interval"] == "Daily":
-                self.measuredData = np.zeros((365, 2))
-                self.data_sheet = file['Calibration_Daily_Data']
-                self.num_of_loop = 365
-
-                for i in range(365):
-                    if self.calibration_setting["Elec_data"] == "Yes":
-                        self.measuredData[i, 0] = self.data_sheet.cell(row=i + 3, column=2).value
-                    if self.calibration_setting["NaturalGas_data"] == "Yes":
-                        self.measuredData[i, 1] = self.data_sheet.cell(row=i + 3, column=3).value
-
-            elif self.calibration_setting["Data_interval"] == "Hourly":
-                self.measuredData = np.zeros((8760, 2))
-                self.data_sheet = file['Calibration_Hourly_Data']
-                self.num_of_loop = 8760
-
-                for i in range(8760):
-                    if self.calibration_setting["Elec_data"] == "Yes":
-                        self.measuredData[i, 0] = self.data_sheet.cell(row=i + 3, column=3).value
-                    if self.calibration_setting["NaturalGas_data"] == "Yes":
-                        self.measuredData[i, 1] = self.data_sheet.cell(row=i + 3, column=4).value
-            else:
-                raise Exception("Please check the 'Calibration Data Interval' input.")
-
-            # 5. Calculate the average data value
-            self.y_bar = 0;
-            self.number_of_data = 1  # y_bar: average utility data -> needed for cvRMSE calculation
-            if self.calibration_setting["Elec_data"] == "Yes" and self.calibration_setting["NaturalGas_data"] == "Yes":
-                self.y_bar = self.measuredData.mean()
-                self.number_of_data = 2
-
-            elif self.calibration_setting["Elec_data"] == "Yes" and self.calibration_setting["NaturalGas_data"] == "No":
-                self.y_bar = self.measuredData.mean(axis=0)[0]
-
-            elif self.calibration_setting["Elec_data"] == "No" and self.calibration_setting["NaturalGas_data"] == "Yes":
-                self.y_bar = self.measuredData.mean(axis=0)[1]
-
-            # 6. Calculating All Data Formats for graphing in BEM Dashboard
-
-            # Monthly
-            self.MonthlyData = np.zeros((12, 2))
+        if self.calibration_setting["Data_interval"] == "Monthly":
+            self.measuredData = np.zeros((12, 2))
             self.data_sheet = file['Calibration_Monthly_Data']
-            self.num_of_loop_month = 12  # needed in the "Evaluation" method
+            self.num_of_loop = 12  # needed in the "Evaluation" method
 
             for i in range(12):
                 if self.calibration_setting["Elec_data"] == "Yes":
-                    self.MonthlyData[i, 0] = self.data_sheet.cell(row=i + 3, column=2).value
+                    self.measuredData[i, 0] = self.data_sheet.cell(row=i + 3, column=2).value
                 if self.calibration_setting["NaturalGas_data"] == "Yes":
-                    self.MonthlyData[i, 1] = self.data_sheet.cell(row=i + 3, column=3).value
+                    self.measuredData[i, 1] = self.data_sheet.cell(row=i + 3, column=3).value
 
-            # Daily
-            self.DailyData = np.zeros((365, 2))
+        elif self.calibration_setting["Data_interval"] == "Daily":
+            self.measuredData = np.zeros((365, 2))
             self.data_sheet = file['Calibration_Daily_Data']
-            self.num_of_loop_day = 365
+            self.num_of_loop = 365
 
             for i in range(365):
                 if self.calibration_setting["Elec_data"] == "Yes":
-                    self.DailyData[i, 0] = self.data_sheet.cell(row=i + 3, column=2).value
+                    self.measuredData[i, 0] = self.data_sheet.cell(row=i + 3, column=2).value
                 if self.calibration_setting["NaturalGas_data"] == "Yes":
-                    self.DailyData[i, 1] = self.data_sheet.cell(row=i + 3, column=3).value
+                    self.measuredData[i, 1] = self.data_sheet.cell(row=i + 3, column=3).value
 
-            # Hourly
-            self.HourlyData = np.zeros((8760, 2))
+        elif self.calibration_setting["Data_interval"] == "Hourly":
+            self.measuredData = np.zeros((8760, 2))
             self.data_sheet = file['Calibration_Hourly_Data']
-            self.num_of_loop_hour = 8760
+            self.num_of_loop = 8760
 
             for i in range(8760):
                 if self.calibration_setting["Elec_data"] == "Yes":
-                    self.HourlyData[i, 0] = self.data_sheet.cell(row=i + 3, column=3).value
+                    self.measuredData[i, 0] = self.data_sheet.cell(row=i + 3, column=3).value
                 if self.calibration_setting["NaturalGas_data"] == "Yes":
-                    self.HourlyData[i, 1] = self.data_sheet.cell(row=i + 3, column=4).value
+                    self.measuredData[i, 1] = self.data_sheet.cell(row=i + 3, column=4).value
+        else:
+            raise Exception("Please check the 'Calibration Data Interval' input.")
+
+        # 5. Calculate the average data value
+        self.y_bar = 0;
+        self.number_of_data = 1  # y_bar: average utility data -> needed for cvRMSE calculation
+        if self.calibration_setting["Elec_data"] == "Yes" and self.calibration_setting["NaturalGas_data"] == "Yes":
+            self.y_bar = self.measuredData.mean()
+            self.number_of_data = 2
+
+        elif self.calibration_setting["Elec_data"] == "Yes" and self.calibration_setting["NaturalGas_data"] == "No":
+            self.y_bar = self.measuredData.mean(axis=0)[0]
+
+        elif self.calibration_setting["Elec_data"] == "No" and self.calibration_setting["NaturalGas_data"] == "Yes":
+            self.y_bar = self.measuredData.mean(axis=0)[1]
+
+        # 6. Calculating All Data Formats for graphing in BEM Dashboard
+
+        # Monthly
+        self.MonthlyData = np.zeros((12, 2))
+        self.data_sheet = file['Calibration_Monthly_Data']
+        self.num_of_loop_month = 12  # needed in the "Evaluation" method
+
+        for i in range(12):
+            if self.calibration_setting["Elec_data"] == "Yes":
+                self.MonthlyData[i, 0] = self.data_sheet.cell(row=i + 3, column=2).value
+            if self.calibration_setting["NaturalGas_data"] == "Yes":
+                self.MonthlyData[i, 1] = self.data_sheet.cell(row=i + 3, column=3).value
+
+        # Daily
+        self.DailyData = np.zeros((365, 2))
+        self.data_sheet = file['Calibration_Daily_Data']
+        self.num_of_loop_day = 365
+
+        for i in range(365):
+            if self.calibration_setting["Elec_data"] == "Yes":
+                self.DailyData[i, 0] = self.data_sheet.cell(row=i + 3, column=2).value
+            if self.calibration_setting["NaturalGas_data"] == "Yes":
+                self.DailyData[i, 1] = self.data_sheet.cell(row=i + 3, column=3).value
+
+        # Hourly
+        self.HourlyData = np.zeros((8760, 2))
+        self.data_sheet = file['Calibration_Hourly_Data']
+        self.num_of_loop_hour = 8760
+
+        for i in range(8760):
+            if self.calibration_setting["Elec_data"] == "Yes":
+                self.HourlyData[i, 0] = self.data_sheet.cell(row=i + 3, column=3).value
+            if self.calibration_setting["NaturalGas_data"] == "Yes":
+                self.HourlyData[i, 1] = self.data_sheet.cell(row=i + 3, column=4).value
 
 
-            #Calculate the average data value
-            # self.y_bar = 0;
-            self.number_of_data_real = 1  # y_bar: average utility data -> needed for cvRMSE calculation
-            if self.calibration_setting["Elec_data"] == "Yes" and self.calibration_setting["NaturalGas_data"] == "Yes":
-                self.y_bar_Monthly = self.MonthlyData.mean()
-                self.y_bar_Daily = self.DailyData.mean()
-                self.y_bar_Hourly = self.HourlyData.mean()
-                self.number_of_data_real = 2
+        #Calculate the average data value
+        # self.y_bar = 0;
+        self.number_of_data_real = 1  # y_bar: average utility data -> needed for cvRMSE calculation
+        if self.calibration_setting["Elec_data"] == "Yes" and self.calibration_setting["NaturalGas_data"] == "Yes":
+            self.y_bar_Monthly = self.MonthlyData.mean()
+            self.y_bar_Daily = self.DailyData.mean()
+            self.y_bar_Hourly = self.HourlyData.mean()
+            self.number_of_data_real = 2
 
-            elif self.calibration_setting["Elec_data"] == "Yes" and self.calibration_setting["NaturalGas_data"] == "No":
-                self.y_bar_Monthly = self.MonthlyData.mean(axis=0)[0]
-                self.y_bar_Daily = self.DailyData.mean(axis=0)[0]
-                self.y_bar_Hourly = self.HourlyData.mean(axis=0)[0]
+        elif self.calibration_setting["Elec_data"] == "Yes" and self.calibration_setting["NaturalGas_data"] == "No":
+            self.y_bar_Monthly = self.MonthlyData.mean(axis=0)[0]
+            self.y_bar_Daily = self.DailyData.mean(axis=0)[0]
+            self.y_bar_Hourly = self.HourlyData.mean(axis=0)[0]
 
-            elif self.calibration_setting["Elec_data"] == "No" and self.calibration_setting["NaturalGas_data"] == "Yes":
-                self.y_bar_Monthly = self.MonthlyData.mean(axis=0)[1]
-                self.y_bar_Daily = self.DailyData.mean(axis=0)[1]
-                self.y_bar_Hourly = self.HourlyData.mean(axis=0)[1]
+        elif self.calibration_setting["Elec_data"] == "No" and self.calibration_setting["NaturalGas_data"] == "Yes":
+            self.y_bar_Monthly = self.MonthlyData.mean(axis=0)[1]
+            self.y_bar_Daily = self.DailyData.mean(axis=0)[1]
+            self.y_bar_Hourly = self.HourlyData.mean(axis=0)[1]
 
+        if self.genetic_algorithm_setting["calibration_or_CapX"] == "CapX":
+            # self.CapX_setting["Discount_Rate"]    = file_sheet.cell(row=10, column=10).value
+            # self.CapX_setting["Period"]           = file_sheet.cell(row=11, column=10).value
+            # self.CapX_setting["Budget"]           = file_sheet.cell(row=12, column=10).value
+            # self.CapX_setting["Delivered_Energy"] = file_sheet.cell(row=13, column=10).value
+            # self.CapX_setting["Elec_Cost"]        = file_sheet.cell(row=14, column=10).value
+            # self.CapX_setting["NaturalGas_Cost"]  = file_sheet.cell(row=15, column=10).value
 
-        elif self.genetic_algorithm_setting["calibration_or_CapX"] == "CapX":
-            self.CapX_setting["Discount_Rate"]    = file_sheet.cell(row=10, column=10).value
-            self.CapX_setting["Period"]           = file_sheet.cell(row=11, column=10).value
-            self.CapX_setting["Budget"]           = file_sheet.cell(row=12, column=10).value
-            self.CapX_setting["Delivered_Energy"] = file_sheet.cell(row=13, column=10).value
-            self.CapX_setting["Elec_Cost"]        = file_sheet.cell(row=14, column=10).value
-            self.CapX_setting["NaturalGas_Cost"]  = file_sheet.cell(row=15, column=10).value
+            self.CapX_setting["Discount_Rate"] = float(file_sheet["capxSettings"]["discount_rate"])
+            self.CapX_setting["Period"] = int(file_sheet["capxSettings"]["period_analysis"])
+            self.CapX_setting["Budget"] = float(file_sheet["capxSettings"]["energy_eff_budget"])
+            self.CapX_setting["Delivered_Energy"] = float(file_sheet["capxSettings"]["energy_del_restriction"])
+            self.CapX_setting["Elec_Cost"] = float(file_sheet["capxSettings"]["electricity_cost"])
+            self.CapX_setting["NaturalGas_Cost"] = float(file_sheet["capxSettings"]["natural_gas_cost"])
 
             # 6. Read the CapX parameter name/min/max
-            i = 19;
+            # i = 19;
+            i = 0;
             self.CapX_input_parameters = {};
             self.num_of_parameters = 0;
             self.CapX_parameters = [];
@@ -409,83 +430,176 @@ class BEMP_Calibration_CapX(BEM):
                                      "Natural Ventilation", "Electric Battery", "Lighting Dimmer"] ####
 
 
-            while 1:
-                if file_sheet.cell(row=i, column=10).value == None:  ####
+            # while 1:
+            #     if file_sheet.cell(row=i, column=10).value == None:  ####
+            #         break
+            #     elif file_sheet.cell(row=i, column=10).value != None:
+            #         self.CapX_input_parameters[file_sheet.cell(row=i, column=9).value] = file_sheet.cell(row=i,
+            #                                                                                              column=10).value
+            #
+            #         if file_sheet.cell(row=i, column=9).value in self.discrete_param_set and file_sheet.cell(row=i,
+            #                                                                                                  column=10).value == "Continuous":
+            #             raise Exception(
+            #                 "The type of 'Heating and Cooling Plants efficiencies (COPs)', 'Roof1', 'Opaque1', 'Window1', 'Overhang', 'Fin', 'SRF', 'Natural Ventilation', 'Electric Battery', 'Lighting Dimmer' must be discrete.")
+            #
+            #         if file_sheet.cell(row=i, column=9).value not in self.discrete_param_set:
+            #             self.num_of_parameters += 1
+            #             self.CapX_parameters.append(file_sheet.cell(row=i, column=9).value)
+            #
+            #         elif file_sheet.cell(row=i, column=9).value == "Heating and Cooling Plants efficiencies (COPs)":
+            #             self.num_of_parameters += 2
+            #             for j in range(2):
+            #                 self.CapX_parameters.append(file_sheet.cell(row=i, column=9).value)
+            #         elif file_sheet.cell(row=i, column=9).value in ["Roof1", "Opaque1", "Window1",
+            #                                                         "Natural Ventilation", "Electric Battery"]:
+            #             self.num_of_parameters += 3
+            #             for j in range(3):
+            #                 self.CapX_parameters.append(file_sheet.cell(row=i, column=9).value)
+            #         else:  # overhang, fin, lighting dimmer
+            #             self.num_of_parameters += 1
+            #             self.CapX_parameters.append(file_sheet.cell(row=i, column=9).value)  ####
+            #         self.original_num_of_parameters += 1
+            #     else:
+            #         raise Exception("Please check the 'CapX Parameters' table.")
+            #     i += 1
+            # self.CapX_parameters_no_duplicate = list(dict.fromkeys(self.CapX_parameters))
+            state = 'go'
+            while state != 'end':
+                if file_sheet["capxParameters"] == []:  ####
                     break
-                elif file_sheet.cell(row=i, column=10).value != None:
-                    self.CapX_input_parameters[file_sheet.cell(row=i, column=9).value] = file_sheet.cell(row=i,
-                                                                                                         column=10).value
+                elif file_sheet["capxParameters"] != []:
+                    self.CapX_input_parameters[file_sheet["capxParameters"][i]['name']] = file_sheet["capxParameters"][i]['data']
 
-                    if file_sheet.cell(row=i, column=9).value in self.discrete_param_set and file_sheet.cell(row=i,
-                                                                                                             column=10).value == "Continuous":
+                    if file_sheet["capxParameters"][i]['name'] in self.discrete_param_set and file_sheet["capxParameters"][i]['data'] == "Continuous":
                         raise Exception(
                             "The type of 'Heating and Cooling Plants efficiencies (COPs)', 'Roof1', 'Opaque1', 'Window1', 'Overhang', 'Fin', 'SRF', 'Natural Ventilation', 'Electric Battery', 'Lighting Dimmer' must be discrete.")
 
-                    if file_sheet.cell(row=i, column=9).value not in self.discrete_param_set:
+                    if file_sheet["capxParameters"][i]['name'] not in self.discrete_param_set:
                         self.num_of_parameters += 1
-                        self.CapX_parameters.append(file_sheet.cell(row=i, column=9).value)
+                        self.CapX_parameters.append(file_sheet["capxParameters"][i]['name'])
 
-                    elif file_sheet.cell(row=i, column=9).value == "Heating and Cooling Plants efficiencies (COPs)":
+                    elif file_sheet["capxParameters"][i]['name'] == "Heating and Cooling Plants efficiencies (COPs)":
                         self.num_of_parameters += 2
                         for j in range(2):
-                            self.CapX_parameters.append(file_sheet.cell(row=i, column=9).value)
-                    elif file_sheet.cell(row=i, column=9).value in ["Roof1", "Opaque1", "Window1",
+                            self.CapX_parameters.append(file_sheet["capxParameters"][i]['name'])
+                    elif file_sheet["capxParameters"][i]['name'] in ["Roof1", "Opaque1", "Window1",
                                                                     "Natural Ventilation", "Electric Battery"]:
                         self.num_of_parameters += 3
                         for j in range(3):
-                            self.CapX_parameters.append(file_sheet.cell(row=i, column=9).value)
+                            self.CapX_parameters.append(file_sheet["capxParameters"][i]['name'])
                     else:  # overhang, fin, lighting dimmer
                         self.num_of_parameters += 1
-                        self.CapX_parameters.append(file_sheet.cell(row=i, column=9).value)  ####
+                        self.CapX_parameters.append(file_sheet["capxParameters"][i]['name'])  ####
                     self.original_num_of_parameters += 1
                 else:
                     raise Exception("Please check the 'CapX Parameters' table.")
                 i += 1
+                if i >= len(file_sheet['capxParameters']):
+                    state = 'end'
             self.CapX_parameters_no_duplicate = list(dict.fromkeys(self.CapX_parameters))
 
             # 7. Read parameter info
+            # self.CapX_param_table_info = {}
+            # row_number_pair = {"Heating COP": 36, "Cooling COP": 46, "Heating & Cooling COPs": 56,
+            #                    "Heat Recovery Type": 66, "Building air leakage level": 76, \
+            #                    "Specifiec fan power": 86, "DHW Generation System": 96, "PV module Area": 107,
+            #                    "SHW Collector Area": 117, "Appliance": 127, "Lighting": 137, "Roof1": 147,
+            #                    "Opaque1": 157, "Window1": 167, \
+            #                    "Window1 Overhang Angle_S": 177, "Window1 Overhang Angle_SE": 185,
+            #                    "Window1 Overhang Angle_E": 193, "Window1 Overhang Angle_NE": 201,
+            #                    "Window1 Overhang Angle_N": 209, "Window1 Overhang Angle_NW": 217,
+            #                    "Window1 Overhang Angle_W": 225, "Window1 Overhang Angle_SW": 233, \
+            #                    "Window1 Fin Angle_S": 241, "Window1 Fin Angle_SE": 249, "Window1 Fin Angle_E": 257,
+            #                    "Window1 Fin Angle_NE": 265, "Window1 Fin Angle_N": 273, "Window1 Fin Angle_NW": 281,
+            #                    "Window1 Fin Angle_W": 289, "Window1 Fin Angle_SW": 297, "Wind Turbine": 305, \
+            #                    "Natural Ventilation": 315, "Electric Battery": 325, "Lighting Dimmer": 335, \
+            #                    "Window1 SRF_S": 343, "Window1 SRF_SE": 351, "Window1 SRF_E": 359, "Window1 SRF_NE": 367,
+            #                    "Window1 SRF_N": 375, "Window1 SRF_NW": 383, "Window1 SRF_W": 391, \
+            #                    "Window1 SRF_SW": 399, "Window1 SRF_Roof": 407}
+            # for param_name in self.CapX_input_parameters.keys():
+            #     self.CapX_param_table_info[param_name] = []
+            #     i = 0
+            #     while 1:
+            #         tempo = {}
+            #         if file_sheet.cell(row=i + row_number_pair[param_name], column=10).value == None:  ####
+            #             break
+            #         else:
+            #             tempo["Name"] = file_sheet.cell(row=i + row_number_pair[param_name], column=9).value
+            #             tempo["Cost"] = file_sheet.cell(row=i + row_number_pair[param_name], column=10).value
+            #             tempo["Param1"] = file_sheet.cell(row=i + row_number_pair[param_name], column=11).value
+            #
+            #             if param_name == "Heating and Cooling Plants efficiencies (COPs)":
+            #                 tempo["Param2"] = file_sheet.cell(row=i + row_number_pair[param_name], column=12).value
+            #             elif param_name in ["Roof1", "Opaque1", "Window1", "Natural Ventilation", "Electric Battery"]:
+            #                 tempo["Param2"] = file_sheet.cell(row=i + row_number_pair[param_name], column=12).value
+            #                 tempo["Param3"] = file_sheet.cell(row=i + row_number_pair[param_name],
+            #                                                   column=13).value  ####
+            #
+            #             self.CapX_param_table_info[param_name].append(tempo)
+            #         i += 1
+            #
+            # self.interest_rate = (((1 + self.CapX_setting["Discount_Rate"]) ** self.CapX_setting["Period"]) - 1) / (
+            #             self.CapX_setting["Discount_Rate"] * (1 + self.CapX_setting["Discount_Rate"]) **
+            #             self.CapX_setting["Period"])
+
             self.CapX_param_table_info = {}
-            row_number_pair = {"Heating COP": 36, "Cooling COP": 46, "Heating & Cooling COPs": 56,
-                               "Heat Recovery Type": 66, "Building air leakage level": 76, \
-                               "Specifiec fan power": 86, "DHW Generation System": 96, "PV module Area": 107,
-                               "SHW Collector Area": 117, "Appliance": 127, "Lighting": 137, "Roof1": 147,
-                               "Opaque1": 157, "Window1": 167, \
-                               "Window1 Overhang Angle_S": 177, "Window1 Overhang Angle_SE": 185,
-                               "Window1 Overhang Angle_E": 193, "Window1 Overhang Angle_NE": 201,
-                               "Window1 Overhang Angle_N": 209, "Window1 Overhang Angle_NW": 217,
-                               "Window1 Overhang Angle_W": 225, "Window1 Overhang Angle_SW": 233, \
-                               "Window1 Fin Angle_S": 241, "Window1 Fin Angle_SE": 249, "Window1 Fin Angle_E": 257,
-                               "Window1 Fin Angle_NE": 265, "Window1 Fin Angle_N": 273, "Window1 Fin Angle_NW": 281,
-                               "Window1 Fin Angle_W": 289, "Window1 Fin Angle_SW": 297, "Wind Turbine": 305, \
-                               "Natural Ventilation": 315, "Electric Battery": 325, "Lighting Dimmer": 335, \
-                               "Window1 SRF_S": 343, "Window1 SRF_SE": 351, "Window1 SRF_E": 359, "Window1 SRF_NE": 367,
-                               "Window1 SRF_N": 375, "Window1 SRF_NW": 383, "Window1 SRF_W": 391, \
-                               "Window1 SRF_SW": 399, "Window1 SRF_Roof": 407}
+
+            paramConv = {"Heating COP": "heatingEfficiency", "Cooling COP": "coolingEfficiency", "Heating & Cooling COPs": "heatingCoolingEfficiency",
+                               "Heat Recovery Type": "heatRecovery", "Building air leakage level": "airLeakage", \
+                               "Specifiec fan power": "specificFanPower", "DHW Generation System": "DHWGenerationSystem", "PV module Area": "PVModule",
+                               "SHW Collector Area": "solarCollector", "Appliance": "appliance", "Lighting": "lighting", "Roof1": "roof1",
+                               "Opaque1": "opaque1", "Window1": "window1", \
+                               "Window1 Overhang Angle_S": "overhangS", "Window1 Overhang Angle_SE": "overhangSE",
+                               "Window1 Overhang Angle_E": "overhangE", "Window1 Overhang Angle_NE": "overhangNE",
+                               "Window1 Overhang Angle_N": "overhangN", "Window1 Overhang Angle_NW": "overhangNW",
+                               "Window1 Overhang Angle_W": "overhangW", "Window1 Overhang Angle_SW": "overhangSW", \
+                               "Window1 Fin Angle_S": "FinS", "Window1 Fin Angle_SE": "FinSE", "Window1 Fin Angle_E": "FinE",
+                               "Window1 Fin Angle_NE": "FinNE", "Window1 Fin Angle_N": "FinN", "Window1 Fin Angle_NW": "FinNW",
+                               "Window1 Fin Angle_W": "FinW", "Window1 Fin Angle_SW": "FinSW", "Wind Turbine": "windTurbine", \
+                               "Natural Ventilation": "naturalVentilation", "Electric Battery": "electricBattery", "Lighting Dimmer": "lightingDimmer", \
+                               "Window1 SRF_S": "windowSRF_S", "Window1 SRF_SE": "windowSRF_SE", "Window1 SRF_E": "windowSRF_E", "Window1 SRF_NE": "windowSRF_NE",
+                               "Window1 SRF_N": "windowSRF_N", "Window1 SRF_NW": "windowSRF_NW", "Window1 SRF_W": "windowSRF_W", \
+                               "Window1 SRF_SW": "windowSRF_SW", "Window1 SRF_Roof": "windowSRF_Roof"}
+
             for param_name in self.CapX_input_parameters.keys():
+                param_json = paramConv[param_name]
                 self.CapX_param_table_info[param_name] = []
                 i = 0
-                while 1:
+                keys = file_sheet["capx_parameter_values"][param_json].keys()
+                names = []
+                for name in keys:
+                    names.append(name)
+                state = 'go'
+                while state != 'end':
                     tempo = {}
-                    if file_sheet.cell(row=i + row_number_pair[param_name], column=10).value == None:  ####
+                    if file_sheet["capx_parameter_values"][param_json] == None:  ####
                         break
                     else:
-                        tempo["Name"] = file_sheet.cell(row=i + row_number_pair[param_name], column=9).value
-                        tempo["Cost"] = file_sheet.cell(row=i + row_number_pair[param_name], column=10).value
-                        tempo["Param1"] = file_sheet.cell(row=i + row_number_pair[param_name], column=11).value
+                        tempo["Name"] = names[i]
+                        if " -" in str(file_sheet["capx_parameter_values"][param_json][names[i]]["cost"]):
+                            split = file_sheet["capx_parameter_values"][param_json][names[i]]["cost"].split(" -")
+                            tempo["Cost"] = float(split[0])
+                        else:
+                            tempo["Cost"] = file_sheet["capx_parameter_values"][param_json][names[i]]["cost"]
+                        # tempo["Cost"] = file_sheet["capx_parameter_values"][param_json][names[i]]["cost"]
+                        tempo["Param1"] = float(file_sheet["capx_parameter_values"][param_json][names[i]]["param1"])
 
                         if param_name == "Heating and Cooling Plants efficiencies (COPs)":
-                            tempo["Param2"] = file_sheet.cell(row=i + row_number_pair[param_name], column=12).value
+                            tempo["Param2"] = float(file_sheet["capx_parameter_values"][param_json][names[i]]["param2"])
                         elif param_name in ["Roof1", "Opaque1", "Window1", "Natural Ventilation", "Electric Battery"]:
-                            tempo["Param2"] = file_sheet.cell(row=i + row_number_pair[param_name], column=12).value
-                            tempo["Param3"] = file_sheet.cell(row=i + row_number_pair[param_name],
-                                                              column=13).value  ####
+                            tempo["Param2"] = float(file_sheet["capx_parameter_values"][param_json][names[i]]["param2"])
+                            tempo["Param3"] = float(file_sheet["capx_parameter_values"][param_json][names[i]]["param3"])  ####
 
                         self.CapX_param_table_info[param_name].append(tempo)
                     i += 1
+                    if i >= len(keys):
+                        state = 'end'
+
 
             self.interest_rate = (((1 + self.CapX_setting["Discount_Rate"]) ** self.CapX_setting["Period"]) - 1) / (
-                        self.CapX_setting["Discount_Rate"] * (1 + self.CapX_setting["Discount_Rate"]) **
-                        self.CapX_setting["Period"])
+                    self.CapX_setting["Discount_Rate"] * (1 + self.CapX_setting["Discount_Rate"]) **
+                    self.CapX_setting["Period"])
+
              # Equation: {((1+i)^n) -1}/(i*(1+i)^n), Ref: Engineering Economy, Blank and Tarquin, 7th ed. p.43
 
         ##            print(f"interest_rate: {self.interest_rate}")
@@ -501,7 +615,7 @@ class BEMP_Calibration_CapX(BEM):
 
     # def JSON_Modification(self, chromosome, row_of_chromesome,building_name, calibrated = False):
     def JSON_Modification(self, chromosome, row_of_chromesome, calibrated=False):
-
+        print('jsonMod start')
         # Open JSON instnace
         # self.buildingName = "centergy_BEM_2019.json"
         with open(self.buildingName) as f:
@@ -879,6 +993,7 @@ class BEMP_Calibration_CapX(BEM):
                     elif param == "Window1 SRF Angle_SW":
                         data["Envelope"]["Window1"]["SW"]["SRF"] = chromosome[row_of_chromesome, j]
                     j += 1
+            print(chromosome)
 
         # Save the JSON instance
         # building_name = self.buildingName
@@ -892,11 +1007,13 @@ class BEMP_Calibration_CapX(BEM):
                 json.dump(data, f, ensure_ascii=False, indent=4)
         with open(self.buildingName, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
+        print('jsonMod end')
 
     def Linear_Interpolation(self, x1, x2, y1, y2, x):
         return ((x - x1) * (y2 - y1) / (x2 - x1)) + y1
 
     def Calibration_Iteration(self, population):
+        print('calibration Iteration start')
         cvRMSE_compilation = []
         # building_name = "".join([self.buildingName[:-5], "_intermediate", ".json"])
         for i in range(self.genetic_algorithm_setting["num_of_population"]):
@@ -997,10 +1114,11 @@ class BEMP_Calibration_CapX(BEM):
         #             out = np.sqrt(np.sum(diff))/self.y_bar
         #             print('cvRMSE is:')
         #             print(out*100)
-
+        print('calibration Iteration end')
         return cvRMSE_compilation
 
     def CapX_Iteration(self, population):
+        print('capX Iteration start')
         overall_budge_compilation = [];
         delivered_energy_compilation = []
         for i in range(self.genetic_algorithm_setting["num_of_population"]):
@@ -1015,10 +1133,10 @@ class BEMP_Calibration_CapX(BEM):
                     # this has potential to be changed if and when we gain more cost data but in the meantime, it is a linear
                     # interpolation of the min and max cost we have
                     CapX_parameter_upfront_cost += self.Linear_Interpolation(
-                        self.CapX_param_table_info[self.CapX_parameters[j]][0]["Param1"],
-                        self.CapX_param_table_info[self.CapX_parameters[j]][1]["Param1"], \
-                        self.CapX_param_table_info[self.CapX_parameters[j]][0]["Cost"],
-                        self.CapX_param_table_info[self.CapX_parameters[j]][1]["Cost"], \
+                        float(self.CapX_param_table_info[self.CapX_parameters[j]][0]["Param1"]),
+                        float(self.CapX_param_table_info[self.CapX_parameters[j]][1]["Param1"]), \
+                        float(self.CapX_param_table_info[self.CapX_parameters[j]][0]["Cost"]),
+                        float(self.CapX_param_table_info[self.CapX_parameters[j]][1]["Cost"]), \
                         population[i, j])
                     j += 1
                 elif self.CapX_input_parameters[self.CapX_parameters[j]] == "Discrete":
@@ -1050,7 +1168,7 @@ class BEMP_Calibration_CapX(BEM):
             self.VentilationAirFlowandVentilationHeatTransfer()
             self.PumpSystemEnergy()
             self.DHWandSolarWaterHeating()
-            outcome, outcome2, outcome3 = self.hourly_BEM()  # outcome = self.deliveredEnergy, outcome2=self.Overall_deliveredEnergy, outcome3=self.deliveredEnergy_fuel
+            outcome, outcome2, outcome3, grouped = self.hourly_BEM()  # outcome = self.deliveredEnergy, outcome2=self.Overall_deliveredEnergy, outcome3=self.deliveredEnergy_fuel
 
             delivered_energy_compilation.append(outcome2)
 
@@ -1060,6 +1178,7 @@ class BEMP_Calibration_CapX(BEM):
             overall_budge_compilation.append(energy_cost*self.interest_rate + CapX_parameter_upfront_cost)
             # overall_budge_compilation.append(CapX_parameter_upfront_cost)
         print(f"overall_budge_compilation: {overall_budge_compilation}")
+        print('capX Iteration end')
         return overall_budge_compilation, delivered_energy_compilation
 
     def Crossover_Mutation(self, population):
@@ -1068,6 +1187,7 @@ class BEMP_Calibration_CapX(BEM):
                      ii) cross over the first 2 rows in order iii) choose ONE croosing site randomly between 1 and L-1 according to a uniform distribution.
         2. Mutation: mutate the offspring of crossover directly
         """
+        print('crossover start')
         crossover1 = [];
         crossover2 = [];
         multiple_param_int = 0
@@ -1080,8 +1200,7 @@ class BEMP_Calibration_CapX(BEM):
                 crossover2 = list(population[i + 1])
                 temporary = crossover1[crossover_location:self.num_of_parameters]
 
-                crossover1[crossover_location:self.num_of_parameters] = crossover2[
-                                                                        crossover_location:self.num_of_parameters]
+                crossover1[crossover_location:self.num_of_parameters] = crossover2[crossover_location:self.num_of_parameters]
                 crossover2[crossover_location:self.num_of_parameters] = temporary
 
                 population[i, :] = crossover1;
@@ -1149,6 +1268,7 @@ class BEMP_Calibration_CapX(BEM):
         return population
 
     def Genetic_Algorithm_Loop(self):
+        print('GA start')
         best_so_far_fitness_value = []  # Save each generation's best fitness value
         best_so_far_chromosome = []  # Save each generation's best chromosome gene
         RWS = []  # For selection, RWS = roulette wheel selection
@@ -1157,7 +1277,6 @@ class BEMP_Calibration_CapX(BEM):
         loop_count = 0;
         converted_loop_count = 1
         offspring = np.zeros((self.genetic_algorithm_setting["num_of_population"], self.num_of_parameters))
-
         if self.genetic_algorithm_setting["random_seed"] == "None":
             pass
         else:
