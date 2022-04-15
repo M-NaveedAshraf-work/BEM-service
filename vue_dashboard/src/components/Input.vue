@@ -8,46 +8,110 @@
         md="5">
         <v-card>
           <v-col>
-            <v-card-title>Input Files</v-card-title>
-            <v-row>
-              <v-card-text>Upload Weather File</v-card-text>
-              <v-file-input
-                accept=".xls, .xlsx*"
-                label="Click to Select a Weather File"
-                chips
-                outlined
-                v-model="chosenFileWeather"
-              ></v-file-input>
-            </v-row>
-            <v-row>
-              <v-btn @click="loadFileWeather" align="center" depressed color="primary">Read File</v-btn>
-            </v-row>
-            <v-row>
-              <v-card-text>Upload Building JSON File</v-card-text>
-              <v-file-input
-                accept=".json, .JSON"
-                label="Click to Select a Building File"
-                chips
-                outlined
-                v-model="chosenFileBuilding"
-              ></v-file-input>
-            </v-row>
-            <v-row>
-              <v-btn @click="loadFileBuilding" align="center" depressed color="primary">Read File</v-btn>
-            </v-row>
-            <v-row>
-              <v-card-text>Upload Building Hourly Data File</v-card-text>
-              <v-file-input
-                accept=".xls, .xlsx"
-                label="Click to Select a Data File"
-                chips
-                outlined
-                v-model="chosenFileData"
-              ></v-file-input>
-            </v-row>
-            <v-row>
-              <v-btn @click="loadFileData" align="center" depressed color="primary">Read File</v-btn>
-            </v-row>
+            <v-window v-model="step">
+              <v-window-item :value="1">
+                <v-col>
+                  <v-card-title>New Building Input Files</v-card-title>
+                  <v-row>
+                    <v-card-text>Upload Weather File</v-card-text>
+                    <v-file-input
+                      accept=".epw"
+                      label="Click to Select a Weather File"
+                      chips
+                      outlined
+                      v-model="chosenFileWeather"
+                    ></v-file-input>
+                  </v-row>
+                  <v-row>
+                    <v-card-text>Upload Building JSON File</v-card-text>
+                    <v-file-input
+                      accept=".json, .JSON"
+                      label="Click to Select a Building File"
+                      chips
+                      outlined
+                      v-model="chosenFileBuilding"
+                    ></v-file-input>
+                  </v-row>
+                  <v-row>
+                    <v-card-text>Upload Building Hourly Data File</v-card-text>
+                    <v-file-input
+                      accept=".xls, .xlsx"
+                      label="Click to Select a Data File"
+                      chips
+                      outlined
+                      v-model="chosenFileData"
+                    ></v-file-input>
+                  </v-row>
+                  <v-row>
+                    <v-btn v-on:click="loadFileBuilding(); updateData()" align="center" depressed color="primary">Read Files</v-btn>
+                  </v-row>
+                </v-col>
+              </v-window-item>
+              <v-window-item :value="2">
+                <v-col>
+                  <v-card-title>Existing Building Project Input Files</v-card-title>
+                  <v-row>
+                    <v-card-text>Upload Input File</v-card-text>
+                    <v-file-input
+                      accept=".json, .JSON"
+                      label="Click to Select a Input File"
+                      chips
+                      outlined
+                      v-model="chosenFileInput"
+                    ></v-file-input>
+                  </v-row>
+                  <v-row>
+                    <v-card-text>Upload UQ File</v-card-text>
+                    <v-file-input
+                      accept=".json, .JSON"
+                      label="Click to Select a UQ File"
+                      chips
+                      outlined
+                      v-model="chosenFileUQ"
+                    ></v-file-input>
+                  </v-row>
+                  <v-row>
+                    <v-card-text>Upload Cal File</v-card-text>
+                    <v-file-input
+                      accept=".json, .JSON"
+                      label="Click to Select a Cal File"
+                      chips
+                      outlined
+                      v-model="chosenFileCal"
+                    ></v-file-input>
+                  </v-row>
+                  <v-row>
+                    <v-card-text>Upload Estar File</v-card-text>
+                    <v-file-input
+                      accept=".json, .JSON"
+                      label="Click to Select a Estar File"
+                      chips
+                      outlined
+                      v-model="chosenFileEstar"
+                    ></v-file-input>
+                  </v-row>
+                  <v-row>
+                    <v-btn v-on:click="loadFileOldBuild();" align="center" depressed color="primary">Read Files</v-btn>
+                  </v-row>
+                </v-col>
+              </v-window-item>
+            </v-window>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-btn
+                :disabled="step === 1"
+                color="primary"
+                depressed
+                @click="step--"
+              > New Building</v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                :disabled="step === 2"
+                color="primary"
+                depressed
+                @click="step++"
+              >Past Building Project</v-btn>
+            </v-card-actions>
           </v-col>
         </v-card>
         <v-card outlined color="transparent">
@@ -63,6 +127,7 @@
               offset-md="1"
               >
               <v-select
+                v-model="jsonData.OutputPeriod"
                 :items="output_period"
                 label="Output Period"
                 outlined
@@ -81,13 +146,13 @@
                 align="center"
                 depressed
                 color="primary"
-                v-on:click="getData(); updateData(); runBEM(); drawChart();"
+                v-on:click="getData(); updateData(); runBEM();"
               >
               Run BEM
               </v-btn>
             </v-col>
           </v-row>
-          <v-row>
+          <!-- <v-row>
             <v-col
               align="center"
               cols="12"
@@ -98,12 +163,12 @@
                 align="center"
                 depressed
                 color="primary"
-                v-on:click="saveInputFile();"
+                v-on:click="combineNewFileBuilding(); saveInputFile();"
               >
               Save Current Run as Input File
               </v-btn>
             </v-col>
-          </v-row>
+          </v-row> -->
         </v-card>
       </v-col>
       <v-col
@@ -5931,7 +5996,7 @@
       <v-col
       md="8"
       >
-        <v-card v-resize="onResize" height="100%">
+        <v-card height="100%">
           <div id="input">
             <div id="chart" ref="chart" style="width: 1100px;height:700px;"></div>
           </div>
@@ -5953,12 +6018,13 @@ export default {
   data: () => {
 
     return {
+      step: 1,
 
       uploadData: null,
       uploadFile: null,
 
       terrain_class: ['Open Terrain', 'Country', 'Urban / City'],
-      output_period: ['Hourly', 'Daily', 'Monthly'],
+      output_period: ['Hourly', 'Monthly'],
       panel: [],
       Y_N: ['Yes', 'No'],
       HVAC: ['1. No airco system / Water or Water&Air / NA / Yes',
@@ -6047,18 +6113,32 @@ export default {
       // weatherData: ['centergy_2019_epw_file.epw'],
       jsonLoad: false,
 
+      historicalData: null,
+      weatherName: null,
       chosenFileWeather: null,
       fileDataWeather: null,
       chosenFileBuilding: null,
       fileDataBuilding: null,
       chosenFileData: null,
       fileDataHourly: null,
+      chosenFileInput: null,
+      fileInput: null,
+      chosenFileUQ: null,
+      fileUQ: null,
+      chosenFileCal: null,
+      fileCal: null,
+      chosenFileEstar: null,
+      fileEstar: null,
+      files: null,
+      inputData: null,
+      readFile: false,
 
       filename: null,
 
       graphBool : false,
       monthlyDeliveredEnergy: [0,0,0,0,0,0,0,0,0,0,0,0],
       monthlySchedule: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      hourlySchedule: [],
 
       StateBEM : false,
       dialog1: false,
@@ -6080,6 +6160,7 @@ export default {
 
     jsonData(v) {
       this.Name = v
+      this.OutputPeriod = v
     },
 
     monthlyDeliveredEnergy() {
@@ -6092,7 +6173,33 @@ export default {
         this.uploadData = await this.OpenFile(this.uploadFile)
         this.uploadInput()
       }
-    }
+    },
+    chosenFileInput(){
+    },
+    chosenFileUQ(){
+    },
+    chosenFileCal(){
+    },
+    chosenFileEstar(){
+    },
+    chosenFileWeather(){
+    },
+    chosenFileBuilding(){
+    },
+    chosenFileData(){
+    },
+    weatherName(){},
+    historicalData(){},
+    inputData(){},
+    fileInput(){},
+    fileUQ(){},
+    fileCal(){},
+    fileEstar(){},
+    readFile(){
+      this.combineOldFileBuilding()
+      this.updateFiles() 
+      this.getFiles()
+    },
   },
   
   methods: {
@@ -6101,8 +6208,10 @@ export default {
       const path = 'http://127.0.0.1:5000/input'
       axios.get(path)
       .then((res) => {
-        this.jsonData = res.data.jsonData;
-        this.weatherData = res.data.weatherData;
+        this.inputData = res.data.inputData;
+        this.jsonData = res.data.inputData.jsonData;
+        this.weatherName = res.data.inputData.weatherData;
+        this.historicalData = res.data.inputData.historicalData;
       })
       .catch((error) => {
         console.error(error);
@@ -6111,13 +6220,38 @@ export default {
 
     updateData() {
       const path = 'http://127.0.0.1:5000/input'
-      axios.put(path, this.jsonData)
+      let inputData = this.inputData
+      axios.put(path, inputData)
       .then(() => {
         this.getData();
       })
       .catch((error) => {
         console.error(error);
         this.getData();
+      })
+    },
+
+    getFiles() {
+      const path = 'http://127.0.0.1:5000/loadProject'
+      axios.get(path)
+      .then((res) => {
+        this.inputFile = res.data.inputData
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+    },
+
+    updateFiles(){
+      const path = 'http://127.0.0.1:5000/loadProject'
+      let files = this.files
+      console.log('here we go')
+      axios.put(path,files)
+      .then(() => {
+        this.getFiles()
+      })
+      .catch((error) => {
+        console.error(error);
       })
     },
 
@@ -6138,45 +6272,142 @@ export default {
       axios.get(path)
       .then((res) => {
         this.monthlyDeliveredEnergy = res.data.monthly
+        this.hourlySchedule = res.data.hourlyXAxis.hourlyXAxis
+        this.drawChart()
       })
       .catch((error) => {
         console.error(error);
       })
     },
 
-    loadFileWeather(file) {
+    // loadFileWeather(file) {
+    //   if (!this.chosenFileWeather){this.fileDataWeather = "No File Chosen"}
+    //   let reader = new FileReader();
+
+    //   reader.readAsText(this.chosenFileWeather);
+    //   reader.onload = () => {
+    //     this.fileDataWeather = reader.result;
+    //   }
+    // },
+
+    loadFileBuilding() {
+      if (!this.chosenFileBuilding){console.log('No New Building File Input')}
+      else {
+        let reader1 = new FileReader();
+
+        reader1.readAsText(this.chosenFileBuilding);
+        reader1.onload = () => {
+          this.inputData = JSON.parse(reader1.result);
+          this.jsonData = this.inputData.jsonData
+        }
+      }
+      if (!this.chosenFileData){this.FileDataHourly = "No File Chosen"}
+      else {
+        this.historicalData = this.chosenFileData.name
+      }
       if (!this.chosenFileWeather){this.fileDataWeather = "No File Chosen"}
-      let reader = new FileReader();
+      else {
+        this.weatherName = this.chosenFileWeather.name
+      }
+      this.combineNewFileBuilding()
+    },
 
-      reader.readAsText(this.chosenFileWeather);
-      reader.onload = () => {
-        this.fileDataWeather = reader.result;
+    combineNewFileBuilding() {
+      let jsonData = this.jsonData
+      let weatherData = this.weatherName
+      let historicalData = this.historicalData
+
+      console.log(jsonData)
+      console.log(weatherData)
+      console.log(historicalData)
+
+      let merged = {jsonData, weatherData, historicalData}
+
+      this.inputData = JSON.stringify(merged)
+    },
+
+    // loadFileData(file) {
+    //   if (!this.chosenFileBuilding){this.jsonData = "No File Chosen"}
+    //   let reader = new FileReader();
+
+    //   reader.readAsText(this.chosenFileData);
+    //   reader.onload = () => {
+    //     this.jsonData = JSON.parse(reader.result);
+    //   }
+    // },
+
+    loadFileOldBuild() {
+      if (!this.chosenFileInput){
+        console.log('ERROR: No Input File Uploaded')
+      }
+      else {
+        let reader1 = new FileReader();
+        reader1.readAsText(this.chosenFileInput);
+        reader1.onload = () => {
+          this.fileInput = JSON.parse(reader1.result);
+        }
+      }
+      if (!this.chosenFileUQ) {
+        console.log('ERROR: No UQ File Uploaded')
+      }
+      else {
+        let reader5 = new FileReader();
+
+        reader5.readAsText(this.chosenFileUQ);
+        reader5.onload = () => {
+          this.fileUQ = JSON.parse(reader5.result);
+        }
+      }
+      if (!this.chosenFileCal) {
+        console.log('ERROR: No Cal File Uploaded')
+      }
+      else {
+        let reader6 = new FileReader();
+
+        reader6.readAsText(this.chosenFileCal);
+        reader6.onload = () => {
+          this.fileCal = JSON.parse(reader6.result);
+        }
+      }
+      if (!this.chosenFileEstar) {
+        console.log('ERROR: No Estar File Uploaded')
+      }
+      else {
+        let reader7 = new FileReader();
+
+        reader7.readAsText(this.chosenFileEstar);
+        reader7.onload = () => {
+          this.fileEstar = JSON.parse(reader7.result);
+          this.readFile = true
+        }
       }
     },
 
-    loadFileBuilding(file) {
-      if (!this.chosenFileBuilding){this.jsonData = "No File Chosen"}
-      let reader = new FileReader();
+    combineOldFileBuilding() {
 
-      reader.readAsText(this.chosenFileBuilding);
-      reader.onload = () => {
-        this.jsonData = JSON.parse(reader.result);
-      }
+      let inputFile= this.fileInput
+      let calFile = this.fileCal
+      let estarFile = this.fileEstar
+      let UQFile = this.fileUQ
+
+      let merged = {inputFile, calFile, estarFile, UQFile}
+
+      this.files = JSON.stringify(merged)
+      console.log('second')
+      console.log(this.files)
     },
 
-    loadFileData(file) {
-      if (!this.chosenFileBuilding){this.jsonData = "No File Chosen"}
-      let reader = new FileReader();
-
-      reader.readAsText(this.chosenFileData);
-      reader.onload = () => {
-        this.jsonData = JSON.parse(reader.result);
-      }
+    sleep(milliseconds) {
+      const date = Date.now();
+      let currentDate = null;
+      do {
+        currentDate = Date.now();
+      } while (currentDate - date < milliseconds);
     },
 
     saveInputFile() {
       this.filename = this.jsonData.Name + '_input_file'
-      let jsonFile = JSON.stringify(this.jsonData)
+      let jsonFile = JSON.stringify(this.inputData)
       let blob = new Blob([jsonFile], { type: 'application/json' })
       if (navigator.msSaveBlob) { // IE 10+
         navigator.msSaveBlob(blob, this.filename)
@@ -6197,6 +6428,12 @@ export default {
 
 
     drawChart() {
+      let yAxis = []
+      if (this.jsonData.OutputPeriod == "Monthly"){
+        yAxis = this.monthlySchedule
+      } else if (this.jsonData.OutputPeriod == "Hourly") {
+        yAxis = this.hourlySchedule
+      }
       //Initialize the echarts instance based on the prepared dom
       let myChart = this.$echarts.init(this.$refs.chart);
       //Specify configuration items and data for the chart
@@ -6221,7 +6458,7 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: this.monthlySchedule
+          data: yAxis
         },
         yAxis: {
           type: 'value'
@@ -6236,27 +6473,37 @@ export default {
         ]
       };
       option && myChart.setOption(option);
-      window.onresize = function() {
-        plot.resize();
-      };
+      // window.onresize = function() {
+      //   plot.resize();
+      // };
     },
 
     // onResize() {
     //   if(this.myChart)_.debounce(this.myChart.resize,100)()
     // },
-  },
+    
+    // mounted() {
+    //   this.runBEM();
+    //   this.drawChart();
+    //   this.getData();
+    //   // this.onResize();
+    // },
 
+    // created() {
+    //   this.getData();
+    // },
+  },
   mounted() {
     this.runBEM();
     this.drawChart();
     this.getData();
-    this.onResize();
+    // this.onResize();
   },
 
   created() {
     this.getData();
   },
-};
+}
 </script>
 
 <style>

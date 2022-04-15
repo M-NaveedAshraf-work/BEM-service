@@ -14,6 +14,7 @@
                       <v-expansion-panel-content>
                         <v-row>
                           <v-text-field
+                            v-model="GASettings.population_size"
                             label = "Population Size [ea]"
                             outlined
                             dense
@@ -22,6 +23,7 @@
                         </v-row>
                         <v-row>
                           <v-text-field
+                            v-model="GASettings.crossover_rate"
                             label = "Crossover Rate"
                             outlined
                             dense
@@ -30,6 +32,7 @@
                         </v-row>
                         <v-row>
                           <v-text-field
+                            v-model="GASettings.mutation_rate"
                             label = "Mutation Rate"
                             outlined
                             dense
@@ -38,14 +41,15 @@
                         </v-row>
                         <v-row>
                           <v-text-field
+                            v-model="GASettings.random_seed"
                             label = "Random Seed"
                             outlined
                             dense
-                            type="number"
                           ></v-text-field>
                         </v-row>
                         <v-row>
                           <v-text-field
+                            v-model="GASettings.max_time"
                             label = "Maximum Code Execution Time [min]"
                             outlined
                             dense
@@ -53,64 +57,9 @@
                           ></v-text-field>
                         </v-row>
                         <v-row>
-                          <v-select
-                            :items="calCapBool"
-                            label = "Calibration or CapX?"
-                            outlined
-                            dense
-                          ></v-select>
-                        </v-row>
-                        <v-row>
                           <v-text-field
+                            v-model="GASettings.top_percentage"
                             label = "Top Percentage of Selection"
-                            outlined
-                            dense
-                            type="number"
-                          ></v-text-field>
-                        </v-row>
-                        <v-row>
-                          <v-select
-                            :items="dateInterval"
-                            label = "Calibration Data Interval"
-                            outlined
-                            dense
-                          ></v-select>
-                        </v-row>
-                        <v-row>
-                          <v-select
-                            :items="ynBool"
-                            label = "Electricity Data"
-                            outlined
-                            dense
-                          ></v-select>
-                        </v-row>
-                        <v-row>
-                          <v-select
-                            :items="ynBool"
-                            label = "Natural Gas Data"
-                            outlined
-                            dense
-                          ></v-select>
-                        </v-row>
-                        <v-row>
-                          <v-text-field
-                            label = "cvRMSE Criterion [%]"
-                            outlined
-                            dense
-                            type="number"
-                          ></v-text-field>
-                        </v-row>
-                        <v-row>
-                          <v-text-field
-                            label = "Convergence Difference"
-                            outlined
-                            dense
-                            type="number"
-                          ></v-text-field>
-                        </v-row>
-                        <v-row>
-                          <v-text-field
-                            label = "N Times of Convergence"
                             outlined
                             dense
                             type="number"
@@ -133,8 +82,36 @@
                       <v-expansion-panel-header>Edit Inputs</v-expansion-panel-header>
                       <v-expansion-panel-content>
                         <v-row>
+                          <v-select
+                            v-model="calSettings.data_interval"
+                            :items="dateInterval"
+                            label = "Calibration Data Interval"
+                            outlined
+                            dense
+                          ></v-select>
+                        </v-row>
+                        <v-row>
+                          <v-select
+                            v-model="calSettings.electricity_data"
+                            :items="ynBool"
+                            label = "Electricity Data"
+                            outlined
+                            dense
+                          ></v-select>
+                        </v-row>
+                        <v-row>
+                          <v-select
+                            v-model="calSettings.natural_gas_data"
+                            :items="ynBool"
+                            label = "Natural Gas Data"
+                            outlined
+                            dense
+                          ></v-select>
+                        </v-row>
+                        <v-row>
                           <v-text-field
-                            label = "Discount Rate"
+                            v-model="calSettings.cvrmse_criterion"
+                            label = "cvRMSE Criterion [%]"
                             outlined
                             dense
                             type="number"
@@ -142,7 +119,8 @@
                         </v-row>
                         <v-row>
                           <v-text-field
-                            label = "Period of Analysis [years]"
+                            v-model="calSettings.convergence_diff"
+                            label = "Convergence Difference"
                             outlined
                             dense
                             type="number"
@@ -150,47 +128,8 @@
                         </v-row>
                         <v-row>
                           <v-text-field
-                            label = "Energy Efficient Measure Budget Restriciton [$]"
-                            outlined
-                            dense
-                            type="number"
-                          ></v-text-field>
-                        </v-row>
-                        <v-row>
-                          <v-text-field
-                            label = "EUI Restriction [kWh/m2/yr]"
-                            outlined
-                            dense
-                            type="number"
-                          ></v-text-field>
-                        </v-row>
-                        <v-row>
-                          <v-text-field
-                            label = "Electricity Cost [$/kWh]"
-                            outlined
-                            dense
-                            type="number"
-                          ></v-text-field>
-                        </v-row>
-                        <v-row>
-                          <v-text-field
-                            label = "Natural Gas Cost [$/kWh]"
-                            outlined
-                            dense
-                            type="number"
-                          ></v-text-field>
-                        </v-row>
-                        <v-row>
-                          <v-text-field
-                            label = "Upfront Cost Restriction [$]"
-                            outlined
-                            dense
-                            type="number"
-                          ></v-text-field>
-                        </v-row>
-                        <v-row>
-                          <v-text-field
-                            label = "Max Discrete Converges"
+                            v-model="calSettings.n_times_converge"
+                            label = "N Times of Convergence"
                             outlined
                             dense
                             type="number"
@@ -200,6 +139,338 @@
                     </v-expansion-panel>
                   </v-expansion-panels>
                 </div>
+              </v-col>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-card>
+              <v-col offset-md="1">
+                <v-card-title>Schedule Calibration Parameters</v-card-title>
+                <v-row>
+                  <v-data-table
+                    :headers="scheduleHeaders"
+                    :items="scheduleParams"
+                  >
+                    <template v-slot:top>
+                      <v-toolbar
+                        flat
+                      >
+                        <v-spacer></v-spacer>
+                        <v-dialog
+                          v-model="dialogSchedule"
+                          max-width="500px"
+                        >
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                              color="primary"
+                              dark
+                              class="mb-2"
+                              v-bind="attrs"
+                              v-on="on"
+                            >
+                              Add Schedule Parameter
+                            </v-btn>
+                          </template>
+                          <v-card>
+                            <v-card-title>
+                              <span class="text-h5">{{ formTitle }}</span>
+                            </v-card-title>
+
+                            <v-card-text>
+                              <v-container>
+                                <v-row>
+                                  <v-col
+                                    cols="12"
+                                    sm="12"
+                                    md="12"
+                                  >
+                                    <v-select
+                                      v-model="editScheduleForm.name"
+                                      :items='scheduleOptions'
+                                      label="Parameter Name"
+                                    ></v-select>
+                                  </v-col>
+                                  <v-col
+                                    cols="12"
+                                    sm="12"
+                                    md="12"
+                                  >
+                                    <v-select
+                                      v-model="editScheduleForm.day"
+                                      :items="dayType"
+                                      label="Data Type"
+                                    ></v-select>
+                                  </v-col>
+                                  <v-col
+                                    cols="12"
+                                    sm="12"
+                                    md="12"
+                                  >
+                                    <v-text-field
+                                      v-model="editScheduleForm.min_hour"
+                                      type="number"
+                                      label="Minimum Hour"
+                                    ></v-text-field>
+                                  </v-col>
+                                  <v-col
+                                    cols="12"
+                                    sm="12"
+                                    md="12"
+                                  >
+                                    <v-text-field
+                                      v-model="editScheduleForm.max_hour"
+                                      label="Maximum Hour"
+                                    ></v-text-field>
+                                  </v-col>
+                                  <v-col
+                                    cols="12"
+                                    sm="12"
+                                    md="12"
+                                  >
+                                    <v-text-field
+                                      v-model="editScheduleForm.min"
+                                      label="Minimum Value"
+                                    ></v-text-field>
+                                  </v-col>
+                                  <v-col
+                                    cols="12"
+                                    sm="12"
+                                    md="12"
+                                  >
+                                    <v-text-field
+                                      v-model="editScheduleForm.max"
+                                      label="Maximum Value"
+                                    ></v-text-field>
+                                  </v-col>
+                                </v-row>
+                              </v-container>
+                            </v-card-text>
+
+                            <v-card-actions>
+                              <v-spacer></v-spacer>
+                              <v-btn
+                                color="blue darken-1"
+                                text
+                                @click="scheduleClose"
+                              >
+                                Cancel
+                              </v-btn>
+                              <v-btn
+                                color="blue darken-1"
+                                text
+                                @click="scheduleSave"
+                              >
+                                Save
+                              </v-btn>
+                            </v-card-actions>
+                          </v-card>
+                        </v-dialog>
+                        <v-dialog v-model="dialogDeleteSchedule" max-width="500px">
+                          <v-card>
+                            <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+                            <v-card-actions>
+                              <v-spacer></v-spacer>
+                              <v-btn color="blue darken-1" text @click="scheduleCloseDelete">Cancel</v-btn>
+                              <v-btn color="blue darken-1" text @click="deleteItemConfirmSchedule">OK</v-btn>
+                              <v-spacer></v-spacer>
+                            </v-card-actions>
+                          </v-card>
+                        </v-dialog>
+                      </v-toolbar>
+                    </template>
+                    <template v-slot:item.actions="{ item }">
+                      <v-icon
+                        small
+                        class="mr-2"
+                        @click="editItemSchedule(item)"
+                      >
+                        mdi-pencil
+                      </v-icon>
+                      <v-icon
+                        small
+                        @click="deleteItemSchedule(item)"
+                      >
+                        mdi-delete
+                      </v-icon>
+                    </template>
+                    <template v-slot:no-data>
+                      <v-btn
+                        color="primary"
+                        @click="getMessage"
+                      >
+                        Reset
+                      </v-btn>
+                    </template>
+                  </v-data-table>
+                </v-row>
+              </v-col>
+            </v-card>
+          </v-col>
+          <v-col>
+            <v-card>
+              <v-col offset-md="1">
+                <v-card-title>Monthly Internal Heat Gains</v-card-title>
+                <v-row>
+                  <v-data-table
+                    :headers="heatHeaders"
+                    :items="heatParams"
+                  >
+                    <template v-slot:top>
+                      <v-toolbar
+                        flat
+                      >
+                        <v-spacer></v-spacer>
+                        <v-dialog
+                          v-model="dialogHeat"
+                          max-width="500px"
+                        >
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                              color="primary"
+                              dark
+                              class="mb-2"
+                              v-bind="attrs"
+                              v-on="on"
+                            >
+                              Add Heat Gain Parameter
+                            </v-btn>
+                          </template>
+                          <v-card>
+                            <v-card-title>
+                              <span class="text-h5">{{ formTitle }}</span>
+                            </v-card-title>
+
+                            <v-card-text>
+                              <v-container>
+                                <v-row>
+                                  <v-col
+                                    cols="12"
+                                    sm="12"
+                                    md="12"
+                                  >
+                                    <v-select
+                                      v-model="editHeatForm.name"
+                                      :items='heatOptions'
+                                      label="Parameter Name"
+                                    ></v-select>
+                                  </v-col>
+                                  <v-col
+                                    cols="12"
+                                    sm="12"
+                                    md="12"
+                                  >
+                                    <v-select
+                                      v-model="editHeatForm.day"
+                                      :items="dayType"
+                                      label="Data Type"
+                                    ></v-select>
+                                  </v-col>
+                                  <v-col
+                                    cols="12"
+                                    sm="12"
+                                    md="12"
+                                  >
+                                    <v-text-field
+                                      v-model="editHeatForm.min"
+                                      type="number"
+                                      label="Minimum Hour"
+                                    ></v-text-field>
+                                  </v-col>
+                                  <v-col
+                                    cols="12"
+                                    sm="12"
+                                    md="12"
+                                  >
+                                    <v-text-field
+                                      v-model="editHeatForm.max"
+                                      label="Maximum Hour"
+                                    ></v-text-field>
+                                  </v-col>
+                                  <v-col
+                                    cols="12"
+                                    sm="12"
+                                    md="12"
+                                  >
+                                    <v-select
+                                      v-model="editHeatForm.min_month"
+                                      :items="months"
+                                      label="Minimum Value"
+                                    ></v-select>
+                                  </v-col>
+                                  <v-col
+                                    cols="12"
+                                    sm="12"
+                                    md="12"
+                                  >
+                                    <v-select
+                                      v-model="editHeatForm.max_month"
+                                      :items="months"
+                                      label="Maximum Value"
+                                    ></v-select>
+                                  </v-col>
+                                </v-row>
+                              </v-container>
+                            </v-card-text>
+
+                            <v-card-actions>
+                              <v-spacer></v-spacer>
+                              <v-btn
+                                color="blue darken-1"
+                                text
+                                @click="heatClose"
+                              >
+                                Cancel
+                              </v-btn>
+                              <v-btn
+                                color="blue darken-1"
+                                text
+                                @click="heatSave"
+                              >
+                                Save
+                              </v-btn>
+                            </v-card-actions>
+                          </v-card>
+                        </v-dialog>
+                        <v-dialog v-model="dialogDeleteHeat" max-width="500px">
+                          <v-card>
+                            <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+                            <v-card-actions>
+                              <v-spacer></v-spacer>
+                              <v-btn color="blue darken-1" text @click="heatCloseDelete">Cancel</v-btn>
+                              <v-btn color="blue darken-1" text @click="deleteItemConfirmHeat">OK</v-btn>
+                              <v-spacer></v-spacer>
+                            </v-card-actions>
+                          </v-card>
+                        </v-dialog>
+                      </v-toolbar>
+                    </template>
+                    <template v-slot:item.actions="{ item }">
+                      <v-icon
+                        small
+                        class="mr-2"
+                        @click="editItemHeat(item)"
+                      >
+                        mdi-pencil
+                      </v-icon>
+                      <v-icon
+                        small
+                        @click="deleteItemHeat(item)"
+                      >
+                        mdi-delete
+                      </v-icon>
+                    </template>
+                    <template v-slot:no-data>
+                      <v-btn
+                        color="primary"
+                        @click="getMessage"
+                      >
+                        Reset
+                      </v-btn>
+                    </template>
+                  </v-data-table>
+                </v-row>
               </v-col>
             </v-card>
           </v-col>
@@ -356,12 +627,12 @@
               <v-row justify="center">
                 <v-btn 
                   class = "ma-2"
-                  :loading="loading"
-                  :disabled="loading"
+                  :loading= loading
+                  :disabled= loading
                   align="center"
                   depressed
                   color="primary"
-                  v-on:click="sendMessage(); loadState(); runCalibration();"
+                  v-on:click="combineCalibration(); sendMessage(); getMessage(); loadState(); runCalibration();"
                 >Run Calibration</v-btn>
               </v-row>
             </v-card>
@@ -515,8 +786,8 @@
                       <v-expansion-panel-content>
                         <v-row>
                           <v-text-field
-                            v-model="energystarData.targetScore.target"
-                            label = "Target Energy Star Score"
+                            v-model="energystarData.targetScore.current"
+                            label = "Current EUI Score"
                             outlined
                             dense
                             type="number"
@@ -524,8 +795,8 @@
                         </v-row>
                         <v-row>
                           <v-text-field
-                            v-model="energystarData.targetScore.current"
-                            label = "Current Energystar Score"
+                            v-model="energystarData.targetScore.target"
+                            label = "Target Energystar Score"
                             outlined
                             dense
                             type="number"
@@ -541,27 +812,19 @@
                           ></v-text-field>
                         </v-row>
                         <v-row>
-                          <v-text-field
+                          <v-select
                             v-model="energystarData.targetScore.unit"
+                            :items="convertOptions"
                             label = "Converts Units form KBTU to kWh"
                             outlined
                             dense
-                          ></v-text-field>
+                          ></v-select>
                         </v-row>
                       </v-expansion-panel-content>
                     </v-expansion-panel>
                     <v-expansion-panel>
                       <v-expansion-panel-header>Benchmarking Inputs</v-expansion-panel-header>
                       <v-expansion-panel-content>
-                        <v-row>
-                          <v-text-field
-                            v-model="energystarData.benchmarkInput.currentEUI"
-                            label = "Current Source Building EUI"
-                            outlined
-                            type="number"
-                            dense
-                          ></v-text-field>
-                        </v-row>
                         <v-row>
                           <v-text-field
                             v-model="energystarData.benchmarkInput.minSQFT"
@@ -615,55 +878,52 @@
                 <v-row>
                   <v-col>
                     <v-text-field
-                      v-model="energystarData.benchmarkInput.score"
-                      label = "Energy Star Score"
+                      v-model="energystarData.score.score"
+                      label = "Energystar Score"
                       outlined
-                      disabled
+                      :readonly="true"
                       dense
                     ></v-text-field>
                   </v-col>
                   <v-col>
                     <v-text-field
-                      v-model="energystarData.benchmarkInput.predictEUI"
+                      v-model="energystarData.score.predictEUI"
                       label = "Predicted EUI"
                       outlined
-                      disabled
+                      :readonly="true"
                       dense
                     ></v-text-field>
                   </v-col>
                   <v-col>
                     <v-text-field
-                      v-model="energystarData.benchmarkInput.adjustedEUI"
+                      v-model="energystarData.score.adjustedEUI"
                       label = "Adjusted EUI"
                       outlined
-                      disabled
+                      :readonly="true"
                       dense
                     ></v-text-field>
                   </v-col>
                 </v-row>
-                <v-divider></v-divider>
                 <v-row>
                   <h1>Target Score</h1>
                 </v-row>
                 <v-row>
-                  <v-col>
-                    <v-text-field
-                      v-model="energystarData.benchmarkInput.usage"
-                      label = "Energy Savings Needed to Meet Target Score"
-                      outlined
-                      disabled
-                      dense
-                    ></v-text-field>
-                  </v-col>
-                  <v-col>
-                    <v-text-field
-                      v-model="energystarData.benchmarkInput.targetEUI"
-                      label = "Source EUI Needed to Meet Target Score"
-                      outlined
-                      disabled
-                      dense
-                    ></v-text-field>
-                  </v-col>
+                  <v-text-field
+                    v-model="energystarData.targetScore.usage"
+                    label = "Energy Savings Needed to Meet Target Score"
+                    outlined
+                    :readonly="true"
+                    dense
+                  ></v-text-field>
+                </v-row>
+                <v-row>
+                  <v-text-field
+                    v-model="energystarData.targetScore.targetEUI"
+                    label = "Source EUI Needed to Meet Target Score"
+                    outlined
+                    :readonly="true"
+                    dense
+                  ></v-text-field>
                 </v-row>
               </v-container>
             </v-card>
@@ -699,6 +959,7 @@
                 <div>
                   <v-row>
                     <v-text-field
+                      v-model="capxSettings.discount_rate"
                       label = "Discount Rate"
                       outlined
                       dense
@@ -707,6 +968,7 @@
                   </v-row>
                   <v-row>
                     <v-text-field
+                      v-model="capxSettings.period_analysis"
                       label = "Period of Analysis [years]"
                       outlined
                       dense
@@ -715,6 +977,7 @@
                   </v-row>
                   <v-row>
                     <v-text-field
+                      v-model="capxSettings.energy_eff_budget"
                       label = "Energy Efficient Measure Budget Restriction [$]"
                       outlined
                       dense
@@ -723,6 +986,7 @@
                   </v-row>
                   <v-row>
                     <v-text-field
+                      v-model="capxSettings.energy_del_restriction"
                       label = "Total Delivered Energy Restrictions [kWh/m2/yr]"
                       outlined
                       dense
@@ -731,6 +995,7 @@
                   </v-row>
                   <v-row>
                     <v-text-field
+                      v-model="capxSettings.electricity_cost"
                       label = "Electricity Cost [$/kWh]"
                       outlined
                       dense
@@ -739,6 +1004,7 @@
                   </v-row>
                   <v-row>
                     <v-text-field
+                      v-model="capxSettings.natural_gas_cost"
                       label = "Natural Gas Cost [$/kWh]"
                       outlined
                       dense
@@ -775,14 +1041,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatingEfficiency.electricWaterBoiler.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatingEfficiency.electricWaterBoiler.param1"
                               label = "COP"
                               outlined
                               dense
@@ -796,14 +1063,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatingEfficiency.gasWaterBoiler.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatingEfficiency.gasWaterBoiler.param1"
                               label = "COP"
                               outlined
                               dense
@@ -817,14 +1085,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatingEfficiency.oilWaterBoiler.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatingEfficiency.oilWaterBoiler.param1"
                               label = "COP"
                               outlined
                               dense
@@ -838,14 +1107,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatingEfficiency.electricSteamBoiler.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatingEfficiency.electricSteamBoiler.param1"
                               label = "COP"
                               outlined
                               dense
@@ -859,14 +1129,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatingEfficiency.gasSteamBoiler.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatingEfficiency.gasSteamBoiler.param1"
                               label = "COP"
                               outlined
                               dense
@@ -880,14 +1151,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatingEfficiency.oilSteamBoiler.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatingEfficiency.oilSteamBoiler.param1"
                               label = "COP"
                               outlined
                               dense
@@ -917,14 +1189,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.coolingEfficiency.reciprocatingAirChiller.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.coolingEfficiency.reciprocatingAirChiller.param1"
                               label = "COP"
                               outlined
                               dense
@@ -938,14 +1211,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.coolingEfficiency.reciprocatingWaterChiller.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.coolingEfficiency.reciprocatingWaterChiller.param1"
                               label = "COP"
                               outlined
                               dense
@@ -959,14 +1233,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.coolingEfficiency.centrifugalWaterChiller.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.coolingEfficiency.centrifugalWaterChiller.param1"
                               label = "COP"
                               outlined
                               dense
@@ -980,14 +1255,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.coolingEfficiency.absorptionWaterChiller.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.coolingEfficiency.absorptionWaterChiller.param1"
                               label = "COP"
                               outlined
                               dense
@@ -1020,14 +1296,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatingCoolingEfficiency.heatPumpAA.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatingCoolingEfficiency.heatPumpAA.param1"
                               label = "Heating COP"
                               outlined
                               dense
@@ -1036,6 +1313,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatingCoolingEfficiency.heatPumpAA.param2"
                               label = "Cooling COP"
                               outlined
                               dense
@@ -1049,14 +1327,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatingCoolingEfficiency.heatPumpWA.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatingCoolingEfficiency.heatPumpWA.param1"
                               label = "Heating COP"
                               outlined
                               dense
@@ -1065,6 +1344,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatingCoolingEfficiency.heatPumpWA.param2"
                               label = "Cooling COP"
                               outlined
                               dense
@@ -1094,14 +1374,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatRecovery.None.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatRecovery.None.param1"
                               label = "Efficiency"
                               outlined
                               dense
@@ -1115,14 +1396,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatRecovery.heatExchangePlates.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatRecovery.heatExchangePlates.param1"
                               label = "Efficiency"
                               outlined
                               dense
@@ -1136,14 +1418,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatRecovery.twoElement.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatRecovery.twoElement.param1"
                               label = "Efficiency"
                               outlined
                               dense
@@ -1157,14 +1440,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatRecovery.heatExchangePipes.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatRecovery.heatExchangePipes.param1"
                               label = "Efficiency"
                               outlined
                               dense
@@ -1178,14 +1462,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatRecovery.rotation.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.heatRecovery.rotation.param1"
                               label = "Efficiency"
                               outlined
                               dense
@@ -1215,14 +1500,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.airLeakage.minimum.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.airLeakage.minimum.param1"
                               label = "Airflow m3/hr per floor area"
                               outlined
                               dense
@@ -1236,14 +1522,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.airLeakage.maximum.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.airLeakage.maximum.param1"
                               label = "Airflow m3/hr per floor area"
                               outlined
                               dense
@@ -1279,14 +1566,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.specificFanPower.inlineCentrifugal.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.specificFanPower.inlineCentrifugal.kw"
                               label = "Specific Fan Power"
                               outlined
                               dense
@@ -1296,6 +1584,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.specificFanPower.inlineCentrifugal.CFM"
                               label = "kW of Fans"
                               outlined
                               dense
@@ -1304,6 +1593,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.specificFanPower.inlineCentrifugal.param1"
                               label = "CFM Value"
                               outlined
                               dense
@@ -1317,14 +1607,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.specificFanPower.blower.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.specificFanPower.blower.kw"
                               label = "Specific Fan Power"
                               outlined
                               dense
@@ -1334,6 +1625,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.specificFanPower.blower.CFM"
                               label = "kW of Fans"
                               outlined
                               dense
@@ -1342,6 +1634,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.specificFanPower.blower.param1"
                               label = "CFM Value"
                               outlined
                               dense
@@ -1355,14 +1648,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.specificFanPower.axial.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                            v-model="capxParameterValues.specificFanPower.axial.kw"
                               label = "Specific Fan Power"
                               outlined
                               dense
@@ -1372,6 +1666,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                            v-model="capxParameterValues.specificFanPower.axial.CFM"
                               label = "kW of Fans"
                               outlined
                               dense
@@ -1380,6 +1675,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                            v-model="capxParameterValues.specificFanPower.axial.param1"
                               label = "CFM Value"
                               outlined
                               dense
@@ -1409,14 +1705,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.DHWGenerationSystem.electric.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.DHWGenerationSystem.electric.param1"
                               label = "Efficiency"
                               outlined
                               dense
@@ -1430,14 +1727,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.DHWGenerationSystem.VRBoiler.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.DHWGenerationSystem.VRBoiler.param1"
                               label = "Efficiency"
                               outlined
                               dense
@@ -1451,14 +1749,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.DHWGenerationSystem.gasBoiler.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.DHWGenerationSystem.gasBoiler.param1"
                               label = "Efficiency"
                               outlined
                               dense
@@ -1472,14 +1771,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.DHWGenerationSystem.coGeneration.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.DHWGenerationSystem.coGeneration.param1"
                               label = "Efficiency"
                               outlined
                               dense
@@ -1493,14 +1793,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.DHWGenerationSystem.districtHeating.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.DHWGenerationSystem.districtHeating.param1"
                               label = "Efficiency"
                               outlined
                               dense
@@ -1514,14 +1815,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.DHWGenerationSystem.heatPump.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.DHWGenerationSystem.heatPump.param1"
                               label = "Efficiency"
                               outlined
                               dense
@@ -1535,14 +1837,15 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.DHWGenerationSystem.steam.cost"
                               label = "Cost"
                               outlined
                               dense
-                              type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.DHWGenerationSystem.steam.param1"
                               label = "Efficiency"
                               outlined
                               dense
@@ -1572,6 +1875,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.PVModule.minimum.cost"
                               label = "Cost"
                               outlined
                               dense
@@ -1580,6 +1884,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.PVModule.minimum.param1"
                               label = "Performance Factor"
                               outlined
                               dense
@@ -1593,6 +1898,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.PVModule.maximum.cost"
                               label = "Cost"
                               outlined
                               dense
@@ -1601,6 +1907,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.PVModule.maximum.param1"
                               label = "Performance Factor"
                               outlined
                               dense
@@ -1630,6 +1937,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.solarCollector.minimum.cost"
                               label = "Cost"
                               outlined
                               dense
@@ -1638,6 +1946,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.solarCollector.minimum.param1"
                               label = "Efficiency"
                               outlined
                               dense
@@ -1651,6 +1960,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.solarCollector.maximum.cost"
                               label = "Cost"
                               outlined
                               dense
@@ -1659,6 +1969,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.solarCollector.maximum.param1"
                               label = "Efficiency"
                               outlined
                               dense
@@ -1688,6 +1999,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.appliance.eStarBaseline.cost"
                               label = "Cost"
                               outlined
                               dense
@@ -1696,6 +2008,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.appliance.eStarBaseline.param1"
                               label = "W/m^2"
                               outlined
                               dense
@@ -1709,6 +2022,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.appliance.eStarTop10.cost"
                               label = "Cost"
                               outlined
                               dense
@@ -1717,6 +2031,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.appliance.eStarTop10.param1"
                               label = "W/m^2"
                               outlined
                               dense
@@ -1730,6 +2045,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.appliance.eStarTop5.cost"
                               label = "Cost"
                               outlined
                               dense
@@ -1738,6 +2054,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.appliance.eStarTop5.param1"
                               label = "W/m^2"
                               outlined
                               dense
@@ -1767,6 +2084,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.lighting.allCFL.cost"
                               label = "Cost"
                               outlined
                               dense
@@ -1775,6 +2093,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.lighting.allCFL.param1"
                               label = "W/m^2"
                               outlined
                               dense
@@ -1784,6 +2103,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.lighting.allCFL.fixtures"
                               label = "Number of Fixtures"
                               outlined
                               dense
@@ -1797,6 +2117,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.lighting.LEDCFL.cost"
                               label = "Cost"
                               outlined
                               dense
@@ -1805,6 +2126,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.lighting.LEDCFL.param1"
                               label = "W/m^2"
                               outlined
                               dense
@@ -1814,6 +2136,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.lighting.LEDCFL.fixtures"
                               label = "Number of Fixtures"
                               outlined
                               dense
@@ -1827,6 +2150,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.lighting.LED.cost"
                               label = "Cost"
                               outlined
                               dense
@@ -1835,6 +2159,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.lighting.LED.param1"
                               label = "W/m^2"
                               outlined
                               dense
@@ -1844,6 +2169,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.lighting.LED.fixtures"
                               label = "Number of Fixtures"
                               outlined
                               dense
@@ -1873,6 +2199,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.windTurbine.minimumDiameter.cost"
                               label = "Cost"
                               outlined
                               dense
@@ -1881,10 +2208,10 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.windTurbine.minimumDiameter.param1"
                               label = "Diameter"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
@@ -1895,6 +2222,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.windTurbine.maximumDiameter.cost"
                               label = "Cost"
                               outlined
                               dense
@@ -1903,10 +2231,10 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.windTurbine.maximumDiameter.param1"
                               label = "Diameter"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
@@ -1939,6 +2267,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.naturalVentilation.baseline.cost"
                               label = "Cost"
                               outlined
                               dense
@@ -1947,28 +2276,28 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.naturalVentilation.baseline.param1"
                               label = "Width [m]"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.naturalVentilation.baseline.param2"
                               label = "Height [m]"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.naturalVentilation.baseline.param3"
                               label = "Angle [degree]"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
@@ -1979,6 +2308,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.naturalVentilation.improve1.cost"
                               label = "Cost"
                               outlined
                               dense
@@ -1987,28 +2317,28 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.naturalVentilation.improve1.param1"
                               label = "Width [m]"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.naturalVentilation.improve1.param2"
                               label = "Height [m]"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.naturalVentilation.improve1.param3"
                               label = "Angle [degree]"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
@@ -2019,6 +2349,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.naturalVentilation.improve2.cost"
                               label = "Cost"
                               outlined
                               dense
@@ -2027,28 +2358,28 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.naturalVentilation.improve2.param1"
                               label = "Width [m]"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.naturalVentilation.improve2.param2"
                               label = "Height [m]"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.naturalVentilation.improve2.param3"
                               label = "Angle [degree]"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
@@ -2081,6 +2412,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.electricBattery.baseline.cost"
                               label = "Cost"
                               outlined
                               dense
@@ -2089,28 +2421,28 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.electricBattery.baseline.param1"
                               label = "Battery Capacity [kWh]"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.electricBattery.baseline.param2"
                               label = "Charging Efficiency"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.electricBattery.baseline.param3"
                               label = "Discharging Efficiency"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
@@ -2121,6 +2453,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.electricBattery.improve1.cost"
                               label = "Cost"
                               outlined
                               dense
@@ -2129,28 +2462,28 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.electricBattery.improve1.param1"
                               label = "Battery Capacity [kWh]"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.electricBattery.improve1.param2"
                               label = "Charging Efficiency"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.electricBattery.improve1.param3"
                               label = "Discharging Efficiency"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
@@ -2161,6 +2494,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.electricBattery.improve2.cost"
                               label = "Cost"
                               outlined
                               dense
@@ -2169,28 +2503,28 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.electricBattery.improve2.param1"
                               label = "Battery Capacity [kWh]"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.electricBattery.improve2.param2"
                               label = "Charging Efficiency"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.electricBattery.improve2.param3"
                               label = "Discharging Efficiency"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
@@ -2217,6 +2551,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.lightingDimmer.minimumDimmer.cost"
                               label = "Cost"
                               outlined
                               dense
@@ -2225,6 +2560,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.lightingDimmer.minimumDimmer.param1"
                               label = "Number of Dimmers"
                               outlined
                               dense
@@ -2238,6 +2574,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.lightingDimmer.maximumDimmer.cost"
                               label = "Cost"
                               outlined
                               dense
@@ -2246,6 +2583,7 @@
                           </v-col>
                           <v-col>
                             <v-text-field
+                              v-model="capxParameterValues.lightingDimmer.maximumDimmer.param1"
                               label = "Number of Dimmers"
                               outlined
                               dense
@@ -2397,7 +2735,7 @@
                     <template v-slot:no-data>
                       <v-btn
                         color="primary"
-                        @click="getCapx"
+                        @click="sendMessage()"
                       >
                         Reset
                       </v-btn>
@@ -2408,12 +2746,12 @@
               <v-row justify="center">
                 <v-btn 
                   class = "ma-2"
-                  :loading="loading"
-                  :disabled="loading"
+                  :loading= loading2
+                  :disabled= loading2
                   align="center"
                   depressed
                   color="primary"
-                  v-on:click="sendCapx(); loadState2();"
+                  v-on:click="combineCalibration(); getMessage(); sendMessage(); loadState2(); runCapx();"
                 >Run CapX</v-btn>
               </v-row>
             </v-card>
@@ -2443,8 +2781,9 @@ export default{
     return {
 
       calCapBool: ['CapX', 'Calibration'],
-      dateInterval: ['Monthly', 'Daily', 'Hourly'],
+      dateInterval: ['Monthly', 'Hourly'],
       ynBool: ['Yes', 'No'],
+      months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
       dialog: false,
       dialogDelete: false,
       loader: null,
@@ -2454,6 +2793,12 @@ export default{
       dialogDeleteCapx: false,
       loading2: false,
 
+      dialogSchedule: false,
+      dialogDeleteSchedule: false,
+
+      dialogHeat: false,
+      dialogDeleteHeat: false,
+
       max25chars: v => v.length <= 25 || 'Input too long!',
       pagination: {},
       calBool:false,
@@ -2461,6 +2806,14 @@ export default{
       calText: '',
       floatInt: ['Float', 'Integer'],
       disCont: ['Discrete', 'Continuous'],
+      dayType: ['Weekday', 'Weekend'],
+      heatOptions: ['Occupancy', 'Appliance', 'Lighting'],
+      scheduleOptions: ['Occupancy Schedule',
+                        'Appliance Schedule',
+                        'Lighting Schedule',
+                        'Heating Temperature Setpoint',
+                        'Cooling Temperature Setpoint'
+                        ],
       calOptions: ['Heating COP',
                   'Cooling COP',
                   'Extra ventilation above fresh air supply',
@@ -2549,6 +2902,80 @@ export default{
                     'Window1 SRF All',
                     ],
 
+      convertOptions: ['kBTU', 'kWh'],
+      
+      heatHeaders: [
+        {
+          text: 'Heat Parameters',
+          align: 'start',
+          sortable: false,
+          value: 'name',
+        },
+        { text: 'Day Type', value: 'day'},
+        { text: 'Min', value: 'min'},
+        { text: 'Max', value: 'max'},
+        { text: 'Min Month', value: 'min_month'},
+        { text: 'Max Month', value: 'max_month'},
+        { text: 'Actions', value: 'actions',sortable: false },
+      ],
+
+      heatParams: [],
+      editedIndex4: -1,
+
+      editHeatForm: {
+        name: '',
+        day: '',
+        min: '',
+        max: '',
+        min_month: '',
+        max_month: '',
+      },
+
+      defaultHeatForm: {
+        name: '',
+        day: '',
+        min: '',
+        max: '',
+        min_month: '',
+        max_month: '',
+      },
+
+      scheduleHeaders: [
+        {
+          text: 'Schedule Parameters',
+          align: 'start',
+          sortable: false,
+          value: 'name',
+        },
+        { text: 'Day Type', value: 'day'},
+        { text: 'Min Hour', value: 'min_hour'},
+        { text: 'Max Hour', value: 'max_hour'},
+        { text: 'Min', value: 'min'},
+        { text: 'Max', value: 'max'},
+        { text: 'Actions', value: 'actions',sortable: false },
+      ],
+
+      scheduleParams: [],
+      editedIndex3: -1,
+
+      editScheduleForm: {
+        name: '',
+        day: '',
+        min_hour: '',
+        max_hour: '',
+        min: '',
+        max: '',
+      },
+
+      defaultScheduleForm: {
+        name: '',
+        day: '',
+        min_hour: '',
+        max_hour: '',
+        min: '',
+        max: '',
+      },
+
       calHeaders: [
         {
           text: 'Calibration Parameters',
@@ -2601,6 +3028,15 @@ export default{
         data: '',
       },
 
+      GASettings: [],
+      calSettings: [],
+      calCombine: [],
+      type: 'Calibration',
+
+      capxParameterValues: null,
+      capxSettings: [],
+
+
       dataInterval: "Monthly",
       monthlySchedule: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
       hourlySchedule: ["1/1/19 12:00 PM", "1/1/19 1:00 PM", "1/1/19 2:00 PM", "1/1/19 3:00 PM", "1/1/19 4:00 PM", "1/1/19 5:00 PM", "1/1/19 6:00 PM", "1/1/19 7:00 PM", "1/1/19 8:00 PM", "1/1/19 9:00 PM", "1/1/19 10:00 PM", "1/1/19 11:00 PM", "1/2/19 12:00 AM", "1/2/19 1:00 AM", "1/2/19 2:00 AM", "1/2/19 3:00 AM", "1/2/19 4:00 AM", "1/2/19 5:00 AM", "1/2/19 6:00 AM", "1/2/19 7:00 AM", "1/2/19 8:00 AM", "1/2/19 9:00 AM", "1/2/19 10:00 AM", "1/2/19 11:00 AM", "1/2/19 12:00 PM", "1/2/19 1:00 PM", "1/2/19 2:00 PM", "1/2/19 3:00 PM", "1/2/19 4:00 PM", "1/2/19 5:00 PM", "1/2/19 6:00 PM", "1/2/19 7:00 PM", "1/2/19 8:00 PM", "1/2/19 9:00 PM", "1/2/19 10:00 PM", "1/2/19 11:00 PM", "1/3/19 12:00 AM", "1/3/19 1:00 AM", "1/3/19 2:00 AM", "1/3/19 3:00 AM", "1/3/19 4:00 AM", "1/3/19 5:00 AM", "1/3/19 6:00 AM", "1/3/19 7:00 AM", "1/3/19 8:00 AM", "1/3/19 9:00 AM", "1/3/19 10:00 AM", "1/3/19 11:00 AM", "1/3/19 12:00 PM", "1/3/19 1:00 PM", "1/3/19 2:00 PM", "1/3/19 3:00 PM", "1/3/19 4:00 PM", "1/3/19 5:00 PM", "1/3/19 6:00 PM", "1/3/19 7:00 PM", "1/3/19 8:00 PM", "1/3/19 9:00 PM", "1/3/19 10:00 PM", "1/3/19 11:00 PM", "1/4/19 12:00 AM", "1/4/19 1:00 AM", "1/4/19 2:00 AM", "1/4/19 3:00 AM", "1/4/19 4:00 AM", "1/4/19 5:00 AM", "1/4/19 6:00 AM", "1/4/19 7:00 AM", "1/4/19 8:00 AM", "1/4/19 9:00 AM", "1/4/19 10:00 AM", "1/4/19 11:00 AM", "1/4/19 12:00 PM", "1/4/19 1:00 PM", "1/4/19 2:00 PM", "1/4/19 3:00 PM", "1/4/19 4:00 PM", "1/4/19 5:00 PM", "1/4/19 6:00 PM", "1/4/19 7:00 PM", "1/4/19 8:00 PM", "1/4/19 9:00 PM", "1/4/19 10:00 PM", "1/4/19 11:00 PM", "1/5/19 12:00 AM", "1/5/19 1:00 AM", "1/5/19 2:00 AM", "1/5/19 3:00 AM", "1/5/19 4:00 AM", "1/5/19 5:00 AM", "1/5/19 6:00 AM", "1/5/19 7:00 AM", "1/5/19 8:00 AM", "1/5/19 9:00 AM", "1/5/19 10:00 AM", "1/5/19 11:00 AM", "1/5/19 12:00 PM", "1/5/19 1:00 PM", "1/5/19 2:00 PM", "1/5/19 3:00 PM", "1/5/19 4:00 PM", "1/5/19 5:00 PM", "1/5/19 6:00 PM", "1/5/19 7:00 PM", "1/5/19 8:00 PM", "1/5/19 9:00 PM", "1/5/19 10:00 PM", "1/5/19 11:00 PM", "1/6/19 12:00 AM", "1/6/19 1:00 AM", "1/6/19 2:00 AM", "1/6/19 3:00 AM", "1/6/19 4:00 AM", "1/6/19 5:00 AM", "1/6/19 6:00 AM", "1/6/19 7:00 AM", "1/6/19 8:00 AM", "1/6/19 9:00 AM", "1/6/19 10:00 AM", "1/6/19 11:00 AM", "1/6/19 12:00 PM", "1/6/19 1:00 PM", "1/6/19 2:00 PM", "1/6/19 3:00 PM", "1/6/19 4:00 PM", "1/6/19 5:00 PM", "1/6/19 6:00 PM", "1/6/19 7:00 PM", "1/6/19 8:00 PM", "1/6/19 9:00 PM", "1/6/19 10:00 PM", "1/6/19 11:00 PM", "1/7/19 12:00 AM", "1/7/19 1:00 AM", "1/7/19 2:00 AM", "1/7/19 3:00 AM", "1/7/19 4:00 AM", "1/7/19 5:00 AM", "1/7/19 6:00 AM", "1/7/19 7:00 AM", "1/7/19 8:00 AM", "1/7/19 9:00 AM", "1/7/19 10:00 AM", "1/7/19 11:00 AM", "1/7/19 12:00 PM", "1/7/19 1:00 PM", "1/7/19 2:00 PM", "1/7/19 3:00 PM", "1/7/19 4:00 PM", "1/7/19 5:00 PM", "1/7/19 6:00 PM", "1/7/19 7:00 PM", "1/7/19 8:00 PM", "1/7/19 9:00 PM", "1/7/19 10:00 PM", "1/7/19 11:00 PM", "1/8/19 12:00 AM", "1/8/19 1:00 AM", "1/8/19 2:00 AM", "1/8/19 3:00 AM", "1/8/19 4:00 AM", "1/8/19 5:00 AM", "1/8/19 6:00 AM", "1/8/19 7:00 AM", "1/8/19 8:00 AM", "1/8/19 9:00 AM", "1/8/19 10:00 AM", "1/8/19 11:00 AM", "1/8/19 12:00 PM", "1/8/19 1:00 PM", "1/8/19 2:00 PM", "1/8/19 3:00 PM", "1/8/19 4:00 PM", "1/8/19 5:00 PM", "1/8/19 6:00 PM", "1/8/19 7:00 PM", "1/8/19 8:00 PM", "1/8/19 9:00 PM", "1/8/19 10:00 PM", "1/8/19 11:00 PM", "1/9/19 12:00 AM", "1/9/19 1:00 AM", "1/9/19 2:00 AM", "1/9/19 3:00 AM", "1/9/19 4:00 AM", "1/9/19 5:00 AM", "1/9/19 6:00 AM", "1/9/19 7:00 AM", "1/9/19 8:00 AM", "1/9/19 9:00 AM", "1/9/19 10:00 AM", "1/9/19 11:00 AM", "1/9/19 12:00 PM", "1/9/19 1:00 PM", "1/9/19 2:00 PM", "1/9/19 3:00 PM", "1/9/19 4:00 PM", "1/9/19 5:00 PM", "1/9/19 6:00 PM", "1/9/19 7:00 PM", "1/9/19 8:00 PM", "1/9/19 9:00 PM", "1/9/19 10:00 PM", "1/9/19 11:00 PM", "1/10/19 12:00 AM", "1/10/19 1:00 AM", "1/10/19 2:00 AM", "1/10/19 3:00 AM", "1/10/19 4:00 AM", "1/10/19 5:00 AM", "1/10/19 6:00 AM", "1/10/19 7:00 AM", "1/10/19 8:00 AM", "1/10/19 9:00 AM", "1/10/19 10:00 AM", "1/10/19 11:00 AM", "1/10/19 12:00 PM", "1/10/19 1:00 PM", "1/10/19 2:00 PM", "1/10/19 3:00 PM", "1/10/19 4:00 PM", "1/10/19 5:00 PM", "1/10/19 6:00 PM", "1/10/19 7:00 PM", "1/10/19 8:00 PM", "1/10/19 9:00 PM", "1/10/19 10:00 PM", "1/10/19 11:00 PM", "1/11/19 12:00 AM", "1/11/19 1:00 AM", "1/11/19 2:00 AM", "1/11/19 3:00 AM", "1/11/19 4:00 AM", "1/11/19 5:00 AM", "1/11/19 6:00 AM", "1/11/19 7:00 AM", "1/11/19 8:00 AM", "1/11/19 9:00 AM", "1/11/19 10:00 AM", "1/11/19 11:00 AM", "1/11/19 12:00 PM", "1/11/19 1:00 PM", "1/11/19 2:00 PM", "1/11/19 3:00 PM", "1/11/19 4:00 PM", "1/11/19 5:00 PM", "1/11/19 6:00 PM", "1/11/19 7:00 PM", "1/11/19 8:00 PM", "1/11/19 9:00 PM", "1/11/19 10:00 PM", "1/11/19 11:00 PM", "1/12/19 12:00 AM", "1/12/19 1:00 AM", "1/12/19 2:00 AM", "1/12/19 3:00 AM", "1/12/19 4:00 AM", "1/12/19 5:00 AM", "1/12/19 6:00 AM", "1/12/19 7:00 AM", "1/12/19 8:00 AM", "1/12/19 9:00 AM", "1/12/19 10:00 AM", "1/12/19 11:00 AM", "1/12/19 12:00 PM", "1/12/19 1:00 PM", "1/12/19 2:00 PM", "1/12/19 3:00 PM", "1/12/19 4:00 PM", "1/12/19 5:00 PM", "1/12/19 6:00 PM", "1/12/19 7:00 PM", "1/12/19 8:00 PM", "1/12/19 9:00 PM", "1/12/19 10:00 PM", "1/12/19 11:00 PM", "1/13/19 12:00 AM", "1/13/19 1:00 AM", "1/13/19 2:00 AM", "1/13/19 3:00 AM", "1/13/19 4:00 AM", "1/13/19 5:00 AM", "1/13/19 6:00 AM", "1/13/19 7:00 AM", "1/13/19 8:00 AM", "1/13/19 9:00 AM", "1/13/19 10:00 AM", "1/13/19 11:00 AM", "1/13/19 12:00 PM", "1/13/19 1:00 PM", "1/13/19 2:00 PM", "1/13/19 3:00 PM", "1/13/19 4:00 PM", "1/13/19 5:00 PM", "1/13/19 6:00 PM", "1/13/19 7:00 PM", "1/13/19 8:00 PM", "1/13/19 9:00 PM", "1/13/19 10:00 PM", "1/13/19 11:00 PM", "1/14/19 12:00 AM", "1/14/19 1:00 AM", "1/14/19 2:00 AM", "1/14/19 3:00 AM", "1/14/19 4:00 AM", "1/14/19 5:00 AM", "1/14/19 6:00 AM", "1/14/19 7:00 AM", "1/14/19 8:00 AM", "1/14/19 9:00 AM", "1/14/19 10:00 AM", "1/14/19 11:00 AM", "1/14/19 12:00 PM", "1/14/19 1:00 PM", "1/14/19 2:00 PM", "1/14/19 3:00 PM", "1/14/19 4:00 PM", "1/14/19 5:00 PM", "1/14/19 6:00 PM", "1/14/19 7:00 PM", "1/14/19 8:00 PM", "1/14/19 9:00 PM", "1/14/19 10:00 PM", "1/14/19 11:00 PM", "1/15/19 12:00 AM", "1/15/19 1:00 AM", "1/15/19 2:00 AM", "1/15/19 3:00 AM", "1/15/19 4:00 AM", "1/15/19 5:00 AM", "1/15/19 6:00 AM", "1/15/19 7:00 AM", "1/15/19 8:00 AM", "1/15/19 9:00 AM", "1/15/19 10:00 AM", "1/15/19 11:00 AM", "1/15/19 12:00 PM", "1/15/19 1:00 PM", "1/15/19 2:00 PM", "1/15/19 3:00 PM", "1/15/19 4:00 PM", "1/15/19 5:00 PM", "1/15/19 6:00 PM", "1/15/19 7:00 PM", "1/15/19 8:00 PM", "1/15/19 9:00 PM", "1/15/19 10:00 PM", "1/15/19 11:00 PM", "1/16/19 12:00 AM", "1/16/19 1:00 AM", "1/16/19 2:00 AM", "1/16/19 3:00 AM", "1/16/19 4:00 AM", "1/16/19 5:00 AM", "1/16/19 6:00 AM", "1/16/19 7:00 AM", "1/16/19 8:00 AM", "1/16/19 9:00 AM", "1/16/19 10:00 AM", "1/16/19 11:00 AM", "1/16/19 12:00 PM", "1/16/19 1:00 PM", "1/16/19 2:00 PM", "1/16/19 3:00 PM", "1/16/19 4:00 PM", "1/16/19 5:00 PM", "1/16/19 6:00 PM", "1/16/19 7:00 PM", "1/16/19 8:00 PM", "1/16/19 9:00 PM", "1/16/19 10:00 PM", "1/16/19 11:00 PM", "1/17/19 12:00 AM", "1/17/19 1:00 AM", "1/17/19 2:00 AM", "1/17/19 3:00 AM", "1/17/19 4:00 AM", "1/17/19 5:00 AM", "1/17/19 6:00 AM", "1/17/19 7:00 AM", "1/17/19 8:00 AM", "1/17/19 9:00 AM", "1/17/19 10:00 AM", "1/17/19 11:00 AM", "1/17/19 12:00 PM", "1/17/19 1:00 PM", "1/17/19 2:00 PM", "1/17/19 3:00 PM", "1/17/19 4:00 PM", "1/17/19 5:00 PM", "1/17/19 6:00 PM", "1/17/19 7:00 PM", "1/17/19 8:00 PM", "1/17/19 9:00 PM", "1/17/19 10:00 PM", "1/17/19 11:00 PM", "1/18/19 12:00 AM", "1/18/19 1:00 AM", "1/18/19 2:00 AM", "1/18/19 3:00 AM", "1/18/19 4:00 AM", "1/18/19 5:00 AM", "1/18/19 6:00 AM", "1/18/19 7:00 AM", "1/18/19 8:00 AM", "1/18/19 9:00 AM", "1/18/19 10:00 AM", "1/18/19 11:00 AM", "1/18/19 12:00 PM", "1/18/19 1:00 PM", "1/18/19 2:00 PM", "1/18/19 3:00 PM", "1/18/19 4:00 PM", "1/18/19 5:00 PM", "1/18/19 6:00 PM", "1/18/19 7:00 PM", "1/18/19 8:00 PM", "1/18/19 9:00 PM", "1/18/19 10:00 PM", "1/18/19 11:00 PM", "1/19/19 12:00 AM", "1/19/19 1:00 AM", "1/19/19 2:00 AM", "1/19/19 3:00 AM", "1/19/19 4:00 AM", "1/19/19 5:00 AM", "1/19/19 6:00 AM", "1/19/19 7:00 AM", "1/19/19 8:00 AM", "1/19/19 9:00 AM", "1/19/19 10:00 AM", "1/19/19 11:00 AM", "1/19/19 12:00 PM", "1/19/19 1:00 PM", "1/19/19 2:00 PM", "1/19/19 3:00 PM", "1/19/19 4:00 PM", "1/19/19 5:00 PM", "1/19/19 6:00 PM", "1/19/19 7:00 PM", "1/19/19 8:00 PM", "1/19/19 9:00 PM", "1/19/19 10:00 PM", "1/19/19 11:00 PM", "1/20/19 12:00 AM", "1/20/19 1:00 AM", "1/20/19 2:00 AM", "1/20/19 3:00 AM", "1/20/19 4:00 AM", "1/20/19 5:00 AM", "1/20/19 6:00 AM", "1/20/19 7:00 AM", "1/20/19 8:00 AM", "1/20/19 9:00 AM", "1/20/19 10:00 AM", "1/20/19 11:00 AM", "1/20/19 12:00 PM", "1/20/19 1:00 PM", "1/20/19 2:00 PM", "1/20/19 3:00 PM", "1/20/19 4:00 PM", "1/20/19 5:00 PM", "1/20/19 6:00 PM", "1/20/19 7:00 PM", "1/20/19 8:00 PM", "1/20/19 9:00 PM", "1/20/19 10:00 PM", "1/20/19 11:00 PM", "1/21/19 12:00 AM", "1/21/19 1:00 AM", "1/21/19 2:00 AM", "1/21/19 3:00 AM", "1/21/19 4:00 AM", "1/21/19 5:00 AM", "1/21/19 6:00 AM", "1/21/19 7:00 AM", "1/21/19 8:00 AM", "1/21/19 9:00 AM", "1/21/19 10:00 AM", "1/21/19 11:00 AM", "1/21/19 12:00 PM", "1/21/19 1:00 PM", "1/21/19 2:00 PM", "1/21/19 3:00 PM", "1/21/19 4:00 PM", "1/21/19 5:00 PM", "1/21/19 6:00 PM", "1/21/19 7:00 PM", "1/21/19 8:00 PM", "1/21/19 9:00 PM", "1/21/19 10:00 PM", "1/21/19 11:00 PM", "1/22/19 12:00 AM", "1/22/19 1:00 AM", "1/22/19 2:00 AM", "1/22/19 3:00 AM", "1/22/19 4:00 AM", "1/22/19 5:00 AM", "1/22/19 6:00 AM", "1/22/19 7:00 AM", "1/22/19 8:00 AM", "1/22/19 9:00 AM", "1/22/19 10:00 AM", "1/22/19 11:00 AM", "1/22/19 12:00 PM", "1/22/19 1:00 PM", "1/22/19 2:00 PM", "1/22/19 3:00 PM", "1/22/19 4:00 PM", "1/22/19 5:00 PM", "1/22/19 6:00 PM", "1/22/19 7:00 PM", "1/22/19 8:00 PM", "1/22/19 9:00 PM", "1/22/19 10:00 PM", "1/22/19 11:00 PM", "1/23/19 12:00 AM", "1/23/19 1:00 AM", "1/23/19 2:00 AM", "1/23/19 3:00 AM", "1/23/19 4:00 AM", "1/23/19 5:00 AM", "1/23/19 6:00 AM", "1/23/19 7:00 AM", "1/23/19 8:00 AM", "1/23/19 9:00 AM", "1/23/19 10:00 AM", "1/23/19 11:00 AM", "1/23/19 12:00 PM", "1/23/19 1:00 PM", "1/23/19 2:00 PM", "1/23/19 3:00 PM", "1/23/19 4:00 PM", "1/23/19 5:00 PM", "1/23/19 6:00 PM", "1/23/19 7:00 PM", "1/23/19 8:00 PM", "1/23/19 9:00 PM", "1/23/19 10:00 PM", "1/23/19 11:00 PM", "1/24/19 12:00 AM", "1/24/19 1:00 AM", "1/24/19 2:00 AM", "1/24/19 3:00 AM", "1/24/19 4:00 AM", "1/24/19 5:00 AM", "1/24/19 6:00 AM", "1/24/19 7:00 AM", "1/24/19 8:00 AM", "1/24/19 9:00 AM", "1/24/19 10:00 AM", "1/24/19 11:00 AM", "1/24/19 12:00 PM", "1/24/19 1:00 PM", "1/24/19 2:00 PM", "1/24/19 3:00 PM", "1/24/19 4:00 PM", "1/24/19 5:00 PM", "1/24/19 6:00 PM", "1/24/19 7:00 PM", "1/24/19 8:00 PM", "1/24/19 9:00 PM", "1/24/19 10:00 PM", "1/24/19 11:00 PM", "1/25/19 12:00 AM", "1/25/19 1:00 AM", "1/25/19 2:00 AM", "1/25/19 3:00 AM", "1/25/19 4:00 AM", "1/25/19 5:00 AM", "1/25/19 6:00 AM", "1/25/19 7:00 AM", "1/25/19 8:00 AM", "1/25/19 9:00 AM", "1/25/19 10:00 AM", "1/25/19 11:00 AM", "1/25/19 12:00 PM", "1/25/19 1:00 PM", "1/25/19 2:00 PM", "1/25/19 3:00 PM", "1/25/19 4:00 PM", "1/25/19 5:00 PM", "1/25/19 6:00 PM", "1/25/19 7:00 PM", "1/25/19 8:00 PM", "1/25/19 9:00 PM", "1/25/19 10:00 PM", "1/25/19 11:00 PM", "1/26/19 12:00 AM", "1/26/19 1:00 AM", "1/26/19 2:00 AM", "1/26/19 3:00 AM", "1/26/19 4:00 AM", "1/26/19 5:00 AM", "1/26/19 6:00 AM", "1/26/19 7:00 AM", "1/26/19 8:00 AM", "1/26/19 9:00 AM", "1/26/19 10:00 AM", "1/26/19 11:00 AM", "1/26/19 12:00 PM", "1/26/19 1:00 PM", "1/26/19 2:00 PM", "1/26/19 3:00 PM", "1/26/19 4:00 PM", "1/26/19 5:00 PM", "1/26/19 6:00 PM", "1/26/19 7:00 PM", "1/26/19 8:00 PM", "1/26/19 9:00 PM", "1/26/19 10:00 PM", "1/26/19 11:00 PM", "1/27/19 12:00 AM", "1/27/19 1:00 AM", "1/27/19 2:00 AM", "1/27/19 3:00 AM", "1/27/19 4:00 AM", "1/27/19 5:00 AM", "1/27/19 6:00 AM", "1/27/19 7:00 AM", "1/27/19 8:00 AM", "1/27/19 9:00 AM", "1/27/19 10:00 AM", "1/27/19 11:00 AM", "1/27/19 12:00 PM", "1/27/19 1:00 PM", "1/27/19 2:00 PM", "1/27/19 3:00 PM", "1/27/19 4:00 PM", "1/27/19 5:00 PM", "1/27/19 6:00 PM", "1/27/19 7:00 PM", "1/27/19 8:00 PM", "1/27/19 9:00 PM", "1/27/19 10:00 PM", "1/27/19 11:00 PM", "1/28/19 12:00 AM", "1/28/19 1:00 AM", "1/28/19 2:00 AM", "1/28/19 3:00 AM", "1/28/19 4:00 AM", "1/28/19 5:00 AM", "1/28/19 6:00 AM", "1/28/19 7:00 AM", "1/28/19 8:00 AM", "1/28/19 9:00 AM", "1/28/19 10:00 AM", "1/28/19 11:00 AM", "1/28/19 12:00 PM", "1/28/19 1:00 PM", "1/28/19 2:00 PM", "1/28/19 3:00 PM", "1/28/19 4:00 PM", "1/28/19 5:00 PM", "1/28/19 6:00 PM", "1/28/19 7:00 PM", "1/28/19 8:00 PM", "1/28/19 9:00 PM", "1/28/19 10:00 PM", "1/28/19 11:00 PM", "1/29/19 12:00 AM", "1/29/19 1:00 AM", "1/29/19 2:00 AM", "1/29/19 3:00 AM", "1/29/19 4:00 AM", "1/29/19 5:00 AM", "1/29/19 6:00 AM", "1/29/19 7:00 AM", "1/29/19 8:00 AM", "1/29/19 9:00 AM", "1/29/19 10:00 AM", "1/29/19 11:00 AM", "1/29/19 12:00 PM", "1/29/19 1:00 PM", "1/29/19 2:00 PM", "1/29/19 3:00 PM", "1/29/19 4:00 PM", "1/29/19 5:00 PM", "1/29/19 6:00 PM", "1/29/19 7:00 PM", "1/29/19 8:00 PM", "1/29/19 9:00 PM", "1/29/19 10:00 PM", "1/29/19 11:00 PM", "1/30/19 12:00 AM", "1/30/19 1:00 AM", "1/30/19 2:00 AM", "1/30/19 3:00 AM", "1/30/19 4:00 AM", "1/30/19 5:00 AM", "1/30/19 6:00 AM", "1/30/19 7:00 AM", "1/30/19 8:00 AM", "1/30/19 9:00 AM", "1/30/19 10:00 AM", "1/30/19 11:00 AM", "1/30/19 12:00 PM", "1/30/19 1:00 PM", "1/30/19 2:00 PM", "1/30/19 3:00 PM", "1/30/19 4:00 PM", "1/30/19 5:00 PM", "1/30/19 6:00 PM", "1/30/19 7:00 PM", "1/30/19 8:00 PM", "1/30/19 9:00 PM", "1/30/19 10:00 PM", "1/30/19 11:00 PM", "1/31/19 12:00 AM", "1/31/19 1:00 AM", "1/31/19 2:00 AM", "1/31/19 3:00 AM", "1/31/19 4:00 AM", "1/31/19 5:00 AM", "1/31/19 6:00 AM", "1/31/19 7:00 AM", "1/31/19 8:00 AM", "1/31/19 9:00 AM", "1/31/19 10:00 AM", "1/31/19 11:00 AM", "1/31/19 12:00 PM", "1/31/19 1:00 PM", "1/31/19 2:00 PM", "1/31/19 3:00 PM", "1/31/19 4:00 PM", "1/31/19 5:00 PM", "1/31/19 6:00 PM", "1/31/19 7:00 PM", "1/31/19 8:00 PM", "1/31/19 9:00 PM", "1/31/19 10:00 PM", "1/31/19 11:00 PM", "2/1/19 12:00 AM", "2/1/19 1:00 AM", "2/1/19 2:00 AM", "2/1/19 3:00 AM", "2/1/19 4:00 AM", "2/1/19 5:00 AM", "2/1/19 6:00 AM", "2/1/19 7:00 AM", "2/1/19 8:00 AM", "2/1/19 9:00 AM", "2/1/19 10:00 AM", "2/1/19 11:00 AM", "2/1/19 12:00 PM", "2/1/19 1:00 PM", "2/1/19 2:00 PM", "2/1/19 3:00 PM", "2/1/19 4:00 PM", "2/1/19 5:00 PM", "2/1/19 6:00 PM", "2/1/19 7:00 PM", "2/1/19 8:00 PM", "2/1/19 9:00 PM", "2/1/19 10:00 PM", "2/1/19 11:00 PM", "2/2/19 12:00 AM", "2/2/19 1:00 AM", "2/2/19 2:00 AM", "2/2/19 3:00 AM", "2/2/19 4:00 AM", "2/2/19 5:00 AM", "2/2/19 6:00 AM", "2/2/19 7:00 AM", "2/2/19 8:00 AM", "2/2/19 9:00 AM", "2/2/19 10:00 AM", "2/2/19 11:00 AM", "2/2/19 12:00 PM", "2/2/19 1:00 PM", "2/2/19 2:00 PM", "2/2/19 3:00 PM", "2/2/19 4:00 PM", "2/2/19 5:00 PM", "2/2/19 6:00 PM", "2/2/19 7:00 PM", "2/2/19 8:00 PM", "2/2/19 9:00 PM", "2/2/19 10:00 PM", "2/2/19 11:00 PM", "2/3/19 12:00 AM", "2/3/19 1:00 AM", "2/3/19 2:00 AM", "2/3/19 3:00 AM", "2/3/19 4:00 AM", "2/3/19 5:00 AM", "2/3/19 6:00 AM", "2/3/19 7:00 AM", "2/3/19 8:00 AM", "2/3/19 9:00 AM", "2/3/19 10:00 AM", "2/3/19 11:00 AM", "2/3/19 12:00 PM", "2/3/19 1:00 PM", "2/3/19 2:00 PM", "2/3/19 3:00 PM", "2/3/19 4:00 PM", "2/3/19 5:00 PM", "2/3/19 6:00 PM", "2/3/19 7:00 PM", "2/3/19 8:00 PM", "2/3/19 9:00 PM", "2/3/19 10:00 PM", "2/3/19 11:00 PM", "2/4/19 12:00 AM", "2/4/19 1:00 AM", "2/4/19 2:00 AM", "2/4/19 3:00 AM", "2/4/19 4:00 AM", "2/4/19 5:00 AM", "2/4/19 6:00 AM", "2/4/19 7:00 AM", "2/4/19 8:00 AM", "2/4/19 9:00 AM", "2/4/19 10:00 AM", "2/4/19 11:00 AM", "2/4/19 12:00 PM", "2/4/19 1:00 PM", "2/4/19 2:00 PM", "2/4/19 3:00 PM", "2/4/19 4:00 PM", "2/4/19 5:00 PM", "2/4/19 6:00 PM", "2/4/19 7:00 PM", "2/4/19 8:00 PM", "2/4/19 9:00 PM", "2/4/19 10:00 PM", "2/4/19 11:00 PM", "2/5/19 12:00 AM", "2/5/19 1:00 AM", "2/5/19 2:00 AM", "2/5/19 3:00 AM", "2/5/19 4:00 AM", "2/5/19 5:00 AM", "2/5/19 6:00 AM", "2/5/19 7:00 AM", "2/5/19 8:00 AM", "2/5/19 9:00 AM", "2/5/19 10:00 AM", "2/5/19 11:00 AM", "2/5/19 12:00 PM", "2/5/19 1:00 PM", "2/5/19 2:00 PM", "2/5/19 3:00 PM", "2/5/19 4:00 PM", "2/5/19 5:00 PM", "2/5/19 6:00 PM", "2/5/19 7:00 PM", "2/5/19 8:00 PM", "2/5/19 9:00 PM", "2/5/19 10:00 PM", "2/5/19 11:00 PM", "2/6/19 12:00 AM", "2/6/19 1:00 AM", "2/6/19 2:00 AM", "2/6/19 3:00 AM", "2/6/19 4:00 AM", "2/6/19 5:00 AM", "2/6/19 6:00 AM", "2/6/19 7:00 AM", "2/6/19 8:00 AM", "2/6/19 9:00 AM", "2/6/19 10:00 AM", "2/6/19 11:00 AM", "2/6/19 12:00 PM", "2/6/19 1:00 PM", "2/6/19 2:00 PM", "2/6/19 3:00 PM", "2/6/19 4:00 PM", "2/6/19 5:00 PM", "2/6/19 6:00 PM", "2/6/19 7:00 PM", "2/6/19 8:00 PM", "2/6/19 9:00 PM", "2/6/19 10:00 PM", "2/6/19 11:00 PM", "2/7/19 12:00 AM", "2/7/19 1:00 AM", "2/7/19 2:00 AM", "2/7/19 3:00 AM", "2/7/19 4:00 AM", "2/7/19 5:00 AM", "2/7/19 6:00 AM", "2/7/19 7:00 AM", "2/7/19 8:00 AM", "2/7/19 9:00 AM", "2/7/19 10:00 AM", "2/7/19 11:00 AM", "2/7/19 12:00 PM", "2/7/19 1:00 PM", "2/7/19 2:00 PM", "2/7/19 3:00 PM", "2/7/19 4:00 PM", "2/7/19 5:00 PM", "2/7/19 6:00 PM", "2/7/19 7:00 PM", "2/7/19 8:00 PM", "2/7/19 9:00 PM", "2/7/19 10:00 PM", "2/7/19 11:00 PM", "2/8/19 12:00 AM", "2/8/19 1:00 AM", "2/8/19 2:00 AM", "2/8/19 3:00 AM", "2/8/19 4:00 AM", "2/8/19 5:00 AM", "2/8/19 6:00 AM", "2/8/19 7:00 AM", "2/8/19 8:00 AM", "2/8/19 9:00 AM", "2/8/19 10:00 AM", "2/8/19 11:00 AM", "2/8/19 12:00 PM", "2/8/19 1:00 PM", "2/8/19 2:00 PM", "2/8/19 3:00 PM", "2/8/19 4:00 PM", "2/8/19 5:00 PM", "2/8/19 6:00 PM", "2/8/19 7:00 PM", "2/8/19 8:00 PM", "2/8/19 9:00 PM", "2/8/19 10:00 PM", "2/8/19 11:00 PM", "2/9/19 12:00 AM", "2/9/19 1:00 AM", "2/9/19 2:00 AM", "2/9/19 3:00 AM", "2/9/19 4:00 AM", "2/9/19 5:00 AM", "2/9/19 6:00 AM", "2/9/19 7:00 AM", "2/9/19 8:00 AM", "2/9/19 9:00 AM", "2/9/19 10:00 AM", "2/9/19 11:00 AM", "2/9/19 12:00 PM", "2/9/19 1:00 PM", "2/9/19 2:00 PM", "2/9/19 3:00 PM", "2/9/19 4:00 PM", "2/9/19 5:00 PM", "2/9/19 6:00 PM", "2/9/19 7:00 PM", "2/9/19 8:00 PM", "2/9/19 9:00 PM", "2/9/19 10:00 PM", "2/9/19 11:00 PM", "2/10/19 12:00 AM", "2/10/19 1:00 AM", "2/10/19 2:00 AM", "2/10/19 3:00 AM", "2/10/19 4:00 AM", "2/10/19 5:00 AM", "2/10/19 6:00 AM", "2/10/19 7:00 AM", "2/10/19 8:00 AM", "2/10/19 9:00 AM", "2/10/19 10:00 AM", "2/10/19 11:00 AM", "2/10/19 12:00 PM", "2/10/19 1:00 PM", "2/10/19 2:00 PM", "2/10/19 3:00 PM", "2/10/19 4:00 PM", "2/10/19 5:00 PM", "2/10/19 6:00 PM", "2/10/19 7:00 PM", "2/10/19 8:00 PM", "2/10/19 9:00 PM", "2/10/19 10:00 PM", "2/10/19 11:00 PM", "2/11/19 12:00 AM", "2/11/19 1:00 AM", "2/11/19 2:00 AM", "2/11/19 3:00 AM", "2/11/19 4:00 AM", "2/11/19 5:00 AM", "2/11/19 6:00 AM", "2/11/19 7:00 AM", "2/11/19 8:00 AM", "2/11/19 9:00 AM", "2/11/19 10:00 AM", "2/11/19 11:00 AM", "2/11/19 12:00 PM", "2/11/19 1:00 PM", "2/11/19 2:00 PM", "2/11/19 3:00 PM", "2/11/19 4:00 PM", "2/11/19 5:00 PM", "2/11/19 6:00 PM", "2/11/19 7:00 PM", "2/11/19 8:00 PM", "2/11/19 9:00 PM", "2/11/19 10:00 PM", "2/11/19 11:00 PM", "2/12/19 12:00 AM", "2/12/19 1:00 AM", "2/12/19 2:00 AM", "2/12/19 3:00 AM", "2/12/19 4:00 AM", "2/12/19 5:00 AM", "2/12/19 6:00 AM", "2/12/19 7:00 AM", "2/12/19 8:00 AM", "2/12/19 9:00 AM", "2/12/19 10:00 AM", "2/12/19 11:00 AM", "2/12/19 12:00 PM", "2/12/19 1:00 PM", "2/12/19 2:00 PM", "2/12/19 3:00 PM", "2/12/19 4:00 PM", "2/12/19 5:00 PM", "2/12/19 6:00 PM", "2/12/19 7:00 PM", "2/12/19 8:00 PM", "2/12/19 9:00 PM", "2/12/19 10:00 PM", "2/12/19 11:00 PM", "2/13/19 12:00 AM", "2/13/19 1:00 AM", "2/13/19 2:00 AM", "2/13/19 3:00 AM", "2/13/19 4:00 AM", "2/13/19 5:00 AM", "2/13/19 6:00 AM", "2/13/19 7:00 AM", "2/13/19 8:00 AM", "2/13/19 9:00 AM", "2/13/19 10:00 AM", "2/13/19 11:00 AM", "2/13/19 12:00 PM", "2/13/19 1:00 PM", "2/13/19 2:00 PM", "2/13/19 3:00 PM", "2/13/19 4:00 PM", "2/13/19 5:00 PM", "2/13/19 6:00 PM", "2/13/19 7:00 PM", "2/13/19 8:00 PM", "2/13/19 9:00 PM", "2/13/19 10:00 PM", "2/13/19 11:00 PM", "2/14/19 12:00 AM", "2/14/19 1:00 AM", "2/14/19 2:00 AM", "2/14/19 3:00 AM", "2/14/19 4:00 AM", "2/14/19 5:00 AM", "2/14/19 6:00 AM", "2/14/19 7:00 AM", "2/14/19 8:00 AM", "2/14/19 9:00 AM", "2/14/19 10:00 AM", "2/14/19 11:00 AM", "2/14/19 12:00 PM", "2/14/19 1:00 PM", "2/14/19 2:00 PM", "2/14/19 3:00 PM", "2/14/19 4:00 PM", "2/14/19 5:00 PM", "2/14/19 6:00 PM", "2/14/19 7:00 PM", "2/14/19 8:00 PM", "2/14/19 9:00 PM", "2/14/19 10:00 PM", "2/14/19 11:00 PM", "2/15/19 12:00 AM", "2/15/19 1:00 AM", "2/15/19 2:00 AM", "2/15/19 3:00 AM", "2/15/19 4:00 AM", "2/15/19 5:00 AM", "2/15/19 6:00 AM", "2/15/19 7:00 AM", "2/15/19 8:00 AM", "2/15/19 9:00 AM", "2/15/19 10:00 AM", "2/15/19 11:00 AM", "2/15/19 12:00 PM", "2/15/19 1:00 PM", "2/15/19 2:00 PM", "2/15/19 3:00 PM", "2/15/19 4:00 PM", "2/15/19 5:00 PM", "2/15/19 6:00 PM", "2/15/19 7:00 PM", "2/15/19 8:00 PM", "2/15/19 9:00 PM", "2/15/19 10:00 PM", "2/15/19 11:00 PM", "2/16/19 12:00 AM", "2/16/19 1:00 AM", "2/16/19 2:00 AM", "2/16/19 3:00 AM", "2/16/19 4:00 AM", "2/16/19 5:00 AM", "2/16/19 6:00 AM", "2/16/19 7:00 AM", "2/16/19 8:00 AM", "2/16/19 9:00 AM", "2/16/19 10:00 AM", "2/16/19 11:00 AM", "2/16/19 12:00 PM", "2/16/19 1:00 PM", "2/16/19 2:00 PM", "2/16/19 3:00 PM", "2/16/19 4:00 PM", "2/16/19 5:00 PM", "2/16/19 6:00 PM", "2/16/19 7:00 PM", "2/16/19 8:00 PM", "2/16/19 9:00 PM", "2/16/19 10:00 PM", "2/16/19 11:00 PM", "2/17/19 12:00 AM", "2/17/19 1:00 AM", "2/17/19 2:00 AM", "2/17/19 3:00 AM", "2/17/19 4:00 AM", "2/17/19 5:00 AM", "2/17/19 6:00 AM", "2/17/19 7:00 AM", "2/17/19 8:00 AM", "2/17/19 9:00 AM", "2/17/19 10:00 AM", "2/17/19 11:00 AM", "2/17/19 12:00 PM", "2/17/19 1:00 PM", "2/17/19 2:00 PM", "2/17/19 3:00 PM", "2/17/19 4:00 PM", "2/17/19 5:00 PM", "2/17/19 6:00 PM", "2/17/19 7:00 PM", "2/17/19 8:00 PM", "2/17/19 9:00 PM", "2/17/19 10:00 PM", "2/17/19 11:00 PM", "2/18/19 12:00 AM", "2/18/19 1:00 AM", "2/18/19 2:00 AM", "2/18/19 3:00 AM", "2/18/19 4:00 AM", "2/18/19 5:00 AM", "2/18/19 6:00 AM", "2/18/19 7:00 AM", "2/18/19 8:00 AM", "2/18/19 9:00 AM", "2/18/19 10:00 AM", "2/18/19 11:00 AM", "2/18/19 12:00 PM", "2/18/19 1:00 PM", "2/18/19 2:00 PM", "2/18/19 3:00 PM", "2/18/19 4:00 PM", "2/18/19 5:00 PM", "2/18/19 6:00 PM", "2/18/19 7:00 PM", "2/18/19 8:00 PM", "2/18/19 9:00 PM", "2/18/19 10:00 PM", "2/18/19 11:00 PM", "2/19/19 12:00 AM", "2/19/19 1:00 AM", "2/19/19 2:00 AM", "2/19/19 3:00 AM", "2/19/19 4:00 AM", "2/19/19 5:00 AM", "2/19/19 6:00 AM", "2/19/19 7:00 AM", "2/19/19 8:00 AM", "2/19/19 9:00 AM", "2/19/19 10:00 AM", "2/19/19 11:00 AM", "2/19/19 12:00 PM", "2/19/19 1:00 PM", "2/19/19 2:00 PM", "2/19/19 3:00 PM", "2/19/19 4:00 PM", "2/19/19 5:00 PM", "2/19/19 6:00 PM", "2/19/19 7:00 PM", "2/19/19 8:00 PM", "2/19/19 9:00 PM", "2/19/19 10:00 PM", "2/19/19 11:00 PM", "2/20/19 12:00 AM", "2/20/19 1:00 AM", "2/20/19 2:00 AM", "2/20/19 3:00 AM", "2/20/19 4:00 AM", "2/20/19 5:00 AM", "2/20/19 6:00 AM", "2/20/19 7:00 AM", "2/20/19 8:00 AM", "2/20/19 9:00 AM", "2/20/19 10:00 AM", "2/20/19 11:00 AM", "2/20/19 12:00 PM", "2/20/19 1:00 PM", "2/20/19 2:00 PM", "2/20/19 3:00 PM", "2/20/19 4:00 PM", "2/20/19 5:00 PM", "2/20/19 6:00 PM", "2/20/19 7:00 PM", "2/20/19 8:00 PM", "2/20/19 9:00 PM", "2/20/19 10:00 PM", "2/20/19 11:00 PM", "2/21/19 12:00 AM", "2/21/19 1:00 AM", "2/21/19 2:00 AM", "2/21/19 3:00 AM", "2/21/19 4:00 AM", "2/21/19 5:00 AM", "2/21/19 6:00 AM", "2/21/19 7:00 AM", "2/21/19 8:00 AM", "2/21/19 9:00 AM", "2/21/19 10:00 AM", "2/21/19 11:00 AM", "2/21/19 12:00 PM", "2/21/19 1:00 PM", "2/21/19 2:00 PM", "2/21/19 3:00 PM", "2/21/19 4:00 PM", "2/21/19 5:00 PM", "2/21/19 6:00 PM", "2/21/19 7:00 PM", "2/21/19 8:00 PM", "2/21/19 9:00 PM", "2/21/19 10:00 PM", "2/21/19 11:00 PM", "2/22/19 12:00 AM", "2/22/19 1:00 AM", "2/22/19 2:00 AM", "2/22/19 3:00 AM", "2/22/19 4:00 AM", "2/22/19 5:00 AM", "2/22/19 6:00 AM", "2/22/19 7:00 AM", "2/22/19 8:00 AM", "2/22/19 9:00 AM", "2/22/19 10:00 AM", "2/22/19 11:00 AM", "2/22/19 12:00 PM", "2/22/19 1:00 PM", "2/22/19 2:00 PM", "2/22/19 3:00 PM", "2/22/19 4:00 PM", "2/22/19 5:00 PM", "2/22/19 6:00 PM", "2/22/19 7:00 PM", "2/22/19 8:00 PM", "2/22/19 9:00 PM", "2/22/19 10:00 PM", "2/22/19 11:00 PM", "2/23/19 12:00 AM", "2/23/19 1:00 AM", "2/23/19 2:00 AM", "2/23/19 3:00 AM", "2/23/19 4:00 AM", "2/23/19 5:00 AM", "2/23/19 6:00 AM", "2/23/19 7:00 AM", "2/23/19 8:00 AM", "2/23/19 9:00 AM", "2/23/19 10:00 AM", "2/23/19 11:00 AM", "2/23/19 12:00 PM", "2/23/19 1:00 PM", "2/23/19 2:00 PM", "2/23/19 3:00 PM", "2/23/19 4:00 PM", "2/23/19 5:00 PM", "2/23/19 6:00 PM", "2/23/19 7:00 PM", "2/23/19 8:00 PM", "2/23/19 9:00 PM", "2/23/19 10:00 PM", "2/23/19 11:00 PM", "2/24/19 12:00 AM", "2/24/19 1:00 AM", "2/24/19 2:00 AM", "2/24/19 3:00 AM", "2/24/19 4:00 AM", "2/24/19 5:00 AM", "2/24/19 6:00 AM", "2/24/19 7:00 AM", "2/24/19 8:00 AM", "2/24/19 9:00 AM", "2/24/19 10:00 AM", "2/24/19 11:00 AM", "2/24/19 12:00 PM", "2/24/19 1:00 PM", "2/24/19 2:00 PM", "2/24/19 3:00 PM", "2/24/19 4:00 PM", "2/24/19 5:00 PM", "2/24/19 6:00 PM", "2/24/19 7:00 PM", "2/24/19 8:00 PM", "2/24/19 9:00 PM", "2/24/19 10:00 PM", "2/24/19 11:00 PM", "2/25/19 12:00 AM", "2/25/19 1:00 AM", "2/25/19 2:00 AM", "2/25/19 3:00 AM", "2/25/19 4:00 AM", "2/25/19 5:00 AM", "2/25/19 6:00 AM", "2/25/19 7:00 AM", "2/25/19 8:00 AM", "2/25/19 9:00 AM", "2/25/19 10:00 AM", "2/25/19 11:00 AM", "2/25/19 12:00 PM", "2/25/19 1:00 PM", "2/25/19 2:00 PM", "2/25/19 3:00 PM", "2/25/19 4:00 PM", "2/25/19 5:00 PM", "2/25/19 6:00 PM", "2/25/19 7:00 PM", "2/25/19 8:00 PM", "2/25/19 9:00 PM", "2/25/19 10:00 PM", "2/25/19 11:00 PM", "2/26/19 12:00 AM", "2/26/19 1:00 AM", "2/26/19 2:00 AM", "2/26/19 3:00 AM", "2/26/19 4:00 AM", "2/26/19 5:00 AM", "2/26/19 6:00 AM", "2/26/19 7:00 AM", "2/26/19 8:00 AM", "2/26/19 9:00 AM", "2/26/19 10:00 AM", "2/26/19 11:00 AM", "2/26/19 12:00 PM", "2/26/19 1:00 PM", "2/26/19 2:00 PM", "2/26/19 3:00 PM", "2/26/19 4:00 PM", "2/26/19 5:00 PM", "2/26/19 6:00 PM", "2/26/19 7:00 PM", "2/26/19 8:00 PM", "2/26/19 9:00 PM", "2/26/19 10:00 PM", "2/26/19 11:00 PM", "2/27/19 12:00 AM", "2/27/19 1:00 AM", "2/27/19 2:00 AM", "2/27/19 3:00 AM", "2/27/19 4:00 AM", "2/27/19 5:00 AM", "2/27/19 6:00 AM", "2/27/19 7:00 AM", "2/27/19 8:00 AM", "2/27/19 9:00 AM", "2/27/19 10:00 AM", "2/27/19 11:00 AM", "2/27/19 12:00 PM", "2/27/19 1:00 PM", "2/27/19 2:00 PM", "2/27/19 3:00 PM", "2/27/19 4:00 PM", "2/27/19 5:00 PM", "2/27/19 6:00 PM", "2/27/19 7:00 PM", "2/27/19 8:00 PM", "2/27/19 9:00 PM", "2/27/19 10:00 PM", "2/27/19 11:00 PM", "2/28/19 12:00 AM", "2/28/19 1:00 AM", "2/28/19 2:00 AM", "2/28/19 3:00 AM", "2/28/19 4:00 AM", "2/28/19 5:00 AM", "2/28/19 6:00 AM", "2/28/19 7:00 AM", "2/28/19 8:00 AM", "2/28/19 9:00 AM", "2/28/19 10:00 AM", "2/28/19 11:00 AM", "2/28/19 12:00 PM", "2/28/19 1:00 PM", "2/28/19 2:00 PM", "2/28/19 3:00 PM", "2/28/19 4:00 PM", "2/28/19 5:00 PM", "2/28/19 6:00 PM", "2/28/19 7:00 PM", "2/28/19 8:00 PM", "2/28/19 9:00 PM", "2/28/19 10:00 PM", "2/28/19 11:00 PM", "3/1/19 12:00 AM", "3/1/19 1:00 AM", "3/1/19 2:00 AM", "3/1/19 3:00 AM", "3/1/19 4:00 AM", "3/1/19 5:00 AM", "3/1/19 6:00 AM", "3/1/19 7:00 AM", "3/1/19 8:00 AM", "3/1/19 9:00 AM", "3/1/19 10:00 AM", "3/1/19 11:00 AM", "3/1/19 12:00 PM", "3/1/19 1:00 PM", "3/1/19 2:00 PM", "3/1/19 3:00 PM", "3/1/19 4:00 PM", "3/1/19 5:00 PM", "3/1/19 6:00 PM", "3/1/19 7:00 PM", "3/1/19 8:00 PM", "3/1/19 9:00 PM", "3/1/19 10:00 PM", "3/1/19 11:00 PM", "3/2/19 12:00 AM", "3/2/19 1:00 AM", "3/2/19 2:00 AM", "3/2/19 3:00 AM", "3/2/19 4:00 AM", "3/2/19 5:00 AM", "3/2/19 6:00 AM", "3/2/19 7:00 AM", "3/2/19 8:00 AM", "3/2/19 9:00 AM", "3/2/19 10:00 AM", "3/2/19 11:00 AM", "3/2/19 12:00 PM", "3/2/19 1:00 PM", "3/2/19 2:00 PM", "3/2/19 3:00 PM", "3/2/19 4:00 PM", "3/2/19 5:00 PM", "3/2/19 6:00 PM", "3/2/19 7:00 PM", "3/2/19 8:00 PM", "3/2/19 9:00 PM", "3/2/19 10:00 PM", "3/2/19 11:00 PM", "3/3/19 12:00 AM", "3/3/19 1:00 AM", "3/3/19 2:00 AM", "3/3/19 3:00 AM", "3/3/19 4:00 AM", "3/3/19 5:00 AM", "3/3/19 6:00 AM", "3/3/19 7:00 AM", "3/3/19 8:00 AM", "3/3/19 9:00 AM", "3/3/19 10:00 AM", "3/3/19 11:00 AM", "3/3/19 12:00 PM", "3/3/19 1:00 PM", "3/3/19 2:00 PM", "3/3/19 3:00 PM", "3/3/19 4:00 PM", "3/3/19 5:00 PM", "3/3/19 6:00 PM", "3/3/19 7:00 PM", "3/3/19 8:00 PM", "3/3/19 9:00 PM", "3/3/19 10:00 PM", "3/3/19 11:00 PM", "3/4/19 12:00 AM", "3/4/19 1:00 AM", "3/4/19 2:00 AM", "3/4/19 3:00 AM", "3/4/19 4:00 AM", "3/4/19 5:00 AM", "3/4/19 6:00 AM", "3/4/19 7:00 AM", "3/4/19 8:00 AM", "3/4/19 9:00 AM", "3/4/19 10:00 AM", "3/4/19 11:00 AM", "3/4/19 12:00 PM", "3/4/19 1:00 PM", "3/4/19 2:00 PM", "3/4/19 3:00 PM", "3/4/19 4:00 PM", "3/4/19 5:00 PM", "3/4/19 6:00 PM", "3/4/19 7:00 PM", "3/4/19 8:00 PM", "3/4/19 9:00 PM", "3/4/19 10:00 PM", "3/4/19 11:00 PM", "3/5/19 12:00 AM", "3/5/19 1:00 AM", "3/5/19 2:00 AM", "3/5/19 3:00 AM", "3/5/19 4:00 AM", "3/5/19 5:00 AM", "3/5/19 6:00 AM", "3/5/19 7:00 AM", "3/5/19 8:00 AM", "3/5/19 9:00 AM", "3/5/19 10:00 AM", "3/5/19 11:00 AM", "3/5/19 12:00 PM", "3/5/19 1:00 PM", "3/5/19 2:00 PM", "3/5/19 3:00 PM", "3/5/19 4:00 PM", "3/5/19 5:00 PM", "3/5/19 6:00 PM", "3/5/19 7:00 PM", "3/5/19 8:00 PM", "3/5/19 9:00 PM", "3/5/19 10:00 PM", "3/5/19 11:00 PM", "3/6/19 12:00 AM", "3/6/19 1:00 AM", "3/6/19 2:00 AM", "3/6/19 3:00 AM", "3/6/19 4:00 AM", "3/6/19 5:00 AM", "3/6/19 6:00 AM", "3/6/19 7:00 AM", "3/6/19 8:00 AM", "3/6/19 9:00 AM", "3/6/19 10:00 AM", "3/6/19 11:00 AM", "3/6/19 12:00 PM", "3/6/19 1:00 PM", "3/6/19 2:00 PM", "3/6/19 3:00 PM", "3/6/19 4:00 PM", "3/6/19 5:00 PM", "3/6/19 6:00 PM", "3/6/19 7:00 PM", "3/6/19 8:00 PM", "3/6/19 9:00 PM", "3/6/19 10:00 PM", "3/6/19 11:00 PM", "3/7/19 12:00 AM", "3/7/19 1:00 AM", "3/7/19 2:00 AM", "3/7/19 3:00 AM", "3/7/19 4:00 AM", "3/7/19 5:00 AM", "3/7/19 6:00 AM", "3/7/19 7:00 AM", "3/7/19 8:00 AM", "3/7/19 9:00 AM", "3/7/19 10:00 AM", "3/7/19 11:00 AM", "3/7/19 12:00 PM", "3/7/19 1:00 PM", "3/7/19 2:00 PM", "3/7/19 3:00 PM", "3/7/19 4:00 PM", "3/7/19 5:00 PM", "3/7/19 6:00 PM", "3/7/19 7:00 PM", "3/7/19 8:00 PM", "3/7/19 9:00 PM", "3/7/19 10:00 PM", "3/7/19 11:00 PM", "3/8/19 12:00 AM", "3/8/19 1:00 AM", "3/8/19 2:00 AM", "3/8/19 3:00 AM", "3/8/19 4:00 AM", "3/8/19 5:00 AM", "3/8/19 6:00 AM", "3/8/19 7:00 AM", "3/8/19 8:00 AM", "3/8/19 9:00 AM", "3/8/19 10:00 AM", "3/8/19 11:00 AM", "3/8/19 12:00 PM", "3/8/19 1:00 PM", "3/8/19 2:00 PM", "3/8/19 3:00 PM", "3/8/19 4:00 PM", "3/8/19 5:00 PM", "3/8/19 6:00 PM", "3/8/19 7:00 PM", "3/8/19 8:00 PM", "3/8/19 9:00 PM", "3/8/19 10:00 PM", "3/8/19 11:00 PM", "3/9/19 12:00 AM", "3/9/19 1:00 AM", "3/9/19 2:00 AM", "3/9/19 3:00 AM", "3/9/19 4:00 AM", "3/9/19 5:00 AM", "3/9/19 6:00 AM", "3/9/19 7:00 AM", "3/9/19 8:00 AM", "3/9/19 9:00 AM", "3/9/19 10:00 AM", "3/9/19 11:00 AM", "3/9/19 12:00 PM", "3/9/19 1:00 PM", "3/9/19 2:00 PM", "3/9/19 3:00 PM", "3/9/19 4:00 PM", "3/9/19 5:00 PM", "3/9/19 6:00 PM", "3/9/19 7:00 PM", "3/9/19 8:00 PM", "3/9/19 9:00 PM", "3/9/19 10:00 PM", "3/9/19 11:00 PM", "3/10/19 12:00 AM", "3/10/19 1:00 AM", "3/10/19 2:00 AM", "3/10/19 3:00 AM", "3/10/19 4:00 AM", "3/10/19 5:00 AM", "3/10/19 6:00 AM", "3/10/19 7:00 AM", "3/10/19 8:00 AM", "3/10/19 9:00 AM", "3/10/19 10:00 AM", "3/10/19 11:00 AM", "3/10/19 12:00 PM", "3/10/19 1:00 PM", "3/10/19 2:00 PM", "3/10/19 3:00 PM", "3/10/19 4:00 PM", "3/10/19 5:00 PM", "3/10/19 6:00 PM", "3/10/19 7:00 PM", "3/10/19 8:00 PM", "3/10/19 9:00 PM", "3/10/19 10:00 PM", "3/10/19 11:00 PM", "3/11/19 12:00 AM", "3/11/19 1:00 AM", "3/11/19 2:00 AM", "3/11/19 3:00 AM", "3/11/19 4:00 AM", "3/11/19 5:00 AM", "3/11/19 6:00 AM", "3/11/19 7:00 AM", "3/11/19 8:00 AM", "3/11/19 9:00 AM", "3/11/19 10:00 AM", "3/11/19 11:00 AM", "3/11/19 12:00 PM", "3/11/19 1:00 PM", "3/11/19 2:00 PM", "3/11/19 3:00 PM", "3/11/19 4:00 PM", "3/11/19 5:00 PM", "3/11/19 6:00 PM", "3/11/19 7:00 PM", "3/11/19 8:00 PM", "3/11/19 9:00 PM", "3/11/19 10:00 PM", "3/11/19 11:00 PM", "3/12/19 12:00 AM", "3/12/19 1:00 AM", "3/12/19 2:00 AM", "3/12/19 3:00 AM", "3/12/19 4:00 AM", "3/12/19 5:00 AM", "3/12/19 6:00 AM", "3/12/19 7:00 AM", "3/12/19 8:00 AM", "3/12/19 9:00 AM", "3/12/19 10:00 AM", "3/12/19 11:00 AM", "3/12/19 12:00 PM", "3/12/19 1:00 PM", "3/12/19 2:00 PM", "3/12/19 3:00 PM", "3/12/19 4:00 PM", "3/12/19 5:00 PM", "3/12/19 6:00 PM", "3/12/19 7:00 PM", "3/12/19 8:00 PM", "3/12/19 9:00 PM", "3/12/19 10:00 PM", "3/12/19 11:00 PM", "3/13/19 12:00 AM", "3/13/19 1:00 AM", "3/13/19 2:00 AM", "3/13/19 3:00 AM", "3/13/19 4:00 AM", "3/13/19 5:00 AM", "3/13/19 6:00 AM", "3/13/19 7:00 AM", "3/13/19 8:00 AM", "3/13/19 9:00 AM", "3/13/19 10:00 AM", "3/13/19 11:00 AM", "3/13/19 12:00 PM", "3/13/19 1:00 PM", "3/13/19 2:00 PM", "3/13/19 3:00 PM", "3/13/19 4:00 PM", "3/13/19 5:00 PM", "3/13/19 6:00 PM", "3/13/19 7:00 PM", "3/13/19 8:00 PM", "3/13/19 9:00 PM", "3/13/19 10:00 PM", "3/13/19 11:00 PM", "3/14/19 12:00 AM", "3/14/19 1:00 AM", "3/14/19 2:00 AM", "3/14/19 3:00 AM", "3/14/19 4:00 AM", "3/14/19 5:00 AM", "3/14/19 6:00 AM", "3/14/19 7:00 AM", "3/14/19 8:00 AM", "3/14/19 9:00 AM", "3/14/19 10:00 AM", "3/14/19 11:00 AM", "3/14/19 12:00 PM", "3/14/19 1:00 PM", "3/14/19 2:00 PM", "3/14/19 3:00 PM", "3/14/19 4:00 PM", "3/14/19 5:00 PM", "3/14/19 6:00 PM", "3/14/19 7:00 PM", "3/14/19 8:00 PM", "3/14/19 9:00 PM", "3/14/19 10:00 PM", "3/14/19 11:00 PM", "3/15/19 12:00 AM", "3/15/19 1:00 AM", "3/15/19 2:00 AM", "3/15/19 3:00 AM", "3/15/19 4:00 AM", "3/15/19 5:00 AM", "3/15/19 6:00 AM", "3/15/19 7:00 AM", "3/15/19 8:00 AM", "3/15/19 9:00 AM", "3/15/19 10:00 AM", "3/15/19 11:00 AM", "3/15/19 12:00 PM", "3/15/19 1:00 PM", "3/15/19 2:00 PM", "3/15/19 3:00 PM", "3/15/19 4:00 PM", "3/15/19 5:00 PM", "3/15/19 6:00 PM", "3/15/19 7:00 PM", "3/15/19 8:00 PM", "3/15/19 9:00 PM", "3/15/19 10:00 PM", "3/15/19 11:00 PM", "3/16/19 12:00 AM", "3/16/19 1:00 AM", "3/16/19 2:00 AM", "3/16/19 3:00 AM", "3/16/19 4:00 AM", "3/16/19 5:00 AM", "3/16/19 6:00 AM", "3/16/19 7:00 AM", "3/16/19 8:00 AM", "3/16/19 9:00 AM", "3/16/19 10:00 AM", "3/16/19 11:00 AM", "3/16/19 12:00 PM", "3/16/19 1:00 PM", "3/16/19 2:00 PM", "3/16/19 3:00 PM", "3/16/19 4:00 PM", "3/16/19 5:00 PM", "3/16/19 6:00 PM", "3/16/19 7:00 PM", "3/16/19 8:00 PM", "3/16/19 9:00 PM", "3/16/19 10:00 PM", "3/16/19 11:00 PM", "3/17/19 12:00 AM", "3/17/19 1:00 AM", "3/17/19 2:00 AM", "3/17/19 3:00 AM", "3/17/19 4:00 AM", "3/17/19 5:00 AM", "3/17/19 6:00 AM", "3/17/19 7:00 AM", "3/17/19 8:00 AM", "3/17/19 9:00 AM", "3/17/19 10:00 AM", "3/17/19 11:00 AM", "3/17/19 12:00 PM", "3/17/19 1:00 PM", "3/17/19 2:00 PM", "3/17/19 3:00 PM", "3/17/19 4:00 PM", "3/17/19 5:00 PM", "3/17/19 6:00 PM", "3/17/19 7:00 PM", "3/17/19 8:00 PM", "3/17/19 9:00 PM", "3/17/19 10:00 PM", "3/17/19 11:00 PM", "3/18/19 12:00 AM", "3/18/19 1:00 AM", "3/18/19 2:00 AM", "3/18/19 3:00 AM", "3/18/19 4:00 AM", "3/18/19 5:00 AM", "3/18/19 6:00 AM", "3/18/19 7:00 AM", "3/18/19 8:00 AM", "3/18/19 9:00 AM", "3/18/19 10:00 AM", "3/18/19 11:00 AM", "3/18/19 12:00 PM", "3/18/19 1:00 PM", "3/18/19 2:00 PM", "3/18/19 3:00 PM", "3/18/19 4:00 PM", "3/18/19 5:00 PM", "3/18/19 6:00 PM", "3/18/19 7:00 PM", "3/18/19 8:00 PM", "3/18/19 9:00 PM", "3/18/19 10:00 PM", "3/18/19 11:00 PM", "3/19/19 12:00 AM", "3/19/19 1:00 AM", "3/19/19 2:00 AM", "3/19/19 3:00 AM", "3/19/19 4:00 AM", "3/19/19 5:00 AM", "3/19/19 6:00 AM", "3/19/19 7:00 AM", "3/19/19 8:00 AM", "3/19/19 9:00 AM", "3/19/19 10:00 AM", "3/19/19 11:00 AM", "3/19/19 12:00 PM", "3/19/19 1:00 PM", "3/19/19 2:00 PM", "3/19/19 3:00 PM", "3/19/19 4:00 PM", "3/19/19 5:00 PM", "3/19/19 6:00 PM", "3/19/19 7:00 PM", "3/19/19 8:00 PM", "3/19/19 9:00 PM", "3/19/19 10:00 PM", "3/19/19 11:00 PM", "3/20/19 12:00 AM", "3/20/19 1:00 AM", "3/20/19 2:00 AM", "3/20/19 3:00 AM", "3/20/19 4:00 AM", "3/20/19 5:00 AM", "3/20/19 6:00 AM", "3/20/19 7:00 AM", "3/20/19 8:00 AM", "3/20/19 9:00 AM", "3/20/19 10:00 AM", "3/20/19 11:00 AM", "3/20/19 12:00 PM", "3/20/19 1:00 PM", "3/20/19 2:00 PM", "3/20/19 3:00 PM", "3/20/19 4:00 PM", "3/20/19 5:00 PM", "3/20/19 6:00 PM", "3/20/19 7:00 PM", "3/20/19 8:00 PM", "3/20/19 9:00 PM", "3/20/19 10:00 PM", "3/20/19 11:00 PM", "3/21/19 12:00 AM", "3/21/19 1:00 AM", "3/21/19 2:00 AM", "3/21/19 3:00 AM", "3/21/19 4:00 AM", "3/21/19 5:00 AM", "3/21/19 6:00 AM", "3/21/19 7:00 AM", "3/21/19 8:00 AM", "3/21/19 9:00 AM", "3/21/19 10:00 AM", "3/21/19 11:00 AM", "3/21/19 12:00 PM", "3/21/19 1:00 PM", "3/21/19 2:00 PM", "3/21/19 3:00 PM", "3/21/19 4:00 PM", "3/21/19 5:00 PM", "3/21/19 6:00 PM", "3/21/19 7:00 PM", "3/21/19 8:00 PM", "3/21/19 9:00 PM", "3/21/19 10:00 PM", "3/21/19 11:00 PM", "3/22/19 12:00 AM", "3/22/19 1:00 AM", "3/22/19 2:00 AM", "3/22/19 3:00 AM", "3/22/19 4:00 AM", "3/22/19 5:00 AM", "3/22/19 6:00 AM", "3/22/19 7:00 AM", "3/22/19 8:00 AM", "3/22/19 9:00 AM", "3/22/19 10:00 AM", "3/22/19 11:00 AM", "3/22/19 12:00 PM", "3/22/19 1:00 PM", "3/22/19 2:00 PM", "3/22/19 3:00 PM", "3/22/19 4:00 PM", "3/22/19 5:00 PM", "3/22/19 6:00 PM", "3/22/19 7:00 PM", "3/22/19 8:00 PM", "3/22/19 9:00 PM", "3/22/19 10:00 PM", "3/22/19 11:00 PM", "3/23/19 12:00 AM", "3/23/19 1:00 AM", "3/23/19 2:00 AM", "3/23/19 3:00 AM", "3/23/19 4:00 AM", "3/23/19 5:00 AM", "3/23/19 6:00 AM", "3/23/19 7:00 AM", "3/23/19 8:00 AM", "3/23/19 9:00 AM", "3/23/19 10:00 AM", "3/23/19 11:00 AM", "3/23/19 12:00 PM", "3/23/19 1:00 PM", "3/23/19 2:00 PM", "3/23/19 3:00 PM", "3/23/19 4:00 PM", "3/23/19 5:00 PM", "3/23/19 6:00 PM", "3/23/19 7:00 PM", "3/23/19 8:00 PM", "3/23/19 9:00 PM", "3/23/19 10:00 PM", "3/23/19 11:00 PM", "3/24/19 12:00 AM", "3/24/19 1:00 AM", "3/24/19 2:00 AM", "3/24/19 3:00 AM", "3/24/19 4:00 AM", "3/24/19 5:00 AM", "3/24/19 6:00 AM", "3/24/19 7:00 AM", "3/24/19 8:00 AM", "3/24/19 9:00 AM", "3/24/19 10:00 AM", "3/24/19 11:00 AM", "3/24/19 12:00 PM", "3/24/19 1:00 PM", "3/24/19 2:00 PM", "3/24/19 3:00 PM", "3/24/19 4:00 PM", "3/24/19 5:00 PM", "3/24/19 6:00 PM", "3/24/19 7:00 PM", "3/24/19 8:00 PM", "3/24/19 9:00 PM", "3/24/19 10:00 PM", "3/24/19 11:00 PM", "3/25/19 12:00 AM", "3/25/19 1:00 AM", "3/25/19 2:00 AM", "3/25/19 3:00 AM", "3/25/19 4:00 AM", "3/25/19 5:00 AM", "3/25/19 6:00 AM", "3/25/19 7:00 AM", "3/25/19 8:00 AM", "3/25/19 9:00 AM", "3/25/19 10:00 AM", "3/25/19 11:00 AM", "3/25/19 12:00 PM", "3/25/19 1:00 PM", "3/25/19 2:00 PM", "3/25/19 3:00 PM", "3/25/19 4:00 PM", "3/25/19 5:00 PM", "3/25/19 6:00 PM", "3/25/19 7:00 PM", "3/25/19 8:00 PM", "3/25/19 9:00 PM", "3/25/19 10:00 PM", "3/25/19 11:00 PM", "3/26/19 12:00 AM", "3/26/19 1:00 AM", "3/26/19 2:00 AM", "3/26/19 3:00 AM", "3/26/19 4:00 AM", "3/26/19 5:00 AM", "3/26/19 6:00 AM", "3/26/19 7:00 AM", "3/26/19 8:00 AM", "3/26/19 9:00 AM", "3/26/19 10:00 AM", "3/26/19 11:00 AM", "3/26/19 12:00 PM", "3/26/19 1:00 PM", "3/26/19 2:00 PM", "3/26/19 3:00 PM", "3/26/19 4:00 PM", "3/26/19 5:00 PM", "3/26/19 6:00 PM", "3/26/19 7:00 PM", "3/26/19 8:00 PM", "3/26/19 9:00 PM", "3/26/19 10:00 PM", "3/26/19 11:00 PM", "3/27/19 12:00 AM", "3/27/19 1:00 AM", "3/27/19 2:00 AM", "3/27/19 3:00 AM", "3/27/19 4:00 AM", "3/27/19 5:00 AM", "3/27/19 6:00 AM", "3/27/19 7:00 AM", "3/27/19 8:00 AM", "3/27/19 9:00 AM", "3/27/19 10:00 AM", "3/27/19 11:00 AM", "3/27/19 12:00 PM", "3/27/19 1:00 PM", "3/27/19 2:00 PM", "3/27/19 3:00 PM", "3/27/19 4:00 PM", "3/27/19 5:00 PM", "3/27/19 6:00 PM", "3/27/19 7:00 PM", "3/27/19 8:00 PM", "3/27/19 9:00 PM", "3/27/19 10:00 PM", "3/27/19 11:00 PM", "3/28/19 12:00 AM", "3/28/19 1:00 AM", "3/28/19 2:00 AM", "3/28/19 3:00 AM", "3/28/19 4:00 AM", "3/28/19 5:00 AM", "3/28/19 6:00 AM", "3/28/19 7:00 AM", "3/28/19 8:00 AM", "3/28/19 9:00 AM", "3/28/19 10:00 AM", "3/28/19 11:00 AM", "3/28/19 12:00 PM", "3/28/19 1:00 PM", "3/28/19 2:00 PM", "3/28/19 3:00 PM", "3/28/19 4:00 PM", "3/28/19 5:00 PM", "3/28/19 6:00 PM", "3/28/19 7:00 PM", "3/28/19 8:00 PM", "3/28/19 9:00 PM", "3/28/19 10:00 PM", "3/28/19 11:00 PM", "3/29/19 12:00 AM", "3/29/19 1:00 AM", "3/29/19 2:00 AM", "3/29/19 3:00 AM", "3/29/19 4:00 AM", "3/29/19 5:00 AM", "3/29/19 6:00 AM", "3/29/19 7:00 AM", "3/29/19 8:00 AM", "3/29/19 9:00 AM", "3/29/19 10:00 AM", "3/29/19 11:00 AM", "3/29/19 12:00 PM", "3/29/19 1:00 PM", "3/29/19 2:00 PM", "3/29/19 3:00 PM", "3/29/19 4:00 PM", "3/29/19 5:00 PM", "3/29/19 6:00 PM", "3/29/19 7:00 PM", "3/29/19 8:00 PM", "3/29/19 9:00 PM", "3/29/19 10:00 PM", "3/29/19 11:00 PM", "3/30/19 12:00 AM", "3/30/19 1:00 AM", "3/30/19 2:00 AM", "3/30/19 3:00 AM", "3/30/19 4:00 AM", "3/30/19 5:00 AM", "3/30/19 6:00 AM", "3/30/19 7:00 AM", "3/30/19 8:00 AM", "3/30/19 9:00 AM", "3/30/19 10:00 AM", "3/30/19 11:00 AM", "3/30/19 12:00 PM", "3/30/19 1:00 PM", "3/30/19 2:00 PM", "3/30/19 3:00 PM", "3/30/19 4:00 PM", "3/30/19 5:00 PM", "3/30/19 6:00 PM", "3/30/19 7:00 PM", "3/30/19 8:00 PM", "3/30/19 9:00 PM", "3/30/19 10:00 PM", "3/30/19 11:00 PM", "3/31/19 12:00 AM", "3/31/19 1:00 AM", "3/31/19 2:00 AM", "3/31/19 3:00 AM", "3/31/19 4:00 AM", "3/31/19 5:00 AM", "3/31/19 6:00 AM", "3/31/19 7:00 AM", "3/31/19 8:00 AM", "3/31/19 9:00 AM", "3/31/19 10:00 AM", "3/31/19 11:00 AM", "3/31/19 12:00 PM", "3/31/19 1:00 PM", "3/31/19 2:00 PM", "3/31/19 3:00 PM", "3/31/19 4:00 PM", "3/31/19 5:00 PM", "3/31/19 6:00 PM", "3/31/19 7:00 PM", "3/31/19 8:00 PM", "3/31/19 9:00 PM", "3/31/19 10:00 PM", "3/31/19 11:00 PM", "4/1/19 12:00 AM", "4/1/19 1:00 AM", "4/1/19 2:00 AM", "4/1/19 3:00 AM", "4/1/19 4:00 AM", "4/1/19 5:00 AM", "4/1/19 6:00 AM", "4/1/19 7:00 AM", "4/1/19 8:00 AM", "4/1/19 9:00 AM", "4/1/19 10:00 AM", "4/1/19 11:00 AM", "4/1/19 12:00 PM", "4/1/19 1:00 PM", "4/1/19 2:00 PM", "4/1/19 3:00 PM", "4/1/19 4:00 PM", "4/1/19 5:00 PM", "4/1/19 6:00 PM", "4/1/19 7:00 PM", "4/1/19 8:00 PM", "4/1/19 9:00 PM", "4/1/19 10:00 PM", "4/1/19 11:00 PM", "4/2/19 12:00 AM", "4/2/19 1:00 AM", "4/2/19 2:00 AM", "4/2/19 3:00 AM", "4/2/19 4:00 AM", "4/2/19 5:00 AM", "4/2/19 6:00 AM", "4/2/19 7:00 AM", "4/2/19 8:00 AM", "4/2/19 9:00 AM", "4/2/19 10:00 AM", "4/2/19 11:00 AM", "4/2/19 12:00 PM", "4/2/19 1:00 PM", "4/2/19 2:00 PM", "4/2/19 3:00 PM", "4/2/19 4:00 PM", "4/2/19 5:00 PM", "4/2/19 6:00 PM", "4/2/19 7:00 PM", "4/2/19 8:00 PM", "4/2/19 9:00 PM", "4/2/19 10:00 PM", "4/2/19 11:00 PM", "4/3/19 12:00 AM", "4/3/19 1:00 AM", "4/3/19 2:00 AM", "4/3/19 3:00 AM", "4/3/19 4:00 AM", "4/3/19 5:00 AM", "4/3/19 6:00 AM", "4/3/19 7:00 AM", "4/3/19 8:00 AM", "4/3/19 9:00 AM", "4/3/19 10:00 AM", "4/3/19 11:00 AM", "4/3/19 12:00 PM", "4/3/19 1:00 PM", "4/3/19 2:00 PM", "4/3/19 3:00 PM", "4/3/19 4:00 PM", "4/3/19 5:00 PM", "4/3/19 6:00 PM", "4/3/19 7:00 PM", "4/3/19 8:00 PM", "4/3/19 9:00 PM", "4/3/19 10:00 PM", "4/3/19 11:00 PM", "4/4/19 12:00 AM", "4/4/19 1:00 AM", "4/4/19 2:00 AM", "4/4/19 3:00 AM", "4/4/19 4:00 AM", "4/4/19 5:00 AM", "4/4/19 6:00 AM", "4/4/19 7:00 AM", "4/4/19 8:00 AM", "4/4/19 9:00 AM", "4/4/19 10:00 AM", "4/4/19 11:00 AM", "4/4/19 12:00 PM", "4/4/19 1:00 PM", "4/4/19 2:00 PM", "4/4/19 3:00 PM", "4/4/19 4:00 PM", "4/4/19 5:00 PM", "4/4/19 6:00 PM", "4/4/19 7:00 PM", "4/4/19 8:00 PM", "4/4/19 9:00 PM", "4/4/19 10:00 PM", "4/4/19 11:00 PM", "4/5/19 12:00 AM", "4/5/19 1:00 AM", "4/5/19 2:00 AM", "4/5/19 3:00 AM", "4/5/19 4:00 AM", "4/5/19 5:00 AM", "4/5/19 6:00 AM", "4/5/19 7:00 AM", "4/5/19 8:00 AM", "4/5/19 9:00 AM", "4/5/19 10:00 AM", "4/5/19 11:00 AM", "4/5/19 12:00 PM", "4/5/19 1:00 PM", "4/5/19 2:00 PM", "4/5/19 3:00 PM", "4/5/19 4:00 PM", "4/5/19 5:00 PM", "4/5/19 6:00 PM", "4/5/19 7:00 PM", "4/5/19 8:00 PM", "4/5/19 9:00 PM", "4/5/19 10:00 PM", "4/5/19 11:00 PM", "4/6/19 12:00 AM", "4/6/19 1:00 AM", "4/6/19 2:00 AM", "4/6/19 3:00 AM", "4/6/19 4:00 AM", "4/6/19 5:00 AM", "4/6/19 6:00 AM", "4/6/19 7:00 AM", "4/6/19 8:00 AM", "4/6/19 9:00 AM", "4/6/19 10:00 AM", "4/6/19 11:00 AM", "4/6/19 12:00 PM", "4/6/19 1:00 PM", "4/6/19 2:00 PM", "4/6/19 3:00 PM", "4/6/19 4:00 PM", "4/6/19 5:00 PM", "4/6/19 6:00 PM", "4/6/19 7:00 PM", "4/6/19 8:00 PM", "4/6/19 9:00 PM", "4/6/19 10:00 PM", "4/6/19 11:00 PM", "4/7/19 12:00 AM", "4/7/19 1:00 AM", "4/7/19 2:00 AM", "4/7/19 3:00 AM", "4/7/19 4:00 AM", "4/7/19 5:00 AM", "4/7/19 6:00 AM", "4/7/19 7:00 AM", "4/7/19 8:00 AM", "4/7/19 9:00 AM", "4/7/19 10:00 AM", "4/7/19 11:00 AM", "4/7/19 12:00 PM", "4/7/19 1:00 PM", "4/7/19 2:00 PM", "4/7/19 3:00 PM", "4/7/19 4:00 PM", "4/7/19 5:00 PM", "4/7/19 6:00 PM", "4/7/19 7:00 PM", "4/7/19 8:00 PM", "4/7/19 9:00 PM", "4/7/19 10:00 PM", "4/7/19 11:00 PM", "4/8/19 12:00 AM", "4/8/19 1:00 AM", "4/8/19 2:00 AM", "4/8/19 3:00 AM", "4/8/19 4:00 AM", "4/8/19 5:00 AM", "4/8/19 6:00 AM", "4/8/19 7:00 AM", "4/8/19 8:00 AM", "4/8/19 9:00 AM", "4/8/19 10:00 AM", "4/8/19 11:00 AM", "4/8/19 12:00 PM", "4/8/19 1:00 PM", "4/8/19 2:00 PM", "4/8/19 3:00 PM", "4/8/19 4:00 PM", "4/8/19 5:00 PM", "4/8/19 6:00 PM", "4/8/19 7:00 PM", "4/8/19 8:00 PM", "4/8/19 9:00 PM", "4/8/19 10:00 PM", "4/8/19 11:00 PM", "4/9/19 12:00 AM", "4/9/19 1:00 AM", "4/9/19 2:00 AM", "4/9/19 3:00 AM", "4/9/19 4:00 AM", "4/9/19 5:00 AM", "4/9/19 6:00 AM", "4/9/19 7:00 AM", "4/9/19 8:00 AM", "4/9/19 9:00 AM", "4/9/19 10:00 AM", "4/9/19 11:00 AM", "4/9/19 12:00 PM", "4/9/19 1:00 PM", "4/9/19 2:00 PM", "4/9/19 3:00 PM", "4/9/19 4:00 PM", "4/9/19 5:00 PM", "4/9/19 6:00 PM", "4/9/19 7:00 PM", "4/9/19 8:00 PM", "4/9/19 9:00 PM", "4/9/19 10:00 PM", "4/9/19 11:00 PM", "4/10/19 12:00 AM", "4/10/19 1:00 AM", "4/10/19 2:00 AM", "4/10/19 3:00 AM", "4/10/19 4:00 AM", "4/10/19 5:00 AM", "4/10/19 6:00 AM", "4/10/19 7:00 AM", "4/10/19 8:00 AM", "4/10/19 9:00 AM", "4/10/19 10:00 AM", "4/10/19 11:00 AM", "4/10/19 12:00 PM", "4/10/19 1:00 PM", "4/10/19 2:00 PM", "4/10/19 3:00 PM", "4/10/19 4:00 PM", "4/10/19 5:00 PM", "4/10/19 6:00 PM", "4/10/19 7:00 PM", "4/10/19 8:00 PM", "4/10/19 9:00 PM", "4/10/19 10:00 PM", "4/10/19 11:00 PM", "4/11/19 12:00 AM", "4/11/19 1:00 AM", "4/11/19 2:00 AM", "4/11/19 3:00 AM", "4/11/19 4:00 AM", "4/11/19 5:00 AM", "4/11/19 6:00 AM", "4/11/19 7:00 AM", "4/11/19 8:00 AM", "4/11/19 9:00 AM", "4/11/19 10:00 AM", "4/11/19 11:00 AM", "4/11/19 12:00 PM", "4/11/19 1:00 PM", "4/11/19 2:00 PM", "4/11/19 3:00 PM", "4/11/19 4:00 PM", "4/11/19 5:00 PM", "4/11/19 6:00 PM", "4/11/19 7:00 PM", "4/11/19 8:00 PM", "4/11/19 9:00 PM", "4/11/19 10:00 PM", "4/11/19 11:00 PM", "4/12/19 12:00 AM", "4/12/19 1:00 AM", "4/12/19 2:00 AM", "4/12/19 3:00 AM", "4/12/19 4:00 AM", "4/12/19 5:00 AM", "4/12/19 6:00 AM", "4/12/19 7:00 AM", "4/12/19 8:00 AM", "4/12/19 9:00 AM", "4/12/19 10:00 AM", "4/12/19 11:00 AM", "4/12/19 12:00 PM", "4/12/19 1:00 PM", "4/12/19 2:00 PM", "4/12/19 3:00 PM", "4/12/19 4:00 PM", "4/12/19 5:00 PM", "4/12/19 6:00 PM", "4/12/19 7:00 PM", "4/12/19 8:00 PM", "4/12/19 9:00 PM", "4/12/19 10:00 PM", "4/12/19 11:00 PM", "4/13/19 12:00 AM", "4/13/19 1:00 AM", "4/13/19 2:00 AM", "4/13/19 3:00 AM", "4/13/19 4:00 AM", "4/13/19 5:00 AM", "4/13/19 6:00 AM", "4/13/19 7:00 AM", "4/13/19 8:00 AM", "4/13/19 9:00 AM", "4/13/19 10:00 AM", "4/13/19 11:00 AM", "4/13/19 12:00 PM", "4/13/19 1:00 PM", "4/13/19 2:00 PM", "4/13/19 3:00 PM", "4/13/19 4:00 PM", "4/13/19 5:00 PM", "4/13/19 6:00 PM", "4/13/19 7:00 PM", "4/13/19 8:00 PM", "4/13/19 9:00 PM", "4/13/19 10:00 PM", "4/13/19 11:00 PM", "4/14/19 12:00 AM", "4/14/19 1:00 AM", "4/14/19 2:00 AM", "4/14/19 3:00 AM", "4/14/19 4:00 AM", "4/14/19 5:00 AM", "4/14/19 6:00 AM", "4/14/19 7:00 AM", "4/14/19 8:00 AM", "4/14/19 9:00 AM", "4/14/19 10:00 AM", "4/14/19 11:00 AM", "4/14/19 12:00 PM", "4/14/19 1:00 PM", "4/14/19 2:00 PM", "4/14/19 3:00 PM", "4/14/19 4:00 PM", "4/14/19 5:00 PM", "4/14/19 6:00 PM", "4/14/19 7:00 PM", "4/14/19 8:00 PM", "4/14/19 9:00 PM", "4/14/19 10:00 PM", "4/14/19 11:00 PM", "4/15/19 12:00 AM", "4/15/19 1:00 AM", "4/15/19 2:00 AM", "4/15/19 3:00 AM", "4/15/19 4:00 AM", "4/15/19 5:00 AM", "4/15/19 6:00 AM", "4/15/19 7:00 AM", "4/15/19 8:00 AM", "4/15/19 9:00 AM", "4/15/19 10:00 AM", "4/15/19 11:00 AM", "4/15/19 12:00 PM", "4/15/19 1:00 PM", "4/15/19 2:00 PM", "4/15/19 3:00 PM", "4/15/19 4:00 PM", "4/15/19 5:00 PM", "4/15/19 6:00 PM", "4/15/19 7:00 PM", "4/15/19 8:00 PM", "4/15/19 9:00 PM", "4/15/19 10:00 PM", "4/15/19 11:00 PM", "4/16/19 12:00 AM", "4/16/19 1:00 AM", "4/16/19 2:00 AM", "4/16/19 3:00 AM", "4/16/19 4:00 AM", "4/16/19 5:00 AM", "4/16/19 6:00 AM", "4/16/19 7:00 AM", "4/16/19 8:00 AM", "4/16/19 9:00 AM", "4/16/19 10:00 AM", "4/16/19 11:00 AM", "4/16/19 12:00 PM", "4/16/19 1:00 PM", "4/16/19 2:00 PM", "4/16/19 3:00 PM", "4/16/19 4:00 PM", "4/16/19 5:00 PM", "4/16/19 6:00 PM", "4/16/19 7:00 PM", "4/16/19 8:00 PM", "4/16/19 9:00 PM", "4/16/19 10:00 PM", "4/16/19 11:00 PM", "4/17/19 12:00 AM", "4/17/19 1:00 AM", "4/17/19 2:00 AM", "4/17/19 3:00 AM", "4/17/19 4:00 AM", "4/17/19 5:00 AM", "4/17/19 6:00 AM", "4/17/19 7:00 AM", "4/17/19 8:00 AM", "4/17/19 9:00 AM", "4/17/19 10:00 AM", "4/17/19 11:00 AM", "4/17/19 12:00 PM", "4/17/19 1:00 PM", "4/17/19 2:00 PM", "4/17/19 3:00 PM", "4/17/19 4:00 PM", "4/17/19 5:00 PM", "4/17/19 6:00 PM", "4/17/19 7:00 PM", "4/17/19 8:00 PM", "4/17/19 9:00 PM", "4/17/19 10:00 PM", "4/17/19 11:00 PM", "4/18/19 12:00 AM", "4/18/19 1:00 AM", "4/18/19 2:00 AM", "4/18/19 3:00 AM", "4/18/19 4:00 AM", "4/18/19 5:00 AM", "4/18/19 6:00 AM", "4/18/19 7:00 AM", "4/18/19 8:00 AM", "4/18/19 9:00 AM", "4/18/19 10:00 AM", "4/18/19 11:00 AM", "4/18/19 12:00 PM", "4/18/19 1:00 PM", "4/18/19 2:00 PM", "4/18/19 3:00 PM", "4/18/19 4:00 PM", "4/18/19 5:00 PM", "4/18/19 6:00 PM", "4/18/19 7:00 PM", "4/18/19 8:00 PM", "4/18/19 9:00 PM", "4/18/19 10:00 PM", "4/18/19 11:00 PM", "4/19/19 12:00 AM", "4/19/19 1:00 AM", "4/19/19 2:00 AM", "4/19/19 3:00 AM", "4/19/19 4:00 AM", "4/19/19 5:00 AM", "4/19/19 6:00 AM", "4/19/19 7:00 AM", "4/19/19 8:00 AM", "4/19/19 9:00 AM", "4/19/19 10:00 AM", "4/19/19 11:00 AM", "4/19/19 12:00 PM", "4/19/19 1:00 PM", "4/19/19 2:00 PM", "4/19/19 3:00 PM", "4/19/19 4:00 PM", "4/19/19 5:00 PM", "4/19/19 6:00 PM", "4/19/19 7:00 PM", "4/19/19 8:00 PM", "4/19/19 9:00 PM", "4/19/19 10:00 PM", "4/19/19 11:00 PM", "4/20/19 12:00 AM", "4/20/19 1:00 AM", "4/20/19 2:00 AM", "4/20/19 3:00 AM", "4/20/19 4:00 AM", "4/20/19 5:00 AM", "4/20/19 6:00 AM", "4/20/19 7:00 AM", "4/20/19 8:00 AM", "4/20/19 9:00 AM", "4/20/19 10:00 AM", "4/20/19 11:00 AM", "4/20/19 12:00 PM", "4/20/19 1:00 PM", "4/20/19 2:00 PM", "4/20/19 3:00 PM", "4/20/19 4:00 PM", "4/20/19 5:00 PM", "4/20/19 6:00 PM", "4/20/19 7:00 PM", "4/20/19 8:00 PM", "4/20/19 9:00 PM", "4/20/19 10:00 PM", "4/20/19 11:00 PM", "4/21/19 12:00 AM", "4/21/19 1:00 AM", "4/21/19 2:00 AM", "4/21/19 3:00 AM", "4/21/19 4:00 AM", "4/21/19 5:00 AM", "4/21/19 6:00 AM", "4/21/19 7:00 AM", "4/21/19 8:00 AM", "4/21/19 9:00 AM", "4/21/19 10:00 AM", "4/21/19 11:00 AM", "4/21/19 12:00 PM", "4/21/19 1:00 PM", "4/21/19 2:00 PM", "4/21/19 3:00 PM", "4/21/19 4:00 PM", "4/21/19 5:00 PM", "4/21/19 6:00 PM", "4/21/19 7:00 PM", "4/21/19 8:00 PM", "4/21/19 9:00 PM", "4/21/19 10:00 PM", "4/21/19 11:00 PM", "4/22/19 12:00 AM", "4/22/19 1:00 AM", "4/22/19 2:00 AM", "4/22/19 3:00 AM", "4/22/19 4:00 AM", "4/22/19 5:00 AM", "4/22/19 6:00 AM", "4/22/19 7:00 AM", "4/22/19 8:00 AM", "4/22/19 9:00 AM", "4/22/19 10:00 AM", "4/22/19 11:00 AM", "4/22/19 12:00 PM", "4/22/19 1:00 PM", "4/22/19 2:00 PM", "4/22/19 3:00 PM", "4/22/19 4:00 PM", "4/22/19 5:00 PM", "4/22/19 6:00 PM", "4/22/19 7:00 PM", "4/22/19 8:00 PM", "4/22/19 9:00 PM", "4/22/19 10:00 PM", "4/22/19 11:00 PM", "4/23/19 12:00 AM", "4/23/19 1:00 AM", "4/23/19 2:00 AM", "4/23/19 3:00 AM", "4/23/19 4:00 AM", "4/23/19 5:00 AM", "4/23/19 6:00 AM", "4/23/19 7:00 AM", "4/23/19 8:00 AM", "4/23/19 9:00 AM", "4/23/19 10:00 AM", "4/23/19 11:00 AM", "4/23/19 12:00 PM", "4/23/19 1:00 PM", "4/23/19 2:00 PM", "4/23/19 3:00 PM", "4/23/19 4:00 PM", "4/23/19 5:00 PM", "4/23/19 6:00 PM", "4/23/19 7:00 PM", "4/23/19 8:00 PM", "4/23/19 9:00 PM", "4/23/19 10:00 PM", "4/23/19 11:00 PM", "4/24/19 12:00 AM", "4/24/19 1:00 AM", "4/24/19 2:00 AM", "4/24/19 3:00 AM", "4/24/19 4:00 AM", "4/24/19 5:00 AM", "4/24/19 6:00 AM", "4/24/19 7:00 AM", "4/24/19 8:00 AM", "4/24/19 9:00 AM", "4/24/19 10:00 AM", "4/24/19 11:00 AM", "4/24/19 12:00 PM", "4/24/19 1:00 PM", "4/24/19 2:00 PM", "4/24/19 3:00 PM", "4/24/19 4:00 PM", "4/24/19 5:00 PM", "4/24/19 6:00 PM", "4/24/19 7:00 PM", "4/24/19 8:00 PM", "4/24/19 9:00 PM", "4/24/19 10:00 PM", "4/24/19 11:00 PM", "4/25/19 12:00 AM", "4/25/19 1:00 AM", "4/25/19 2:00 AM", "4/25/19 3:00 AM", "4/25/19 4:00 AM", "4/25/19 5:00 AM", "4/25/19 6:00 AM", "4/25/19 7:00 AM", "4/25/19 8:00 AM", "4/25/19 9:00 AM", "4/25/19 10:00 AM", "4/25/19 11:00 AM", "4/25/19 12:00 PM", "4/25/19 1:00 PM", "4/25/19 2:00 PM", "4/25/19 3:00 PM", "4/25/19 4:00 PM", "4/25/19 5:00 PM", "4/25/19 6:00 PM", "4/25/19 7:00 PM", "4/25/19 8:00 PM", "4/25/19 9:00 PM", "4/25/19 10:00 PM", "4/25/19 11:00 PM", "4/26/19 12:00 AM", "4/26/19 1:00 AM", "4/26/19 2:00 AM", "4/26/19 3:00 AM", "4/26/19 4:00 AM", "4/26/19 5:00 AM", "4/26/19 6:00 AM", "4/26/19 7:00 AM", "4/26/19 8:00 AM", "4/26/19 9:00 AM", "4/26/19 10:00 AM", "4/26/19 11:00 AM", "4/26/19 12:00 PM", "4/26/19 1:00 PM", "4/26/19 2:00 PM", "4/26/19 3:00 PM", "4/26/19 4:00 PM", "4/26/19 5:00 PM", "4/26/19 6:00 PM", "4/26/19 7:00 PM", "4/26/19 8:00 PM", "4/26/19 9:00 PM", "4/26/19 10:00 PM", "4/26/19 11:00 PM", "4/27/19 12:00 AM", "4/27/19 1:00 AM", "4/27/19 2:00 AM", "4/27/19 3:00 AM", "4/27/19 4:00 AM", "4/27/19 5:00 AM", "4/27/19 6:00 AM", "4/27/19 7:00 AM", "4/27/19 8:00 AM", "4/27/19 9:00 AM", "4/27/19 10:00 AM", "4/27/19 11:00 AM", "4/27/19 12:00 PM", "4/27/19 1:00 PM", "4/27/19 2:00 PM", "4/27/19 3:00 PM", "4/27/19 4:00 PM", "4/27/19 5:00 PM", "4/27/19 6:00 PM", "4/27/19 7:00 PM", "4/27/19 8:00 PM", "4/27/19 9:00 PM", "4/27/19 10:00 PM", "4/27/19 11:00 PM", "4/28/19 12:00 AM", "4/28/19 1:00 AM", "4/28/19 2:00 AM", "4/28/19 3:00 AM", "4/28/19 4:00 AM", "4/28/19 5:00 AM", "4/28/19 6:00 AM", "4/28/19 7:00 AM", "4/28/19 8:00 AM", "4/28/19 9:00 AM", "4/28/19 10:00 AM", "4/28/19 11:00 AM", "4/28/19 12:00 PM", "4/28/19 1:00 PM", "4/28/19 2:00 PM", "4/28/19 3:00 PM", "4/28/19 4:00 PM", "4/28/19 5:00 PM", "4/28/19 6:00 PM", "4/28/19 7:00 PM", "4/28/19 8:00 PM", "4/28/19 9:00 PM", "4/28/19 10:00 PM", "4/28/19 11:00 PM", "4/29/19 12:00 AM", "4/29/19 1:00 AM", "4/29/19 2:00 AM", "4/29/19 3:00 AM", "4/29/19 4:00 AM", "4/29/19 5:00 AM", "4/29/19 6:00 AM", "4/29/19 7:00 AM", "4/29/19 8:00 AM", "4/29/19 9:00 AM", "4/29/19 10:00 AM", "4/29/19 11:00 AM", "4/29/19 12:00 PM", "4/29/19 1:00 PM", "4/29/19 2:00 PM", "4/29/19 3:00 PM", "4/29/19 4:00 PM", "4/29/19 5:00 PM", "4/29/19 6:00 PM", "4/29/19 7:00 PM", "4/29/19 8:00 PM", "4/29/19 9:00 PM", "4/29/19 10:00 PM", "4/29/19 11:00 PM", "4/30/19 12:00 AM", "4/30/19 1:00 AM", "4/30/19 2:00 AM", "4/30/19 3:00 AM", "4/30/19 4:00 AM", "4/30/19 5:00 AM", "4/30/19 6:00 AM", "4/30/19 7:00 AM", "4/30/19 8:00 AM", "4/30/19 9:00 AM", "4/30/19 10:00 AM", "4/30/19 11:00 AM", "4/30/19 12:00 PM", "4/30/19 1:00 PM", "4/30/19 2:00 PM", "4/30/19 3:00 PM", "4/30/19 4:00 PM", "4/30/19 5:00 PM", "4/30/19 6:00 PM", "4/30/19 7:00 PM", "4/30/19 8:00 PM", "4/30/19 9:00 PM", "4/30/19 10:00 PM", "4/30/19 11:00 PM", "5/1/19 12:00 AM", "5/1/19 1:00 AM", "5/1/19 2:00 AM", "5/1/19 3:00 AM", "5/1/19 4:00 AM", "5/1/19 5:00 AM", "5/1/19 6:00 AM", "5/1/19 7:00 AM", "5/1/19 8:00 AM", "5/1/19 9:00 AM", "5/1/19 10:00 AM", "5/1/19 11:00 AM", "5/1/19 12:00 PM", "5/1/19 1:00 PM", "5/1/19 2:00 PM", "5/1/19 3:00 PM", "5/1/19 4:00 PM", "5/1/19 5:00 PM", "5/1/19 6:00 PM", "5/1/19 7:00 PM", "5/1/19 8:00 PM", "5/1/19 9:00 PM", "5/1/19 10:00 PM", "5/1/19 11:00 PM", "5/2/19 12:00 AM", "5/2/19 1:00 AM", "5/2/19 2:00 AM", "5/2/19 3:00 AM", "5/2/19 4:00 AM", "5/2/19 5:00 AM", "5/2/19 6:00 AM", "5/2/19 7:00 AM", "5/2/19 8:00 AM", "5/2/19 9:00 AM", "5/2/19 10:00 AM", "5/2/19 11:00 AM", "5/2/19 12:00 PM", "5/2/19 1:00 PM", "5/2/19 2:00 PM", "5/2/19 3:00 PM", "5/2/19 4:00 PM", "5/2/19 5:00 PM", "5/2/19 6:00 PM", "5/2/19 7:00 PM", "5/2/19 8:00 PM", "5/2/19 9:00 PM", "5/2/19 10:00 PM", "5/2/19 11:00 PM", "5/3/19 12:00 AM", "5/3/19 1:00 AM", "5/3/19 2:00 AM", "5/3/19 3:00 AM", "5/3/19 4:00 AM", "5/3/19 5:00 AM", "5/3/19 6:00 AM", "5/3/19 7:00 AM", "5/3/19 8:00 AM", "5/3/19 9:00 AM", "5/3/19 10:00 AM", "5/3/19 11:00 AM", "5/3/19 12:00 PM", "5/3/19 1:00 PM", "5/3/19 2:00 PM", "5/3/19 3:00 PM", "5/3/19 4:00 PM", "5/3/19 5:00 PM", "5/3/19 6:00 PM", "5/3/19 7:00 PM", "5/3/19 8:00 PM", "5/3/19 9:00 PM", "5/3/19 10:00 PM", "5/3/19 11:00 PM", "5/4/19 12:00 AM", "5/4/19 1:00 AM", "5/4/19 2:00 AM", "5/4/19 3:00 AM", "5/4/19 4:00 AM", "5/4/19 5:00 AM", "5/4/19 6:00 AM", "5/4/19 7:00 AM", "5/4/19 8:00 AM", "5/4/19 9:00 AM", "5/4/19 10:00 AM", "5/4/19 11:00 AM", "5/4/19 12:00 PM", "5/4/19 1:00 PM", "5/4/19 2:00 PM", "5/4/19 3:00 PM", "5/4/19 4:00 PM", "5/4/19 5:00 PM", "5/4/19 6:00 PM", "5/4/19 7:00 PM", "5/4/19 8:00 PM", "5/4/19 9:00 PM", "5/4/19 10:00 PM", "5/4/19 11:00 PM", "5/5/19 12:00 AM", "5/5/19 1:00 AM", "5/5/19 2:00 AM", "5/5/19 3:00 AM", "5/5/19 4:00 AM", "5/5/19 5:00 AM", "5/5/19 6:00 AM", "5/5/19 7:00 AM", "5/5/19 8:00 AM", "5/5/19 9:00 AM", "5/5/19 10:00 AM", "5/5/19 11:00 AM", "5/5/19 12:00 PM", "5/5/19 1:00 PM", "5/5/19 2:00 PM", "5/5/19 3:00 PM", "5/5/19 4:00 PM", "5/5/19 5:00 PM", "5/5/19 6:00 PM", "5/5/19 7:00 PM", "5/5/19 8:00 PM", "5/5/19 9:00 PM", "5/5/19 10:00 PM", "5/5/19 11:00 PM", "5/6/19 12:00 AM", "5/6/19 1:00 AM", "5/6/19 2:00 AM", "5/6/19 3:00 AM", "5/6/19 4:00 AM", "5/6/19 5:00 AM", "5/6/19 6:00 AM", "5/6/19 7:00 AM", "5/6/19 8:00 AM", "5/6/19 9:00 AM", "5/6/19 10:00 AM", "5/6/19 11:00 AM", "5/6/19 12:00 PM", "5/6/19 1:00 PM", "5/6/19 2:00 PM", "5/6/19 3:00 PM", "5/6/19 4:00 PM", "5/6/19 5:00 PM", "5/6/19 6:00 PM", "5/6/19 7:00 PM", "5/6/19 8:00 PM", "5/6/19 9:00 PM", "5/6/19 10:00 PM", "5/6/19 11:00 PM", "5/7/19 12:00 AM", "5/7/19 1:00 AM", "5/7/19 2:00 AM", "5/7/19 3:00 AM", "5/7/19 4:00 AM", "5/7/19 5:00 AM", "5/7/19 6:00 AM", "5/7/19 7:00 AM", "5/7/19 8:00 AM", "5/7/19 9:00 AM", "5/7/19 10:00 AM", "5/7/19 11:00 AM", "5/7/19 12:00 PM", "5/7/19 1:00 PM", "5/7/19 2:00 PM", "5/7/19 3:00 PM", "5/7/19 4:00 PM", "5/7/19 5:00 PM", "5/7/19 6:00 PM", "5/7/19 7:00 PM", "5/7/19 8:00 PM", "5/7/19 9:00 PM", "5/7/19 10:00 PM", "5/7/19 11:00 PM", "5/8/19 12:00 AM", "5/8/19 1:00 AM", "5/8/19 2:00 AM", "5/8/19 3:00 AM", "5/8/19 4:00 AM", "5/8/19 5:00 AM", "5/8/19 6:00 AM", "5/8/19 7:00 AM", "5/8/19 8:00 AM", "5/8/19 9:00 AM", "5/8/19 10:00 AM", "5/8/19 11:00 AM", "5/8/19 12:00 PM", "5/8/19 1:00 PM", "5/8/19 2:00 PM", "5/8/19 3:00 PM", "5/8/19 4:00 PM", "5/8/19 5:00 PM", "5/8/19 6:00 PM", "5/8/19 7:00 PM", "5/8/19 8:00 PM", "5/8/19 9:00 PM", "5/8/19 10:00 PM", "5/8/19 11:00 PM", "5/9/19 12:00 AM", "5/9/19 1:00 AM", "5/9/19 2:00 AM", "5/9/19 3:00 AM", "5/9/19 4:00 AM", "5/9/19 5:00 AM", "5/9/19 6:00 AM", "5/9/19 7:00 AM", "5/9/19 8:00 AM", "5/9/19 9:00 AM", "5/9/19 10:00 AM", "5/9/19 11:00 AM", "5/9/19 12:00 PM", "5/9/19 1:00 PM", "5/9/19 2:00 PM", "5/9/19 3:00 PM", "5/9/19 4:00 PM", "5/9/19 5:00 PM", "5/9/19 6:00 PM", "5/9/19 7:00 PM", "5/9/19 8:00 PM", "5/9/19 9:00 PM", "5/9/19 10:00 PM", "5/9/19 11:00 PM", "5/10/19 12:00 AM", "5/10/19 1:00 AM", "5/10/19 2:00 AM", "5/10/19 3:00 AM", "5/10/19 4:00 AM", "5/10/19 5:00 AM", "5/10/19 6:00 AM", "5/10/19 7:00 AM", "5/10/19 8:00 AM", "5/10/19 9:00 AM", "5/10/19 10:00 AM", "5/10/19 11:00 AM", "5/10/19 12:00 PM", "5/10/19 1:00 PM", "5/10/19 2:00 PM", "5/10/19 3:00 PM", "5/10/19 4:00 PM", "5/10/19 5:00 PM", "5/10/19 6:00 PM", "5/10/19 7:00 PM", "5/10/19 8:00 PM", "5/10/19 9:00 PM", "5/10/19 10:00 PM", "5/10/19 11:00 PM", "5/11/19 12:00 AM", "5/11/19 1:00 AM", "5/11/19 2:00 AM", "5/11/19 3:00 AM", "5/11/19 4:00 AM", "5/11/19 5:00 AM", "5/11/19 6:00 AM", "5/11/19 7:00 AM", "5/11/19 8:00 AM", "5/11/19 9:00 AM", "5/11/19 10:00 AM", "5/11/19 11:00 AM", "5/11/19 12:00 PM", "5/11/19 1:00 PM", "5/11/19 2:00 PM", "5/11/19 3:00 PM", "5/11/19 4:00 PM", "5/11/19 5:00 PM", "5/11/19 6:00 PM", "5/11/19 7:00 PM", "5/11/19 8:00 PM", "5/11/19 9:00 PM", "5/11/19 10:00 PM", "5/11/19 11:00 PM", "5/12/19 12:00 AM", "5/12/19 1:00 AM", "5/12/19 2:00 AM", "5/12/19 3:00 AM", "5/12/19 4:00 AM", "5/12/19 5:00 AM", "5/12/19 6:00 AM", "5/12/19 7:00 AM", "5/12/19 8:00 AM", "5/12/19 9:00 AM", "5/12/19 10:00 AM", "5/12/19 11:00 AM", "5/12/19 12:00 PM", "5/12/19 1:00 PM", "5/12/19 2:00 PM", "5/12/19 3:00 PM", "5/12/19 4:00 PM", "5/12/19 5:00 PM", "5/12/19 6:00 PM", "5/12/19 7:00 PM", "5/12/19 8:00 PM", "5/12/19 9:00 PM", "5/12/19 10:00 PM", "5/12/19 11:00 PM", "5/13/19 12:00 AM", "5/13/19 1:00 AM", "5/13/19 2:00 AM", "5/13/19 3:00 AM", "5/13/19 4:00 AM", "5/13/19 5:00 AM", "5/13/19 6:00 AM", "5/13/19 7:00 AM", "5/13/19 8:00 AM", "5/13/19 9:00 AM", "5/13/19 10:00 AM", "5/13/19 11:00 AM", "5/13/19 12:00 PM", "5/13/19 1:00 PM", "5/13/19 2:00 PM", "5/13/19 3:00 PM", "5/13/19 4:00 PM", "5/13/19 5:00 PM", "5/13/19 6:00 PM", "5/13/19 7:00 PM", "5/13/19 8:00 PM", "5/13/19 9:00 PM", "5/13/19 10:00 PM", "5/13/19 11:00 PM", "5/14/19 12:00 AM", "5/14/19 1:00 AM", "5/14/19 2:00 AM", "5/14/19 3:00 AM", "5/14/19 4:00 AM", "5/14/19 5:00 AM", "5/14/19 6:00 AM", "5/14/19 7:00 AM", "5/14/19 8:00 AM", "5/14/19 9:00 AM", "5/14/19 10:00 AM", "5/14/19 11:00 AM", "5/14/19 12:00 PM", "5/14/19 1:00 PM", "5/14/19 2:00 PM", "5/14/19 3:00 PM", "5/14/19 4:00 PM", "5/14/19 5:00 PM", "5/14/19 6:00 PM", "5/14/19 7:00 PM", "5/14/19 8:00 PM", "5/14/19 9:00 PM", "5/14/19 10:00 PM", "5/14/19 11:00 PM", "5/15/19 12:00 AM", "5/15/19 1:00 AM", "5/15/19 2:00 AM", "5/15/19 3:00 AM", "5/15/19 4:00 AM", "5/15/19 5:00 AM", "5/15/19 6:00 AM", "5/15/19 7:00 AM", "5/15/19 8:00 AM", "5/15/19 9:00 AM", "5/15/19 10:00 AM", "5/15/19 11:00 AM", "5/15/19 12:00 PM", "5/15/19 1:00 PM", "5/15/19 2:00 PM", "5/15/19 3:00 PM", "5/15/19 4:00 PM", "5/15/19 5:00 PM", "5/15/19 6:00 PM", "5/15/19 7:00 PM", "5/15/19 8:00 PM", "5/15/19 9:00 PM", "5/15/19 10:00 PM", "5/15/19 11:00 PM", "5/16/19 12:00 AM", "5/16/19 1:00 AM", "5/16/19 2:00 AM", "5/16/19 3:00 AM", "5/16/19 4:00 AM", "5/16/19 5:00 AM", "5/16/19 6:00 AM", "5/16/19 7:00 AM", "5/16/19 8:00 AM", "5/16/19 9:00 AM", "5/16/19 10:00 AM", "5/16/19 11:00 AM", "5/16/19 12:00 PM", "5/16/19 1:00 PM", "5/16/19 2:00 PM", "5/16/19 3:00 PM", "5/16/19 4:00 PM", "5/16/19 5:00 PM", "5/16/19 6:00 PM", "5/16/19 7:00 PM", "5/16/19 8:00 PM", "5/16/19 9:00 PM", "5/16/19 10:00 PM", "5/16/19 11:00 PM", "5/17/19 12:00 AM", "5/17/19 1:00 AM", "5/17/19 2:00 AM", "5/17/19 3:00 AM", "5/17/19 4:00 AM", "5/17/19 5:00 AM", "5/17/19 6:00 AM", "5/17/19 7:00 AM", "5/17/19 8:00 AM", "5/17/19 9:00 AM", "5/17/19 10:00 AM", "5/17/19 11:00 AM", "5/17/19 12:00 PM", "5/17/19 1:00 PM", "5/17/19 2:00 PM", "5/17/19 3:00 PM", "5/17/19 4:00 PM", "5/17/19 5:00 PM", "5/17/19 6:00 PM", "5/17/19 7:00 PM", "5/17/19 8:00 PM", "5/17/19 9:00 PM", "5/17/19 10:00 PM", "5/17/19 11:00 PM", "5/18/19 12:00 AM", "5/18/19 1:00 AM", "5/18/19 2:00 AM", "5/18/19 3:00 AM", "5/18/19 4:00 AM", "5/18/19 5:00 AM", "5/18/19 6:00 AM", "5/18/19 7:00 AM", "5/18/19 8:00 AM", "5/18/19 9:00 AM", "5/18/19 10:00 AM", "5/18/19 11:00 AM", "5/18/19 12:00 PM", "5/18/19 1:00 PM", "5/18/19 2:00 PM", "5/18/19 3:00 PM", "5/18/19 4:00 PM", "5/18/19 5:00 PM", "5/18/19 6:00 PM", "5/18/19 7:00 PM", "5/18/19 8:00 PM", "5/18/19 9:00 PM", "5/18/19 10:00 PM", "5/18/19 11:00 PM", "5/19/19 12:00 AM", "5/19/19 1:00 AM", "5/19/19 2:00 AM", "5/19/19 3:00 AM", "5/19/19 4:00 AM", "5/19/19 5:00 AM", "5/19/19 6:00 AM", "5/19/19 7:00 AM", "5/19/19 8:00 AM", "5/19/19 9:00 AM", "5/19/19 10:00 AM", "5/19/19 11:00 AM", "5/19/19 12:00 PM", "5/19/19 1:00 PM", "5/19/19 2:00 PM", "5/19/19 3:00 PM", "5/19/19 4:00 PM", "5/19/19 5:00 PM", "5/19/19 6:00 PM", "5/19/19 7:00 PM", "5/19/19 8:00 PM", "5/19/19 9:00 PM", "5/19/19 10:00 PM", "5/19/19 11:00 PM", "5/20/19 12:00 AM", "5/20/19 1:00 AM", "5/20/19 2:00 AM", "5/20/19 3:00 AM", "5/20/19 4:00 AM", "5/20/19 5:00 AM", "5/20/19 6:00 AM", "5/20/19 7:00 AM", "5/20/19 8:00 AM", "5/20/19 9:00 AM", "5/20/19 10:00 AM", "5/20/19 11:00 AM", "5/20/19 12:00 PM", "5/20/19 1:00 PM", "5/20/19 2:00 PM", "5/20/19 3:00 PM", "5/20/19 4:00 PM", "5/20/19 5:00 PM", "5/20/19 6:00 PM", "5/20/19 7:00 PM", "5/20/19 8:00 PM", "5/20/19 9:00 PM", "5/20/19 10:00 PM", "5/20/19 11:00 PM", "5/21/19 12:00 AM", "5/21/19 1:00 AM", "5/21/19 2:00 AM", "5/21/19 3:00 AM", "5/21/19 4:00 AM", "5/21/19 5:00 AM", "5/21/19 6:00 AM", "5/21/19 7:00 AM", "5/21/19 8:00 AM", "5/21/19 9:00 AM", "5/21/19 10:00 AM", "5/21/19 11:00 AM", "5/21/19 12:00 PM", "5/21/19 1:00 PM", "5/21/19 2:00 PM", "5/21/19 3:00 PM", "5/21/19 4:00 PM", "5/21/19 5:00 PM", "5/21/19 6:00 PM", "5/21/19 7:00 PM", "5/21/19 8:00 PM", "5/21/19 9:00 PM", "5/21/19 10:00 PM", "5/21/19 11:00 PM", "5/22/19 12:00 AM", "5/22/19 1:00 AM", "5/22/19 2:00 AM", "5/22/19 3:00 AM", "5/22/19 4:00 AM", "5/22/19 5:00 AM", "5/22/19 6:00 AM", "5/22/19 7:00 AM", "5/22/19 8:00 AM", "5/22/19 9:00 AM", "5/22/19 10:00 AM", "5/22/19 11:00 AM", "5/22/19 12:00 PM", "5/22/19 1:00 PM", "5/22/19 2:00 PM", "5/22/19 3:00 PM", "5/22/19 4:00 PM", "5/22/19 5:00 PM", "5/22/19 6:00 PM", "5/22/19 7:00 PM", "5/22/19 8:00 PM", "5/22/19 9:00 PM", "5/22/19 10:00 PM", "5/22/19 11:00 PM", "5/23/19 12:00 AM", "5/23/19 1:00 AM", "5/23/19 2:00 AM", "5/23/19 3:00 AM", "5/23/19 4:00 AM", "5/23/19 5:00 AM", "5/23/19 6:00 AM", "5/23/19 7:00 AM", "5/23/19 8:00 AM", "5/23/19 9:00 AM", "5/23/19 10:00 AM", "5/23/19 11:00 AM", "5/23/19 12:00 PM", "5/23/19 1:00 PM", "5/23/19 2:00 PM", "5/23/19 3:00 PM", "5/23/19 4:00 PM", "5/23/19 5:00 PM", "5/23/19 6:00 PM", "5/23/19 7:00 PM", "5/23/19 8:00 PM", "5/23/19 9:00 PM", "5/23/19 10:00 PM", "5/23/19 11:00 PM", "5/24/19 12:00 AM", "5/24/19 1:00 AM", "5/24/19 2:00 AM", "5/24/19 3:00 AM", "5/24/19 4:00 AM", "5/24/19 5:00 AM", "5/24/19 6:00 AM", "5/24/19 7:00 AM", "5/24/19 8:00 AM", "5/24/19 9:00 AM", "5/24/19 10:00 AM", "5/24/19 11:00 AM", "5/24/19 12:00 PM", "5/24/19 1:00 PM", "5/24/19 2:00 PM", "5/24/19 3:00 PM", "5/24/19 4:00 PM", "5/24/19 5:00 PM", "5/24/19 6:00 PM", "5/24/19 7:00 PM", "5/24/19 8:00 PM", "5/24/19 9:00 PM", "5/24/19 10:00 PM", "5/24/19 11:00 PM", "5/25/19 12:00 AM", "5/25/19 1:00 AM", "5/25/19 2:00 AM", "5/25/19 3:00 AM", "5/25/19 4:00 AM", "5/25/19 5:00 AM", "5/25/19 6:00 AM", "5/25/19 7:00 AM", "5/25/19 8:00 AM", "5/25/19 9:00 AM", "5/25/19 10:00 AM", "5/25/19 11:00 AM", "5/25/19 12:00 PM", "5/25/19 1:00 PM", "5/25/19 2:00 PM", "5/25/19 3:00 PM", "5/25/19 4:00 PM", "5/25/19 5:00 PM", "5/25/19 6:00 PM", "5/25/19 7:00 PM", "5/25/19 8:00 PM", "5/25/19 9:00 PM", "5/25/19 10:00 PM", "5/25/19 11:00 PM", "5/26/19 12:00 AM", "5/26/19 1:00 AM", "5/26/19 2:00 AM", "5/26/19 3:00 AM", "5/26/19 4:00 AM", "5/26/19 5:00 AM", "5/26/19 6:00 AM", "5/26/19 7:00 AM", "5/26/19 8:00 AM", "5/26/19 9:00 AM", "5/26/19 10:00 AM", "5/26/19 11:00 AM", "5/26/19 12:00 PM", "5/26/19 1:00 PM", "5/26/19 2:00 PM", "5/26/19 3:00 PM", "5/26/19 4:00 PM", "5/26/19 5:00 PM", "5/26/19 6:00 PM", "5/26/19 7:00 PM", "5/26/19 8:00 PM", "5/26/19 9:00 PM", "5/26/19 10:00 PM", "5/26/19 11:00 PM", "5/27/19 12:00 AM", "5/27/19 1:00 AM", "5/27/19 2:00 AM", "5/27/19 3:00 AM", "5/27/19 4:00 AM", "5/27/19 5:00 AM", "5/27/19 6:00 AM", "5/27/19 7:00 AM", "5/27/19 8:00 AM", "5/27/19 9:00 AM", "5/27/19 10:00 AM", "5/27/19 11:00 AM", "5/27/19 12:00 PM", "5/27/19 1:00 PM", "5/27/19 2:00 PM", "5/27/19 3:00 PM", "5/27/19 4:00 PM", "5/27/19 5:00 PM", "5/27/19 6:00 PM", "5/27/19 7:00 PM", "5/27/19 8:00 PM", "5/27/19 9:00 PM", "5/27/19 10:00 PM", "5/27/19 11:00 PM", "5/28/19 12:00 AM", "5/28/19 1:00 AM", "5/28/19 2:00 AM", "5/28/19 3:00 AM", "5/28/19 4:00 AM", "5/28/19 5:00 AM", "5/28/19 6:00 AM", "5/28/19 7:00 AM", "5/28/19 8:00 AM", "5/28/19 9:00 AM", "5/28/19 10:00 AM", "5/28/19 11:00 AM", "5/28/19 12:00 PM", "5/28/19 1:00 PM", "5/28/19 2:00 PM", "5/28/19 3:00 PM", "5/28/19 4:00 PM", "5/28/19 5:00 PM", "5/28/19 6:00 PM", "5/28/19 7:00 PM", "5/28/19 8:00 PM", "5/28/19 9:00 PM", "5/28/19 10:00 PM", "5/28/19 11:00 PM", "5/29/19 12:00 AM", "5/29/19 1:00 AM", "5/29/19 2:00 AM", "5/29/19 3:00 AM", "5/29/19 4:00 AM", "5/29/19 5:00 AM", "5/29/19 6:00 AM", "5/29/19 7:00 AM", "5/29/19 8:00 AM", "5/29/19 9:00 AM", "5/29/19 10:00 AM", "5/29/19 11:00 AM", "5/29/19 12:00 PM", "5/29/19 1:00 PM", "5/29/19 2:00 PM", "5/29/19 3:00 PM", "5/29/19 4:00 PM", "5/29/19 5:00 PM", "5/29/19 6:00 PM", "5/29/19 7:00 PM", "5/29/19 8:00 PM", "5/29/19 9:00 PM", "5/29/19 10:00 PM", "5/29/19 11:00 PM", "5/30/19 12:00 AM", "5/30/19 1:00 AM", "5/30/19 2:00 AM", "5/30/19 3:00 AM", "5/30/19 4:00 AM", "5/30/19 5:00 AM", "5/30/19 6:00 AM", "5/30/19 7:00 AM", "5/30/19 8:00 AM", "5/30/19 9:00 AM", "5/30/19 10:00 AM", "5/30/19 11:00 AM", "5/30/19 12:00 PM", "5/30/19 1:00 PM", "5/30/19 2:00 PM", "5/30/19 3:00 PM", "5/30/19 4:00 PM", "5/30/19 5:00 PM", "5/30/19 6:00 PM", "5/30/19 7:00 PM", "5/30/19 8:00 PM", "5/30/19 9:00 PM", "5/30/19 10:00 PM", "5/30/19 11:00 PM", "5/31/19 12:00 AM", "5/31/19 1:00 AM", "5/31/19 2:00 AM", "5/31/19 3:00 AM", "5/31/19 4:00 AM", "5/31/19 5:00 AM", "5/31/19 6:00 AM", "5/31/19 7:00 AM", "5/31/19 8:00 AM", "5/31/19 9:00 AM", "5/31/19 10:00 AM", "5/31/19 11:00 AM", "5/31/19 12:00 PM", "5/31/19 1:00 PM", "5/31/19 2:00 PM", "5/31/19 3:00 PM", "5/31/19 4:00 PM", "5/31/19 5:00 PM", "5/31/19 6:00 PM", "5/31/19 7:00 PM", "5/31/19 8:00 PM", "5/31/19 9:00 PM", "5/31/19 10:00 PM", "5/31/19 11:00 PM", "6/1/19 12:00 AM", "6/1/19 1:00 AM", "6/1/19 2:00 AM", "6/1/19 3:00 AM", "6/1/19 4:00 AM", "6/1/19 5:00 AM", "6/1/19 6:00 AM", "6/1/19 7:00 AM", "6/1/19 8:00 AM", "6/1/19 9:00 AM", "6/1/19 10:00 AM", "6/1/19 11:00 AM", "6/1/19 12:00 PM", "6/1/19 1:00 PM", "6/1/19 2:00 PM", "6/1/19 3:00 PM", "6/1/19 4:00 PM", "6/1/19 5:00 PM", "6/1/19 6:00 PM", "6/1/19 7:00 PM", "6/1/19 8:00 PM", "6/1/19 9:00 PM", "6/1/19 10:00 PM", "6/1/19 11:00 PM", "6/2/19 12:00 AM", "6/2/19 1:00 AM", "6/2/19 2:00 AM", "6/2/19 3:00 AM", "6/2/19 4:00 AM", "6/2/19 5:00 AM", "6/2/19 6:00 AM", "6/2/19 7:00 AM", "6/2/19 8:00 AM", "6/2/19 9:00 AM", "6/2/19 10:00 AM", "6/2/19 11:00 AM", "6/2/19 12:00 PM", "6/2/19 1:00 PM", "6/2/19 2:00 PM", "6/2/19 3:00 PM", "6/2/19 4:00 PM", "6/2/19 5:00 PM", "6/2/19 6:00 PM", "6/2/19 7:00 PM", "6/2/19 8:00 PM", "6/2/19 9:00 PM", "6/2/19 10:00 PM", "6/2/19 11:00 PM", "6/3/19 12:00 AM", "6/3/19 1:00 AM", "6/3/19 2:00 AM", "6/3/19 3:00 AM", "6/3/19 4:00 AM", "6/3/19 5:00 AM", "6/3/19 6:00 AM", "6/3/19 7:00 AM", "6/3/19 8:00 AM", "6/3/19 9:00 AM", "6/3/19 10:00 AM", "6/3/19 11:00 AM", "6/3/19 12:00 PM", "6/3/19 1:00 PM", "6/3/19 2:00 PM", "6/3/19 3:00 PM", "6/3/19 4:00 PM", "6/3/19 5:00 PM", "6/3/19 6:00 PM", "6/3/19 7:00 PM", "6/3/19 8:00 PM", "6/3/19 9:00 PM", "6/3/19 10:00 PM", "6/3/19 11:00 PM", "6/4/19 12:00 AM", "6/4/19 1:00 AM", "6/4/19 2:00 AM", "6/4/19 3:00 AM", "6/4/19 4:00 AM", "6/4/19 5:00 AM", "6/4/19 6:00 AM", "6/4/19 7:00 AM", "6/4/19 8:00 AM", "6/4/19 9:00 AM", "6/4/19 10:00 AM", "6/4/19 11:00 AM", "6/4/19 12:00 PM", "6/4/19 1:00 PM", "6/4/19 2:00 PM", "6/4/19 3:00 PM", "6/4/19 4:00 PM", "6/4/19 5:00 PM", "6/4/19 6:00 PM", "6/4/19 7:00 PM", "6/4/19 8:00 PM", "6/4/19 9:00 PM", "6/4/19 10:00 PM", "6/4/19 11:00 PM", "6/5/19 12:00 AM", "6/5/19 1:00 AM", "6/5/19 2:00 AM", "6/5/19 3:00 AM", "6/5/19 4:00 AM", "6/5/19 5:00 AM", "6/5/19 6:00 AM", "6/5/19 7:00 AM", "6/5/19 8:00 AM", "6/5/19 9:00 AM", "6/5/19 10:00 AM", "6/5/19 11:00 AM", "6/5/19 12:00 PM", "6/5/19 1:00 PM", "6/5/19 2:00 PM", "6/5/19 3:00 PM", "6/5/19 4:00 PM", "6/5/19 5:00 PM", "6/5/19 6:00 PM", "6/5/19 7:00 PM", "6/5/19 8:00 PM", "6/5/19 9:00 PM", "6/5/19 10:00 PM", "6/5/19 11:00 PM", "6/6/19 12:00 AM", "6/6/19 1:00 AM", "6/6/19 2:00 AM", "6/6/19 3:00 AM", "6/6/19 4:00 AM", "6/6/19 5:00 AM", "6/6/19 6:00 AM", "6/6/19 7:00 AM", "6/6/19 8:00 AM", "6/6/19 9:00 AM", "6/6/19 10:00 AM", "6/6/19 11:00 AM", "6/6/19 12:00 PM", "6/6/19 1:00 PM", "6/6/19 2:00 PM", "6/6/19 3:00 PM", "6/6/19 4:00 PM", "6/6/19 5:00 PM", "6/6/19 6:00 PM", "6/6/19 7:00 PM", "6/6/19 8:00 PM", "6/6/19 9:00 PM", "6/6/19 10:00 PM", "6/6/19 11:00 PM", "6/7/19 12:00 AM", "6/7/19 1:00 AM", "6/7/19 2:00 AM", "6/7/19 3:00 AM", "6/7/19 4:00 AM", "6/7/19 5:00 AM", "6/7/19 6:00 AM", "6/7/19 7:00 AM", "6/7/19 8:00 AM", "6/7/19 9:00 AM", "6/7/19 10:00 AM", "6/7/19 11:00 AM", "6/7/19 12:00 PM", "6/7/19 1:00 PM", "6/7/19 2:00 PM", "6/7/19 3:00 PM", "6/7/19 4:00 PM", "6/7/19 5:00 PM", "6/7/19 6:00 PM", "6/7/19 7:00 PM", "6/7/19 8:00 PM", "6/7/19 9:00 PM", "6/7/19 10:00 PM", "6/7/19 11:00 PM", "6/8/19 12:00 AM", "6/8/19 1:00 AM", "6/8/19 2:00 AM", "6/8/19 3:00 AM", "6/8/19 4:00 AM", "6/8/19 5:00 AM", "6/8/19 6:00 AM", "6/8/19 7:00 AM", "6/8/19 8:00 AM", "6/8/19 9:00 AM", "6/8/19 10:00 AM", "6/8/19 11:00 AM", "6/8/19 12:00 PM", "6/8/19 1:00 PM", "6/8/19 2:00 PM", "6/8/19 3:00 PM", "6/8/19 4:00 PM", "6/8/19 5:00 PM", "6/8/19 6:00 PM", "6/8/19 7:00 PM", "6/8/19 8:00 PM", "6/8/19 9:00 PM", "6/8/19 10:00 PM", "6/8/19 11:00 PM", "6/9/19 12:00 AM", "6/9/19 1:00 AM", "6/9/19 2:00 AM", "6/9/19 3:00 AM", "6/9/19 4:00 AM", "6/9/19 5:00 AM", "6/9/19 6:00 AM", "6/9/19 7:00 AM", "6/9/19 8:00 AM", "6/9/19 9:00 AM", "6/9/19 10:00 AM", "6/9/19 11:00 AM", "6/9/19 12:00 PM", "6/9/19 1:00 PM", "6/9/19 2:00 PM", "6/9/19 3:00 PM", "6/9/19 4:00 PM", "6/9/19 5:00 PM", "6/9/19 6:00 PM", "6/9/19 7:00 PM", "6/9/19 8:00 PM", "6/9/19 9:00 PM", "6/9/19 10:00 PM", "6/9/19 11:00 PM", "6/10/19 12:00 AM", "6/10/19 1:00 AM", "6/10/19 2:00 AM", "6/10/19 3:00 AM", "6/10/19 4:00 AM", "6/10/19 5:00 AM", "6/10/19 6:00 AM", "6/10/19 7:00 AM", "6/10/19 8:00 AM", "6/10/19 9:00 AM", "6/10/19 10:00 AM", "6/10/19 11:00 AM", "6/10/19 12:00 PM", "6/10/19 1:00 PM", "6/10/19 2:00 PM", "6/10/19 3:00 PM", "6/10/19 4:00 PM", "6/10/19 5:00 PM", "6/10/19 6:00 PM", "6/10/19 7:00 PM", "6/10/19 8:00 PM", "6/10/19 9:00 PM", "6/10/19 10:00 PM", "6/10/19 11:00 PM", "6/11/19 12:00 AM", "6/11/19 1:00 AM", "6/11/19 2:00 AM", "6/11/19 3:00 AM", "6/11/19 4:00 AM", "6/11/19 5:00 AM", "6/11/19 6:00 AM", "6/11/19 7:00 AM", "6/11/19 8:00 AM", "6/11/19 9:00 AM", "6/11/19 10:00 AM", "6/11/19 11:00 AM", "6/11/19 12:00 PM", "6/11/19 1:00 PM", "6/11/19 2:00 PM", "6/11/19 3:00 PM", "6/11/19 4:00 PM", "6/11/19 5:00 PM", "6/11/19 6:00 PM", "6/11/19 7:00 PM", "6/11/19 8:00 PM", "6/11/19 9:00 PM", "6/11/19 10:00 PM", "6/11/19 11:00 PM", "6/12/19 12:00 AM", "6/12/19 1:00 AM", "6/12/19 2:00 AM", "6/12/19 3:00 AM", "6/12/19 4:00 AM", "6/12/19 5:00 AM", "6/12/19 6:00 AM", "6/12/19 7:00 AM", "6/12/19 8:00 AM", "6/12/19 9:00 AM", "6/12/19 10:00 AM", "6/12/19 11:00 AM", "6/12/19 12:00 PM", "6/12/19 1:00 PM", "6/12/19 2:00 PM", "6/12/19 3:00 PM", "6/12/19 4:00 PM", "6/12/19 5:00 PM", "6/12/19 6:00 PM", "6/12/19 7:00 PM", "6/12/19 8:00 PM", "6/12/19 9:00 PM", "6/12/19 10:00 PM", "6/12/19 11:00 PM", "6/13/19 12:00 AM", "6/13/19 1:00 AM", "6/13/19 2:00 AM", "6/13/19 3:00 AM", "6/13/19 4:00 AM", "6/13/19 5:00 AM", "6/13/19 6:00 AM", "6/13/19 7:00 AM", "6/13/19 8:00 AM", "6/13/19 9:00 AM", "6/13/19 10:00 AM", "6/13/19 11:00 AM", "6/13/19 12:00 PM", "6/13/19 1:00 PM", "6/13/19 2:00 PM", "6/13/19 3:00 PM", "6/13/19 4:00 PM", "6/13/19 5:00 PM", "6/13/19 6:00 PM", "6/13/19 7:00 PM", "6/13/19 8:00 PM", "6/13/19 9:00 PM", "6/13/19 10:00 PM", "6/13/19 11:00 PM", "6/14/19 12:00 AM", "6/14/19 1:00 AM", "6/14/19 2:00 AM", "6/14/19 3:00 AM", "6/14/19 4:00 AM", "6/14/19 5:00 AM", "6/14/19 6:00 AM", "6/14/19 7:00 AM", "6/14/19 8:00 AM", "6/14/19 9:00 AM", "6/14/19 10:00 AM", "6/14/19 11:00 AM", "6/14/19 12:00 PM", "6/14/19 1:00 PM", "6/14/19 2:00 PM", "6/14/19 3:00 PM", "6/14/19 4:00 PM", "6/14/19 5:00 PM", "6/14/19 6:00 PM", "6/14/19 7:00 PM", "6/14/19 8:00 PM", "6/14/19 9:00 PM", "6/14/19 10:00 PM", "6/14/19 11:00 PM", "6/15/19 12:00 AM", "6/15/19 1:00 AM", "6/15/19 2:00 AM", "6/15/19 3:00 AM", "6/15/19 4:00 AM", "6/15/19 5:00 AM", "6/15/19 6:00 AM", "6/15/19 7:00 AM", "6/15/19 8:00 AM", "6/15/19 9:00 AM", "6/15/19 10:00 AM", "6/15/19 11:00 AM", "6/15/19 12:00 PM", "6/15/19 1:00 PM", "6/15/19 2:00 PM", "6/15/19 3:00 PM", "6/15/19 4:00 PM", "6/15/19 5:00 PM", "6/15/19 6:00 PM", "6/15/19 7:00 PM", "6/15/19 8:00 PM", "6/15/19 9:00 PM", "6/15/19 10:00 PM", "6/15/19 11:00 PM", "6/16/19 12:00 AM", "6/16/19 1:00 AM", "6/16/19 2:00 AM", "6/16/19 3:00 AM", "6/16/19 4:00 AM", "6/16/19 5:00 AM", "6/16/19 6:00 AM", "6/16/19 7:00 AM", "6/16/19 8:00 AM", "6/16/19 9:00 AM", "6/16/19 10:00 AM", "6/16/19 11:00 AM", "6/16/19 12:00 PM", "6/16/19 1:00 PM", "6/16/19 2:00 PM", "6/16/19 3:00 PM", "6/16/19 4:00 PM", "6/16/19 5:00 PM", "6/16/19 6:00 PM", "6/16/19 7:00 PM", "6/16/19 8:00 PM", "6/16/19 9:00 PM", "6/16/19 10:00 PM", "6/16/19 11:00 PM", "6/17/19 12:00 AM", "6/17/19 1:00 AM", "6/17/19 2:00 AM", "6/17/19 3:00 AM", "6/17/19 4:00 AM", "6/17/19 5:00 AM", "6/17/19 6:00 AM", "6/17/19 7:00 AM", "6/17/19 8:00 AM", "6/17/19 9:00 AM", "6/17/19 10:00 AM", "6/17/19 11:00 AM", "6/17/19 12:00 PM", "6/17/19 1:00 PM", "6/17/19 2:00 PM", "6/17/19 3:00 PM", "6/17/19 4:00 PM", "6/17/19 5:00 PM", "6/17/19 6:00 PM", "6/17/19 7:00 PM", "6/17/19 8:00 PM", "6/17/19 9:00 PM", "6/17/19 10:00 PM", "6/17/19 11:00 PM", "6/18/19 12:00 AM", "6/18/19 1:00 AM", "6/18/19 2:00 AM", "6/18/19 3:00 AM", "6/18/19 4:00 AM", "6/18/19 5:00 AM", "6/18/19 6:00 AM", "6/18/19 7:00 AM", "6/18/19 8:00 AM", "6/18/19 9:00 AM", "6/18/19 10:00 AM", "6/18/19 11:00 AM", "6/18/19 12:00 PM", "6/18/19 1:00 PM", "6/18/19 2:00 PM", "6/18/19 3:00 PM", "6/18/19 4:00 PM", "6/18/19 5:00 PM", "6/18/19 6:00 PM", "6/18/19 7:00 PM", "6/18/19 8:00 PM", "6/18/19 9:00 PM", "6/18/19 10:00 PM", "6/18/19 11:00 PM", "6/19/19 12:00 AM", "6/19/19 1:00 AM", "6/19/19 2:00 AM", "6/19/19 3:00 AM", "6/19/19 4:00 AM", "6/19/19 5:00 AM", "6/19/19 6:00 AM", "6/19/19 7:00 AM", "6/19/19 8:00 AM", "6/19/19 9:00 AM", "6/19/19 10:00 AM", "6/19/19 11:00 AM", "6/19/19 12:00 PM", "6/19/19 1:00 PM", "6/19/19 2:00 PM", "6/19/19 3:00 PM", "6/19/19 4:00 PM", "6/19/19 5:00 PM", "6/19/19 6:00 PM", "6/19/19 7:00 PM", "6/19/19 8:00 PM", "6/19/19 9:00 PM", "6/19/19 10:00 PM", "6/19/19 11:00 PM", "6/20/19 12:00 AM", "6/20/19 1:00 AM", "6/20/19 2:00 AM", "6/20/19 3:00 AM", "6/20/19 4:00 AM", "6/20/19 5:00 AM", "6/20/19 6:00 AM", "6/20/19 7:00 AM", "6/20/19 8:00 AM", "6/20/19 9:00 AM", "6/20/19 10:00 AM", "6/20/19 11:00 AM", "6/20/19 12:00 PM", "6/20/19 1:00 PM", "6/20/19 2:00 PM", "6/20/19 3:00 PM", "6/20/19 4:00 PM", "6/20/19 5:00 PM", "6/20/19 6:00 PM", "6/20/19 7:00 PM", "6/20/19 8:00 PM", "6/20/19 9:00 PM", "6/20/19 10:00 PM", "6/20/19 11:00 PM", "6/21/19 12:00 AM", "6/21/19 1:00 AM", "6/21/19 2:00 AM", "6/21/19 3:00 AM", "6/21/19 4:00 AM", "6/21/19 5:00 AM", "6/21/19 6:00 AM", "6/21/19 7:00 AM", "6/21/19 8:00 AM", "6/21/19 9:00 AM", "6/21/19 10:00 AM", "6/21/19 11:00 AM", "6/21/19 12:00 PM", "6/21/19 1:00 PM", "6/21/19 2:00 PM", "6/21/19 3:00 PM", "6/21/19 4:00 PM", "6/21/19 5:00 PM", "6/21/19 6:00 PM", "6/21/19 7:00 PM", "6/21/19 8:00 PM", "6/21/19 9:00 PM", "6/21/19 10:00 PM", "6/21/19 11:00 PM", "6/22/19 12:00 AM", "6/22/19 1:00 AM", "6/22/19 2:00 AM", "6/22/19 3:00 AM", "6/22/19 4:00 AM", "6/22/19 5:00 AM", "6/22/19 6:00 AM", "6/22/19 7:00 AM", "6/22/19 8:00 AM", "6/22/19 9:00 AM", "6/22/19 10:00 AM", "6/22/19 11:00 AM", "6/22/19 12:00 PM", "6/22/19 1:00 PM", "6/22/19 2:00 PM", "6/22/19 3:00 PM", "6/22/19 4:00 PM", "6/22/19 5:00 PM", "6/22/19 6:00 PM", "6/22/19 7:00 PM", "6/22/19 8:00 PM", "6/22/19 9:00 PM", "6/22/19 10:00 PM", "6/22/19 11:00 PM", "6/23/19 12:00 AM", "6/23/19 1:00 AM", "6/23/19 2:00 AM", "6/23/19 3:00 AM", "6/23/19 4:00 AM", "6/23/19 5:00 AM", "6/23/19 6:00 AM", "6/23/19 7:00 AM", "6/23/19 8:00 AM", "6/23/19 9:00 AM", "6/23/19 10:00 AM", "6/23/19 11:00 AM", "6/23/19 12:00 PM", "6/23/19 1:00 PM", "6/23/19 2:00 PM", "6/23/19 3:00 PM", "6/23/19 4:00 PM", "6/23/19 5:00 PM", "6/23/19 6:00 PM", "6/23/19 7:00 PM", "6/23/19 8:00 PM", "6/23/19 9:00 PM", "6/23/19 10:00 PM", "6/23/19 11:00 PM", "6/24/19 12:00 AM", "6/24/19 1:00 AM", "6/24/19 2:00 AM", "6/24/19 3:00 AM", "6/24/19 4:00 AM", "6/24/19 5:00 AM", "6/24/19 6:00 AM", "6/24/19 7:00 AM", "6/24/19 8:00 AM", "6/24/19 9:00 AM", "6/24/19 10:00 AM", "6/24/19 11:00 AM", "6/24/19 12:00 PM", "6/24/19 1:00 PM", "6/24/19 2:00 PM", "6/24/19 3:00 PM", "6/24/19 4:00 PM", "6/24/19 5:00 PM", "6/24/19 6:00 PM", "6/24/19 7:00 PM", "6/24/19 8:00 PM", "6/24/19 9:00 PM", "6/24/19 10:00 PM", "6/24/19 11:00 PM", "6/25/19 12:00 AM", "6/25/19 1:00 AM", "6/25/19 2:00 AM", "6/25/19 3:00 AM", "6/25/19 4:00 AM", "6/25/19 5:00 AM", "6/25/19 6:00 AM", "6/25/19 7:00 AM", "6/25/19 8:00 AM", "6/25/19 9:00 AM", "6/25/19 10:00 AM", "6/25/19 11:00 AM", "6/25/19 12:00 PM", "6/25/19 1:00 PM", "6/25/19 2:00 PM", "6/25/19 3:00 PM", "6/25/19 4:00 PM", "6/25/19 5:00 PM", "6/25/19 6:00 PM", "6/25/19 7:00 PM", "6/25/19 8:00 PM", "6/25/19 9:00 PM", "6/25/19 10:00 PM", "6/25/19 11:00 PM", "6/26/19 12:00 AM", "6/26/19 1:00 AM", "6/26/19 2:00 AM", "6/26/19 3:00 AM", "6/26/19 4:00 AM", "6/26/19 5:00 AM", "6/26/19 6:00 AM", "6/26/19 7:00 AM", "6/26/19 8:00 AM", "6/26/19 9:00 AM", "6/26/19 10:00 AM", "6/26/19 11:00 AM", "6/26/19 12:00 PM", "6/26/19 1:00 PM", "6/26/19 2:00 PM", "6/26/19 3:00 PM", "6/26/19 4:00 PM", "6/26/19 5:00 PM", "6/26/19 6:00 PM", "6/26/19 7:00 PM", "6/26/19 8:00 PM", "6/26/19 9:00 PM", "6/26/19 10:00 PM", "6/26/19 11:00 PM", "6/27/19 12:00 AM", "6/27/19 1:00 AM", "6/27/19 2:00 AM", "6/27/19 3:00 AM", "6/27/19 4:00 AM", "6/27/19 5:00 AM", "6/27/19 6:00 AM", "6/27/19 7:00 AM", "6/27/19 8:00 AM", "6/27/19 9:00 AM", "6/27/19 10:00 AM", "6/27/19 11:00 AM", "6/27/19 12:00 PM", "6/27/19 1:00 PM", "6/27/19 2:00 PM", "6/27/19 3:00 PM", "6/27/19 4:00 PM", "6/27/19 5:00 PM", "6/27/19 6:00 PM", "6/27/19 7:00 PM", "6/27/19 8:00 PM", "6/27/19 9:00 PM", "6/27/19 10:00 PM", "6/27/19 11:00 PM", "6/28/19 12:00 AM", "6/28/19 1:00 AM", "6/28/19 2:00 AM", "6/28/19 3:00 AM", "6/28/19 4:00 AM", "6/28/19 5:00 AM", "6/28/19 6:00 AM", "6/28/19 7:00 AM", "6/28/19 8:00 AM", "6/28/19 9:00 AM", "6/28/19 10:00 AM", "6/28/19 11:00 AM", "6/28/19 12:00 PM", "6/28/19 1:00 PM", "6/28/19 2:00 PM", "6/28/19 3:00 PM", "6/28/19 4:00 PM", "6/28/19 5:00 PM", "6/28/19 6:00 PM", "6/28/19 7:00 PM", "6/28/19 8:00 PM", "6/28/19 9:00 PM", "6/28/19 10:00 PM", "6/28/19 11:00 PM", "6/29/19 12:00 AM", "6/29/19 1:00 AM", "6/29/19 2:00 AM", "6/29/19 3:00 AM", "6/29/19 4:00 AM", "6/29/19 5:00 AM", "6/29/19 6:00 AM", "6/29/19 7:00 AM", "6/29/19 8:00 AM", "6/29/19 9:00 AM", "6/29/19 10:00 AM", "6/29/19 11:00 AM", "6/29/19 12:00 PM", "6/29/19 1:00 PM", "6/29/19 2:00 PM", "6/29/19 3:00 PM", "6/29/19 4:00 PM", "6/29/19 5:00 PM", "6/29/19 6:00 PM", "6/29/19 7:00 PM", "6/29/19 8:00 PM", "6/29/19 9:00 PM", "6/29/19 10:00 PM", "6/29/19 11:00 PM", "6/30/19 12:00 AM", "6/30/19 1:00 AM", "6/30/19 2:00 AM", "6/30/19 3:00 AM", "6/30/19 4:00 AM", "6/30/19 5:00 AM", "6/30/19 6:00 AM", "6/30/19 7:00 AM", "6/30/19 8:00 AM", "6/30/19 9:00 AM", "6/30/19 10:00 AM", "6/30/19 11:00 AM", "6/30/19 12:00 PM", "6/30/19 1:00 PM", "6/30/19 2:00 PM", "6/30/19 3:00 PM", "6/30/19 4:00 PM", "6/30/19 5:00 PM", "6/30/19 6:00 PM", "6/30/19 7:00 PM", "6/30/19 8:00 PM", "6/30/19 9:00 PM", "6/30/19 10:00 PM", "6/30/19 11:00 PM", "7/1/19 12:00 AM", "7/1/19 1:00 AM", "7/1/19 2:00 AM", "7/1/19 3:00 AM", "7/1/19 4:00 AM", "7/1/19 5:00 AM", "7/1/19 6:00 AM", "7/1/19 7:00 AM", "7/1/19 8:00 AM", "7/1/19 9:00 AM", "7/1/19 10:00 AM", "7/1/19 11:00 AM", "7/1/19 12:00 PM", "7/1/19 1:00 PM", "7/1/19 2:00 PM", "7/1/19 3:00 PM", "7/1/19 4:00 PM", "7/1/19 5:00 PM", "7/1/19 6:00 PM", "7/1/19 7:00 PM", "7/1/19 8:00 PM", "7/1/19 9:00 PM", "7/1/19 10:00 PM", "7/1/19 11:00 PM", "7/2/19 12:00 AM", "7/2/19 1:00 AM", "7/2/19 2:00 AM", "7/2/19 3:00 AM", "7/2/19 4:00 AM", "7/2/19 5:00 AM", "7/2/19 6:00 AM", "7/2/19 7:00 AM", "7/2/19 8:00 AM", "7/2/19 9:00 AM", "7/2/19 10:00 AM", "7/2/19 11:00 AM", "7/2/19 12:00 PM", "7/2/19 1:00 PM", "7/2/19 2:00 PM", "7/2/19 3:00 PM", "7/2/19 4:00 PM", "7/2/19 5:00 PM", "7/2/19 6:00 PM", "7/2/19 7:00 PM", "7/2/19 8:00 PM", "7/2/19 9:00 PM", "7/2/19 10:00 PM", "7/2/19 11:00 PM", "7/3/19 12:00 AM", "7/3/19 1:00 AM", "7/3/19 2:00 AM", "7/3/19 3:00 AM", "7/3/19 4:00 AM", "7/3/19 5:00 AM", "7/3/19 6:00 AM", "7/3/19 7:00 AM", "7/3/19 8:00 AM", "7/3/19 9:00 AM", "7/3/19 10:00 AM", "7/3/19 11:00 AM", "7/3/19 12:00 PM", "7/3/19 1:00 PM", "7/3/19 2:00 PM", "7/3/19 3:00 PM", "7/3/19 4:00 PM", "7/3/19 5:00 PM", "7/3/19 6:00 PM", "7/3/19 7:00 PM", "7/3/19 8:00 PM", "7/3/19 9:00 PM", "7/3/19 10:00 PM", "7/3/19 11:00 PM", "7/4/19 12:00 AM", "7/4/19 1:00 AM", "7/4/19 2:00 AM", "7/4/19 3:00 AM", "7/4/19 4:00 AM", "7/4/19 5:00 AM", "7/4/19 6:00 AM", "7/4/19 7:00 AM", "7/4/19 8:00 AM", "7/4/19 9:00 AM", "7/4/19 10:00 AM", "7/4/19 11:00 AM", "7/4/19 12:00 PM", "7/4/19 1:00 PM", "7/4/19 2:00 PM", "7/4/19 3:00 PM", "7/4/19 4:00 PM", "7/4/19 5:00 PM", "7/4/19 6:00 PM", "7/4/19 7:00 PM", "7/4/19 8:00 PM", "7/4/19 9:00 PM", "7/4/19 10:00 PM", "7/4/19 11:00 PM", "7/5/19 12:00 AM", "7/5/19 1:00 AM", "7/5/19 2:00 AM", "7/5/19 3:00 AM", "7/5/19 4:00 AM", "7/5/19 5:00 AM", "7/5/19 6:00 AM", "7/5/19 7:00 AM", "7/5/19 8:00 AM", "7/5/19 9:00 AM", "7/5/19 10:00 AM", "7/5/19 11:00 AM", "7/5/19 12:00 PM", "7/5/19 1:00 PM", "7/5/19 2:00 PM", "7/5/19 3:00 PM", "7/5/19 4:00 PM", "7/5/19 5:00 PM", "7/5/19 6:00 PM", "7/5/19 7:00 PM", "7/5/19 8:00 PM", "7/5/19 9:00 PM", "7/5/19 10:00 PM", "7/5/19 11:00 PM", "7/6/19 12:00 AM", "7/6/19 1:00 AM", "7/6/19 2:00 AM", "7/6/19 3:00 AM", "7/6/19 4:00 AM", "7/6/19 5:00 AM", "7/6/19 6:00 AM", "7/6/19 7:00 AM", "7/6/19 8:00 AM", "7/6/19 9:00 AM", "7/6/19 10:00 AM", "7/6/19 11:00 AM", "7/6/19 12:00 PM", "7/6/19 1:00 PM", "7/6/19 2:00 PM", "7/6/19 3:00 PM", "7/6/19 4:00 PM", "7/6/19 5:00 PM", "7/6/19 6:00 PM", "7/6/19 7:00 PM", "7/6/19 8:00 PM", "7/6/19 9:00 PM", "7/6/19 10:00 PM", "7/6/19 11:00 PM", "7/7/19 12:00 AM", "7/7/19 1:00 AM", "7/7/19 2:00 AM", "7/7/19 3:00 AM", "7/7/19 4:00 AM", "7/7/19 5:00 AM", "7/7/19 6:00 AM", "7/7/19 7:00 AM", "7/7/19 8:00 AM", "7/7/19 9:00 AM", "7/7/19 10:00 AM", "7/7/19 11:00 AM", "7/7/19 12:00 PM", "7/7/19 1:00 PM", "7/7/19 2:00 PM", "7/7/19 3:00 PM", "7/7/19 4:00 PM", "7/7/19 5:00 PM", "7/7/19 6:00 PM", "7/7/19 7:00 PM", "7/7/19 8:00 PM", "7/7/19 9:00 PM", "7/7/19 10:00 PM", "7/7/19 11:00 PM", "7/8/19 12:00 AM", "7/8/19 1:00 AM", "7/8/19 2:00 AM", "7/8/19 3:00 AM", "7/8/19 4:00 AM", "7/8/19 5:00 AM", "7/8/19 6:00 AM", "7/8/19 7:00 AM", "7/8/19 8:00 AM", "7/8/19 9:00 AM", "7/8/19 10:00 AM", "7/8/19 11:00 AM", "7/8/19 12:00 PM", "7/8/19 1:00 PM", "7/8/19 2:00 PM", "7/8/19 3:00 PM", "7/8/19 4:00 PM", "7/8/19 5:00 PM", "7/8/19 6:00 PM", "7/8/19 7:00 PM", "7/8/19 8:00 PM", "7/8/19 9:00 PM", "7/8/19 10:00 PM", "7/8/19 11:00 PM", "7/9/19 12:00 AM", "7/9/19 1:00 AM", "7/9/19 2:00 AM", "7/9/19 3:00 AM", "7/9/19 4:00 AM", "7/9/19 5:00 AM", "7/9/19 6:00 AM", "7/9/19 7:00 AM", "7/9/19 8:00 AM", "7/9/19 9:00 AM", "7/9/19 10:00 AM", "7/9/19 11:00 AM", "7/9/19 12:00 PM", "7/9/19 1:00 PM", "7/9/19 2:00 PM", "7/9/19 3:00 PM", "7/9/19 4:00 PM", "7/9/19 5:00 PM", "7/9/19 6:00 PM", "7/9/19 7:00 PM", "7/9/19 8:00 PM", "7/9/19 9:00 PM", "7/9/19 10:00 PM", "7/9/19 11:00 PM", "7/10/19 12:00 AM", "7/10/19 1:00 AM", "7/10/19 2:00 AM", "7/10/19 3:00 AM", "7/10/19 4:00 AM", "7/10/19 5:00 AM", "7/10/19 6:00 AM", "7/10/19 7:00 AM", "7/10/19 8:00 AM", "7/10/19 9:00 AM", "7/10/19 10:00 AM", "7/10/19 11:00 AM", "7/10/19 12:00 PM", "7/10/19 1:00 PM", "7/10/19 2:00 PM", "7/10/19 3:00 PM", "7/10/19 4:00 PM", "7/10/19 5:00 PM", "7/10/19 6:00 PM", "7/10/19 7:00 PM", "7/10/19 8:00 PM", "7/10/19 9:00 PM", "7/10/19 10:00 PM", "7/10/19 11:00 PM", "7/11/19 12:00 AM", "7/11/19 1:00 AM", "7/11/19 2:00 AM", "7/11/19 3:00 AM", "7/11/19 4:00 AM", "7/11/19 5:00 AM", "7/11/19 6:00 AM", "7/11/19 7:00 AM", "7/11/19 8:00 AM", "7/11/19 9:00 AM", "7/11/19 10:00 AM", "7/11/19 11:00 AM", "7/11/19 12:00 PM", "7/11/19 1:00 PM", "7/11/19 2:00 PM", "7/11/19 3:00 PM", "7/11/19 4:00 PM", "7/11/19 5:00 PM", "7/11/19 6:00 PM", "7/11/19 7:00 PM", "7/11/19 8:00 PM", "7/11/19 9:00 PM", "7/11/19 10:00 PM", "7/11/19 11:00 PM", "7/12/19 12:00 AM", "7/12/19 1:00 AM", "7/12/19 2:00 AM", "7/12/19 3:00 AM", "7/12/19 4:00 AM", "7/12/19 5:00 AM", "7/12/19 6:00 AM", "7/12/19 7:00 AM", "7/12/19 8:00 AM", "7/12/19 9:00 AM", "7/12/19 10:00 AM", "7/12/19 11:00 AM", "7/12/19 12:00 PM", "7/12/19 1:00 PM", "7/12/19 2:00 PM", "7/12/19 3:00 PM", "7/12/19 4:00 PM", "7/12/19 5:00 PM", "7/12/19 6:00 PM", "7/12/19 7:00 PM", "7/12/19 8:00 PM", "7/12/19 9:00 PM", "7/12/19 10:00 PM", "7/12/19 11:00 PM", "7/13/19 12:00 AM", "7/13/19 1:00 AM", "7/13/19 2:00 AM", "7/13/19 3:00 AM", "7/13/19 4:00 AM", "7/13/19 5:00 AM", "7/13/19 6:00 AM", "7/13/19 7:00 AM", "7/13/19 8:00 AM", "7/13/19 9:00 AM", "7/13/19 10:00 AM", "7/13/19 11:00 AM", "7/13/19 12:00 PM", "7/13/19 1:00 PM", "7/13/19 2:00 PM", "7/13/19 3:00 PM", "7/13/19 4:00 PM", "7/13/19 5:00 PM", "7/13/19 6:00 PM", "7/13/19 7:00 PM", "7/13/19 8:00 PM", "7/13/19 9:00 PM", "7/13/19 10:00 PM", "7/13/19 11:00 PM", "7/14/19 12:00 AM", "7/14/19 1:00 AM", "7/14/19 2:00 AM", "7/14/19 3:00 AM", "7/14/19 4:00 AM", "7/14/19 5:00 AM", "7/14/19 6:00 AM", "7/14/19 7:00 AM", "7/14/19 8:00 AM", "7/14/19 9:00 AM", "7/14/19 10:00 AM", "7/14/19 11:00 AM", "7/14/19 12:00 PM", "7/14/19 1:00 PM", "7/14/19 2:00 PM", "7/14/19 3:00 PM", "7/14/19 4:00 PM", "7/14/19 5:00 PM", "7/14/19 6:00 PM", "7/14/19 7:00 PM", "7/14/19 8:00 PM", "7/14/19 9:00 PM", "7/14/19 10:00 PM", "7/14/19 11:00 PM", "7/15/19 12:00 AM", "7/15/19 1:00 AM", "7/15/19 2:00 AM", "7/15/19 3:00 AM", "7/15/19 4:00 AM", "7/15/19 5:00 AM", "7/15/19 6:00 AM", "7/15/19 7:00 AM", "7/15/19 8:00 AM", "7/15/19 9:00 AM", "7/15/19 10:00 AM", "7/15/19 11:00 AM", "7/15/19 12:00 PM", "7/15/19 1:00 PM", "7/15/19 2:00 PM", "7/15/19 3:00 PM", "7/15/19 4:00 PM", "7/15/19 5:00 PM", "7/15/19 6:00 PM", "7/15/19 7:00 PM", "7/15/19 8:00 PM", "7/15/19 9:00 PM", "7/15/19 10:00 PM", "7/15/19 11:00 PM", "7/16/19 12:00 AM", "7/16/19 1:00 AM", "7/16/19 2:00 AM", "7/16/19 3:00 AM", "7/16/19 4:00 AM", "7/16/19 5:00 AM", "7/16/19 6:00 AM", "7/16/19 7:00 AM", "7/16/19 8:00 AM", "7/16/19 9:00 AM", "7/16/19 10:00 AM", "7/16/19 11:00 AM", "7/16/19 12:00 PM", "7/16/19 1:00 PM", "7/16/19 2:00 PM", "7/16/19 3:00 PM", "7/16/19 4:00 PM", "7/16/19 5:00 PM", "7/16/19 6:00 PM", "7/16/19 7:00 PM", "7/16/19 8:00 PM", "7/16/19 9:00 PM", "7/16/19 10:00 PM", "7/16/19 11:00 PM", "7/17/19 12:00 AM", "7/17/19 1:00 AM", "7/17/19 2:00 AM", "7/17/19 3:00 AM", "7/17/19 4:00 AM", "7/17/19 5:00 AM", "7/17/19 6:00 AM", "7/17/19 7:00 AM", "7/17/19 8:00 AM", "7/17/19 9:00 AM", "7/17/19 10:00 AM", "7/17/19 11:00 AM", "7/17/19 12:00 PM", "7/17/19 1:00 PM", "7/17/19 2:00 PM", "7/17/19 3:00 PM", "7/17/19 4:00 PM", "7/17/19 5:00 PM", "7/17/19 6:00 PM", "7/17/19 7:00 PM", "7/17/19 8:00 PM", "7/17/19 9:00 PM", "7/17/19 10:00 PM", "7/17/19 11:00 PM", "7/18/19 12:00 AM", "7/18/19 1:00 AM", "7/18/19 2:00 AM", "7/18/19 3:00 AM", "7/18/19 4:00 AM", "7/18/19 5:00 AM", "7/18/19 6:00 AM", "7/18/19 7:00 AM", "7/18/19 8:00 AM", "7/18/19 9:00 AM", "7/18/19 10:00 AM", "7/18/19 11:00 AM", "7/18/19 12:00 PM", "7/18/19 1:00 PM", "7/18/19 2:00 PM", "7/18/19 3:00 PM", "7/18/19 4:00 PM", "7/18/19 5:00 PM", "7/18/19 6:00 PM", "7/18/19 7:00 PM", "7/18/19 8:00 PM", "7/18/19 9:00 PM", "7/18/19 10:00 PM", "7/18/19 11:00 PM", "7/19/19 12:00 AM", "7/19/19 1:00 AM", "7/19/19 2:00 AM", "7/19/19 3:00 AM", "7/19/19 4:00 AM", "7/19/19 5:00 AM", "7/19/19 6:00 AM", "7/19/19 7:00 AM", "7/19/19 8:00 AM", "7/19/19 9:00 AM", "7/19/19 10:00 AM", "7/19/19 11:00 AM", "7/19/19 12:00 PM", "7/19/19 1:00 PM", "7/19/19 2:00 PM", "7/19/19 3:00 PM", "7/19/19 4:00 PM", "7/19/19 5:00 PM", "7/19/19 6:00 PM", "7/19/19 7:00 PM", "7/19/19 8:00 PM", "7/19/19 9:00 PM", "7/19/19 10:00 PM", "7/19/19 11:00 PM", "7/20/19 12:00 AM", "7/20/19 1:00 AM", "7/20/19 2:00 AM", "7/20/19 3:00 AM", "7/20/19 4:00 AM", "7/20/19 5:00 AM", "7/20/19 6:00 AM", "7/20/19 7:00 AM", "7/20/19 8:00 AM", "7/20/19 9:00 AM", "7/20/19 10:00 AM", "7/20/19 11:00 AM", "7/20/19 12:00 PM", "7/20/19 1:00 PM", "7/20/19 2:00 PM", "7/20/19 3:00 PM", "7/20/19 4:00 PM", "7/20/19 5:00 PM", "7/20/19 6:00 PM", "7/20/19 7:00 PM", "7/20/19 8:00 PM", "7/20/19 9:00 PM", "7/20/19 10:00 PM", "7/20/19 11:00 PM", "7/21/19 12:00 AM", "7/21/19 1:00 AM", "7/21/19 2:00 AM", "7/21/19 3:00 AM", "7/21/19 4:00 AM", "7/21/19 5:00 AM", "7/21/19 6:00 AM", "7/21/19 7:00 AM", "7/21/19 8:00 AM", "7/21/19 9:00 AM", "7/21/19 10:00 AM", "7/21/19 11:00 AM", "7/21/19 12:00 PM", "7/21/19 1:00 PM", "7/21/19 2:00 PM", "7/21/19 3:00 PM", "7/21/19 4:00 PM", "7/21/19 5:00 PM", "7/21/19 6:00 PM", "7/21/19 7:00 PM", "7/21/19 8:00 PM", "7/21/19 9:00 PM", "7/21/19 10:00 PM", "7/21/19 11:00 PM", "7/22/19 12:00 AM", "7/22/19 1:00 AM", "7/22/19 2:00 AM", "7/22/19 3:00 AM", "7/22/19 4:00 AM", "7/22/19 5:00 AM", "7/22/19 6:00 AM", "7/22/19 7:00 AM", "7/22/19 8:00 AM", "7/22/19 9:00 AM", "7/22/19 10:00 AM", "7/22/19 11:00 AM", "7/22/19 12:00 PM", "7/22/19 1:00 PM", "7/22/19 2:00 PM", "7/22/19 3:00 PM", "7/22/19 4:00 PM", "7/22/19 5:00 PM", "7/22/19 6:00 PM", "7/22/19 7:00 PM", "7/22/19 8:00 PM", "7/22/19 9:00 PM", "7/22/19 10:00 PM", "7/22/19 11:00 PM", "7/23/19 12:00 AM", "7/23/19 1:00 AM", "7/23/19 2:00 AM", "7/23/19 3:00 AM", "7/23/19 4:00 AM", "7/23/19 5:00 AM", "7/23/19 6:00 AM", "7/23/19 7:00 AM", "7/23/19 8:00 AM", "7/23/19 9:00 AM", "7/23/19 10:00 AM", "7/23/19 11:00 AM", "7/23/19 12:00 PM", "7/23/19 1:00 PM", "7/23/19 2:00 PM", "7/23/19 3:00 PM", "7/23/19 4:00 PM", "7/23/19 5:00 PM", "7/23/19 6:00 PM", "7/23/19 7:00 PM", "7/23/19 8:00 PM", "7/23/19 9:00 PM", "7/23/19 10:00 PM", "7/23/19 11:00 PM", "7/24/19 12:00 AM", "7/24/19 1:00 AM", "7/24/19 2:00 AM", "7/24/19 3:00 AM", "7/24/19 4:00 AM", "7/24/19 5:00 AM", "7/24/19 6:00 AM", "7/24/19 7:00 AM", "7/24/19 8:00 AM", "7/24/19 9:00 AM", "7/24/19 10:00 AM", "7/24/19 11:00 AM", "7/24/19 12:00 PM", "7/24/19 1:00 PM", "7/24/19 2:00 PM", "7/24/19 3:00 PM", "7/24/19 4:00 PM", "7/24/19 5:00 PM", "7/24/19 6:00 PM", "7/24/19 7:00 PM", "7/24/19 8:00 PM", "7/24/19 9:00 PM", "7/24/19 10:00 PM", "7/24/19 11:00 PM", "7/25/19 12:00 AM", "7/25/19 1:00 AM", "7/25/19 2:00 AM", "7/25/19 3:00 AM", "7/25/19 4:00 AM", "7/25/19 5:00 AM", "7/25/19 6:00 AM", "7/25/19 7:00 AM", "7/25/19 8:00 AM", "7/25/19 9:00 AM", "7/25/19 10:00 AM", "7/25/19 11:00 AM", "7/25/19 12:00 PM", "7/25/19 1:00 PM", "7/25/19 2:00 PM", "7/25/19 3:00 PM", "7/25/19 4:00 PM", "7/25/19 5:00 PM", "7/25/19 6:00 PM", "7/25/19 7:00 PM", "7/25/19 8:00 PM", "7/25/19 9:00 PM", "7/25/19 10:00 PM", "7/25/19 11:00 PM", "7/26/19 12:00 AM", "7/26/19 1:00 AM", "7/26/19 2:00 AM", "7/26/19 3:00 AM", "7/26/19 4:00 AM", "7/26/19 5:00 AM", "7/26/19 6:00 AM", "7/26/19 7:00 AM", "7/26/19 8:00 AM", "7/26/19 9:00 AM", "7/26/19 10:00 AM", "7/26/19 11:00 AM", "7/26/19 12:00 PM", "7/26/19 1:00 PM", "7/26/19 2:00 PM", "7/26/19 3:00 PM", "7/26/19 4:00 PM", "7/26/19 5:00 PM", "7/26/19 6:00 PM", "7/26/19 7:00 PM", "7/26/19 8:00 PM", "7/26/19 9:00 PM", "7/26/19 10:00 PM", "7/26/19 11:00 PM", "7/27/19 12:00 AM", "7/27/19 1:00 AM", "7/27/19 2:00 AM", "7/27/19 3:00 AM", "7/27/19 4:00 AM", "7/27/19 5:00 AM", "7/27/19 6:00 AM", "7/27/19 7:00 AM", "7/27/19 8:00 AM", "7/27/19 9:00 AM", "7/27/19 10:00 AM", "7/27/19 11:00 AM", "7/27/19 12:00 PM", "7/27/19 1:00 PM", "7/27/19 2:00 PM", "7/27/19 3:00 PM", "7/27/19 4:00 PM", "7/27/19 5:00 PM", "7/27/19 6:00 PM", "7/27/19 7:00 PM", "7/27/19 8:00 PM", "7/27/19 9:00 PM", "7/27/19 10:00 PM", "7/27/19 11:00 PM", "7/28/19 12:00 AM", "7/28/19 1:00 AM", "7/28/19 2:00 AM", "7/28/19 3:00 AM", "7/28/19 4:00 AM", "7/28/19 5:00 AM", "7/28/19 6:00 AM", "7/28/19 7:00 AM", "7/28/19 8:00 AM", "7/28/19 9:00 AM", "7/28/19 10:00 AM", "7/28/19 11:00 AM", "7/28/19 12:00 PM", "7/28/19 1:00 PM", "7/28/19 2:00 PM", "7/28/19 3:00 PM", "7/28/19 4:00 PM", "7/28/19 5:00 PM", "7/28/19 6:00 PM", "7/28/19 7:00 PM", "7/28/19 8:00 PM", "7/28/19 9:00 PM", "7/28/19 10:00 PM", "7/28/19 11:00 PM", "7/29/19 12:00 AM", "7/29/19 1:00 AM", "7/29/19 2:00 AM", "7/29/19 3:00 AM", "7/29/19 4:00 AM", "7/29/19 5:00 AM", "7/29/19 6:00 AM", "7/29/19 7:00 AM", "7/29/19 8:00 AM", "7/29/19 9:00 AM", "7/29/19 10:00 AM", "7/29/19 11:00 AM", "7/29/19 12:00 PM", "7/29/19 1:00 PM", "7/29/19 2:00 PM", "7/29/19 3:00 PM", "7/29/19 4:00 PM", "7/29/19 5:00 PM", "7/29/19 6:00 PM", "7/29/19 7:00 PM", "7/29/19 8:00 PM", "7/29/19 9:00 PM", "7/29/19 10:00 PM", "7/29/19 11:00 PM", "7/30/19 12:00 AM", "7/30/19 1:00 AM", "7/30/19 2:00 AM", "7/30/19 3:00 AM", "7/30/19 4:00 AM", "7/30/19 5:00 AM", "7/30/19 6:00 AM", "7/30/19 7:00 AM", "7/30/19 8:00 AM", "7/30/19 9:00 AM", "7/30/19 10:00 AM", "7/30/19 11:00 AM", "7/30/19 12:00 PM", "7/30/19 1:00 PM", "7/30/19 2:00 PM", "7/30/19 3:00 PM", "7/30/19 4:00 PM", "7/30/19 5:00 PM", "7/30/19 6:00 PM", "7/30/19 7:00 PM", "7/30/19 8:00 PM", "7/30/19 9:00 PM", "7/30/19 10:00 PM", "7/30/19 11:00 PM", "7/31/19 12:00 AM", "7/31/19 1:00 AM", "7/31/19 2:00 AM", "7/31/19 3:00 AM", "7/31/19 4:00 AM", "7/31/19 5:00 AM", "7/31/19 6:00 AM", "7/31/19 7:00 AM", "7/31/19 8:00 AM", "7/31/19 9:00 AM", "7/31/19 10:00 AM", "7/31/19 11:00 AM", "7/31/19 12:00 PM", "7/31/19 1:00 PM", "7/31/19 2:00 PM", "7/31/19 3:00 PM", "7/31/19 4:00 PM", "7/31/19 5:00 PM", "7/31/19 6:00 PM", "7/31/19 7:00 PM", "7/31/19 8:00 PM", "7/31/19 9:00 PM", "7/31/19 10:00 PM", "7/31/19 11:00 PM", "8/1/19 12:00 AM", "8/1/19 1:00 AM", "8/1/19 2:00 AM", "8/1/19 3:00 AM", "8/1/19 4:00 AM", "8/1/19 5:00 AM", "8/1/19 6:00 AM", "8/1/19 7:00 AM", "8/1/19 8:00 AM", "8/1/19 9:00 AM", "8/1/19 10:00 AM", "8/1/19 11:00 AM", "8/1/19 12:00 PM", "8/1/19 1:00 PM", "8/1/19 2:00 PM", "8/1/19 3:00 PM", "8/1/19 4:00 PM", "8/1/19 5:00 PM", "8/1/19 6:00 PM", "8/1/19 7:00 PM", "8/1/19 8:00 PM", "8/1/19 9:00 PM", "8/1/19 10:00 PM", "8/1/19 11:00 PM", "8/2/19 12:00 AM", "8/2/19 1:00 AM", "8/2/19 2:00 AM", "8/2/19 3:00 AM", "8/2/19 4:00 AM", "8/2/19 5:00 AM", "8/2/19 6:00 AM", "8/2/19 7:00 AM", "8/2/19 8:00 AM", "8/2/19 9:00 AM", "8/2/19 10:00 AM", "8/2/19 11:00 AM", "8/2/19 12:00 PM", "8/2/19 1:00 PM", "8/2/19 2:00 PM", "8/2/19 3:00 PM", "8/2/19 4:00 PM", "8/2/19 5:00 PM", "8/2/19 6:00 PM", "8/2/19 7:00 PM", "8/2/19 8:00 PM", "8/2/19 9:00 PM", "8/2/19 10:00 PM", "8/2/19 11:00 PM", "8/3/19 12:00 AM", "8/3/19 1:00 AM", "8/3/19 2:00 AM", "8/3/19 3:00 AM", "8/3/19 4:00 AM", "8/3/19 5:00 AM", "8/3/19 6:00 AM", "8/3/19 7:00 AM", "8/3/19 8:00 AM", "8/3/19 9:00 AM", "8/3/19 10:00 AM", "8/3/19 11:00 AM", "8/3/19 12:00 PM", "8/3/19 1:00 PM", "8/3/19 2:00 PM", "8/3/19 3:00 PM", "8/3/19 4:00 PM", "8/3/19 5:00 PM", "8/3/19 6:00 PM", "8/3/19 7:00 PM", "8/3/19 8:00 PM", "8/3/19 9:00 PM", "8/3/19 10:00 PM", "8/3/19 11:00 PM", "8/4/19 12:00 AM", "8/4/19 1:00 AM", "8/4/19 2:00 AM", "8/4/19 3:00 AM", "8/4/19 4:00 AM", "8/4/19 5:00 AM", "8/4/19 6:00 AM", "8/4/19 7:00 AM", "8/4/19 8:00 AM", "8/4/19 9:00 AM", "8/4/19 10:00 AM", "8/4/19 11:00 AM", "8/4/19 12:00 PM", "8/4/19 1:00 PM", "8/4/19 2:00 PM", "8/4/19 3:00 PM", "8/4/19 4:00 PM", "8/4/19 5:00 PM", "8/4/19 6:00 PM", "8/4/19 7:00 PM", "8/4/19 8:00 PM", "8/4/19 9:00 PM", "8/4/19 10:00 PM", "8/4/19 11:00 PM", "8/5/19 12:00 AM", "8/5/19 1:00 AM", "8/5/19 2:00 AM", "8/5/19 3:00 AM", "8/5/19 4:00 AM", "8/5/19 5:00 AM", "8/5/19 6:00 AM", "8/5/19 7:00 AM", "8/5/19 8:00 AM", "8/5/19 9:00 AM", "8/5/19 10:00 AM", "8/5/19 11:00 AM", "8/5/19 12:00 PM", "8/5/19 1:00 PM", "8/5/19 2:00 PM", "8/5/19 3:00 PM", "8/5/19 4:00 PM", "8/5/19 5:00 PM", "8/5/19 6:00 PM", "8/5/19 7:00 PM", "8/5/19 8:00 PM", "8/5/19 9:00 PM", "8/5/19 10:00 PM", "8/5/19 11:00 PM", "8/6/19 12:00 AM", "8/6/19 1:00 AM", "8/6/19 2:00 AM", "8/6/19 3:00 AM", "8/6/19 4:00 AM", "8/6/19 5:00 AM", "8/6/19 6:00 AM", "8/6/19 7:00 AM", "8/6/19 8:00 AM", "8/6/19 9:00 AM", "8/6/19 10:00 AM", "8/6/19 11:00 AM", "8/6/19 12:00 PM", "8/6/19 1:00 PM", "8/6/19 2:00 PM", "8/6/19 3:00 PM", "8/6/19 4:00 PM", "8/6/19 5:00 PM", "8/6/19 6:00 PM", "8/6/19 7:00 PM", "8/6/19 8:00 PM", "8/6/19 9:00 PM", "8/6/19 10:00 PM", "8/6/19 11:00 PM", "8/7/19 12:00 AM", "8/7/19 1:00 AM", "8/7/19 2:00 AM", "8/7/19 3:00 AM", "8/7/19 4:00 AM", "8/7/19 5:00 AM", "8/7/19 6:00 AM", "8/7/19 7:00 AM", "8/7/19 8:00 AM", "8/7/19 9:00 AM", "8/7/19 10:00 AM", "8/7/19 11:00 AM", "8/7/19 12:00 PM", "8/7/19 1:00 PM", "8/7/19 2:00 PM", "8/7/19 3:00 PM", "8/7/19 4:00 PM", "8/7/19 5:00 PM", "8/7/19 6:00 PM", "8/7/19 7:00 PM", "8/7/19 8:00 PM", "8/7/19 9:00 PM", "8/7/19 10:00 PM", "8/7/19 11:00 PM", "8/8/19 12:00 AM", "8/8/19 1:00 AM", "8/8/19 2:00 AM", "8/8/19 3:00 AM", "8/8/19 4:00 AM", "8/8/19 5:00 AM", "8/8/19 6:00 AM", "8/8/19 7:00 AM", "8/8/19 8:00 AM", "8/8/19 9:00 AM", "8/8/19 10:00 AM", "8/8/19 11:00 AM", "8/8/19 12:00 PM", "8/8/19 1:00 PM", "8/8/19 2:00 PM", "8/8/19 3:00 PM", "8/8/19 4:00 PM", "8/8/19 5:00 PM", "8/8/19 6:00 PM", "8/8/19 7:00 PM", "8/8/19 8:00 PM", "8/8/19 9:00 PM", "8/8/19 10:00 PM", "8/8/19 11:00 PM", "8/9/19 12:00 AM", "8/9/19 1:00 AM", "8/9/19 2:00 AM", "8/9/19 3:00 AM", "8/9/19 4:00 AM", "8/9/19 5:00 AM", "8/9/19 6:00 AM", "8/9/19 7:00 AM", "8/9/19 8:00 AM", "8/9/19 9:00 AM", "8/9/19 10:00 AM", "8/9/19 11:00 AM", "8/9/19 12:00 PM", "8/9/19 1:00 PM", "8/9/19 2:00 PM", "8/9/19 3:00 PM", "8/9/19 4:00 PM", "8/9/19 5:00 PM", "8/9/19 6:00 PM", "8/9/19 7:00 PM", "8/9/19 8:00 PM", "8/9/19 9:00 PM", "8/9/19 10:00 PM", "8/9/19 11:00 PM", "8/10/19 12:00 AM", "8/10/19 1:00 AM", "8/10/19 2:00 AM", "8/10/19 3:00 AM", "8/10/19 4:00 AM", "8/10/19 5:00 AM", "8/10/19 6:00 AM", "8/10/19 7:00 AM", "8/10/19 8:00 AM", "8/10/19 9:00 AM", "8/10/19 10:00 AM", "8/10/19 11:00 AM", "8/10/19 12:00 PM", "8/10/19 1:00 PM", "8/10/19 2:00 PM", "8/10/19 3:00 PM", "8/10/19 4:00 PM", "8/10/19 5:00 PM", "8/10/19 6:00 PM", "8/10/19 7:00 PM", "8/10/19 8:00 PM", "8/10/19 9:00 PM", "8/10/19 10:00 PM", "8/10/19 11:00 PM", "8/11/19 12:00 AM", "8/11/19 1:00 AM", "8/11/19 2:00 AM", "8/11/19 3:00 AM", "8/11/19 4:00 AM", "8/11/19 5:00 AM", "8/11/19 6:00 AM", "8/11/19 7:00 AM", "8/11/19 8:00 AM", "8/11/19 9:00 AM", "8/11/19 10:00 AM", "8/11/19 11:00 AM", "8/11/19 12:00 PM", "8/11/19 1:00 PM", "8/11/19 2:00 PM", "8/11/19 3:00 PM", "8/11/19 4:00 PM", "8/11/19 5:00 PM", "8/11/19 6:00 PM", "8/11/19 7:00 PM", "8/11/19 8:00 PM", "8/11/19 9:00 PM", "8/11/19 10:00 PM", "8/11/19 11:00 PM", "8/12/19 12:00 AM", "8/12/19 1:00 AM", "8/12/19 2:00 AM", "8/12/19 3:00 AM", "8/12/19 4:00 AM", "8/12/19 5:00 AM", "8/12/19 6:00 AM", "8/12/19 7:00 AM", "8/12/19 8:00 AM", "8/12/19 9:00 AM", "8/12/19 10:00 AM", "8/12/19 11:00 AM", "8/12/19 12:00 PM", "8/12/19 1:00 PM", "8/12/19 2:00 PM", "8/12/19 3:00 PM", "8/12/19 4:00 PM", "8/12/19 5:00 PM", "8/12/19 6:00 PM", "8/12/19 7:00 PM", "8/12/19 8:00 PM", "8/12/19 9:00 PM", "8/12/19 10:00 PM", "8/12/19 11:00 PM", "8/13/19 12:00 AM", "8/13/19 1:00 AM", "8/13/19 2:00 AM", "8/13/19 3:00 AM", "8/13/19 4:00 AM", "8/13/19 5:00 AM", "8/13/19 6:00 AM", "8/13/19 7:00 AM", "8/13/19 8:00 AM", "8/13/19 9:00 AM", "8/13/19 10:00 AM", "8/13/19 11:00 AM", "8/13/19 12:00 PM", "8/13/19 1:00 PM", "8/13/19 2:00 PM", "8/13/19 3:00 PM", "8/13/19 4:00 PM", "8/13/19 5:00 PM", "8/13/19 6:00 PM", "8/13/19 7:00 PM", "8/13/19 8:00 PM", "8/13/19 9:00 PM", "8/13/19 10:00 PM", "8/13/19 11:00 PM", "8/14/19 12:00 AM", "8/14/19 1:00 AM", "8/14/19 2:00 AM", "8/14/19 3:00 AM", "8/14/19 4:00 AM", "8/14/19 5:00 AM", "8/14/19 6:00 AM", "8/14/19 7:00 AM", "8/14/19 8:00 AM", "8/14/19 9:00 AM", "8/14/19 10:00 AM", "8/14/19 11:00 AM", "8/14/19 12:00 PM", "8/14/19 1:00 PM", "8/14/19 2:00 PM", "8/14/19 3:00 PM", "8/14/19 4:00 PM", "8/14/19 5:00 PM", "8/14/19 6:00 PM", "8/14/19 7:00 PM", "8/14/19 8:00 PM", "8/14/19 9:00 PM", "8/14/19 10:00 PM", "8/14/19 11:00 PM", "8/15/19 12:00 AM", "8/15/19 1:00 AM", "8/15/19 2:00 AM", "8/15/19 3:00 AM", "8/15/19 4:00 AM", "8/15/19 5:00 AM", "8/15/19 6:00 AM", "8/15/19 7:00 AM", "8/15/19 8:00 AM", "8/15/19 9:00 AM", "8/15/19 10:00 AM", "8/15/19 11:00 AM", "8/15/19 12:00 PM", "8/15/19 1:00 PM", "8/15/19 2:00 PM", "8/15/19 3:00 PM", "8/15/19 4:00 PM", "8/15/19 5:00 PM", "8/15/19 6:00 PM", "8/15/19 7:00 PM", "8/15/19 8:00 PM", "8/15/19 9:00 PM", "8/15/19 10:00 PM", "8/15/19 11:00 PM", "8/16/19 12:00 AM", "8/16/19 1:00 AM", "8/16/19 2:00 AM", "8/16/19 3:00 AM", "8/16/19 4:00 AM", "8/16/19 5:00 AM", "8/16/19 6:00 AM", "8/16/19 7:00 AM", "8/16/19 8:00 AM", "8/16/19 9:00 AM", "8/16/19 10:00 AM", "8/16/19 11:00 AM", "8/16/19 12:00 PM", "8/16/19 1:00 PM", "8/16/19 2:00 PM", "8/16/19 3:00 PM", "8/16/19 4:00 PM", "8/16/19 5:00 PM", "8/16/19 6:00 PM", "8/16/19 7:00 PM", "8/16/19 8:00 PM", "8/16/19 9:00 PM", "8/16/19 10:00 PM", "8/16/19 11:00 PM", "8/17/19 12:00 AM", "8/17/19 1:00 AM", "8/17/19 2:00 AM", "8/17/19 3:00 AM", "8/17/19 4:00 AM", "8/17/19 5:00 AM", "8/17/19 6:00 AM", "8/17/19 7:00 AM", "8/17/19 8:00 AM", "8/17/19 9:00 AM", "8/17/19 10:00 AM", "8/17/19 11:00 AM", "8/17/19 12:00 PM", "8/17/19 1:00 PM", "8/17/19 2:00 PM", "8/17/19 3:00 PM", "8/17/19 4:00 PM", "8/17/19 5:00 PM", "8/17/19 6:00 PM", "8/17/19 7:00 PM", "8/17/19 8:00 PM", "8/17/19 9:00 PM", "8/17/19 10:00 PM", "8/17/19 11:00 PM", "8/18/19 12:00 AM", "8/18/19 1:00 AM", "8/18/19 2:00 AM", "8/18/19 3:00 AM", "8/18/19 4:00 AM", "8/18/19 5:00 AM", "8/18/19 6:00 AM", "8/18/19 7:00 AM", "8/18/19 8:00 AM", "8/18/19 9:00 AM", "8/18/19 10:00 AM", "8/18/19 11:00 AM", "8/18/19 12:00 PM", "8/18/19 1:00 PM", "8/18/19 2:00 PM", "8/18/19 3:00 PM", "8/18/19 4:00 PM", "8/18/19 5:00 PM", "8/18/19 6:00 PM", "8/18/19 7:00 PM", "8/18/19 8:00 PM", "8/18/19 9:00 PM", "8/18/19 10:00 PM", "8/18/19 11:00 PM", "8/19/19 12:00 AM", "8/19/19 1:00 AM", "8/19/19 2:00 AM", "8/19/19 3:00 AM", "8/19/19 4:00 AM", "8/19/19 5:00 AM", "8/19/19 6:00 AM", "8/19/19 7:00 AM", "8/19/19 8:00 AM", "8/19/19 9:00 AM", "8/19/19 10:00 AM", "8/19/19 11:00 AM", "8/19/19 12:00 PM", "8/19/19 1:00 PM", "8/19/19 2:00 PM", "8/19/19 3:00 PM", "8/19/19 4:00 PM", "8/19/19 5:00 PM", "8/19/19 6:00 PM", "8/19/19 7:00 PM", "8/19/19 8:00 PM", "8/19/19 9:00 PM", "8/19/19 10:00 PM", "8/19/19 11:00 PM", "8/20/19 12:00 AM", "8/20/19 1:00 AM", "8/20/19 2:00 AM", "8/20/19 3:00 AM", "8/20/19 4:00 AM", "8/20/19 5:00 AM", "8/20/19 6:00 AM", "8/20/19 7:00 AM", "8/20/19 8:00 AM", "8/20/19 9:00 AM", "8/20/19 10:00 AM", "8/20/19 11:00 AM", "8/20/19 12:00 PM", "8/20/19 1:00 PM", "8/20/19 2:00 PM", "8/20/19 3:00 PM", "8/20/19 4:00 PM", "8/20/19 5:00 PM", "8/20/19 6:00 PM", "8/20/19 7:00 PM", "8/20/19 8:00 PM", "8/20/19 9:00 PM", "8/20/19 10:00 PM", "8/20/19 11:00 PM", "8/21/19 12:00 AM", "8/21/19 1:00 AM", "8/21/19 2:00 AM", "8/21/19 3:00 AM", "8/21/19 4:00 AM", "8/21/19 5:00 AM", "8/21/19 6:00 AM", "8/21/19 7:00 AM", "8/21/19 8:00 AM", "8/21/19 9:00 AM", "8/21/19 10:00 AM", "8/21/19 11:00 AM", "8/21/19 12:00 PM", "8/21/19 1:00 PM", "8/21/19 2:00 PM", "8/21/19 3:00 PM", "8/21/19 4:00 PM", "8/21/19 5:00 PM", "8/21/19 6:00 PM", "8/21/19 7:00 PM", "8/21/19 8:00 PM", "8/21/19 9:00 PM", "8/21/19 10:00 PM", "8/21/19 11:00 PM", "8/22/19 12:00 AM", "8/22/19 1:00 AM", "8/22/19 2:00 AM", "8/22/19 3:00 AM", "8/22/19 4:00 AM", "8/22/19 5:00 AM", "8/22/19 6:00 AM", "8/22/19 7:00 AM", "8/22/19 8:00 AM", "8/22/19 9:00 AM", "8/22/19 10:00 AM", "8/22/19 11:00 AM", "8/22/19 12:00 PM", "8/22/19 1:00 PM", "8/22/19 2:00 PM", "8/22/19 3:00 PM", "8/22/19 4:00 PM", "8/22/19 5:00 PM", "8/22/19 6:00 PM", "8/22/19 7:00 PM", "8/22/19 8:00 PM", "8/22/19 9:00 PM", "8/22/19 10:00 PM", "8/22/19 11:00 PM", "8/23/19 12:00 AM", "8/23/19 1:00 AM", "8/23/19 2:00 AM", "8/23/19 3:00 AM", "8/23/19 4:00 AM", "8/23/19 5:00 AM", "8/23/19 6:00 AM", "8/23/19 7:00 AM", "8/23/19 8:00 AM", "8/23/19 9:00 AM", "8/23/19 10:00 AM", "8/23/19 11:00 AM", "8/23/19 12:00 PM", "8/23/19 1:00 PM", "8/23/19 2:00 PM", "8/23/19 3:00 PM", "8/23/19 4:00 PM", "8/23/19 5:00 PM", "8/23/19 6:00 PM", "8/23/19 7:00 PM", "8/23/19 8:00 PM", "8/23/19 9:00 PM", "8/23/19 10:00 PM", "8/23/19 11:00 PM", "8/24/19 12:00 AM", "8/24/19 1:00 AM", "8/24/19 2:00 AM", "8/24/19 3:00 AM", "8/24/19 4:00 AM", "8/24/19 5:00 AM", "8/24/19 6:00 AM", "8/24/19 7:00 AM", "8/24/19 8:00 AM", "8/24/19 9:00 AM", "8/24/19 10:00 AM", "8/24/19 11:00 AM", "8/24/19 12:00 PM", "8/24/19 1:00 PM", "8/24/19 2:00 PM", "8/24/19 3:00 PM", "8/24/19 4:00 PM", "8/24/19 5:00 PM", "8/24/19 6:00 PM", "8/24/19 7:00 PM", "8/24/19 8:00 PM", "8/24/19 9:00 PM", "8/24/19 10:00 PM", "8/24/19 11:00 PM", "8/25/19 12:00 AM", "8/25/19 1:00 AM", "8/25/19 2:00 AM", "8/25/19 3:00 AM", "8/25/19 4:00 AM", "8/25/19 5:00 AM", "8/25/19 6:00 AM", "8/25/19 7:00 AM", "8/25/19 8:00 AM", "8/25/19 9:00 AM", "8/25/19 10:00 AM", "8/25/19 11:00 AM", "8/25/19 12:00 PM", "8/25/19 1:00 PM", "8/25/19 2:00 PM", "8/25/19 3:00 PM", "8/25/19 4:00 PM", "8/25/19 5:00 PM", "8/25/19 6:00 PM", "8/25/19 7:00 PM", "8/25/19 8:00 PM", "8/25/19 9:00 PM", "8/25/19 10:00 PM", "8/25/19 11:00 PM", "8/26/19 12:00 AM", "8/26/19 1:00 AM", "8/26/19 2:00 AM", "8/26/19 3:00 AM", "8/26/19 4:00 AM", "8/26/19 5:00 AM", "8/26/19 6:00 AM", "8/26/19 7:00 AM", "8/26/19 8:00 AM", "8/26/19 9:00 AM", "8/26/19 10:00 AM", "8/26/19 11:00 AM", "8/26/19 12:00 PM", "8/26/19 1:00 PM", "8/26/19 2:00 PM", "8/26/19 3:00 PM", "8/26/19 4:00 PM", "8/26/19 5:00 PM", "8/26/19 6:00 PM", "8/26/19 7:00 PM", "8/26/19 8:00 PM", "8/26/19 9:00 PM", "8/26/19 10:00 PM", "8/26/19 11:00 PM", "8/27/19 12:00 AM", "8/27/19 1:00 AM", "8/27/19 2:00 AM", "8/27/19 3:00 AM", "8/27/19 4:00 AM", "8/27/19 5:00 AM", "8/27/19 6:00 AM", "8/27/19 7:00 AM", "8/27/19 8:00 AM", "8/27/19 9:00 AM", "8/27/19 10:00 AM", "8/27/19 11:00 AM", "8/27/19 12:00 PM", "8/27/19 1:00 PM", "8/27/19 2:00 PM", "8/27/19 3:00 PM", "8/27/19 4:00 PM", "8/27/19 5:00 PM", "8/27/19 6:00 PM", "8/27/19 7:00 PM", "8/27/19 8:00 PM", "8/27/19 9:00 PM", "8/27/19 10:00 PM", "8/27/19 11:00 PM", "8/28/19 12:00 AM", "8/28/19 1:00 AM", "8/28/19 2:00 AM", "8/28/19 3:00 AM", "8/28/19 4:00 AM", "8/28/19 5:00 AM", "8/28/19 6:00 AM", "8/28/19 7:00 AM", "8/28/19 8:00 AM", "8/28/19 9:00 AM", "8/28/19 10:00 AM", "8/28/19 11:00 AM", "8/28/19 12:00 PM", "8/28/19 1:00 PM", "8/28/19 2:00 PM", "8/28/19 3:00 PM", "8/28/19 4:00 PM", "8/28/19 5:00 PM", "8/28/19 6:00 PM", "8/28/19 7:00 PM", "8/28/19 8:00 PM", "8/28/19 9:00 PM", "8/28/19 10:00 PM", "8/28/19 11:00 PM", "8/29/19 12:00 AM", "8/29/19 1:00 AM", "8/29/19 2:00 AM", "8/29/19 3:00 AM", "8/29/19 4:00 AM", "8/29/19 5:00 AM", "8/29/19 6:00 AM", "8/29/19 7:00 AM", "8/29/19 8:00 AM", "8/29/19 9:00 AM", "8/29/19 10:00 AM", "8/29/19 11:00 AM", "8/29/19 12:00 PM", "8/29/19 1:00 PM", "8/29/19 2:00 PM", "8/29/19 3:00 PM", "8/29/19 4:00 PM", "8/29/19 5:00 PM", "8/29/19 6:00 PM", "8/29/19 7:00 PM", "8/29/19 8:00 PM", "8/29/19 9:00 PM", "8/29/19 10:00 PM", "8/29/19 11:00 PM", "8/30/19 12:00 AM", "8/30/19 1:00 AM", "8/30/19 2:00 AM", "8/30/19 3:00 AM", "8/30/19 4:00 AM", "8/30/19 5:00 AM", "8/30/19 6:00 AM", "8/30/19 7:00 AM", "8/30/19 8:00 AM", "8/30/19 9:00 AM", "8/30/19 10:00 AM", "8/30/19 11:00 AM", "8/30/19 12:00 PM", "8/30/19 1:00 PM", "8/30/19 2:00 PM", "8/30/19 3:00 PM", "8/30/19 4:00 PM", "8/30/19 5:00 PM", "8/30/19 6:00 PM", "8/30/19 7:00 PM", "8/30/19 8:00 PM", "8/30/19 9:00 PM", "8/30/19 10:00 PM", "8/30/19 11:00 PM", "8/31/19 12:00 AM", "8/31/19 1:00 AM", "8/31/19 2:00 AM", "8/31/19 3:00 AM", "8/31/19 4:00 AM", "8/31/19 5:00 AM", "8/31/19 6:00 AM", "8/31/19 7:00 AM", "8/31/19 8:00 AM", "8/31/19 9:00 AM", "8/31/19 10:00 AM", "8/31/19 11:00 AM", "8/31/19 12:00 PM", "8/31/19 1:00 PM", "8/31/19 2:00 PM", "8/31/19 3:00 PM", "8/31/19 4:00 PM", "8/31/19 5:00 PM", "8/31/19 6:00 PM", "8/31/19 7:00 PM", "8/31/19 8:00 PM", "8/31/19 9:00 PM", "8/31/19 10:00 PM", "8/31/19 11:00 PM", "9/1/19 12:00 AM", "9/1/19 1:00 AM", "9/1/19 2:00 AM", "9/1/19 3:00 AM", "9/1/19 4:00 AM", "9/1/19 5:00 AM", "9/1/19 6:00 AM", "9/1/19 7:00 AM", "9/1/19 8:00 AM", "9/1/19 9:00 AM", "9/1/19 10:00 AM", "9/1/19 11:00 AM", "9/1/19 12:00 PM", "9/1/19 1:00 PM", "9/1/19 2:00 PM", "9/1/19 3:00 PM", "9/1/19 4:00 PM", "9/1/19 5:00 PM", "9/1/19 6:00 PM", "9/1/19 7:00 PM", "9/1/19 8:00 PM", "9/1/19 9:00 PM", "9/1/19 10:00 PM", "9/1/19 11:00 PM", "9/2/19 12:00 AM", "9/2/19 1:00 AM", "9/2/19 2:00 AM", "9/2/19 3:00 AM", "9/2/19 4:00 AM", "9/2/19 5:00 AM", "9/2/19 6:00 AM", "9/2/19 7:00 AM", "9/2/19 8:00 AM", "9/2/19 9:00 AM", "9/2/19 10:00 AM", "9/2/19 11:00 AM", "9/2/19 12:00 PM", "9/2/19 1:00 PM", "9/2/19 2:00 PM", "9/2/19 3:00 PM", "9/2/19 4:00 PM", "9/2/19 5:00 PM", "9/2/19 6:00 PM", "9/2/19 7:00 PM", "9/2/19 8:00 PM", "9/2/19 9:00 PM", "9/2/19 10:00 PM", "9/2/19 11:00 PM", "9/3/19 12:00 AM", "9/3/19 1:00 AM", "9/3/19 2:00 AM", "9/3/19 3:00 AM", "9/3/19 4:00 AM", "9/3/19 5:00 AM", "9/3/19 6:00 AM", "9/3/19 7:00 AM", "9/3/19 8:00 AM", "9/3/19 9:00 AM", "9/3/19 10:00 AM", "9/3/19 11:00 AM", "9/3/19 12:00 PM", "9/3/19 1:00 PM", "9/3/19 2:00 PM", "9/3/19 3:00 PM", "9/3/19 4:00 PM", "9/3/19 5:00 PM", "9/3/19 6:00 PM", "9/3/19 7:00 PM", "9/3/19 8:00 PM", "9/3/19 9:00 PM", "9/3/19 10:00 PM", "9/3/19 11:00 PM", "9/4/19 12:00 AM", "9/4/19 1:00 AM", "9/4/19 2:00 AM", "9/4/19 3:00 AM", "9/4/19 4:00 AM", "9/4/19 5:00 AM", "9/4/19 6:00 AM", "9/4/19 7:00 AM", "9/4/19 8:00 AM", "9/4/19 9:00 AM", "9/4/19 10:00 AM", "9/4/19 11:00 AM", "9/4/19 12:00 PM", "9/4/19 1:00 PM", "9/4/19 2:00 PM", "9/4/19 3:00 PM", "9/4/19 4:00 PM", "9/4/19 5:00 PM", "9/4/19 6:00 PM", "9/4/19 7:00 PM", "9/4/19 8:00 PM", "9/4/19 9:00 PM", "9/4/19 10:00 PM", "9/4/19 11:00 PM", "9/5/19 12:00 AM", "9/5/19 1:00 AM", "9/5/19 2:00 AM", "9/5/19 3:00 AM", "9/5/19 4:00 AM", "9/5/19 5:00 AM", "9/5/19 6:00 AM", "9/5/19 7:00 AM", "9/5/19 8:00 AM", "9/5/19 9:00 AM", "9/5/19 10:00 AM", "9/5/19 11:00 AM", "9/5/19 12:00 PM", "9/5/19 1:00 PM", "9/5/19 2:00 PM", "9/5/19 3:00 PM", "9/5/19 4:00 PM", "9/5/19 5:00 PM", "9/5/19 6:00 PM", "9/5/19 7:00 PM", "9/5/19 8:00 PM", "9/5/19 9:00 PM", "9/5/19 10:00 PM", "9/5/19 11:00 PM", "9/6/19 12:00 AM", "9/6/19 1:00 AM", "9/6/19 2:00 AM", "9/6/19 3:00 AM", "9/6/19 4:00 AM", "9/6/19 5:00 AM", "9/6/19 6:00 AM", "9/6/19 7:00 AM", "9/6/19 8:00 AM", "9/6/19 9:00 AM", "9/6/19 10:00 AM", "9/6/19 11:00 AM", "9/6/19 12:00 PM", "9/6/19 1:00 PM", "9/6/19 2:00 PM", "9/6/19 3:00 PM", "9/6/19 4:00 PM", "9/6/19 5:00 PM", "9/6/19 6:00 PM", "9/6/19 7:00 PM", "9/6/19 8:00 PM", "9/6/19 9:00 PM", "9/6/19 10:00 PM", "9/6/19 11:00 PM", "9/7/19 12:00 AM", "9/7/19 1:00 AM", "9/7/19 2:00 AM", "9/7/19 3:00 AM", "9/7/19 4:00 AM", "9/7/19 5:00 AM", "9/7/19 6:00 AM", "9/7/19 7:00 AM", "9/7/19 8:00 AM", "9/7/19 9:00 AM", "9/7/19 10:00 AM", "9/7/19 11:00 AM", "9/7/19 12:00 PM", "9/7/19 1:00 PM", "9/7/19 2:00 PM", "9/7/19 3:00 PM", "9/7/19 4:00 PM", "9/7/19 5:00 PM", "9/7/19 6:00 PM", "9/7/19 7:00 PM", "9/7/19 8:00 PM", "9/7/19 9:00 PM", "9/7/19 10:00 PM", "9/7/19 11:00 PM", "9/8/19 12:00 AM", "9/8/19 1:00 AM", "9/8/19 2:00 AM", "9/8/19 3:00 AM", "9/8/19 4:00 AM", "9/8/19 5:00 AM", "9/8/19 6:00 AM", "9/8/19 7:00 AM", "9/8/19 8:00 AM", "9/8/19 9:00 AM", "9/8/19 10:00 AM", "9/8/19 11:00 AM", "9/8/19 12:00 PM", "9/8/19 1:00 PM", "9/8/19 2:00 PM", "9/8/19 3:00 PM", "9/8/19 4:00 PM", "9/8/19 5:00 PM", "9/8/19 6:00 PM", "9/8/19 7:00 PM", "9/8/19 8:00 PM", "9/8/19 9:00 PM", "9/8/19 10:00 PM", "9/8/19 11:00 PM", "9/9/19 12:00 AM", "9/9/19 1:00 AM", "9/9/19 2:00 AM", "9/9/19 3:00 AM", "9/9/19 4:00 AM", "9/9/19 5:00 AM", "9/9/19 6:00 AM", "9/9/19 7:00 AM", "9/9/19 8:00 AM", "9/9/19 9:00 AM", "9/9/19 10:00 AM", "9/9/19 11:00 AM", "9/9/19 12:00 PM", "9/9/19 1:00 PM", "9/9/19 2:00 PM", "9/9/19 3:00 PM", "9/9/19 4:00 PM", "9/9/19 5:00 PM", "9/9/19 6:00 PM", "9/9/19 7:00 PM", "9/9/19 8:00 PM", "9/9/19 9:00 PM", "9/9/19 10:00 PM", "9/9/19 11:00 PM", "9/10/19 12:00 AM", "9/10/19 1:00 AM", "9/10/19 2:00 AM", "9/10/19 3:00 AM", "9/10/19 4:00 AM", "9/10/19 5:00 AM", "9/10/19 6:00 AM", "9/10/19 7:00 AM", "9/10/19 8:00 AM", "9/10/19 9:00 AM", "9/10/19 10:00 AM", "9/10/19 11:00 AM", "9/10/19 12:00 PM", "9/10/19 1:00 PM", "9/10/19 2:00 PM", "9/10/19 3:00 PM", "9/10/19 4:00 PM", "9/10/19 5:00 PM", "9/10/19 6:00 PM", "9/10/19 7:00 PM", "9/10/19 8:00 PM", "9/10/19 9:00 PM", "9/10/19 10:00 PM", "9/10/19 11:00 PM", "9/11/19 12:00 AM", "9/11/19 1:00 AM", "9/11/19 2:00 AM", "9/11/19 3:00 AM", "9/11/19 4:00 AM", "9/11/19 5:00 AM", "9/11/19 6:00 AM", "9/11/19 7:00 AM", "9/11/19 8:00 AM", "9/11/19 9:00 AM", "9/11/19 10:00 AM", "9/11/19 11:00 AM", "9/11/19 12:00 PM", "9/11/19 1:00 PM", "9/11/19 2:00 PM", "9/11/19 3:00 PM", "9/11/19 4:00 PM", "9/11/19 5:00 PM", "9/11/19 6:00 PM", "9/11/19 7:00 PM", "9/11/19 8:00 PM", "9/11/19 9:00 PM", "9/11/19 10:00 PM", "9/11/19 11:00 PM", "9/12/19 12:00 AM", "9/12/19 1:00 AM", "9/12/19 2:00 AM", "9/12/19 3:00 AM", "9/12/19 4:00 AM", "9/12/19 5:00 AM", "9/12/19 6:00 AM", "9/12/19 7:00 AM", "9/12/19 8:00 AM", "9/12/19 9:00 AM", "9/12/19 10:00 AM", "9/12/19 11:00 AM", "9/12/19 12:00 PM", "9/12/19 1:00 PM", "9/12/19 2:00 PM", "9/12/19 3:00 PM", "9/12/19 4:00 PM", "9/12/19 5:00 PM", "9/12/19 6:00 PM", "9/12/19 7:00 PM", "9/12/19 8:00 PM", "9/12/19 9:00 PM", "9/12/19 10:00 PM", "9/12/19 11:00 PM", "9/13/19 12:00 AM", "9/13/19 1:00 AM", "9/13/19 2:00 AM", "9/13/19 3:00 AM", "9/13/19 4:00 AM", "9/13/19 5:00 AM", "9/13/19 6:00 AM", "9/13/19 7:00 AM", "9/13/19 8:00 AM", "9/13/19 9:00 AM", "9/13/19 10:00 AM", "9/13/19 11:00 AM", "9/13/19 12:00 PM", "9/13/19 1:00 PM", "9/13/19 2:00 PM", "9/13/19 3:00 PM", "9/13/19 4:00 PM", "9/13/19 5:00 PM", "9/13/19 6:00 PM", "9/13/19 7:00 PM", "9/13/19 8:00 PM", "9/13/19 9:00 PM", "9/13/19 10:00 PM", "9/13/19 11:00 PM", "9/14/19 12:00 AM", "9/14/19 1:00 AM", "9/14/19 2:00 AM", "9/14/19 3:00 AM", "9/14/19 4:00 AM", "9/14/19 5:00 AM", "9/14/19 6:00 AM", "9/14/19 7:00 AM", "9/14/19 8:00 AM", "9/14/19 9:00 AM", "9/14/19 10:00 AM", "9/14/19 11:00 AM", "9/14/19 12:00 PM", "9/14/19 1:00 PM", "9/14/19 2:00 PM", "9/14/19 3:00 PM", "9/14/19 4:00 PM", "9/14/19 5:00 PM", "9/14/19 6:00 PM", "9/14/19 7:00 PM", "9/14/19 8:00 PM", "9/14/19 9:00 PM", "9/14/19 10:00 PM", "9/14/19 11:00 PM", "9/15/19 12:00 AM", "9/15/19 1:00 AM", "9/15/19 2:00 AM", "9/15/19 3:00 AM", "9/15/19 4:00 AM", "9/15/19 5:00 AM", "9/15/19 6:00 AM", "9/15/19 7:00 AM", "9/15/19 8:00 AM", "9/15/19 9:00 AM", "9/15/19 10:00 AM", "9/15/19 11:00 AM", "9/15/19 12:00 PM", "9/15/19 1:00 PM", "9/15/19 2:00 PM", "9/15/19 3:00 PM", "9/15/19 4:00 PM", "9/15/19 5:00 PM", "9/15/19 6:00 PM", "9/15/19 7:00 PM", "9/15/19 8:00 PM", "9/15/19 9:00 PM", "9/15/19 10:00 PM", "9/15/19 11:00 PM", "9/16/19 12:00 AM", "9/16/19 1:00 AM", "9/16/19 2:00 AM", "9/16/19 3:00 AM", "9/16/19 4:00 AM", "9/16/19 5:00 AM", "9/16/19 6:00 AM", "9/16/19 7:00 AM", "9/16/19 8:00 AM", "9/16/19 9:00 AM", "9/16/19 10:00 AM", "9/16/19 11:00 AM", "9/16/19 12:00 PM", "9/16/19 1:00 PM", "9/16/19 2:00 PM", "9/16/19 3:00 PM", "9/16/19 4:00 PM", "9/16/19 5:00 PM", "9/16/19 6:00 PM", "9/16/19 7:00 PM", "9/16/19 8:00 PM", "9/16/19 9:00 PM", "9/16/19 10:00 PM", "9/16/19 11:00 PM", "9/17/19 12:00 AM", "9/17/19 1:00 AM", "9/17/19 2:00 AM", "9/17/19 3:00 AM", "9/17/19 4:00 AM", "9/17/19 5:00 AM", "9/17/19 6:00 AM", "9/17/19 7:00 AM", "9/17/19 8:00 AM", "9/17/19 9:00 AM", "9/17/19 10:00 AM", "9/17/19 11:00 AM", "9/17/19 12:00 PM", "9/17/19 1:00 PM", "9/17/19 2:00 PM", "9/17/19 3:00 PM", "9/17/19 4:00 PM", "9/17/19 5:00 PM", "9/17/19 6:00 PM", "9/17/19 7:00 PM", "9/17/19 8:00 PM", "9/17/19 9:00 PM", "9/17/19 10:00 PM", "9/17/19 11:00 PM", "9/18/19 12:00 AM", "9/18/19 1:00 AM", "9/18/19 2:00 AM", "9/18/19 3:00 AM", "9/18/19 4:00 AM", "9/18/19 5:00 AM", "9/18/19 6:00 AM", "9/18/19 7:00 AM", "9/18/19 8:00 AM", "9/18/19 9:00 AM", "9/18/19 10:00 AM", "9/18/19 11:00 AM", "9/18/19 12:00 PM", "9/18/19 1:00 PM", "9/18/19 2:00 PM", "9/18/19 3:00 PM", "9/18/19 4:00 PM", "9/18/19 5:00 PM", "9/18/19 6:00 PM", "9/18/19 7:00 PM", "9/18/19 8:00 PM", "9/18/19 9:00 PM", "9/18/19 10:00 PM", "9/18/19 11:00 PM", "9/19/19 12:00 AM", "9/19/19 1:00 AM", "9/19/19 2:00 AM", "9/19/19 3:00 AM", "9/19/19 4:00 AM", "9/19/19 5:00 AM", "9/19/19 6:00 AM", "9/19/19 7:00 AM", "9/19/19 8:00 AM", "9/19/19 9:00 AM", "9/19/19 10:00 AM", "9/19/19 11:00 AM", "9/19/19 12:00 PM", "9/19/19 1:00 PM", "9/19/19 2:00 PM", "9/19/19 3:00 PM", "9/19/19 4:00 PM", "9/19/19 5:00 PM", "9/19/19 6:00 PM", "9/19/19 7:00 PM", "9/19/19 8:00 PM", "9/19/19 9:00 PM", "9/19/19 10:00 PM", "9/19/19 11:00 PM", "9/20/19 12:00 AM", "9/20/19 1:00 AM", "9/20/19 2:00 AM", "9/20/19 3:00 AM", "9/20/19 4:00 AM", "9/20/19 5:00 AM", "9/20/19 6:00 AM", "9/20/19 7:00 AM", "9/20/19 8:00 AM", "9/20/19 9:00 AM", "9/20/19 10:00 AM", "9/20/19 11:00 AM", "9/20/19 12:00 PM", "9/20/19 1:00 PM", "9/20/19 2:00 PM", "9/20/19 3:00 PM", "9/20/19 4:00 PM", "9/20/19 5:00 PM", "9/20/19 6:00 PM", "9/20/19 7:00 PM", "9/20/19 8:00 PM", "9/20/19 9:00 PM", "9/20/19 10:00 PM", "9/20/19 11:00 PM", "9/21/19 12:00 AM", "9/21/19 1:00 AM", "9/21/19 2:00 AM", "9/21/19 3:00 AM", "9/21/19 4:00 AM", "9/21/19 5:00 AM", "9/21/19 6:00 AM", "9/21/19 7:00 AM", "9/21/19 8:00 AM", "9/21/19 9:00 AM", "9/21/19 10:00 AM", "9/21/19 11:00 AM", "9/21/19 12:00 PM", "9/21/19 1:00 PM", "9/21/19 2:00 PM", "9/21/19 3:00 PM", "9/21/19 4:00 PM", "9/21/19 5:00 PM", "9/21/19 6:00 PM", "9/21/19 7:00 PM", "9/21/19 8:00 PM", "9/21/19 9:00 PM", "9/21/19 10:00 PM", "9/21/19 11:00 PM", "9/22/19 12:00 AM", "9/22/19 1:00 AM", "9/22/19 2:00 AM", "9/22/19 3:00 AM", "9/22/19 4:00 AM", "9/22/19 5:00 AM", "9/22/19 6:00 AM", "9/22/19 7:00 AM", "9/22/19 8:00 AM", "9/22/19 9:00 AM", "9/22/19 10:00 AM", "9/22/19 11:00 AM", "9/22/19 12:00 PM", "9/22/19 1:00 PM", "9/22/19 2:00 PM", "9/22/19 3:00 PM", "9/22/19 4:00 PM", "9/22/19 5:00 PM", "9/22/19 6:00 PM", "9/22/19 7:00 PM", "9/22/19 8:00 PM", "9/22/19 9:00 PM", "9/22/19 10:00 PM", "9/22/19 11:00 PM", "9/23/19 12:00 AM", "9/23/19 1:00 AM", "9/23/19 2:00 AM", "9/23/19 3:00 AM", "9/23/19 4:00 AM", "9/23/19 5:00 AM", "9/23/19 6:00 AM", "9/23/19 7:00 AM", "9/23/19 8:00 AM", "9/23/19 9:00 AM", "9/23/19 10:00 AM", "9/23/19 11:00 AM", "9/23/19 12:00 PM", "9/23/19 1:00 PM", "9/23/19 2:00 PM", "9/23/19 3:00 PM", "9/23/19 4:00 PM", "9/23/19 5:00 PM", "9/23/19 6:00 PM", "9/23/19 7:00 PM", "9/23/19 8:00 PM", "9/23/19 9:00 PM", "9/23/19 10:00 PM", "9/23/19 11:00 PM", "9/24/19 12:00 AM", "9/24/19 1:00 AM", "9/24/19 2:00 AM", "9/24/19 3:00 AM", "9/24/19 4:00 AM", "9/24/19 5:00 AM", "9/24/19 6:00 AM", "9/24/19 7:00 AM", "9/24/19 8:00 AM", "9/24/19 9:00 AM", "9/24/19 10:00 AM", "9/24/19 11:00 AM", "9/24/19 12:00 PM", "9/24/19 1:00 PM", "9/24/19 2:00 PM", "9/24/19 3:00 PM", "9/24/19 4:00 PM", "9/24/19 5:00 PM", "9/24/19 6:00 PM", "9/24/19 7:00 PM", "9/24/19 8:00 PM", "9/24/19 9:00 PM", "9/24/19 10:00 PM", "9/24/19 11:00 PM", "9/25/19 12:00 AM", "9/25/19 1:00 AM", "9/25/19 2:00 AM", "9/25/19 3:00 AM", "9/25/19 4:00 AM", "9/25/19 5:00 AM", "9/25/19 6:00 AM", "9/25/19 7:00 AM", "9/25/19 8:00 AM", "9/25/19 9:00 AM", "9/25/19 10:00 AM", "9/25/19 11:00 AM", "9/25/19 12:00 PM", "9/25/19 1:00 PM", "9/25/19 2:00 PM", "9/25/19 3:00 PM", "9/25/19 4:00 PM", "9/25/19 5:00 PM", "9/25/19 6:00 PM", "9/25/19 7:00 PM", "9/25/19 8:00 PM", "9/25/19 9:00 PM", "9/25/19 10:00 PM", "9/25/19 11:00 PM", "9/26/19 12:00 AM", "9/26/19 1:00 AM", "9/26/19 2:00 AM", "9/26/19 3:00 AM", "9/26/19 4:00 AM", "9/26/19 5:00 AM", "9/26/19 6:00 AM", "9/26/19 7:00 AM", "9/26/19 8:00 AM", "9/26/19 9:00 AM", "9/26/19 10:00 AM", "9/26/19 11:00 AM", "9/26/19 12:00 PM", "9/26/19 1:00 PM", "9/26/19 2:00 PM", "9/26/19 3:00 PM", "9/26/19 4:00 PM", "9/26/19 5:00 PM", "9/26/19 6:00 PM", "9/26/19 7:00 PM", "9/26/19 8:00 PM", "9/26/19 9:00 PM", "9/26/19 10:00 PM", "9/26/19 11:00 PM", "9/27/19 12:00 AM", "9/27/19 1:00 AM", "9/27/19 2:00 AM", "9/27/19 3:00 AM", "9/27/19 4:00 AM", "9/27/19 5:00 AM", "9/27/19 6:00 AM", "9/27/19 7:00 AM", "9/27/19 8:00 AM", "9/27/19 9:00 AM", "9/27/19 10:00 AM", "9/27/19 11:00 AM", "9/27/19 12:00 PM", "9/27/19 1:00 PM", "9/27/19 2:00 PM", "9/27/19 3:00 PM", "9/27/19 4:00 PM", "9/27/19 5:00 PM", "9/27/19 6:00 PM", "9/27/19 7:00 PM", "9/27/19 8:00 PM", "9/27/19 9:00 PM", "9/27/19 10:00 PM", "9/27/19 11:00 PM", "9/28/19 12:00 AM", "9/28/19 1:00 AM", "9/28/19 2:00 AM", "9/28/19 3:00 AM", "9/28/19 4:00 AM", "9/28/19 5:00 AM", "9/28/19 6:00 AM", "9/28/19 7:00 AM", "9/28/19 8:00 AM", "9/28/19 9:00 AM", "9/28/19 10:00 AM", "9/28/19 11:00 AM", "9/28/19 12:00 PM", "9/28/19 1:00 PM", "9/28/19 2:00 PM", "9/28/19 3:00 PM", "9/28/19 4:00 PM", "9/28/19 5:00 PM", "9/28/19 6:00 PM", "9/28/19 7:00 PM", "9/28/19 8:00 PM", "9/28/19 9:00 PM", "9/28/19 10:00 PM", "9/28/19 11:00 PM", "9/29/19 12:00 AM", "9/29/19 1:00 AM", "9/29/19 2:00 AM", "9/29/19 3:00 AM", "9/29/19 4:00 AM", "9/29/19 5:00 AM", "9/29/19 6:00 AM", "9/29/19 7:00 AM", "9/29/19 8:00 AM", "9/29/19 9:00 AM", "9/29/19 10:00 AM", "9/29/19 11:00 AM", "9/29/19 12:00 PM", "9/29/19 1:00 PM", "9/29/19 2:00 PM", "9/29/19 3:00 PM", "9/29/19 4:00 PM", "9/29/19 5:00 PM", "9/29/19 6:00 PM", "9/29/19 7:00 PM", "9/29/19 8:00 PM", "9/29/19 9:00 PM", "9/29/19 10:00 PM", "9/29/19 11:00 PM", "9/30/19 12:00 AM", "9/30/19 1:00 AM", "9/30/19 2:00 AM", "9/30/19 3:00 AM", "9/30/19 4:00 AM", "9/30/19 5:00 AM", "9/30/19 6:00 AM", "9/30/19 7:00 AM", "9/30/19 8:00 AM", "9/30/19 9:00 AM", "9/30/19 10:00 AM", "9/30/19 11:00 AM", "9/30/19 12:00 PM", "9/30/19 1:00 PM", "9/30/19 2:00 PM", "9/30/19 3:00 PM", "9/30/19 4:00 PM", "9/30/19 5:00 PM", "9/30/19 6:00 PM", "9/30/19 7:00 PM", "9/30/19 8:00 PM", "9/30/19 9:00 PM", "9/30/19 10:00 PM", "9/30/19 11:00 PM", "10/1/19 12:00 AM", "10/1/19 1:00 AM", "10/1/19 2:00 AM", "10/1/19 3:00 AM", "10/1/19 4:00 AM", "10/1/19 5:00 AM", "10/1/19 6:00 AM", "10/1/19 7:00 AM", "10/1/19 8:00 AM", "10/1/19 9:00 AM", "10/1/19 10:00 AM", "10/1/19 11:00 AM", "10/1/19 12:00 PM", "10/1/19 1:00 PM", "10/1/19 2:00 PM", "10/1/19 3:00 PM", "10/1/19 4:00 PM", "10/1/19 5:00 PM", "10/1/19 6:00 PM", "10/1/19 7:00 PM", "10/1/19 8:00 PM", "10/1/19 9:00 PM", "10/1/19 10:00 PM", "10/1/19 11:00 PM", "10/2/19 12:00 AM", "10/2/19 1:00 AM", "10/2/19 2:00 AM", "10/2/19 3:00 AM", "10/2/19 4:00 AM", "10/2/19 5:00 AM", "10/2/19 6:00 AM", "10/2/19 7:00 AM", "10/2/19 8:00 AM", "10/2/19 9:00 AM", "10/2/19 10:00 AM", "10/2/19 11:00 AM", "10/2/19 12:00 PM", "10/2/19 1:00 PM", "10/2/19 2:00 PM", "10/2/19 3:00 PM", "10/2/19 4:00 PM", "10/2/19 5:00 PM", "10/2/19 6:00 PM", "10/2/19 7:00 PM", "10/2/19 8:00 PM", "10/2/19 9:00 PM", "10/2/19 10:00 PM", "10/2/19 11:00 PM", "10/3/19 12:00 AM", "10/3/19 1:00 AM", "10/3/19 2:00 AM", "10/3/19 3:00 AM", "10/3/19 4:00 AM", "10/3/19 5:00 AM", "10/3/19 6:00 AM", "10/3/19 7:00 AM", "10/3/19 8:00 AM", "10/3/19 9:00 AM", "10/3/19 10:00 AM", "10/3/19 11:00 AM", "10/3/19 12:00 PM", "10/3/19 1:00 PM", "10/3/19 2:00 PM", "10/3/19 3:00 PM", "10/3/19 4:00 PM", "10/3/19 5:00 PM", "10/3/19 6:00 PM", "10/3/19 7:00 PM", "10/3/19 8:00 PM", "10/3/19 9:00 PM", "10/3/19 10:00 PM", "10/3/19 11:00 PM", "10/4/19 12:00 AM", "10/4/19 1:00 AM", "10/4/19 2:00 AM", "10/4/19 3:00 AM", "10/4/19 4:00 AM", "10/4/19 5:00 AM", "10/4/19 6:00 AM", "10/4/19 7:00 AM", "10/4/19 8:00 AM", "10/4/19 9:00 AM", "10/4/19 10:00 AM", "10/4/19 11:00 AM", "10/4/19 12:00 PM", "10/4/19 1:00 PM", "10/4/19 2:00 PM", "10/4/19 3:00 PM", "10/4/19 4:00 PM", "10/4/19 5:00 PM", "10/4/19 6:00 PM", "10/4/19 7:00 PM", "10/4/19 8:00 PM", "10/4/19 9:00 PM", "10/4/19 10:00 PM", "10/4/19 11:00 PM", "10/5/19 12:00 AM", "10/5/19 1:00 AM", "10/5/19 2:00 AM", "10/5/19 3:00 AM", "10/5/19 4:00 AM", "10/5/19 5:00 AM", "10/5/19 6:00 AM", "10/5/19 7:00 AM", "10/5/19 8:00 AM", "10/5/19 9:00 AM", "10/5/19 10:00 AM", "10/5/19 11:00 AM", "10/5/19 12:00 PM", "10/5/19 1:00 PM", "10/5/19 2:00 PM", "10/5/19 3:00 PM", "10/5/19 4:00 PM", "10/5/19 5:00 PM", "10/5/19 6:00 PM", "10/5/19 7:00 PM", "10/5/19 8:00 PM", "10/5/19 9:00 PM", "10/5/19 10:00 PM", "10/5/19 11:00 PM", "10/6/19 12:00 AM", "10/6/19 1:00 AM", "10/6/19 2:00 AM", "10/6/19 3:00 AM", "10/6/19 4:00 AM", "10/6/19 5:00 AM", "10/6/19 6:00 AM", "10/6/19 7:00 AM", "10/6/19 8:00 AM", "10/6/19 9:00 AM", "10/6/19 10:00 AM", "10/6/19 11:00 AM", "10/6/19 12:00 PM", "10/6/19 1:00 PM", "10/6/19 2:00 PM", "10/6/19 3:00 PM", "10/6/19 4:00 PM", "10/6/19 5:00 PM", "10/6/19 6:00 PM", "10/6/19 7:00 PM", "10/6/19 8:00 PM", "10/6/19 9:00 PM", "10/6/19 10:00 PM", "10/6/19 11:00 PM", "10/7/19 12:00 AM", "10/7/19 1:00 AM", "10/7/19 2:00 AM", "10/7/19 3:00 AM", "10/7/19 4:00 AM", "10/7/19 5:00 AM", "10/7/19 6:00 AM", "10/7/19 7:00 AM", "10/7/19 8:00 AM", "10/7/19 9:00 AM", "10/7/19 10:00 AM", "10/7/19 11:00 AM", "10/7/19 12:00 PM", "10/7/19 1:00 PM", "10/7/19 2:00 PM", "10/7/19 3:00 PM", "10/7/19 4:00 PM", "10/7/19 5:00 PM", "10/7/19 6:00 PM", "10/7/19 7:00 PM", "10/7/19 8:00 PM", "10/7/19 9:00 PM", "10/7/19 10:00 PM", "10/7/19 11:00 PM", "10/8/19 12:00 AM", "10/8/19 1:00 AM", "10/8/19 2:00 AM", "10/8/19 3:00 AM", "10/8/19 4:00 AM", "10/8/19 5:00 AM", "10/8/19 6:00 AM", "10/8/19 7:00 AM", "10/8/19 8:00 AM", "10/8/19 9:00 AM", "10/8/19 10:00 AM", "10/8/19 11:00 AM", "10/8/19 12:00 PM", "10/8/19 1:00 PM", "10/8/19 2:00 PM", "10/8/19 3:00 PM", "10/8/19 4:00 PM", "10/8/19 5:00 PM", "10/8/19 6:00 PM", "10/8/19 7:00 PM", "10/8/19 8:00 PM", "10/8/19 9:00 PM", "10/8/19 10:00 PM", "10/8/19 11:00 PM", "10/9/19 12:00 AM", "10/9/19 1:00 AM", "10/9/19 2:00 AM", "10/9/19 3:00 AM", "10/9/19 4:00 AM", "10/9/19 5:00 AM", "10/9/19 6:00 AM", "10/9/19 7:00 AM", "10/9/19 8:00 AM", "10/9/19 9:00 AM", "10/9/19 10:00 AM", "10/9/19 11:00 AM", "10/9/19 12:00 PM", "10/9/19 1:00 PM", "10/9/19 2:00 PM", "10/9/19 3:00 PM", "10/9/19 4:00 PM", "10/9/19 5:00 PM", "10/9/19 6:00 PM", "10/9/19 7:00 PM", "10/9/19 8:00 PM", "10/9/19 9:00 PM", "10/9/19 10:00 PM", "10/9/19 11:00 PM", "10/10/19 12:00 AM", "10/10/19 1:00 AM", "10/10/19 2:00 AM", "10/10/19 3:00 AM", "10/10/19 4:00 AM", "10/10/19 5:00 AM", "10/10/19 6:00 AM", "10/10/19 7:00 AM", "10/10/19 8:00 AM", "10/10/19 9:00 AM", "10/10/19 10:00 AM", "10/10/19 11:00 AM", "10/10/19 12:00 PM", "10/10/19 1:00 PM", "10/10/19 2:00 PM", "10/10/19 3:00 PM", "10/10/19 4:00 PM", "10/10/19 5:00 PM", "10/10/19 6:00 PM", "10/10/19 7:00 PM", "10/10/19 8:00 PM", "10/10/19 9:00 PM", "10/10/19 10:00 PM", "10/10/19 11:00 PM", "10/11/19 12:00 AM", "10/11/19 1:00 AM", "10/11/19 2:00 AM", "10/11/19 3:00 AM", "10/11/19 4:00 AM", "10/11/19 5:00 AM", "10/11/19 6:00 AM", "10/11/19 7:00 AM", "10/11/19 8:00 AM", "10/11/19 9:00 AM", "10/11/19 10:00 AM", "10/11/19 11:00 AM", "10/11/19 12:00 PM", "10/11/19 1:00 PM", "10/11/19 2:00 PM", "10/11/19 3:00 PM", "10/11/19 4:00 PM", "10/11/19 5:00 PM", "10/11/19 6:00 PM", "10/11/19 7:00 PM", "10/11/19 8:00 PM", "10/11/19 9:00 PM", "10/11/19 10:00 PM", "10/11/19 11:00 PM", "10/12/19 12:00 AM", "10/12/19 1:00 AM", "10/12/19 2:00 AM", "10/12/19 3:00 AM", "10/12/19 4:00 AM", "10/12/19 5:00 AM", "10/12/19 6:00 AM", "10/12/19 7:00 AM", "10/12/19 8:00 AM", "10/12/19 9:00 AM", "10/12/19 10:00 AM", "10/12/19 11:00 AM", "10/12/19 12:00 PM", "10/12/19 1:00 PM", "10/12/19 2:00 PM", "10/12/19 3:00 PM", "10/12/19 4:00 PM", "10/12/19 5:00 PM", "10/12/19 6:00 PM", "10/12/19 7:00 PM", "10/12/19 8:00 PM", "10/12/19 9:00 PM", "10/12/19 10:00 PM", "10/12/19 11:00 PM", "10/13/19 12:00 AM", "10/13/19 1:00 AM", "10/13/19 2:00 AM", "10/13/19 3:00 AM", "10/13/19 4:00 AM", "10/13/19 5:00 AM", "10/13/19 6:00 AM", "10/13/19 7:00 AM", "10/13/19 8:00 AM", "10/13/19 9:00 AM", "10/13/19 10:00 AM", "10/13/19 11:00 AM", "10/13/19 12:00 PM", "10/13/19 1:00 PM", "10/13/19 2:00 PM", "10/13/19 3:00 PM", "10/13/19 4:00 PM", "10/13/19 5:00 PM", "10/13/19 6:00 PM", "10/13/19 7:00 PM", "10/13/19 8:00 PM", "10/13/19 9:00 PM", "10/13/19 10:00 PM", "10/13/19 11:00 PM", "10/14/19 12:00 AM", "10/14/19 1:00 AM", "10/14/19 2:00 AM", "10/14/19 3:00 AM", "10/14/19 4:00 AM", "10/14/19 5:00 AM", "10/14/19 6:00 AM", "10/14/19 7:00 AM", "10/14/19 8:00 AM", "10/14/19 9:00 AM", "10/14/19 10:00 AM", "10/14/19 11:00 AM", "10/14/19 12:00 PM", "10/14/19 1:00 PM", "10/14/19 2:00 PM", "10/14/19 3:00 PM", "10/14/19 4:00 PM", "10/14/19 5:00 PM", "10/14/19 6:00 PM", "10/14/19 7:00 PM", "10/14/19 8:00 PM", "10/14/19 9:00 PM", "10/14/19 10:00 PM", "10/14/19 11:00 PM", "10/15/19 12:00 AM", "10/15/19 1:00 AM", "10/15/19 2:00 AM", "10/15/19 3:00 AM", "10/15/19 4:00 AM", "10/15/19 5:00 AM", "10/15/19 6:00 AM", "10/15/19 7:00 AM", "10/15/19 8:00 AM", "10/15/19 9:00 AM", "10/15/19 10:00 AM", "10/15/19 11:00 AM", "10/15/19 12:00 PM", "10/15/19 1:00 PM", "10/15/19 2:00 PM", "10/15/19 3:00 PM", "10/15/19 4:00 PM", "10/15/19 5:00 PM", "10/15/19 6:00 PM", "10/15/19 7:00 PM", "10/15/19 8:00 PM", "10/15/19 9:00 PM", "10/15/19 10:00 PM", "10/15/19 11:00 PM", "10/16/19 12:00 AM", "10/16/19 1:00 AM", "10/16/19 2:00 AM", "10/16/19 3:00 AM", "10/16/19 4:00 AM", "10/16/19 5:00 AM", "10/16/19 6:00 AM", "10/16/19 7:00 AM", "10/16/19 8:00 AM", "10/16/19 9:00 AM", "10/16/19 10:00 AM", "10/16/19 11:00 AM", "10/16/19 12:00 PM", "10/16/19 1:00 PM", "10/16/19 2:00 PM", "10/16/19 3:00 PM", "10/16/19 4:00 PM", "10/16/19 5:00 PM", "10/16/19 6:00 PM", "10/16/19 7:00 PM", "10/16/19 8:00 PM", "10/16/19 9:00 PM", "10/16/19 10:00 PM", "10/16/19 11:00 PM", "10/17/19 12:00 AM", "10/17/19 1:00 AM", "10/17/19 2:00 AM", "10/17/19 3:00 AM", "10/17/19 4:00 AM", "10/17/19 5:00 AM", "10/17/19 6:00 AM", "10/17/19 7:00 AM", "10/17/19 8:00 AM", "10/17/19 9:00 AM", "10/17/19 10:00 AM", "10/17/19 11:00 AM", "10/17/19 12:00 PM", "10/17/19 1:00 PM", "10/17/19 2:00 PM", "10/17/19 3:00 PM", "10/17/19 4:00 PM", "10/17/19 5:00 PM", "10/17/19 6:00 PM", "10/17/19 7:00 PM", "10/17/19 8:00 PM", "10/17/19 9:00 PM", "10/17/19 10:00 PM", "10/17/19 11:00 PM", "10/18/19 12:00 AM", "10/18/19 1:00 AM", "10/18/19 2:00 AM", "10/18/19 3:00 AM", "10/18/19 4:00 AM", "10/18/19 5:00 AM", "10/18/19 6:00 AM", "10/18/19 7:00 AM", "10/18/19 8:00 AM", "10/18/19 9:00 AM", "10/18/19 10:00 AM", "10/18/19 11:00 AM", "10/18/19 12:00 PM", "10/18/19 1:00 PM", "10/18/19 2:00 PM", "10/18/19 3:00 PM", "10/18/19 4:00 PM", "10/18/19 5:00 PM", "10/18/19 6:00 PM", "10/18/19 7:00 PM", "10/18/19 8:00 PM", "10/18/19 9:00 PM", "10/18/19 10:00 PM", "10/18/19 11:00 PM", "10/19/19 12:00 AM", "10/19/19 1:00 AM", "10/19/19 2:00 AM", "10/19/19 3:00 AM", "10/19/19 4:00 AM", "10/19/19 5:00 AM", "10/19/19 6:00 AM", "10/19/19 7:00 AM", "10/19/19 8:00 AM", "10/19/19 9:00 AM", "10/19/19 10:00 AM", "10/19/19 11:00 AM", "10/19/19 12:00 PM", "10/19/19 1:00 PM", "10/19/19 2:00 PM", "10/19/19 3:00 PM", "10/19/19 4:00 PM", "10/19/19 5:00 PM", "10/19/19 6:00 PM", "10/19/19 7:00 PM", "10/19/19 8:00 PM", "10/19/19 9:00 PM", "10/19/19 10:00 PM", "10/19/19 11:00 PM", "10/20/19 12:00 AM", "10/20/19 1:00 AM", "10/20/19 2:00 AM", "10/20/19 3:00 AM", "10/20/19 4:00 AM", "10/20/19 5:00 AM", "10/20/19 6:00 AM", "10/20/19 7:00 AM", "10/20/19 8:00 AM", "10/20/19 9:00 AM", "10/20/19 10:00 AM", "10/20/19 11:00 AM", "10/20/19 12:00 PM", "10/20/19 1:00 PM", "10/20/19 2:00 PM", "10/20/19 3:00 PM", "10/20/19 4:00 PM", "10/20/19 5:00 PM", "10/20/19 6:00 PM", "10/20/19 7:00 PM", "10/20/19 8:00 PM", "10/20/19 9:00 PM", "10/20/19 10:00 PM", "10/20/19 11:00 PM", "10/21/19 12:00 AM", "10/21/19 1:00 AM", "10/21/19 2:00 AM", "10/21/19 3:00 AM", "10/21/19 4:00 AM", "10/21/19 5:00 AM", "10/21/19 6:00 AM", "10/21/19 7:00 AM", "10/21/19 8:00 AM", "10/21/19 9:00 AM", "10/21/19 10:00 AM", "10/21/19 11:00 AM", "10/21/19 12:00 PM", "10/21/19 1:00 PM", "10/21/19 2:00 PM", "10/21/19 3:00 PM", "10/21/19 4:00 PM", "10/21/19 5:00 PM", "10/21/19 6:00 PM", "10/21/19 7:00 PM", "10/21/19 8:00 PM", "10/21/19 9:00 PM", "10/21/19 10:00 PM", "10/21/19 11:00 PM", "10/22/19 12:00 AM", "10/22/19 1:00 AM", "10/22/19 2:00 AM", "10/22/19 3:00 AM", "10/22/19 4:00 AM", "10/22/19 5:00 AM", "10/22/19 6:00 AM", "10/22/19 7:00 AM", "10/22/19 8:00 AM", "10/22/19 9:00 AM", "10/22/19 10:00 AM", "10/22/19 11:00 AM", "10/22/19 12:00 PM", "10/22/19 1:00 PM", "10/22/19 2:00 PM", "10/22/19 3:00 PM", "10/22/19 4:00 PM", "10/22/19 5:00 PM", "10/22/19 6:00 PM", "10/22/19 7:00 PM", "10/22/19 8:00 PM", "10/22/19 9:00 PM", "10/22/19 10:00 PM", "10/22/19 11:00 PM", "10/23/19 12:00 AM", "10/23/19 1:00 AM", "10/23/19 2:00 AM", "10/23/19 3:00 AM", "10/23/19 4:00 AM", "10/23/19 5:00 AM", "10/23/19 6:00 AM", "10/23/19 7:00 AM", "10/23/19 8:00 AM", "10/23/19 9:00 AM", "10/23/19 10:00 AM", "10/23/19 11:00 AM", "10/23/19 12:00 PM", "10/23/19 1:00 PM", "10/23/19 2:00 PM", "10/23/19 3:00 PM", "10/23/19 4:00 PM", "10/23/19 5:00 PM", "10/23/19 6:00 PM", "10/23/19 7:00 PM", "10/23/19 8:00 PM", "10/23/19 9:00 PM", "10/23/19 10:00 PM", "10/23/19 11:00 PM", "10/24/19 12:00 AM", "10/24/19 1:00 AM", "10/24/19 2:00 AM", "10/24/19 3:00 AM", "10/24/19 4:00 AM", "10/24/19 5:00 AM", "10/24/19 6:00 AM", "10/24/19 7:00 AM", "10/24/19 8:00 AM", "10/24/19 9:00 AM", "10/24/19 10:00 AM", "10/24/19 11:00 AM", "10/24/19 12:00 PM", "10/24/19 1:00 PM", "10/24/19 2:00 PM", "10/24/19 3:00 PM", "10/24/19 4:00 PM", "10/24/19 5:00 PM", "10/24/19 6:00 PM", "10/24/19 7:00 PM", "10/24/19 8:00 PM", "10/24/19 9:00 PM", "10/24/19 10:00 PM", "10/24/19 11:00 PM", "10/25/19 12:00 AM", "10/25/19 1:00 AM", "10/25/19 2:00 AM", "10/25/19 3:00 AM", "10/25/19 4:00 AM", "10/25/19 5:00 AM", "10/25/19 6:00 AM", "10/25/19 7:00 AM", "10/25/19 8:00 AM", "10/25/19 9:00 AM", "10/25/19 10:00 AM", "10/25/19 11:00 AM", "10/25/19 12:00 PM", "10/25/19 1:00 PM", "10/25/19 2:00 PM", "10/25/19 3:00 PM", "10/25/19 4:00 PM", "10/25/19 5:00 PM", "10/25/19 6:00 PM", "10/25/19 7:00 PM", "10/25/19 8:00 PM", "10/25/19 9:00 PM", "10/25/19 10:00 PM", "10/25/19 11:00 PM", "10/26/19 12:00 AM", "10/26/19 1:00 AM", "10/26/19 2:00 AM", "10/26/19 3:00 AM", "10/26/19 4:00 AM", "10/26/19 5:00 AM", "10/26/19 6:00 AM", "10/26/19 7:00 AM", "10/26/19 8:00 AM", "10/26/19 9:00 AM", "10/26/19 10:00 AM", "10/26/19 11:00 AM", "10/26/19 12:00 PM", "10/26/19 1:00 PM", "10/26/19 2:00 PM", "10/26/19 3:00 PM", "10/26/19 4:00 PM", "10/26/19 5:00 PM", "10/26/19 6:00 PM", "10/26/19 7:00 PM", "10/26/19 8:00 PM", "10/26/19 9:00 PM", "10/26/19 10:00 PM", "10/26/19 11:00 PM", "10/27/19 12:00 AM", "10/27/19 1:00 AM", "10/27/19 2:00 AM", "10/27/19 3:00 AM", "10/27/19 4:00 AM", "10/27/19 5:00 AM", "10/27/19 6:00 AM", "10/27/19 7:00 AM", "10/27/19 8:00 AM", "10/27/19 9:00 AM", "10/27/19 10:00 AM", "10/27/19 11:00 AM", "10/27/19 12:00 PM", "10/27/19 1:00 PM", "10/27/19 2:00 PM", "10/27/19 3:00 PM", "10/27/19 4:00 PM", "10/27/19 5:00 PM", "10/27/19 6:00 PM", "10/27/19 7:00 PM", "10/27/19 8:00 PM", "10/27/19 9:00 PM", "10/27/19 10:00 PM", "10/27/19 11:00 PM", "10/28/19 12:00 AM", "10/28/19 1:00 AM", "10/28/19 2:00 AM", "10/28/19 3:00 AM", "10/28/19 4:00 AM", "10/28/19 5:00 AM", "10/28/19 6:00 AM", "10/28/19 7:00 AM", "10/28/19 8:00 AM", "10/28/19 9:00 AM", "10/28/19 10:00 AM", "10/28/19 11:00 AM", "10/28/19 12:00 PM", "10/28/19 1:00 PM", "10/28/19 2:00 PM", "10/28/19 3:00 PM", "10/28/19 4:00 PM", "10/28/19 5:00 PM", "10/28/19 6:00 PM", "10/28/19 7:00 PM", "10/28/19 8:00 PM", "10/28/19 9:00 PM", "10/28/19 10:00 PM", "10/28/19 11:00 PM", "10/29/19 12:00 AM", "10/29/19 1:00 AM", "10/29/19 2:00 AM", "10/29/19 3:00 AM", "10/29/19 4:00 AM", "10/29/19 5:00 AM", "10/29/19 6:00 AM", "10/29/19 7:00 AM", "10/29/19 8:00 AM", "10/29/19 9:00 AM", "10/29/19 10:00 AM", "10/29/19 11:00 AM", "10/29/19 12:00 PM", "10/29/19 1:00 PM", "10/29/19 2:00 PM", "10/29/19 3:00 PM", "10/29/19 4:00 PM", "10/29/19 5:00 PM", "10/29/19 6:00 PM", "10/29/19 7:00 PM", "10/29/19 8:00 PM", "10/29/19 9:00 PM", "10/29/19 10:00 PM", "10/29/19 11:00 PM", "10/30/19 12:00 AM", "10/30/19 1:00 AM", "10/30/19 2:00 AM", "10/30/19 3:00 AM", "10/30/19 4:00 AM", "10/30/19 5:00 AM", "10/30/19 6:00 AM", "10/30/19 7:00 AM", "10/30/19 8:00 AM", "10/30/19 9:00 AM", "10/30/19 10:00 AM", "10/30/19 11:00 AM", "10/30/19 12:00 PM", "10/30/19 1:00 PM", "10/30/19 2:00 PM", "10/30/19 3:00 PM", "10/30/19 4:00 PM", "10/30/19 5:00 PM", "10/30/19 6:00 PM", "10/30/19 7:00 PM", "10/30/19 8:00 PM", "10/30/19 9:00 PM", "10/30/19 10:00 PM", "10/30/19 11:00 PM", "10/31/19 12:00 AM", "10/31/19 1:00 AM", "10/31/19 2:00 AM", "10/31/19 3:00 AM", "10/31/19 4:00 AM", "10/31/19 5:00 AM", "10/31/19 6:00 AM", "10/31/19 7:00 AM", "10/31/19 8:00 AM", "10/31/19 9:00 AM", "10/31/19 10:00 AM", "10/31/19 11:00 AM", "10/31/19 12:00 PM", "10/31/19 1:00 PM", "10/31/19 2:00 PM", "10/31/19 3:00 PM", "10/31/19 4:00 PM", "10/31/19 5:00 PM", "10/31/19 6:00 PM", "10/31/19 7:00 PM", "10/31/19 8:00 PM", "10/31/19 9:00 PM", "10/31/19 10:00 PM", "10/31/19 11:00 PM", "11/1/19 12:00 AM", "11/1/19 1:00 AM", "11/1/19 2:00 AM", "11/1/19 3:00 AM", "11/1/19 4:00 AM", "11/1/19 5:00 AM", "11/1/19 6:00 AM", "11/1/19 7:00 AM", "11/1/19 8:00 AM", "11/1/19 9:00 AM", "11/1/19 10:00 AM", "11/1/19 11:00 AM", "11/1/19 12:00 PM", "11/1/19 1:00 PM", "11/1/19 2:00 PM", "11/1/19 3:00 PM", "11/1/19 4:00 PM", "11/1/19 5:00 PM", "11/1/19 6:00 PM", "11/1/19 7:00 PM", "11/1/19 8:00 PM", "11/1/19 9:00 PM", "11/1/19 10:00 PM", "11/1/19 11:00 PM", "11/2/19 12:00 AM", "11/2/19 1:00 AM", "11/2/19 2:00 AM", "11/2/19 3:00 AM", "11/2/19 4:00 AM", "11/2/19 5:00 AM", "11/2/19 6:00 AM", "11/2/19 7:00 AM", "11/2/19 8:00 AM", "11/2/19 9:00 AM", "11/2/19 10:00 AM", "11/2/19 11:00 AM", "11/2/19 12:00 PM", "11/2/19 1:00 PM", "11/2/19 2:00 PM", "11/2/19 3:00 PM", "11/2/19 4:00 PM", "11/2/19 5:00 PM", "11/2/19 6:00 PM", "11/2/19 7:00 PM", "11/2/19 8:00 PM", "11/2/19 9:00 PM", "11/2/19 10:00 PM", "11/2/19 11:00 PM", "11/3/19 12:00 AM", "11/3/19 1:00 AM", "11/3/19 2:00 AM", "11/3/19 3:00 AM", "11/3/19 4:00 AM", "11/3/19 5:00 AM", "11/3/19 6:00 AM", "11/3/19 7:00 AM", "11/3/19 8:00 AM", "11/3/19 9:00 AM", "11/3/19 10:00 AM", "11/3/19 11:00 AM", "11/3/19 12:00 PM", "11/3/19 1:00 PM", "11/3/19 2:00 PM", "11/3/19 3:00 PM", "11/3/19 4:00 PM", "11/3/19 5:00 PM", "11/3/19 6:00 PM", "11/3/19 7:00 PM", "11/3/19 8:00 PM", "11/3/19 9:00 PM", "11/3/19 10:00 PM", "11/3/19 11:00 PM", "11/4/19 12:00 AM", "11/4/19 1:00 AM", "11/4/19 2:00 AM", "11/4/19 3:00 AM", "11/4/19 4:00 AM", "11/4/19 5:00 AM", "11/4/19 6:00 AM", "11/4/19 7:00 AM", "11/4/19 8:00 AM", "11/4/19 9:00 AM", "11/4/19 10:00 AM", "11/4/19 11:00 AM", "11/4/19 12:00 PM", "11/4/19 1:00 PM", "11/4/19 2:00 PM", "11/4/19 3:00 PM", "11/4/19 4:00 PM", "11/4/19 5:00 PM", "11/4/19 6:00 PM", "11/4/19 7:00 PM", "11/4/19 8:00 PM", "11/4/19 9:00 PM", "11/4/19 10:00 PM", "11/4/19 11:00 PM", "11/5/19 12:00 AM", "11/5/19 1:00 AM", "11/5/19 2:00 AM", "11/5/19 3:00 AM", "11/5/19 4:00 AM", "11/5/19 5:00 AM", "11/5/19 6:00 AM", "11/5/19 7:00 AM", "11/5/19 8:00 AM", "11/5/19 9:00 AM", "11/5/19 10:00 AM", "11/5/19 11:00 AM", "11/5/19 12:00 PM", "11/5/19 1:00 PM", "11/5/19 2:00 PM", "11/5/19 3:00 PM", "11/5/19 4:00 PM", "11/5/19 5:00 PM", "11/5/19 6:00 PM", "11/5/19 7:00 PM", "11/5/19 8:00 PM", "11/5/19 9:00 PM", "11/5/19 10:00 PM", "11/5/19 11:00 PM", "11/6/19 12:00 AM", "11/6/19 1:00 AM", "11/6/19 2:00 AM", "11/6/19 3:00 AM", "11/6/19 4:00 AM", "11/6/19 5:00 AM", "11/6/19 6:00 AM", "11/6/19 7:00 AM", "11/6/19 8:00 AM", "11/6/19 9:00 AM", "11/6/19 10:00 AM", "11/6/19 11:00 AM", "11/6/19 12:00 PM", "11/6/19 1:00 PM", "11/6/19 2:00 PM", "11/6/19 3:00 PM", "11/6/19 4:00 PM", "11/6/19 5:00 PM", "11/6/19 6:00 PM", "11/6/19 7:00 PM", "11/6/19 8:00 PM", "11/6/19 9:00 PM", "11/6/19 10:00 PM", "11/6/19 11:00 PM", "11/7/19 12:00 AM", "11/7/19 1:00 AM", "11/7/19 2:00 AM", "11/7/19 3:00 AM", "11/7/19 4:00 AM", "11/7/19 5:00 AM", "11/7/19 6:00 AM", "11/7/19 7:00 AM", "11/7/19 8:00 AM", "11/7/19 9:00 AM", "11/7/19 10:00 AM", "11/7/19 11:00 AM", "11/7/19 12:00 PM", "11/7/19 1:00 PM", "11/7/19 2:00 PM", "11/7/19 3:00 PM", "11/7/19 4:00 PM", "11/7/19 5:00 PM", "11/7/19 6:00 PM", "11/7/19 7:00 PM", "11/7/19 8:00 PM", "11/7/19 9:00 PM", "11/7/19 10:00 PM", "11/7/19 11:00 PM", "11/8/19 12:00 AM", "11/8/19 1:00 AM", "11/8/19 2:00 AM", "11/8/19 3:00 AM", "11/8/19 4:00 AM", "11/8/19 5:00 AM", "11/8/19 6:00 AM", "11/8/19 7:00 AM", "11/8/19 8:00 AM", "11/8/19 9:00 AM", "11/8/19 10:00 AM", "11/8/19 11:00 AM", "11/8/19 12:00 PM", "11/8/19 1:00 PM", "11/8/19 2:00 PM", "11/8/19 3:00 PM", "11/8/19 4:00 PM", "11/8/19 5:00 PM", "11/8/19 6:00 PM", "11/8/19 7:00 PM", "11/8/19 8:00 PM", "11/8/19 9:00 PM", "11/8/19 10:00 PM", "11/8/19 11:00 PM", "11/9/19 12:00 AM", "11/9/19 1:00 AM", "11/9/19 2:00 AM", "11/9/19 3:00 AM", "11/9/19 4:00 AM", "11/9/19 5:00 AM", "11/9/19 6:00 AM", "11/9/19 7:00 AM", "11/9/19 8:00 AM", "11/9/19 9:00 AM", "11/9/19 10:00 AM", "11/9/19 11:00 AM", "11/9/19 12:00 PM", "11/9/19 1:00 PM", "11/9/19 2:00 PM", "11/9/19 3:00 PM", "11/9/19 4:00 PM", "11/9/19 5:00 PM", "11/9/19 6:00 PM", "11/9/19 7:00 PM", "11/9/19 8:00 PM", "11/9/19 9:00 PM", "11/9/19 10:00 PM", "11/9/19 11:00 PM", "11/10/19 12:00 AM", "11/10/19 1:00 AM", "11/10/19 2:00 AM", "11/10/19 3:00 AM", "11/10/19 4:00 AM", "11/10/19 5:00 AM", "11/10/19 6:00 AM", "11/10/19 7:00 AM", "11/10/19 8:00 AM", "11/10/19 9:00 AM", "11/10/19 10:00 AM", "11/10/19 11:00 AM", "11/10/19 12:00 PM", "11/10/19 1:00 PM", "11/10/19 2:00 PM", "11/10/19 3:00 PM", "11/10/19 4:00 PM", "11/10/19 5:00 PM", "11/10/19 6:00 PM", "11/10/19 7:00 PM", "11/10/19 8:00 PM", "11/10/19 9:00 PM", "11/10/19 10:00 PM", "11/10/19 11:00 PM", "11/11/19 12:00 AM", "11/11/19 1:00 AM", "11/11/19 2:00 AM", "11/11/19 3:00 AM", "11/11/19 4:00 AM", "11/11/19 5:00 AM", "11/11/19 6:00 AM", "11/11/19 7:00 AM", "11/11/19 8:00 AM", "11/11/19 9:00 AM", "11/11/19 10:00 AM", "11/11/19 11:00 AM", "11/11/19 12:00 PM", "11/11/19 1:00 PM", "11/11/19 2:00 PM", "11/11/19 3:00 PM", "11/11/19 4:00 PM", "11/11/19 5:00 PM", "11/11/19 6:00 PM", "11/11/19 7:00 PM", "11/11/19 8:00 PM", "11/11/19 9:00 PM", "11/11/19 10:00 PM", "11/11/19 11:00 PM", "11/12/19 12:00 AM", "11/12/19 1:00 AM", "11/12/19 2:00 AM", "11/12/19 3:00 AM", "11/12/19 4:00 AM", "11/12/19 5:00 AM", "11/12/19 6:00 AM", "11/12/19 7:00 AM", "11/12/19 8:00 AM", "11/12/19 9:00 AM", "11/12/19 10:00 AM", "11/12/19 11:00 AM", "11/12/19 12:00 PM", "11/12/19 1:00 PM", "11/12/19 2:00 PM", "11/12/19 3:00 PM", "11/12/19 4:00 PM", "11/12/19 5:00 PM", "11/12/19 6:00 PM", "11/12/19 7:00 PM", "11/12/19 8:00 PM", "11/12/19 9:00 PM", "11/12/19 10:00 PM", "11/12/19 11:00 PM", "11/13/19 12:00 AM", "11/13/19 1:00 AM", "11/13/19 2:00 AM", "11/13/19 3:00 AM", "11/13/19 4:00 AM", "11/13/19 5:00 AM", "11/13/19 6:00 AM", "11/13/19 7:00 AM", "11/13/19 8:00 AM", "11/13/19 9:00 AM", "11/13/19 10:00 AM", "11/13/19 11:00 AM", "11/13/19 12:00 PM", "11/13/19 1:00 PM", "11/13/19 2:00 PM", "11/13/19 3:00 PM", "11/13/19 4:00 PM", "11/13/19 5:00 PM", "11/13/19 6:00 PM", "11/13/19 7:00 PM", "11/13/19 8:00 PM", "11/13/19 9:00 PM", "11/13/19 10:00 PM", "11/13/19 11:00 PM", "11/14/19 12:00 AM", "11/14/19 1:00 AM", "11/14/19 2:00 AM", "11/14/19 3:00 AM", "11/14/19 4:00 AM", "11/14/19 5:00 AM", "11/14/19 6:00 AM", "11/14/19 7:00 AM", "11/14/19 8:00 AM", "11/14/19 9:00 AM", "11/14/19 10:00 AM", "11/14/19 11:00 AM", "11/14/19 12:00 PM", "11/14/19 1:00 PM", "11/14/19 2:00 PM", "11/14/19 3:00 PM", "11/14/19 4:00 PM", "11/14/19 5:00 PM", "11/14/19 6:00 PM", "11/14/19 7:00 PM", "11/14/19 8:00 PM", "11/14/19 9:00 PM", "11/14/19 10:00 PM", "11/14/19 11:00 PM", "11/15/19 12:00 AM", "11/15/19 1:00 AM", "11/15/19 2:00 AM", "11/15/19 3:00 AM", "11/15/19 4:00 AM", "11/15/19 5:00 AM", "11/15/19 6:00 AM", "11/15/19 7:00 AM", "11/15/19 8:00 AM", "11/15/19 9:00 AM", "11/15/19 10:00 AM", "11/15/19 11:00 AM", "11/15/19 12:00 PM", "11/15/19 1:00 PM", "11/15/19 2:00 PM", "11/15/19 3:00 PM", "11/15/19 4:00 PM", "11/15/19 5:00 PM", "11/15/19 6:00 PM", "11/15/19 7:00 PM", "11/15/19 8:00 PM", "11/15/19 9:00 PM", "11/15/19 10:00 PM", "11/15/19 11:00 PM", "11/16/19 12:00 AM", "11/16/19 1:00 AM", "11/16/19 2:00 AM", "11/16/19 3:00 AM", "11/16/19 4:00 AM", "11/16/19 5:00 AM", "11/16/19 6:00 AM", "11/16/19 7:00 AM", "11/16/19 8:00 AM", "11/16/19 9:00 AM", "11/16/19 10:00 AM", "11/16/19 11:00 AM", "11/16/19 12:00 PM", "11/16/19 1:00 PM", "11/16/19 2:00 PM", "11/16/19 3:00 PM", "11/16/19 4:00 PM", "11/16/19 5:00 PM", "11/16/19 6:00 PM", "11/16/19 7:00 PM", "11/16/19 8:00 PM", "11/16/19 9:00 PM", "11/16/19 10:00 PM", "11/16/19 11:00 PM", "11/17/19 12:00 AM", "11/17/19 1:00 AM", "11/17/19 2:00 AM", "11/17/19 3:00 AM", "11/17/19 4:00 AM", "11/17/19 5:00 AM", "11/17/19 6:00 AM", "11/17/19 7:00 AM", "11/17/19 8:00 AM", "11/17/19 9:00 AM", "11/17/19 10:00 AM", "11/17/19 11:00 AM", "11/17/19 12:00 PM", "11/17/19 1:00 PM", "11/17/19 2:00 PM", "11/17/19 3:00 PM", "11/17/19 4:00 PM", "11/17/19 5:00 PM", "11/17/19 6:00 PM", "11/17/19 7:00 PM", "11/17/19 8:00 PM", "11/17/19 9:00 PM", "11/17/19 10:00 PM", "11/17/19 11:00 PM", "11/18/19 12:00 AM", "11/18/19 1:00 AM", "11/18/19 2:00 AM", "11/18/19 3:00 AM", "11/18/19 4:00 AM", "11/18/19 5:00 AM", "11/18/19 6:00 AM", "11/18/19 7:00 AM", "11/18/19 8:00 AM", "11/18/19 9:00 AM", "11/18/19 10:00 AM", "11/18/19 11:00 AM", "11/18/19 12:00 PM", "11/18/19 1:00 PM", "11/18/19 2:00 PM", "11/18/19 3:00 PM", "11/18/19 4:00 PM", "11/18/19 5:00 PM", "11/18/19 6:00 PM", "11/18/19 7:00 PM", "11/18/19 8:00 PM", "11/18/19 9:00 PM", "11/18/19 10:00 PM", "11/18/19 11:00 PM", "11/19/19 12:00 AM", "11/19/19 1:00 AM", "11/19/19 2:00 AM", "11/19/19 3:00 AM", "11/19/19 4:00 AM", "11/19/19 5:00 AM", "11/19/19 6:00 AM", "11/19/19 7:00 AM", "11/19/19 8:00 AM", "11/19/19 9:00 AM", "11/19/19 10:00 AM", "11/19/19 11:00 AM", "11/19/19 12:00 PM", "11/19/19 1:00 PM", "11/19/19 2:00 PM", "11/19/19 3:00 PM", "11/19/19 4:00 PM", "11/19/19 5:00 PM", "11/19/19 6:00 PM", "11/19/19 7:00 PM", "11/19/19 8:00 PM", "11/19/19 9:00 PM", "11/19/19 10:00 PM", "11/19/19 11:00 PM", "11/20/19 12:00 AM", "11/20/19 1:00 AM", "11/20/19 2:00 AM", "11/20/19 3:00 AM", "11/20/19 4:00 AM", "11/20/19 5:00 AM", "11/20/19 6:00 AM", "11/20/19 7:00 AM", "11/20/19 8:00 AM", "11/20/19 9:00 AM", "11/20/19 10:00 AM", "11/20/19 11:00 AM", "11/20/19 12:00 PM", "11/20/19 1:00 PM", "11/20/19 2:00 PM", "11/20/19 3:00 PM", "11/20/19 4:00 PM", "11/20/19 5:00 PM", "11/20/19 6:00 PM", "11/20/19 7:00 PM", "11/20/19 8:00 PM", "11/20/19 9:00 PM", "11/20/19 10:00 PM", "11/20/19 11:00 PM", "11/21/19 12:00 AM", "11/21/19 1:00 AM", "11/21/19 2:00 AM", "11/21/19 3:00 AM", "11/21/19 4:00 AM", "11/21/19 5:00 AM", "11/21/19 6:00 AM", "11/21/19 7:00 AM", "11/21/19 8:00 AM", "11/21/19 9:00 AM", "11/21/19 10:00 AM", "11/21/19 11:00 AM", "11/21/19 12:00 PM", "11/21/19 1:00 PM", "11/21/19 2:00 PM", "11/21/19 3:00 PM", "11/21/19 4:00 PM", "11/21/19 5:00 PM", "11/21/19 6:00 PM", "11/21/19 7:00 PM", "11/21/19 8:00 PM", "11/21/19 9:00 PM", "11/21/19 10:00 PM", "11/21/19 11:00 PM", "11/22/19 12:00 AM", "11/22/19 1:00 AM", "11/22/19 2:00 AM", "11/22/19 3:00 AM", "11/22/19 4:00 AM", "11/22/19 5:00 AM", "11/22/19 6:00 AM", "11/22/19 7:00 AM", "11/22/19 8:00 AM", "11/22/19 9:00 AM", "11/22/19 10:00 AM", "11/22/19 11:00 AM", "11/22/19 12:00 PM", "11/22/19 1:00 PM", "11/22/19 2:00 PM", "11/22/19 3:00 PM", "11/22/19 4:00 PM", "11/22/19 5:00 PM", "11/22/19 6:00 PM", "11/22/19 7:00 PM", "11/22/19 8:00 PM", "11/22/19 9:00 PM", "11/22/19 10:00 PM", "11/22/19 11:00 PM", "11/23/19 12:00 AM", "11/23/19 1:00 AM", "11/23/19 2:00 AM", "11/23/19 3:00 AM", "11/23/19 4:00 AM", "11/23/19 5:00 AM", "11/23/19 6:00 AM", "11/23/19 7:00 AM", "11/23/19 8:00 AM", "11/23/19 9:00 AM", "11/23/19 10:00 AM", "11/23/19 11:00 AM", "11/23/19 12:00 PM", "11/23/19 1:00 PM", "11/23/19 2:00 PM", "11/23/19 3:00 PM", "11/23/19 4:00 PM", "11/23/19 5:00 PM", "11/23/19 6:00 PM", "11/23/19 7:00 PM", "11/23/19 8:00 PM", "11/23/19 9:00 PM", "11/23/19 10:00 PM", "11/23/19 11:00 PM", "11/24/19 12:00 AM", "11/24/19 1:00 AM", "11/24/19 2:00 AM", "11/24/19 3:00 AM", "11/24/19 4:00 AM", "11/24/19 5:00 AM", "11/24/19 6:00 AM", "11/24/19 7:00 AM", "11/24/19 8:00 AM", "11/24/19 9:00 AM", "11/24/19 10:00 AM", "11/24/19 11:00 AM", "11/24/19 12:00 PM", "11/24/19 1:00 PM", "11/24/19 2:00 PM", "11/24/19 3:00 PM", "11/24/19 4:00 PM", "11/24/19 5:00 PM", "11/24/19 6:00 PM", "11/24/19 7:00 PM", "11/24/19 8:00 PM", "11/24/19 9:00 PM", "11/24/19 10:00 PM", "11/24/19 11:00 PM", "11/25/19 12:00 AM", "11/25/19 1:00 AM", "11/25/19 2:00 AM", "11/25/19 3:00 AM", "11/25/19 4:00 AM", "11/25/19 5:00 AM", "11/25/19 6:00 AM", "11/25/19 7:00 AM", "11/25/19 8:00 AM", "11/25/19 9:00 AM", "11/25/19 10:00 AM", "11/25/19 11:00 AM", "11/25/19 12:00 PM", "11/25/19 1:00 PM", "11/25/19 2:00 PM", "11/25/19 3:00 PM", "11/25/19 4:00 PM", "11/25/19 5:00 PM", "11/25/19 6:00 PM", "11/25/19 7:00 PM", "11/25/19 8:00 PM", "11/25/19 9:00 PM", "11/25/19 10:00 PM", "11/25/19 11:00 PM", "11/26/19 12:00 AM", "11/26/19 1:00 AM", "11/26/19 2:00 AM", "11/26/19 3:00 AM", "11/26/19 4:00 AM", "11/26/19 5:00 AM", "11/26/19 6:00 AM", "11/26/19 7:00 AM", "11/26/19 8:00 AM", "11/26/19 9:00 AM", "11/26/19 10:00 AM", "11/26/19 11:00 AM", "11/26/19 12:00 PM", "11/26/19 1:00 PM", "11/26/19 2:00 PM", "11/26/19 3:00 PM", "11/26/19 4:00 PM", "11/26/19 5:00 PM", "11/26/19 6:00 PM", "11/26/19 7:00 PM", "11/26/19 8:00 PM", "11/26/19 9:00 PM", "11/26/19 10:00 PM", "11/26/19 11:00 PM", "11/27/19 12:00 AM", "11/27/19 1:00 AM", "11/27/19 2:00 AM", "11/27/19 3:00 AM", "11/27/19 4:00 AM", "11/27/19 5:00 AM", "11/27/19 6:00 AM", "11/27/19 7:00 AM", "11/27/19 8:00 AM", "11/27/19 9:00 AM", "11/27/19 10:00 AM", "11/27/19 11:00 AM", "11/27/19 12:00 PM", "11/27/19 1:00 PM", "11/27/19 2:00 PM", "11/27/19 3:00 PM", "11/27/19 4:00 PM", "11/27/19 5:00 PM", "11/27/19 6:00 PM", "11/27/19 7:00 PM", "11/27/19 8:00 PM", "11/27/19 9:00 PM", "11/27/19 10:00 PM", "11/27/19 11:00 PM", "11/28/19 12:00 AM", "11/28/19 1:00 AM", "11/28/19 2:00 AM", "11/28/19 3:00 AM", "11/28/19 4:00 AM", "11/28/19 5:00 AM", "11/28/19 6:00 AM", "11/28/19 7:00 AM", "11/28/19 8:00 AM", "11/28/19 9:00 AM", "11/28/19 10:00 AM", "11/28/19 11:00 AM", "11/28/19 12:00 PM", "11/28/19 1:00 PM", "11/28/19 2:00 PM", "11/28/19 3:00 PM", "11/28/19 4:00 PM", "11/28/19 5:00 PM", "11/28/19 6:00 PM", "11/28/19 7:00 PM", "11/28/19 8:00 PM", "11/28/19 9:00 PM", "11/28/19 10:00 PM", "11/28/19 11:00 PM", "11/29/19 12:00 AM", "11/29/19 1:00 AM", "11/29/19 2:00 AM", "11/29/19 3:00 AM", "11/29/19 4:00 AM", "11/29/19 5:00 AM", "11/29/19 6:00 AM", "11/29/19 7:00 AM", "11/29/19 8:00 AM", "11/29/19 9:00 AM", "11/29/19 10:00 AM", "11/29/19 11:00 AM", "11/29/19 12:00 PM", "11/29/19 1:00 PM", "11/29/19 2:00 PM", "11/29/19 3:00 PM", "11/29/19 4:00 PM", "11/29/19 5:00 PM", "11/29/19 6:00 PM", "11/29/19 7:00 PM", "11/29/19 8:00 PM", "11/29/19 9:00 PM", "11/29/19 10:00 PM", "11/29/19 11:00 PM", "11/30/19 12:00 AM", "11/30/19 1:00 AM", "11/30/19 2:00 AM", "11/30/19 3:00 AM", "11/30/19 4:00 AM", "11/30/19 5:00 AM", "11/30/19 6:00 AM", "11/30/19 7:00 AM", "11/30/19 8:00 AM", "11/30/19 9:00 AM", "11/30/19 10:00 AM", "11/30/19 11:00 AM", "11/30/19 12:00 PM", "11/30/19 1:00 PM", "11/30/19 2:00 PM", "11/30/19 3:00 PM", "11/30/19 4:00 PM", "11/30/19 5:00 PM", "11/30/19 6:00 PM", "11/30/19 7:00 PM", "11/30/19 8:00 PM", "11/30/19 9:00 PM", "11/30/19 10:00 PM", "11/30/19 11:00 PM", "12/1/19 12:00 AM", "12/1/19 1:00 AM", "12/1/19 2:00 AM", "12/1/19 3:00 AM", "12/1/19 4:00 AM", "12/1/19 5:00 AM", "12/1/19 6:00 AM", "12/1/19 7:00 AM", "12/1/19 8:00 AM", "12/1/19 9:00 AM", "12/1/19 10:00 AM", "12/1/19 11:00 AM", "12/1/19 12:00 PM", "12/1/19 1:00 PM", "12/1/19 2:00 PM", "12/1/19 3:00 PM", "12/1/19 4:00 PM", "12/1/19 5:00 PM", "12/1/19 6:00 PM", "12/1/19 7:00 PM", "12/1/19 8:00 PM", "12/1/19 9:00 PM", "12/1/19 10:00 PM", "12/1/19 11:00 PM", "12/2/19 12:00 AM", "12/2/19 1:00 AM", "12/2/19 2:00 AM", "12/2/19 3:00 AM", "12/2/19 4:00 AM", "12/2/19 5:00 AM", "12/2/19 6:00 AM", "12/2/19 7:00 AM", "12/2/19 8:00 AM", "12/2/19 9:00 AM", "12/2/19 10:00 AM", "12/2/19 11:00 AM", "12/2/19 12:00 PM", "12/2/19 1:00 PM", "12/2/19 2:00 PM", "12/2/19 3:00 PM", "12/2/19 4:00 PM", "12/2/19 5:00 PM", "12/2/19 6:00 PM", "12/2/19 7:00 PM", "12/2/19 8:00 PM", "12/2/19 9:00 PM", "12/2/19 10:00 PM", "12/2/19 11:00 PM", "12/3/19 12:00 AM", "12/3/19 1:00 AM", "12/3/19 2:00 AM", "12/3/19 3:00 AM", "12/3/19 4:00 AM", "12/3/19 5:00 AM", "12/3/19 6:00 AM", "12/3/19 7:00 AM", "12/3/19 8:00 AM", "12/3/19 9:00 AM", "12/3/19 10:00 AM", "12/3/19 11:00 AM", "12/3/19 12:00 PM", "12/3/19 1:00 PM", "12/3/19 2:00 PM", "12/3/19 3:00 PM", "12/3/19 4:00 PM", "12/3/19 5:00 PM", "12/3/19 6:00 PM", "12/3/19 7:00 PM", "12/3/19 8:00 PM", "12/3/19 9:00 PM", "12/3/19 10:00 PM", "12/3/19 11:00 PM", "12/4/19 12:00 AM", "12/4/19 1:00 AM", "12/4/19 2:00 AM", "12/4/19 3:00 AM", "12/4/19 4:00 AM", "12/4/19 5:00 AM", "12/4/19 6:00 AM", "12/4/19 7:00 AM", "12/4/19 8:00 AM", "12/4/19 9:00 AM", "12/4/19 10:00 AM", "12/4/19 11:00 AM", "12/4/19 12:00 PM", "12/4/19 1:00 PM", "12/4/19 2:00 PM", "12/4/19 3:00 PM", "12/4/19 4:00 PM", "12/4/19 5:00 PM", "12/4/19 6:00 PM", "12/4/19 7:00 PM", "12/4/19 8:00 PM", "12/4/19 9:00 PM", "12/4/19 10:00 PM", "12/4/19 11:00 PM", "12/5/19 12:00 AM", "12/5/19 1:00 AM", "12/5/19 2:00 AM", "12/5/19 3:00 AM", "12/5/19 4:00 AM", "12/5/19 5:00 AM", "12/5/19 6:00 AM", "12/5/19 7:00 AM", "12/5/19 8:00 AM", "12/5/19 9:00 AM", "12/5/19 10:00 AM", "12/5/19 11:00 AM", "12/5/19 12:00 PM", "12/5/19 1:00 PM", "12/5/19 2:00 PM", "12/5/19 3:00 PM", "12/5/19 4:00 PM", "12/5/19 5:00 PM", "12/5/19 6:00 PM", "12/5/19 7:00 PM", "12/5/19 8:00 PM", "12/5/19 9:00 PM", "12/5/19 10:00 PM", "12/5/19 11:00 PM", "12/6/19 12:00 AM", "12/6/19 1:00 AM", "12/6/19 2:00 AM", "12/6/19 3:00 AM", "12/6/19 4:00 AM", "12/6/19 5:00 AM", "12/6/19 6:00 AM", "12/6/19 7:00 AM", "12/6/19 8:00 AM", "12/6/19 9:00 AM", "12/6/19 10:00 AM", "12/6/19 11:00 AM", "12/6/19 12:00 PM", "12/6/19 1:00 PM", "12/6/19 2:00 PM", "12/6/19 3:00 PM", "12/6/19 4:00 PM", "12/6/19 5:00 PM", "12/6/19 6:00 PM", "12/6/19 7:00 PM", "12/6/19 8:00 PM", "12/6/19 9:00 PM", "12/6/19 10:00 PM", "12/6/19 11:00 PM", "12/7/19 12:00 AM", "12/7/19 1:00 AM", "12/7/19 2:00 AM", "12/7/19 3:00 AM", "12/7/19 4:00 AM", "12/7/19 5:00 AM", "12/7/19 6:00 AM", "12/7/19 7:00 AM", "12/7/19 8:00 AM", "12/7/19 9:00 AM", "12/7/19 10:00 AM", "12/7/19 11:00 AM", "12/7/19 12:00 PM", "12/7/19 1:00 PM", "12/7/19 2:00 PM", "12/7/19 3:00 PM", "12/7/19 4:00 PM", "12/7/19 5:00 PM", "12/7/19 6:00 PM", "12/7/19 7:00 PM", "12/7/19 8:00 PM", "12/7/19 9:00 PM", "12/7/19 10:00 PM", "12/7/19 11:00 PM", "12/8/19 12:00 AM", "12/8/19 1:00 AM", "12/8/19 2:00 AM", "12/8/19 3:00 AM", "12/8/19 4:00 AM", "12/8/19 5:00 AM", "12/8/19 6:00 AM", "12/8/19 7:00 AM", "12/8/19 8:00 AM", "12/8/19 9:00 AM", "12/8/19 10:00 AM", "12/8/19 11:00 AM", "12/8/19 12:00 PM", "12/8/19 1:00 PM", "12/8/19 2:00 PM", "12/8/19 3:00 PM", "12/8/19 4:00 PM", "12/8/19 5:00 PM", "12/8/19 6:00 PM", "12/8/19 7:00 PM", "12/8/19 8:00 PM", "12/8/19 9:00 PM", "12/8/19 10:00 PM", "12/8/19 11:00 PM", "12/9/19 12:00 AM", "12/9/19 1:00 AM", "12/9/19 2:00 AM", "12/9/19 3:00 AM", "12/9/19 4:00 AM", "12/9/19 5:00 AM", "12/9/19 6:00 AM", "12/9/19 7:00 AM", "12/9/19 8:00 AM", "12/9/19 9:00 AM", "12/9/19 10:00 AM", "12/9/19 11:00 AM", "12/9/19 12:00 PM", "12/9/19 1:00 PM", "12/9/19 2:00 PM", "12/9/19 3:00 PM", "12/9/19 4:00 PM", "12/9/19 5:00 PM", "12/9/19 6:00 PM", "12/9/19 7:00 PM", "12/9/19 8:00 PM", "12/9/19 9:00 PM", "12/9/19 10:00 PM", "12/9/19 11:00 PM", "12/10/19 12:00 AM", "12/10/19 1:00 AM", "12/10/19 2:00 AM", "12/10/19 3:00 AM", "12/10/19 4:00 AM", "12/10/19 5:00 AM", "12/10/19 6:00 AM", "12/10/19 7:00 AM", "12/10/19 8:00 AM", "12/10/19 9:00 AM", "12/10/19 10:00 AM", "12/10/19 11:00 AM", "12/10/19 12:00 PM", "12/10/19 1:00 PM", "12/10/19 2:00 PM", "12/10/19 3:00 PM", "12/10/19 4:00 PM", "12/10/19 5:00 PM", "12/10/19 6:00 PM", "12/10/19 7:00 PM", "12/10/19 8:00 PM", "12/10/19 9:00 PM", "12/10/19 10:00 PM", "12/10/19 11:00 PM", "12/11/19 12:00 AM", "12/11/19 1:00 AM", "12/11/19 2:00 AM", "12/11/19 3:00 AM", "12/11/19 4:00 AM", "12/11/19 5:00 AM", "12/11/19 6:00 AM", "12/11/19 7:00 AM", "12/11/19 8:00 AM", "12/11/19 9:00 AM", "12/11/19 10:00 AM", "12/11/19 11:00 AM", "12/11/19 12:00 PM", "12/11/19 1:00 PM", "12/11/19 2:00 PM", "12/11/19 3:00 PM", "12/11/19 4:00 PM", "12/11/19 5:00 PM", "12/11/19 6:00 PM", "12/11/19 7:00 PM", "12/11/19 8:00 PM", "12/11/19 9:00 PM", "12/11/19 10:00 PM", "12/11/19 11:00 PM", "12/12/19 12:00 AM", "12/12/19 1:00 AM", "12/12/19 2:00 AM", "12/12/19 3:00 AM", "12/12/19 4:00 AM", "12/12/19 5:00 AM", "12/12/19 6:00 AM", "12/12/19 7:00 AM", "12/12/19 8:00 AM", "12/12/19 9:00 AM", "12/12/19 10:00 AM", "12/12/19 11:00 AM", "12/12/19 12:00 PM", "12/12/19 1:00 PM", "12/12/19 2:00 PM", "12/12/19 3:00 PM", "12/12/19 4:00 PM", "12/12/19 5:00 PM", "12/12/19 6:00 PM", "12/12/19 7:00 PM", "12/12/19 8:00 PM", "12/12/19 9:00 PM", "12/12/19 10:00 PM", "12/12/19 11:00 PM", "12/13/19 12:00 AM", "12/13/19 1:00 AM", "12/13/19 2:00 AM", "12/13/19 3:00 AM", "12/13/19 4:00 AM", "12/13/19 5:00 AM", "12/13/19 6:00 AM", "12/13/19 7:00 AM", "12/13/19 8:00 AM", "12/13/19 9:00 AM", "12/13/19 10:00 AM", "12/13/19 11:00 AM", "12/13/19 12:00 PM", "12/13/19 1:00 PM", "12/13/19 2:00 PM", "12/13/19 3:00 PM", "12/13/19 4:00 PM", "12/13/19 5:00 PM", "12/13/19 6:00 PM", "12/13/19 7:00 PM", "12/13/19 8:00 PM", "12/13/19 9:00 PM", "12/13/19 10:00 PM", "12/13/19 11:00 PM", "12/14/19 12:00 AM", "12/14/19 1:00 AM", "12/14/19 2:00 AM", "12/14/19 3:00 AM", "12/14/19 4:00 AM", "12/14/19 5:00 AM", "12/14/19 6:00 AM", "12/14/19 7:00 AM", "12/14/19 8:00 AM", "12/14/19 9:00 AM", "12/14/19 10:00 AM", "12/14/19 11:00 AM", "12/14/19 12:00 PM", "12/14/19 1:00 PM", "12/14/19 2:00 PM", "12/14/19 3:00 PM", "12/14/19 4:00 PM", "12/14/19 5:00 PM", "12/14/19 6:00 PM", "12/14/19 7:00 PM", "12/14/19 8:00 PM", "12/14/19 9:00 PM", "12/14/19 10:00 PM", "12/14/19 11:00 PM", "12/15/19 12:00 AM", "12/15/19 1:00 AM", "12/15/19 2:00 AM", "12/15/19 3:00 AM", "12/15/19 4:00 AM", "12/15/19 5:00 AM", "12/15/19 6:00 AM", "12/15/19 7:00 AM", "12/15/19 8:00 AM", "12/15/19 9:00 AM", "12/15/19 10:00 AM", "12/15/19 11:00 AM", "12/15/19 12:00 PM", "12/15/19 1:00 PM", "12/15/19 2:00 PM", "12/15/19 3:00 PM", "12/15/19 4:00 PM", "12/15/19 5:00 PM", "12/15/19 6:00 PM", "12/15/19 7:00 PM", "12/15/19 8:00 PM", "12/15/19 9:00 PM", "12/15/19 10:00 PM", "12/15/19 11:00 PM", "12/16/19 12:00 AM", "12/16/19 1:00 AM", "12/16/19 2:00 AM", "12/16/19 3:00 AM", "12/16/19 4:00 AM", "12/16/19 5:00 AM", "12/16/19 6:00 AM", "12/16/19 7:00 AM", "12/16/19 8:00 AM", "12/16/19 9:00 AM", "12/16/19 10:00 AM", "12/16/19 11:00 AM", "12/16/19 12:00 PM", "12/16/19 1:00 PM", "12/16/19 2:00 PM", "12/16/19 3:00 PM", "12/16/19 4:00 PM", "12/16/19 5:00 PM", "12/16/19 6:00 PM", "12/16/19 7:00 PM", "12/16/19 8:00 PM", "12/16/19 9:00 PM", "12/16/19 10:00 PM", "12/16/19 11:00 PM", "12/17/19 12:00 AM", "12/17/19 1:00 AM", "12/17/19 2:00 AM", "12/17/19 3:00 AM", "12/17/19 4:00 AM", "12/17/19 5:00 AM", "12/17/19 6:00 AM", "12/17/19 7:00 AM", "12/17/19 8:00 AM", "12/17/19 9:00 AM", "12/17/19 10:00 AM", "12/17/19 11:00 AM", "12/17/19 12:00 PM", "12/17/19 1:00 PM", "12/17/19 2:00 PM", "12/17/19 3:00 PM", "12/17/19 4:00 PM", "12/17/19 5:00 PM", "12/17/19 6:00 PM", "12/17/19 7:00 PM", "12/17/19 8:00 PM", "12/17/19 9:00 PM", "12/17/19 10:00 PM", "12/17/19 11:00 PM", "12/18/19 12:00 AM", "12/18/19 1:00 AM", "12/18/19 2:00 AM", "12/18/19 3:00 AM", "12/18/19 4:00 AM", "12/18/19 5:00 AM", "12/18/19 6:00 AM", "12/18/19 7:00 AM", "12/18/19 8:00 AM", "12/18/19 9:00 AM", "12/18/19 10:00 AM", "12/18/19 11:00 AM", "12/18/19 12:00 PM", "12/18/19 1:00 PM", "12/18/19 2:00 PM", "12/18/19 3:00 PM", "12/18/19 4:00 PM", "12/18/19 5:00 PM", "12/18/19 6:00 PM", "12/18/19 7:00 PM", "12/18/19 8:00 PM", "12/18/19 9:00 PM", "12/18/19 10:00 PM", "12/18/19 11:00 PM", "12/19/19 12:00 AM", "12/19/19 1:00 AM", "12/19/19 2:00 AM", "12/19/19 3:00 AM", "12/19/19 4:00 AM", "12/19/19 5:00 AM", "12/19/19 6:00 AM", "12/19/19 7:00 AM", "12/19/19 8:00 AM", "12/19/19 9:00 AM", "12/19/19 10:00 AM", "12/19/19 11:00 AM", "12/19/19 12:00 PM", "12/19/19 1:00 PM", "12/19/19 2:00 PM", "12/19/19 3:00 PM", "12/19/19 4:00 PM", "12/19/19 5:00 PM", "12/19/19 6:00 PM", "12/19/19 7:00 PM", "12/19/19 8:00 PM", "12/19/19 9:00 PM", "12/19/19 10:00 PM", "12/19/19 11:00 PM", "12/20/19 12:00 AM", "12/20/19 1:00 AM", "12/20/19 2:00 AM", "12/20/19 3:00 AM", "12/20/19 4:00 AM", "12/20/19 5:00 AM", "12/20/19 6:00 AM", "12/20/19 7:00 AM", "12/20/19 8:00 AM", "12/20/19 9:00 AM", "12/20/19 10:00 AM", "12/20/19 11:00 AM", "12/20/19 12:00 PM", "12/20/19 1:00 PM", "12/20/19 2:00 PM", "12/20/19 3:00 PM", "12/20/19 4:00 PM", "12/20/19 5:00 PM", "12/20/19 6:00 PM", "12/20/19 7:00 PM", "12/20/19 8:00 PM", "12/20/19 9:00 PM", "12/20/19 10:00 PM", "12/20/19 11:00 PM", "12/21/19 12:00 AM", "12/21/19 1:00 AM", "12/21/19 2:00 AM", "12/21/19 3:00 AM", "12/21/19 4:00 AM", "12/21/19 5:00 AM", "12/21/19 6:00 AM", "12/21/19 7:00 AM", "12/21/19 8:00 AM", "12/21/19 9:00 AM", "12/21/19 10:00 AM", "12/21/19 11:00 AM", "12/21/19 12:00 PM", "12/21/19 1:00 PM", "12/21/19 2:00 PM", "12/21/19 3:00 PM", "12/21/19 4:00 PM", "12/21/19 5:00 PM", "12/21/19 6:00 PM", "12/21/19 7:00 PM", "12/21/19 8:00 PM", "12/21/19 9:00 PM", "12/21/19 10:00 PM", "12/21/19 11:00 PM", "12/22/19 12:00 AM", "12/22/19 1:00 AM", "12/22/19 2:00 AM", "12/22/19 3:00 AM", "12/22/19 4:00 AM", "12/22/19 5:00 AM", "12/22/19 6:00 AM", "12/22/19 7:00 AM", "12/22/19 8:00 AM", "12/22/19 9:00 AM", "12/22/19 10:00 AM", "12/22/19 11:00 AM", "12/22/19 12:00 PM", "12/22/19 1:00 PM", "12/22/19 2:00 PM", "12/22/19 3:00 PM", "12/22/19 4:00 PM", "12/22/19 5:00 PM", "12/22/19 6:00 PM", "12/22/19 7:00 PM", "12/22/19 8:00 PM", "12/22/19 9:00 PM", "12/22/19 10:00 PM", "12/22/19 11:00 PM", "12/23/19 12:00 AM", "12/23/19 1:00 AM", "12/23/19 2:00 AM", "12/23/19 3:00 AM", "12/23/19 4:00 AM", "12/23/19 5:00 AM", "12/23/19 6:00 AM", "12/23/19 7:00 AM", "12/23/19 8:00 AM", "12/23/19 9:00 AM", "12/23/19 10:00 AM", "12/23/19 11:00 AM", "12/23/19 12:00 PM", "12/23/19 1:00 PM", "12/23/19 2:00 PM", "12/23/19 3:00 PM", "12/23/19 4:00 PM", "12/23/19 5:00 PM", "12/23/19 6:00 PM", "12/23/19 7:00 PM", "12/23/19 8:00 PM", "12/23/19 9:00 PM", "12/23/19 10:00 PM", "12/23/19 11:00 PM", "12/24/19 12:00 AM", "12/24/19 1:00 AM", "12/24/19 2:00 AM", "12/24/19 3:00 AM", "12/24/19 4:00 AM", "12/24/19 5:00 AM", "12/24/19 6:00 AM", "12/24/19 7:00 AM", "12/24/19 8:00 AM", "12/24/19 9:00 AM", "12/24/19 10:00 AM", "12/24/19 11:00 AM", "12/24/19 12:00 PM", "12/24/19 1:00 PM", "12/24/19 2:00 PM", "12/24/19 3:00 PM", "12/24/19 4:00 PM", "12/24/19 5:00 PM", "12/24/19 6:00 PM", "12/24/19 7:00 PM", "12/24/19 8:00 PM", "12/24/19 9:00 PM", "12/24/19 10:00 PM", "12/24/19 11:00 PM", "12/25/19 12:00 AM", "12/25/19 1:00 AM", "12/25/19 2:00 AM", "12/25/19 3:00 AM", "12/25/19 4:00 AM", "12/25/19 5:00 AM", "12/25/19 6:00 AM", "12/25/19 7:00 AM", "12/25/19 8:00 AM", "12/25/19 9:00 AM", "12/25/19 10:00 AM", "12/25/19 11:00 AM", "12/25/19 12:00 PM", "12/25/19 1:00 PM", "12/25/19 2:00 PM", "12/25/19 3:00 PM", "12/25/19 4:00 PM", "12/25/19 5:00 PM", "12/25/19 6:00 PM", "12/25/19 7:00 PM", "12/25/19 8:00 PM", "12/25/19 9:00 PM", "12/25/19 10:00 PM", "12/25/19 11:00 PM", "12/26/19 12:00 AM", "12/26/19 1:00 AM", "12/26/19 2:00 AM", "12/26/19 3:00 AM", "12/26/19 4:00 AM", "12/26/19 5:00 AM", "12/26/19 6:00 AM", "12/26/19 7:00 AM", "12/26/19 8:00 AM", "12/26/19 9:00 AM", "12/26/19 10:00 AM", "12/26/19 11:00 AM", "12/26/19 12:00 PM", "12/26/19 1:00 PM", "12/26/19 2:00 PM", "12/26/19 3:00 PM", "12/26/19 4:00 PM", "12/26/19 5:00 PM", "12/26/19 6:00 PM", "12/26/19 7:00 PM", "12/26/19 8:00 PM", "12/26/19 9:00 PM", "12/26/19 10:00 PM", "12/26/19 11:00 PM", "12/27/19 12:00 AM", "12/27/19 1:00 AM", "12/27/19 2:00 AM", "12/27/19 3:00 AM", "12/27/19 4:00 AM", "12/27/19 5:00 AM", "12/27/19 6:00 AM", "12/27/19 7:00 AM", "12/27/19 8:00 AM", "12/27/19 9:00 AM", "12/27/19 10:00 AM", "12/27/19 11:00 AM", "12/27/19 12:00 PM", "12/27/19 1:00 PM", "12/27/19 2:00 PM", "12/27/19 3:00 PM", "12/27/19 4:00 PM", "12/27/19 5:00 PM", "12/27/19 6:00 PM", "12/27/19 7:00 PM", "12/27/19 8:00 PM", "12/27/19 9:00 PM", "12/27/19 10:00 PM", "12/27/19 11:00 PM", "12/28/19 12:00 AM", "12/28/19 1:00 AM", "12/28/19 2:00 AM", "12/28/19 3:00 AM", "12/28/19 4:00 AM", "12/28/19 5:00 AM", "12/28/19 6:00 AM", "12/28/19 7:00 AM", "12/28/19 8:00 AM", "12/28/19 9:00 AM", "12/28/19 10:00 AM", "12/28/19 11:00 AM", "12/28/19 12:00 PM", "12/28/19 1:00 PM", "12/28/19 2:00 PM", "12/28/19 3:00 PM", "12/28/19 4:00 PM", "12/28/19 5:00 PM", "12/28/19 6:00 PM", "12/28/19 7:00 PM", "12/28/19 8:00 PM", "12/28/19 9:00 PM", "12/28/19 10:00 PM", "12/28/19 11:00 PM", "12/29/19 12:00 AM", "12/29/19 1:00 AM", "12/29/19 2:00 AM", "12/29/19 3:00 AM", "12/29/19 4:00 AM", "12/29/19 5:00 AM", "12/29/19 6:00 AM", "12/29/19 7:00 AM", "12/29/19 8:00 AM", "12/29/19 9:00 AM", "12/29/19 10:00 AM", "12/29/19 11:00 AM", "12/29/19 12:00 PM", "12/29/19 1:00 PM", "12/29/19 2:00 PM", "12/29/19 3:00 PM", "12/29/19 4:00 PM", "12/29/19 5:00 PM", "12/29/19 6:00 PM", "12/29/19 7:00 PM", "12/29/19 8:00 PM", "12/29/19 9:00 PM", "12/29/19 10:00 PM", "12/29/19 11:00 PM", "12/30/19 12:00 AM", "12/30/19 1:00 AM", "12/30/19 2:00 AM", "12/30/19 3:00 AM", "12/30/19 4:00 AM", "12/30/19 5:00 AM", "12/30/19 6:00 AM", "12/30/19 7:00 AM", "12/30/19 8:00 AM", "12/30/19 9:00 AM", "12/30/19 10:00 AM", "12/30/19 11:00 AM", "12/30/19 12:00 PM", "12/30/19 1:00 PM", "12/30/19 2:00 PM", "12/30/19 3:00 PM", "12/30/19 4:00 PM", "12/30/19 5:00 PM", "12/30/19 6:00 PM", "12/30/19 7:00 PM", "12/30/19 8:00 PM", "12/30/19 9:00 PM", "12/30/19 10:00 PM", "12/30/19 11:00 PM", "12/31/19 12:00 AM", "12/31/19 1:00 AM", "12/31/19 2:00 AM", "12/31/19 3:00 AM", "12/31/19 4:00 AM", "12/31/19 5:00 AM", "12/31/19 6:00 AM", "12/31/19 7:00 AM", "12/31/19 8:00 AM", "12/31/19 9:00 AM", "12/31/19 10:00 AM", "12/31/19 11:00 AM", "12/31/19 12:00 PM", "12/31/19 1:00 PM", "12/31/19 2:00 PM", "12/31/19 3:00 PM", "12/31/19 4:00 PM", "12/31/19 5:00 PM", "12/31/19 6:00 PM", "12/31/19 7:00 PM", "12/31/19 8:00 PM", "12/31/19 9:00 PM", "12/31/19 10:00 PM", "12/31/19 11:00 PM" ],
@@ -2609,7 +3045,9 @@ export default{
       calData: [0,0,0,0,0,0,0,0,0,0,0,0],
       capxData: [0,0,0,0,0,0,0,0,0,0,0,0],
       energystarGraphData: [0,0,0,0,0,0,0,0,0,0,0,0],
+      energystarGraphAxis: [1,2,3,4,5,6,7,8,9,10,11,12],
       energystarAxis: [0,0,0,0,0,0,0,0,0,0,0,0],
+      subData: [0,0,0,0,0,0,0,0,0,0],
       msg: null,
       energystarData: blank_estar,
     }
@@ -2624,40 +3062,63 @@ export default{
 
   created() {
     this.getMessage();
-    this.getCapx();
     this.getEnergystar();
-  },
-
-  mounted() {
-    this.drawChartCal();
-    this.drawChartCapx();
   },
 
   watch: {
     calData() {
-      this.loading = false
+      this.sendMessage()
 
       this.drawChartCal()
+      this.loading = false
       // var audio = new Audio(require('../assets/Turntables.mp3'))
       var audio = new Audio(require('../assets/ding-sound-effect_2.mp3'))
       audio.play()
     },
 
-  capxData() {
-      this.loading2 = false
+    subData() {
+      this.drawPieEnergystar()
+    },
 
-      this.drawChartCapx()
-      // var audio = new Audio(require('../assets/Turntables.mp3'))
-      var audio = new Audio(require('../assets/ding-sound-effect_2.mp3'))
-      audio.play()
+    calParams() {
+    },
+
+    calSettings() {
+    },
+
+    GASettings(){
+    },
+    
+    capxParameters(){
+    },
+
+    capxSettings() {
+    },
+
+    scheduleParams() {
+    },
+
+    heatParams() {
+    },
+
+    capxData() {
+        this.loading2 = false
+
+        this.drawChartCapx()
+        // var audio = new Audio(require('../assets/Turntables.mp3'))
+        var audio = new Audio(require('../assets/ding-sound-effect_2.mp3'))
+        audio.play()
     },
 
     loading() {
     },
 
     loading2(){
-
     },
+
+    energystarGraphData() {
+      this.drawChartEnergystar()
+    }
 
   },
 
@@ -2667,8 +3128,16 @@ export default{
       const path = 'http://localhost:5000/Cal';
       axios.get(path)
         .then((res) => {
-          this.calParams = res.data.calData;
-          console.log(this.calParams)
+          this.calParams = res.data.calData.calibration_parameters
+          this.scheduleParams = res.data.calData.schedule_parameters
+          this.heatParams = res.data.calData.monthly_internal
+          this.GASettings = res.data.calData.ga_settings
+          this.calSettings = res.data.calData.calibration_settings
+          this.type = res.data.calData.type
+          this.capxParams = res.data.calData.capxParameters
+          this.capxParameterValues = res.data.calData.capxParameterValues
+          this.capxSettings = res.data.calData.capxSettings
+          this.combineCalibration()
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -2676,11 +3145,13 @@ export default{
         });
     },
 
-    getCapx() {
+    runCapx() {
       const path = 'http://localhost:5000/Capx';
       axios.get(path)
         .then((res) => {
-          this.capxParams = res.data.capxData;
+          this.actualData = res.data.real
+          this.capxData = res.data.modeled
+          this.dataInteval = res.data.interval
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -2693,6 +3164,9 @@ export default{
       axios.get(path)
         .then((res) => {
           this.energystarData = res.data.estarData;
+          this.energystarGraphData = res.data.estarData.benchmark
+          this.energystarGraphAxis = res.data.build_index
+          this.runBEM()
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -2702,27 +3176,13 @@ export default{
 
     sendMessage() {
       const path = 'http://127.0.0.1:5000/Cal'
-      let calData = this.calParams
-      axios.put(path, calData)
+      axios.put(path, this.calCombine)
       .then(() => {
         this.getMessage();
       })
       .catch((error) => {
         console.error(error);
         this.getMessage();
-      })
-    },
-
-    sendCapx() {
-      const path = 'http://127.0.0.1:5000/Capx'
-      let capxData = this.capxParams
-      axios.put(path, capxData)
-      .then(() => {
-        this.getCapx();
-      })
-      .catch((error) => {
-        console.error(error);
-        this.getCapx();
       })
     },
 
@@ -2752,12 +3212,40 @@ export default{
       })
     },
 
+    runBEM() {
+      const path = 'http://127.0.0.1:5000/BEM'
+      axios.get(path)
+      .then((res) => {
+        this.subData = res.data.subs
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+    },
+
+    combineCalibration() {
+      let calibration_parameters = this.calParams
+      let calibration_settings = this.calSettings
+      let schedule_parameters = this.scheduleParams
+      let monthly_internal = this.heatParams
+      let type = this.type
+      let ga_settings = this.GASettings
+      let capxParameters = this.capxParams
+      let capx_parameter_values = this.capxParameterValues
+      let capxSettings = this.capxSettings
+
+      let merged = {calibration_parameters, calibration_settings, schedule_parameters, monthly_internal, ga_settings, type, capxParameters, capx_parameter_values, capxSettings}
+      console.log(merged)
+
+      this.calCombine = JSON.stringify(merged)
+    },
+
     loadState() {
-      this.loading = "loading"
+      this.loading = true
     },
 
     loadState2() {
-      this.loading2 = "loading"
+      this.loading2 = true
     },
 
     editItem(item) {
@@ -2804,19 +3292,19 @@ export default{
     },
 
     editItemCapx(item) {
-      this.editedIndex1 = this.capxParams.indexOf(item)
+      this.editedIndex2 = this.capxParams.indexOf(item)
       this.editCapxForm = Object.assign({}, item)
       this.dialogCapx = true
     },
 
     deleteItemCapx (item) {
-      this.editedIndex1 = this.capxParams.indexOf(item)
+      this.editedIndex2 = this.capxParams.indexOf(item)
       this.editCapxForm = Object.assign({}, item)
       this.dialogDeleteCapx = true
     },
 
     deleteItemConfirmCapx() {
-      this.capxParams.splice(this.editedIndex1, 1)
+      this.capxParams.splice(this.editedIndex2, 1)
       this.capxCloseDelete()
     },
 
@@ -2825,7 +3313,7 @@ export default{
 
       this.$nextTick(() => {
         this.editCapxForm = Object.assign({}, this.defaultCapxForm)
-        this.editedIndex1 = -1
+        this.editedIndex2 = -1
       })
     },
 
@@ -2833,17 +3321,103 @@ export default{
       this.dialogDeleteCapx = false
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultCapxForm)
-        this.editedIndex1 = -1
+        this.editedIndex2 = -1
       })
     }, 
 
     capxSave() {
-      if (this.editedIndex1 > -1) {
+      if (this.editedIndex2 > -1) {
         Object.assign(this.capxParams[this.editedIndex1], this.editCapxForm)
       } else {
         this.capxParams.push(this.editCapxForm)
       }
       this.capxClose()
+    },
+
+    editItemSchedule(item) {
+      this.editedIndex3 = this.scheduleParams.indexOf(item)
+      this.editScheduleForm = Object.assign({}, item)
+      this.dialogSchedule = true
+    },
+
+    deleteItemSchedule (item) {
+      this.editedIndex3 = this.scheduleParams.indexOf(item)
+      this.editScheduleForm = Object.assign({}, item)
+      this.dialogDeleteSchedule = true
+    },
+
+    deleteItemConfirmSchedule() {
+      this.scheduleParams.splice(this.editedIndex3, 1)
+      this.scheduleCloseDelete()
+    },
+
+    scheduleClose() {
+      this.dialogSchedule = false
+
+      this.$nextTick(() => {
+        this.editScheduleForm = Object.assign({}, this.defaultScheduleForm)
+        this.editedIndex3 = -1
+      })
+    },
+
+    scheduleCloseDelete() {
+      this.dialogDeleteSchedule = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultScheduleForm)
+        this.editedIndex3 = -1
+      })
+    }, 
+
+    scheduleSave() {
+      if (this.editedIndex3 > -1) {
+        Object.assign(this.scheduleParams[this.editedIndex3], this.editScheduleForm)
+      } else {
+        this.scheduleParams.push(this.editScheduleForm)
+      }
+      this.scheduleClose()
+    },
+
+    editItemHeat(item) {
+      this.editedIndex4 = this.heatParams.indexOf(item)
+      this.editHeatForm = Object.assign({}, item)
+      this.dialogHeat = true
+    },
+
+    deleteItemHeat (item) {
+      this.editedIndex4 = this.heatParams.indexOf(item)
+      this.editHeatForm = Object.assign({}, item)
+      this.dialogDeleteHeat = true
+    },
+
+    deleteItemConfirmHeat() {
+      this.heatParams.splice(this.editedIndex4, 1)
+      this.heatCloseDelete()
+    },
+
+    heatClose() {
+      this.dialogHeat = false
+
+      this.$nextTick(() => {
+        this.editHeatForm = Object.assign({}, this.defaultHeatForm)
+        this.editedIndex4 = -1
+      })
+    },
+
+    heatCloseDelete() {
+      this.dialogDeleteHeat = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultHeatForm)
+        this.editedIndex4 = -1
+      })
+    }, 
+
+    heatSave() {
+      if (this.editedIndex4 > -1) {
+        Object.assign(this.heatParams[this.editedIndex4], this.editHeatForm)
+      } else {
+        this.heatParams.push(this.editHeatForm)
+      }
+      this.heatClose()
     },
 
     drawChartCal() {
@@ -3002,69 +3576,56 @@ export default{
       //Specify configuration items and data for the chart
       let option = {
         title: {
-          text: 'Energystar Benchmark'
+          text: 'EUI Benchmarking'
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
         },
         tooltip: {
           trigger: 'axis'
         },
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '10%',
-          containLabel: true
-        },
-        toolbox: {
-          feature: {
-            dataZoom: {
-              yAxisIndex: 'none'
-            },
-            saveAsImage: {}
-          }
-        },
-        dataZoom: [
-          {
-            show: true,
-            realtime: true,
-            start: 0,
-            end: 100,
-            xAxisIndex: [0,1]
-          },
-          {
-            type: 'inside',
-            realtime: true,
-            start: 0,
-            end: 100,
-            xAxisIndex: [0,1]
-          }
-        ],
         xAxis: {
           type: 'category',
-          boundaryGap: false,
-          data: this.energystarAxis
+          data: this.energystarGraphAxis
         },
         yAxis: {
           type: 'value'
         },
         series: [
           {
-            name: 'Actual Delivered Energy',
-            type: 'line',
-            stack: 'Total',
-            data: this.energystarGraphData
+            type: 'bar',
+            data: this.energystarGraphData,
+            markLine: {
+              data: [{name: 'Source Building EUI', yAxis: this.energystarData.score.sourceEUI,
+                lineStyle: {
+                  color: 'red'
+                }
+              }],
+            }
           },
-        ]
+        ],
       };
       option && myChart.setOption(option);
     },
 
     drawPieEnergystar() {
+      console.log('hello')
+      console.log(this.subData)
+      
       //Initialize the echarts instance based on the prepared dom
       let myChart = this.$echarts.init(document.getElementById("energystarpie"));
       //Specify configuration items and data for the chart
       let option = {
         title: {
-          text: 'Energy Use Break Down',
+          text: 'Energy Use Break Down (kWh)',
           left: 'center'
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
         },
         tooltip: {
           trigger: 'item'
@@ -3079,15 +3640,16 @@ export default{
             type: 'pie',
             radius: '50%',
             data: [
-              { value: 1048, name: 'Heating' },
-              { value: 735, name: 'Cooling' },
-              { value: 580, name: 'Lighting' },
-              { value: 484, name: 'Fans' },
-              { value: 300, name: 'Pumps' },
-              { value: 250, name: 'Plug Load' },
-              { value: 200, name: 'DHW' },
-              { value: 150, name: 'PV' },
-              { value: 100, name: 'Wind' },
+              { value: this.subData[0][0], name: 'Heating' },
+              { value: this.subData[1][0], name: 'Cooling' },
+              { value: this.subData[2][0], name: 'Lighting' },
+              { value: this.subData[3][0], name: 'Fans' },
+              { value: this.subData[4][0], name: 'Pumps' },
+              { value: this.subData[5][0], name: 'Plug Load' },
+              { value: this.subData[6][0], name: 'DHW' },
+              { value: this.subData[7][0], name: 'Electric Vehicle' },
+              { value: this.subData[8][0], name: 'PV' },
+              { value: this.subData[9][0], name: 'Wind' },
             ],
             emphasis: {
               itemStyle: {

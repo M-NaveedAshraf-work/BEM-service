@@ -10,17 +10,17 @@
       <v-spacer></v-spacer>
 
       <div class="text-center">
-        <v-btn>
-          <router-link to="/">Input</router-link>
+        <v-btn to="/">
+          Input
+        </v-btn >
+        <v-btn to="/UQ">
+          Uncertainty Quantification
         </v-btn>
-       <v-btn>
-          <router-link to="/CapX_Cal">CapX and Calibration</router-link>
+        <v-btn to="/CapX_Cal">
+          CapX and Calibration
         </v-btn>
-        <v-btn>
-          <router-link to="/UQ">UQ</router-link>
-        </v-btn>
-        <v-btn>
-          <router-link to="/Output">Output</router-link>
+        <v-btn to="/Output">
+          Output Graphs
         </v-btn>
       </div>
       
