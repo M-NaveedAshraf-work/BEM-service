@@ -6,6 +6,7 @@ import json
 import pandas as pd
 import numpy as np
 import time
+import openpyxl
 
 from flask_cors import CORS
 from main import main
@@ -24,6 +25,11 @@ app.config.from_object(__name__)
 
 # enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})
+historicalData = "BEM_Optimization_Input_v2_centergy_BEM_2019"
+a = open('./Input/comboFiles.json')
+fileData = json.load(a)
+b = open('./Input/input.json')
+inputData = json.load(b)
 e = open('./Input/hourlyXAxis.json')
 hourlyXAxis = json.load(e)
 f = open('./Input/centergy_BEM_2019.json')
@@ -71,15 +77,31 @@ subs = []
 def json_data():
     response_object = {'status': 'success'}
     if request.method == 'PUT':
-        post_data = request.get_json("jsonData")
+
+        postData = request.get_json('inputData')
+        post_json = postData["jsonData"]
+        post_weather = postData["weatherData"]
+        post_historical = postData["historicalData"]
+
         global data
         global weatherData
-        data = post_data
-        response_object['jsonData'] = data
-        response_object['weatherData'] = weatherData
+        global historicalData
+        global inputData
+        data = post_json
+        weatherData = post_weather
+        historicalData = post_historical
+
+        inputData['jsonData'] = data
+        inputData['weatherData'] = weatherData
+        inputData['historicalData'] = historicalData
+
+        response_object['inputData'] = inputData
     else:
-        response_object['jsonData'] = data
-        response_object['weatherData'] = weatherData
+        inputData['jsonData'] = data
+        inputData['weatherData'] = weatherData
+        inputData['historicalData'] = historicalData
+
+        response_object['inputData'] = inputData
     return jsonify(response_object)
 
 
@@ -235,6 +257,7 @@ def estarComponents():
 def graphComponents():
     response_object = {'status': 'success'}
     if request.method == 'PUT':
+        response_object['inputData'] = inputData
         response_object['UQData'] = UQData
         response_object['estarData'] = estarData
         response_object['build_index'] = build_index
@@ -247,6 +270,7 @@ def graphComponents():
         response_object['monthly'] = monthly
         response_object['subs'] = subs
     else:
+        response_object['inputData'] = inputData
         response_object['UQData'] = UQData
         response_object['estarData'] = estarData
         response_object['build_index'] = build_index
@@ -259,6 +283,35 @@ def graphComponents():
         response_object['monthly'] = monthly
         response_object['subs'] = subs
     return jsonify(response_object)
+
+@app.route('/loadProject', methods=['GET', 'PUT'])
+def loadProject_model():
+    response_object = {'status': 'success'}
+    if request.method == 'PUT':
+        post_data = request.get_json('files')
+
+        global inputData
+        global UQData
+        global calData
+        global estarData
+
+        inputData = post_data['inputFile']
+        UQData = post_data['UQFile']
+        calData = post_data['calFile']
+        estarData = post_data['estarFile']
+
+        response_object['inputData'] = inputData
+        response_object['UQData'] = UQData
+        response_object['calData'] = calData
+        response_object['estarData'] = estarData
+    else:
+        response_object['inputData'] = inputData
+        response_object['UQData'] = UQData
+        response_object['calData'] = calData
+        response_object['estarData'] = estarData
+    return jsonify(response_object)
+
+
 
 if __name__ == '__main__':
     app.run()
