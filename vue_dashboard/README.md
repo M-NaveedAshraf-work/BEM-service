@@ -1,9 +1,7 @@
 # vue_dashboard
 
 ## Required
-node js
-Vue
-(Other Plug-ins / Dependencies can be downloaded in the Vue GUI. See "Easy Setup" Section)
+node js || Vue || (Other Plug-ins / Dependencies can be downloaded in the Vue GUI. See "Easy Setup" Section)
 
 ## Overview
 
