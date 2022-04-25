@@ -194,7 +194,7 @@ def UQComponents():
 @app.route('/runUQ', methods = ['GET'])
 def UQRuns():
     response_object = {'status': 'success'}
-    time.sleep(3)
+    time.sleep(10)
     data["OutputPeriod"] == "Monthly"
     global runUQData
     response_object = runUQData

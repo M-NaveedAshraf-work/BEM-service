@@ -426,6 +426,7 @@ class UQ_Object(BEM):
             print(self.param_info)
             print(self.lhd)
             print(self.Y)
+            print(self.Y.size)
             print(self.confidence_level)
             print(self.num_levels)
             SA_result = morris.analyze(self.param_info, self.lhd, self.Y, conf_level=self.confidence_level,

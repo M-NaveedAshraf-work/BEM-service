@@ -10,8 +10,8 @@
     "LightingControlFactor": 1.0,
     "ParasiticLightingEnergy": "Yes",
     "ParasiticLightingEnergyAmount": 6.0,
-    "HeatingCOP": 0.9787370925672592,
-    "CoolingCOP": 4.6836437236367265,
+    "HeatingCOP": 0.9418288558947332,
+    "CoolingCOP": 6.461392893109382,
     "COP100": 1.0,
     "COP75": 0.9,
     "COP50": 0.82,
@@ -282,7 +282,7 @@
             "Lighting_Weekend": 0.25
         },
         "Hour9": {
-            "Occupancy_Weekday": 1.0,
+            "Occupancy_Weekday": 0.1,
             "Occupancy_Weekend": 0.3,
             "Appliance_Weekday": 1.0,
             "Appliance_Weekend": 0.26,
@@ -290,7 +290,7 @@
             "Lighting_Weekend": 0.25
         },
         "Hour10": {
-            "Occupancy_Weekday": 1.0,
+            "Occupancy_Weekday": 0.1,
             "Occupancy_Weekend": 0.3,
             "Appliance_Weekday": 1.0,
             "Appliance_Weekend": 0.26,
@@ -298,7 +298,7 @@
             "Lighting_Weekend": 0.25
         },
         "Hour11": {
-            "Occupancy_Weekday": 1.0,
+            "Occupancy_Weekday": 0.1,
             "Occupancy_Weekend": 0.3,
             "Appliance_Weekday": 1.0,
             "Appliance_Weekend": 0.26,
@@ -306,7 +306,7 @@
             "Lighting_Weekend": 0.25
         },
         "Hour12": {
-            "Occupancy_Weekday": 1.0,
+            "Occupancy_Weekday": 0.1,
             "Occupancy_Weekend": 0.3,
             "Appliance_Weekday": 1.0,
             "Appliance_Weekend": 0.26,
@@ -314,7 +314,7 @@
             "Lighting_Weekend": 0.25
         },
         "Hour13": {
-            "Occupancy_Weekday": 1.0,
+            "Occupancy_Weekday": 0.1,
             "Occupancy_Weekend": 0.3,
             "Appliance_Weekday": 1.0,
             "Appliance_Weekend": 0.26,
@@ -322,7 +322,7 @@
             "Lighting_Weekend": 0.25
         },
         "Hour14": {
-            "Occupancy_Weekday": 1.0,
+            "Occupancy_Weekday": 0.1,
             "Occupancy_Weekend": 0.3,
             "Appliance_Weekday": 1.0,
             "Appliance_Weekend": 0.26,
@@ -330,7 +330,7 @@
             "Lighting_Weekend": 0.1
         },
         "Hour15": {
-            "Occupancy_Weekday": 1.0,
+            "Occupancy_Weekday": 0.1,
             "Occupancy_Weekend": 0.3,
             "Appliance_Weekday": 1.0,
             "Appliance_Weekend": 0.26,

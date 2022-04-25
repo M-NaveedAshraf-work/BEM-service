@@ -565,30 +565,30 @@ class BEMP_Calibration_CapX(BEM):
                 param_json = paramConv[param_name]
                 self.CapX_param_table_info[param_name] = []
                 i = 0
-                keys = file_sheet["capx_parameter_values"][param_json].keys()
+                keys = file_sheet["capxParameterValues"][param_json].keys()
                 names = []
                 for name in keys:
                     names.append(name)
                 state = 'go'
                 while state != 'end':
                     tempo = {}
-                    if file_sheet["capx_parameter_values"][param_json] == None:  ####
+                    if file_sheet["capxParameterValues"][param_json] == None:  ####
                         break
                     else:
                         tempo["Name"] = names[i]
-                        if " -" in str(file_sheet["capx_parameter_values"][param_json][names[i]]["cost"]):
-                            split = file_sheet["capx_parameter_values"][param_json][names[i]]["cost"].split(" -")
+                        if " -" in str(file_sheet["capxParameterValues"][param_json][names[i]]["cost"]):
+                            split = file_sheet["capxParameterValues"][param_json][names[i]]["cost"].split(" -")
                             tempo["Cost"] = float(split[0])
                         else:
-                            tempo["Cost"] = file_sheet["capx_parameter_values"][param_json][names[i]]["cost"]
-                        # tempo["Cost"] = file_sheet["capx_parameter_values"][param_json][names[i]]["cost"]
-                        tempo["Param1"] = float(file_sheet["capx_parameter_values"][param_json][names[i]]["param1"])
+                            tempo["Cost"] = file_sheet["capxParameterValues"][param_json][names[i]]["cost"]
+                        # tempo["Cost"] = file_sheet["capxParameterValues"][param_json][names[i]]["cost"]
+                        tempo["Param1"] = float(file_sheet["capxParameterValues"][param_json][names[i]]["param1"])
 
                         if param_name == "Heating and Cooling Plants efficiencies (COPs)":
-                            tempo["Param2"] = float(file_sheet["capx_parameter_values"][param_json][names[i]]["param2"])
+                            tempo["Param2"] = float(file_sheet["capxParameterValues"][param_json][names[i]]["param2"])
                         elif param_name in ["Roof1", "Opaque1", "Window1", "Natural Ventilation", "Electric Battery"]:
-                            tempo["Param2"] = float(file_sheet["capx_parameter_values"][param_json][names[i]]["param2"])
-                            tempo["Param3"] = float(file_sheet["capx_parameter_values"][param_json][names[i]]["param3"])  ####
+                            tempo["Param2"] = float(file_sheet["capxParameterValues"][param_json][names[i]]["param2"])
+                            tempo["Param3"] = float(file_sheet["capxParameterValues"][param_json][names[i]]["param3"])  ####
 
                         self.CapX_param_table_info[param_name].append(tempo)
                     i += 1

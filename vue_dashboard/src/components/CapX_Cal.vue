@@ -625,15 +625,26 @@
                 </v-row>
               </v-col>
               <v-row justify="center">
-                <v-btn 
-                  class = "ma-2"
-                  :loading= loading
-                  :disabled= loading
-                  align="center"
-                  depressed
-                  color="primary"
-                  v-on:click="combineCalibration(); sendMessage(); getMessage(); loadState(); runCalibration();"
-                >Run Calibration</v-btn>
+                <v-col>
+                  <v-btn 
+                    class = "ma-2"
+                    align="center"
+                    depressed
+                    color="red"
+                    v-on:click="combineCalibration();"
+                  >Load Calibration Inputs</v-btn>
+                </v-col>
+                <v-col>
+                  <v-btn 
+                    class = "ma-2"
+                    :loading= loading
+                    :disabled= loading
+                    align="center"
+                    depressed
+                    color="green"
+                    v-on:click="runCalibration(); loadState();"
+                  >Run Calibration</v-btn>
+                </v-col>
               </v-row>
             </v-card>
           </v-col>
@@ -2744,15 +2755,26 @@
                 </v-row>
               </v-col>
               <v-row justify="center">
-                <v-btn 
-                  class = "ma-2"
-                  :loading= loading2
-                  :disabled= loading2
-                  align="center"
-                  depressed
-                  color="primary"
-                  v-on:click="combineCalibration(); getMessage(); sendMessage(); loadState2(); runCapx();"
-                >Run CapX</v-btn>
+                <v-col>
+                  <v-btn 
+                    class = "ma-2"
+                    align="center"
+                    depressed
+                    color="red"
+                    v-on:click="combineCapx()"
+                  >Load CapX Settings</v-btn>
+                </v-col>
+                <v-col>
+                  <v-btn 
+                    class = "ma-2"
+                    :loading= loading2
+                    :disabled= loading2
+                    align="center"
+                    depressed
+                    color="green"
+                    v-on:click="runCapx(); loadState2();"
+                  >Run CapX</v-btn>
+                </v-col>
               </v-row>
             </v-card>
           </v-col>
@@ -2772,6 +2794,7 @@
 <script>
 import axios from 'axios'
 import blank_estar from '../../../backend/New_BEM_Code/Input/blank_estar.json'
+import blank_cal from '../../../backend/New_BEM_Code/Input/blank_example_calibration.json'
 
 export default{
   name: "CapX_Cal",
@@ -2990,6 +3013,17 @@ export default{
       ],
 
       calParams: [],
+
+      // calParams: blank_cal.calibration_parameters,
+      // scheduleParams: blank_cal.schedule_parameters,
+      // heatParams: blank_cal.monthly_internal,
+      GASettings: blank_cal.ga_settings,
+      calSettings: blank_cal.calibration_settings,
+      type: blank_cal.type,
+      // capxParams: blank_cal.capxParameters,
+      capxParameterValues: blank_cal.capxParameterValues,
+      capxSettings: blank_cal.capxSettings,
+
       editedIndex: -1,
 
       editCalForm: {
@@ -3028,13 +3062,13 @@ export default{
         data: '',
       },
 
-      GASettings: [],
-      calSettings: [],
-      calCombine: [],
-      type: 'Calibration',
+      // GASettings: [],
+      // calSettings: [],
+      // calCombine: [],
+      // type: 'Calibration',
 
-      capxParameterValues: null,
-      capxSettings: [],
+      // capxParameterValues: null,
+      // capxSettings: [],
 
 
       dataInterval: "Monthly",
@@ -3050,6 +3084,11 @@ export default{
       subData: [0,0,0,0,0,0,0,0,0,0],
       msg: null,
       energystarData: blank_estar,
+
+      combineCalBool: false,
+      calBool: false,
+      combineCapxBool: false,
+      capxBool: false,
     }
 
   },
@@ -3061,6 +3100,7 @@ export default{
   },
 
   created() {
+    console.log('1')
     this.getMessage();
     this.getEnergystar();
   },
@@ -3074,6 +3114,16 @@ export default{
       // var audio = new Audio(require('../assets/Turntables.mp3'))
       var audio = new Audio(require('../assets/ding-sound-effect_2.mp3'))
       audio.play()
+    },
+
+    actualData() {
+      this.drawChartCal()
+      this.drawChartCapx()
+    },
+
+    dataInterval() {
+      this.drawChartCal()
+      this.drawChartCapx()
     },
 
     subData() {
@@ -3101,6 +3151,9 @@ export default{
     heatParams() {
     },
 
+    capxParams() {
+    },
+
     capxData() {
         this.loading2 = false
 
@@ -3118,8 +3171,17 @@ export default{
 
     energystarGraphData() {
       this.drawChartEnergystar()
-    }
+    },
 
+    combineCalBool() {
+      this.sendMessage()
+      this.combineCalBool = false
+    },
+
+    combineCapxBool() {
+      this.sendMessage()
+      this.combineCapxBool = false
+    },
   },
 
   methods: {
@@ -3137,7 +3199,7 @@ export default{
           this.capxParams = res.data.calData.capxParameters
           this.capxParameterValues = res.data.calData.capxParameterValues
           this.capxSettings = res.data.calData.capxSettings
-          this.combineCalibration()
+          // this.combineCalibration()
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -3231,13 +3293,32 @@ export default{
       let type = this.type
       let ga_settings = this.GASettings
       let capxParameters = this.capxParams
-      let capx_parameter_values = this.capxParameterValues
+      let capxParameterValues = this.capxParameterValues
       let capxSettings = this.capxSettings
 
-      let merged = {calibration_parameters, calibration_settings, schedule_parameters, monthly_internal, ga_settings, type, capxParameters, capx_parameter_values, capxSettings}
+      let merged = {calibration_parameters, calibration_settings, schedule_parameters, monthly_internal, ga_settings, type, capxParameters, capxParameterValues, capxSettings}
       console.log(merged)
 
       this.calCombine = JSON.stringify(merged)
+      this.combineCalBool = true
+    },
+
+    combineCapx() {
+      let calibration_parameters = this.calParams
+      let calibration_settings = this.calSettings
+      let schedule_parameters = this.scheduleParams
+      let monthly_internal = this.heatParams
+      let type = this.type
+      let ga_settings = this.GASettings
+      let capxParameters = this.capxParams
+      let capxParameterValues = this.capxParameterValues
+      let capxSettings = this.capxSettings
+
+      let merged = {calibration_parameters, calibration_settings, schedule_parameters, monthly_internal, ga_settings, type, capxParameters, capxParameterValues, capxSettings}
+      console.log(merged)
+
+      this.calCombine = JSON.stringify(merged)
+      this.combineCapxBool = true
     },
 
     loadState() {
@@ -3554,13 +3635,13 @@ export default{
         },
         series: [
           {
-            name: 'Actual Delivered Energy',
+            name: 'Baseline Cost',
             type: 'line',
             stack: 'Total',
             data: this.actualData
           },
           {
-            name: 'CapX Tech Implemented Delivered Energy',
+            name: 'CapX Tech Implemented Cost',
             type: 'line',
             stack: 'Total',
             data: this.capxData
@@ -3611,8 +3692,6 @@ export default{
     },
 
     drawPieEnergystar() {
-      console.log('hello')
-      console.log(this.subData)
       
       //Initialize the echarts instance based on the prepared dom
       let myChart = this.$echarts.init(document.getElementById("energystarpie"));
@@ -3667,6 +3746,8 @@ export default{
   },
 
   mounted() {
+    console.log('2')
+    this.getMessage()
     this.drawChartCal()
     this.drawChartCapx()
     this.drawChartEnergystar()

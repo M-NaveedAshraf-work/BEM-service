@@ -1,0 +1,660 @@
+{
+    "type": "Calibration",
+    "ga_settings": {
+        "population_size": 0,
+        "crossover_rate": 0,
+        "mutation_rate": 0,
+        "random_seed": "None",
+        "max_time": 0,
+        "top_percentage": 0
+    },
+    "calibration_settings": {
+        "data_interval": "Monthly",
+        "electricity_data": "Yes",
+        "natural_gas_data": "No",
+        "cvrmse_criterion": 0,
+        "convergence_diff": 0,
+        "n_times_converge": 0
+    },
+    "calibration_parameters": [
+    ],
+    "schedule_parameters": [
+    ],
+    "monthly_internal": [
+    ],
+    "capxSettings": {
+        "discount_rate": 0,
+        "period_analysis": 0,
+        "energy_eff_budget": 0,
+        "energy_del_restriction": 0,
+        "electricity_cost": 0,
+        "natural_gas_cost": 0
+    },
+    "capxParameterValues": {
+        "heatingEfficiency": {
+            "electricWaterBoiler": {
+                "cost": "",
+                "param1": 0
+            },
+            "gasWaterBoiler": {
+                "cost": "",
+                "param1": 0
+            },
+            "oilWaterBoiler": {
+                "cost": "",
+                "param1": 0
+            },
+            "electricSteamBoiler": {
+                "cost": "",
+                "param1": 0
+            },
+            "gasSteamBoiler": {
+                "cost": "",
+                "param1": 0
+            },
+            "oilSteamBoiler": {
+                "cost": "",
+                "param1": 0
+            }
+        },
+        "coolingEfficiency": {
+            "reciprocatingAirChiller": {
+                "cost": "",
+                "param1": 0
+            },
+            "reciprocatingWaterChiller": {
+                "cost": "",
+                "param1": 0
+            },
+            "centrifugalWaterChiller": {
+                "cost": "",
+                "param1": 0
+            },
+            "absorptionWaterChiller": {
+                "cost": "",
+                "param1": 0
+            }
+        },
+        "heatingCoolingEfficiency": {
+            "heatPumpAA": {
+                "cost": "",
+                "param1": 0,
+                "param2": 0
+            },
+            "heatPumpWA": {
+                "cost": "",
+                "param1": 0,
+                "param2": 0
+            }
+        },
+        "heatRecovery": {
+            "None": {
+                "cost": "",
+                "param1": 0
+            },
+            "heatExchangePlates": {
+                "cost": "",
+                "param1": 0
+            },
+            "twoElement": {
+                "cost": "",
+                "param1": 0
+            },
+            "heatExchangePipes": {
+                "cost": "",
+                "param1": 0
+            },
+            "rotation": {
+                "cost": "",
+                "param1": 0
+            }
+        },
+        "airLeakage": {
+            "minimum": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximum": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "specificFanPower": {
+            "inlineCentrifugal": {
+                "cost": "",
+                "kw": 0,
+                "CFM": 0,
+                "param1": 0
+            },
+            "blower": {
+                "cost": "",
+                "kw": 0,
+                "CFM": 0,
+                "param1": 0
+            },
+            "axial": {
+                "cost": "",
+                "kw": 0,
+                "CFM": 0,
+                "param1": 0
+            }
+        },
+        "DHWGenerationSystem": {
+            "electric": {
+                "cost": "",
+                "param1": 0
+            },
+            "VRBoiler": {
+                "cost": "",
+                "param1": 0
+            },
+            "gasBoiler": {
+                "cost": "",
+                "param1": 0
+            },
+            "coGeneration": {
+                "cost": "",
+                "param1": 0
+            },
+            "districtHeating": {
+                "cost": "",
+                "param1": 0
+            },
+            "heatPump": {
+                "cost": "",
+                "param1": 0
+            },
+            "steam": {
+                "cost": "",
+                "param1": 0
+            }
+        },
+        "PVModule": {
+            "minimum": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximum": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "solarCollector": {
+            "minimum": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximum": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "appliance": {
+            "eStarBaseline": {
+                "cost": 0,
+                "param1": 0
+            },
+            "eStarTop10": {
+                "cost": 0,
+                "param1": 0
+            },
+            "eStarTop5": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "lighting": {
+            "allCFL": {
+                "cost": 0,
+                "fixtures": 0,
+                "param1": 0
+            },
+            "LEDCFL": {
+                "cost": 0,
+                "fixtures": 0,
+                "param1": 0
+            },
+            "LED": {
+                "cost": 0,
+                "fixtures": 0,
+                "param1": 0
+            }
+        },
+        "roof1": {
+            "baseline": {
+                "cost": 0,
+                "param1": 0,
+                "param2": 0,
+                "param3": 0
+            },
+            "improvement1": {
+                "cost": 0,
+                "param1": 0,
+                "param2": 0,
+                "param3": 0
+            },
+            "improvement2": {
+                "cost": 0,
+                "param1": 0,
+                "param2": 0,
+                "param3": 0
+            }
+        },
+        "opaque1": {
+            "baseline": {
+                "cost": 0,
+                "param1": 0,
+                "param2": 0,
+                "param3": 0
+            },
+            "improvement1": {
+                "cost": 0,
+                "param1": 0,
+                "param2": 0,
+                "param3": 0
+            },
+            "improvement2": {
+                "cost": 0,
+                "param1": 0,
+                "param2": 0,
+                "param3": 0
+            }
+        },
+        "window1": {
+            "baseline": {
+                "cost": 0,
+                "param1": 0,
+                "param2": 0,
+                "param3": 0
+            },
+            "improvement1": {
+                "cost": 0,
+                "param1": 0,
+                "param2": 0,
+                "param3": 0
+            },
+            "improvement2": {
+                "cost": 0,
+                "param1": 0,
+                "param2": 0,
+                "param3": 0
+            }
+        },
+        "overhangS": {
+            "overhang1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang2": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang3": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "overhangSE": {
+            "overhang1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang2": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang3": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "overhangE": {
+            "overhang1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang2": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang3": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "overhangNE": {
+            "overhang1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang2": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang3": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "overhangN": {
+            "overhang1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang2": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang3": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "overhangNW": {
+            "overhang1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang2": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang3": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "overhangW": {
+            "overhang1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang2": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang3": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "overhangSW": {
+            "overhang1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang2": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang3": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "FinS": {
+            "fin1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin2": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin3": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "FinSE": {
+            "fin1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin2": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin3": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "FinE": {
+            "fin1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin2": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin3": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "FinNE": {
+            "fin1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin2": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin3": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "FinN": {
+            "fin1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin2": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin3": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "FinNW": {
+            "fin1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin2": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin3": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "FinW": {
+            "fin1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin2": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin3": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "FinSW": {
+            "fin1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin2": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin3": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "windTurbine": {
+            "minimumDiameter": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumDiameter": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "naturalVentilation": {
+            "baseline": {
+                "cost": 0,
+                "param1": 0,
+                "param2": 0,
+                "param3": 0
+            },
+            "improve1": {
+                "cost": 0,
+                "param1": 0,
+                "param2": 0,
+                "param3": 0
+            },
+            "improve2": {
+                "cost": 0,
+                "param1": 0,
+                "param2": 0,
+                "param3": 0
+            }
+        },
+        "electricBattery": {
+            "baseline": {
+                "cost": 0,
+                "param1": 0,
+                "param2": 0,
+                "param3": 0
+            },
+            "improve1": {
+                "cost": 0,
+                "param1": 0,
+                "param2": 0,
+                "param3": 0
+            },
+            "improve2": {
+                "cost": 0,
+                "param1": 0,
+                "param2": 0,
+                "param3": 0
+            }
+        },
+        "lightingDimmer": {
+            "minimumDimmer": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumDimmer": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "windowSRF_S": {
+            "minimumSRF": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumSRF": {
+                "cost":0,
+                "param1": 0
+            }
+        },
+        "windowSRF_SE": {
+            "minimumSRF": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumSRF": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "windowSRF_E": {
+            "minimumSRF": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumSRF": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "windowSRF_NE": {
+            "minimumSRF": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumSRF": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "windowSRF_N": {
+            "minimumSRF": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumSRF": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "windowSRF_NW": {
+            "minimumSRF": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumSRF": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "windowSRF_W": {
+            "minimumSRF": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumSRF": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "windowSRF_SW": {
+            "minimumSRF": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumSRF": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "windowSRF_Roof": {
+            "minimumSRF": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumSRF": {
+                "cost": 0,
+                "param1": 0
+            }
+        }
+    },
+    "capxParameters": [
+    ]
+}
