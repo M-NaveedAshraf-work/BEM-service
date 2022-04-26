@@ -16,6 +16,11 @@
                 ></v-text-field>
               </v-col>
               <v-col>
+                <p class="text--disabled">
+                  Note: Must be a Factor of the Number of UQ Parameters
+                </p>
+              </v-col>
+              <v-col>
                 <v-select
                   v-model="UQInputs.energyOutput"
                   label = "SA/UA Outputs"
@@ -304,7 +309,7 @@
                       align="center"
                       depressed
                       color="primary"
-                      v-on:click="loadState(); UA(); combineData(); sendUQ(); runUQ();"
+                      v-on:click="loadState(); UA(); combineData();"
                     >Run Uncertainty Analysis</v-btn>
                   </v-row>
                 </v-col>
@@ -316,7 +321,7 @@
                       align="center"
                       depressed
                       color="primary"
-                      v-on:click="loadState2(); SA(); combineData(); sendUQ(); runUQ();"
+                      v-on:click="loadState2(); SA(); combineData();"
                     >Run Sensitivity Analysis</v-btn>
                   </v-row>
                 </v-col>
@@ -505,6 +510,8 @@ export default {
       firstGraphNamesSA: ['blank'],
       secondGraphDataSA: [0, 0, 'null'],
       secondGraphNamesSA: ['blank'],
+
+      combineBool: 0,
     }
   },
 
@@ -536,6 +543,9 @@ export default {
     },
     loading2(){
     },
+    combineBool(){
+      this.combineFinish()
+    },
     // UQInputs() {
     //   this.sendUQ()
     // }
@@ -566,6 +576,12 @@ export default {
 
       this.combine = JSON.stringify(merged)
       console.log(this.combine)
+      this.sendUQ()
+      this.combineBool += 1
+    },
+
+    combineFinish() {
+      this.runUQ()
     },
 
     getUQ() {
