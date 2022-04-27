@@ -3107,8 +3107,6 @@ export default{
 
   watch: {
     calData() {
-      this.sendMessage()
-
       this.drawChartCal()
       this.loading = false
       // var audio = new Audio(require('../assets/Turntables.mp3'))
@@ -3562,13 +3560,11 @@ export default{
           {
             name: 'Actual Delivered Energy',
             type: 'line',
-            stack: 'Total',
             data: this.actualData
           },
           {
             name: 'Calibrated Delivered Energy',
             type: 'line',
-            stack: 'Total',
             data: this.calData
           },
         ]
@@ -3635,15 +3631,13 @@ export default{
         },
         series: [
           {
-            name: 'Baseline Cost',
+            name: 'Actual',
             type: 'line',
-            stack: 'Total',
             data: this.actualData
           },
           {
-            name: 'CapX Tech Implemented Cost',
+            name: 'CapX',
             type: 'line',
-            stack: 'Total',
             data: this.capxData
           },
         ]
