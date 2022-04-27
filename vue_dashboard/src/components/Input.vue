@@ -43,7 +43,7 @@
                     ></v-file-input>
                   </v-row>
                   <v-row>
-                    <v-btn v-on:click="loadFileBuilding(); updateData()" align="center" depressed color="primary">Read Files</v-btn>
+                    <v-btn v-on:click="loadFileBuilding(); " align="center" depressed color="primary">Read Files</v-btn>
                   </v-row>
                 </v-col>
               </v-window-item>
@@ -6153,14 +6153,14 @@ export default {
 
       // Graph Data 
       chart: null,
+
+      loadBool: 0
     }
   },
 
   watch: {
 
-    jsonData(v) {
-      this.Name = v
-      this.OutputPeriod = v
+    jsonData() {
     },
 
     monthlyDeliveredEnergy() {
@@ -6200,6 +6200,9 @@ export default {
       this.updateFiles() 
       this.getFiles()
     },
+    loadBool(){
+      this.combineNewFileBuilding()
+    }
   },
   
   methods: {
@@ -6298,22 +6301,25 @@ export default {
         reader1.readAsText(this.chosenFileBuilding);
         reader1.onload = () => {
           this.inputData = JSON.parse(reader1.result);
-          this.jsonData = this.inputData.jsonData
+          this.jsonData = this.inputData
+          this.loadBool = this.loadBool + 1
+          console.log('first')
         }
       }
-      if (!this.chosenFileData){this.FileDataHourly = "No File Chosen"}
+      if (!this.chosenFileData){console.log("No Data File Chosen")}
       else {
         this.historicalData = this.chosenFileData.name
       }
-      if (!this.chosenFileWeather){this.fileDataWeather = "No File Chosen"}
+      if (!this.chosenFileWeather){console.log("No Weather File Chosen")}
       else {
         this.weatherName = this.chosenFileWeather.name
       }
-      this.combineNewFileBuilding()
     },
 
     combineNewFileBuilding() {
       let jsonData = this.jsonData
+      console.log('second')
+      console.log(jsonData)
       let weatherData = this.weatherName
       let historicalData = this.historicalData
 

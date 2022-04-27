@@ -44,7 +44,7 @@ class BEMP_Calibration_CapX(BEM):
         with open(building_name, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
         # 1. Open the "Calibration" excel file
-        file = openpyxl.load_workbook('./Input/'+self.result_file_name+'.xlsx', data_only=True)
+        file = openpyxl.load_workbook('./Input/'+self.result_file_name+'', data_only=True)
         # file = openpyxl.load_workbook('./Input/BEM_Optimization_Input_'+original_file_name+'.xlsx', data_only=True)
         # file = openpyxl.load_workbook('./Input/BEM_Optimization_Input_v2_centergy_BEM_2019.xlsx', data_only=True)
         # file_sheet = file['GeneticAlgorithm_Setting']
@@ -744,83 +744,83 @@ class BEMP_Calibration_CapX(BEM):
                         raise Exception(
                             "Please check the 'Monthly_Min' and 'Monthly_Max' in the 'Monthly Internal Heat Gains' table.")
                 #TODO: this was commented out below
-                elif name[:9] == "Occupancy":
-                    if name == "Occupancy Jan":
-                        data["Monthly_InternalHeatGain"]["Occupancy"]["Jan"] = chromosome[row_of_chromesome, j]
-                    elif name == "Occupancy Feb":
-                        data["Monthly_InternalHeatGain"]["Occupancy"]["Feb"] = chromosome[row_of_chromesome, j]
-                    elif name == "Occupancy Mar":
-                        data["Monthly_InternalHeatGain"]["Occupancy"]["Mar"] = chromosome[row_of_chromesome, j]
-                    elif name == "Occupancy Apr":
-                        data["Monthly_InternalHeatGain"]["Occupancy"]["Apr"] = chromosome[row_of_chromesome, j]
-                    elif name == "Occupancy May":
-                        data["Monthly_InternalHeatGain"]["Occupancy"]["May"] = chromosome[row_of_chromesome, j]
-                    elif name == "Occupancy Jun":
-                        data["Monthly_InternalHeatGain"]["Occupancy"]["Jun"] = chromosome[row_of_chromesome, j]
-                    elif name == "Occupancy Jul":
-                        data["Monthly_InternalHeatGain"]["Occupancy"]["Jul"] = chromosome[row_of_chromesome, j]
-                    elif name == "Occupancy Aug":
-                        data["Monthly_InternalHeatGain"]["Occupancy"]["Aug"] = chromosome[row_of_chromesome, j]
-                    elif name == "Occupancy Sep":
-                        data["Monthly_InternalHeatGain"]["Occupancy"]["Sep"] = chromosome[row_of_chromesome, j]
-                    elif name == "Occupancy Oct":
-                        data["Monthly_InternalHeatGain"]["Occupancy"]["Oct"] = chromosome[row_of_chromesome, j]
-                    elif name == "Occupancy Nov":
-                        data["Monthly_InternalHeatGain"]["Occupancy"]["Nov"] = chromosome[row_of_chromesome, j]
-                    elif name == "Occupancy Dec":
-                        data["Monthly_InternalHeatGain"]["Occupancy"]["Dec"] = chromosome[row_of_chromesome, j]
-
-                elif name[:9] == "Appliance":
-                    if name == "Appliance Jan":
-                        data["Monthly_InternalHeatGain"]["Appliance"]["Jan"] = chromosome[row_of_chromesome, j]
-                    elif name == "Appliance Feb":
-                        data["Monthly_InternalHeatGain"]["Appliance"]["Feb"] = chromosome[row_of_chromesome, j]
-                    elif name == "Appliance Mar":
-                        data["Monthly_InternalHeatGain"]["Appliance"]["Mar"] = chromosome[row_of_chromesome, j]
-                    elif name == "Appliance Apr":
-                        data["Monthly_InternalHeatGain"]["Appliance"]["Apr"] = chromosome[row_of_chromesome, j]
-                    elif name == "Appliance May":
-                        data["Monthly_InternalHeatGain"]["Appliance"]["May"] = chromosome[row_of_chromesome, j]
-                    elif name == "Appliance Jun":
-                        data["Monthly_InternalHeatGain"]["Appliance"]["Jun"] = chromosome[row_of_chromesome, j]
-                    elif name == "Appliance Jul":
-                        data["Monthly_InternalHeatGain"]["Appliance"]["Jul"] = chromosome[row_of_chromesome, j]
-                    elif name == "Appliance Aug":
-                        data["Monthly_InternalHeatGain"]["Appliance"]["Aug"] = chromosome[row_of_chromesome, j]
-                    elif name == "Appliance Sep":
-                        data["Monthly_InternalHeatGain"]["Appliance"]["Sep"] = chromosome[row_of_chromesome, j]
-                    elif name == "Appliance Oct":
-                        data["Monthly_InternalHeatGain"]["Appliance"]["Oct"] = chromosome[row_of_chromesome, j]
-                    elif name == "Appliance Nov":
-                        data["Monthly_InternalHeatGain"]["Appliance"]["Nov"] = chromosome[row_of_chromesome, j]
-                    elif name == "Appliance Dec":
-                        data["Monthly_InternalHeatGain"]["Appliance"]["Dec"] = chromosome[row_of_chromesome, j]
-
-                elif name[:8] == "Lighting":
-                    if name == "Lighting Jan":
-                        data["Monthly_InternalHeatGain"]["Lighting"]["Jan"] = chromosome[row_of_chromesome, j]
-                    elif name == "Lighting Feb":
-                        data["Monthly_InternalHeatGain"]["Lighting"]["Feb"] = chromosome[row_of_chromesome, j]
-                    elif name == "Lighting Mar":
-                        data["Monthly_InternalHeatGain"]["Lighting"]["Mar"] = chromosome[row_of_chromesome, j]
-                    elif name == "Lighting Apr":
-                        data["Monthly_InternalHeatGain"]["Lighting"]["Apr"] = chromosome[row_of_chromesome, j]
-                    elif name == "Lighting May":
-                        data["Monthly_InternalHeatGain"]["Lighting"]["May"] = chromosome[row_of_chromesome, j]
-                    elif name == "Lighting Jun":
-                        data["Monthly_InternalHeatGain"]["Lighting"]["Jun"] = chromosome[row_of_chromesome, j]
-                    elif name == "Lighting Jul":
-                        data["Monthly_InternalHeatGain"]["Lighting"]["Jul"] = chromosome[row_of_chromesome, j]
-                    elif name == "Lighting Aug":
-                        data["Monthly_InternalHeatGain"]["Lighting"]["Aug"] = chromosome[row_of_chromesome, j]
-                    elif name == "Lighting Sep":
-                        data["Monthly_InternalHeatGain"]["Lighting"]["Sep"] = chromosome[row_of_chromesome, j]
-                    elif name == "Lighting Oct":
-                        data["Monthly_InternalHeatGain"]["Lighting"]["Oct"] = chromosome[row_of_chromesome, j]
-                    elif name == "Lighting Nov":
-                        data["Monthly_InternalHeatGain"]["Lighting"]["Nov"] = chromosome[row_of_chromesome, j]
-                    elif name == "Lighting Dec":
-                        data["Monthly_InternalHeatGain"]["Lighting"]["Dec"] = chromosome[row_of_chromesome, j]
+                # elif name[:9] == "Occupancy":
+                #     if name == "Occupancy Jan":
+                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Jan"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Occupancy Feb":
+                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Feb"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Occupancy Mar":
+                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Mar"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Occupancy Apr":
+                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Apr"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Occupancy May":
+                #         data["Monthly_InternalHeatGain"]["Occupancy"]["May"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Occupancy Jun":
+                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Jun"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Occupancy Jul":
+                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Jul"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Occupancy Aug":
+                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Aug"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Occupancy Sep":
+                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Sep"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Occupancy Oct":
+                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Oct"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Occupancy Nov":
+                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Nov"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Occupancy Dec":
+                #         data["Monthly_InternalHeatGain"]["Occupancy"]["Dec"] = chromosome[row_of_chromesome, j]
+                #
+                # elif name[:9] == "Appliance":
+                #     if name == "Appliance Jan":
+                #         data["Monthly_InternalHeatGain"]["Appliance"]["Jan"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Appliance Feb":
+                #         data["Monthly_InternalHeatGain"]["Appliance"]["Feb"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Appliance Mar":
+                #         data["Monthly_InternalHeatGain"]["Appliance"]["Mar"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Appliance Apr":
+                #         data["Monthly_InternalHeatGain"]["Appliance"]["Apr"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Appliance May":
+                #         data["Monthly_InternalHeatGain"]["Appliance"]["May"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Appliance Jun":
+                #         data["Monthly_InternalHeatGain"]["Appliance"]["Jun"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Appliance Jul":
+                #         data["Monthly_InternalHeatGain"]["Appliance"]["Jul"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Appliance Aug":
+                #         data["Monthly_InternalHeatGain"]["Appliance"]["Aug"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Appliance Sep":
+                #         data["Monthly_InternalHeatGain"]["Appliance"]["Sep"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Appliance Oct":
+                #         data["Monthly_InternalHeatGain"]["Appliance"]["Oct"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Appliance Nov":
+                #         data["Monthly_InternalHeatGain"]["Appliance"]["Nov"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Appliance Dec":
+                #         data["Monthly_InternalHeatGain"]["Appliance"]["Dec"] = chromosome[row_of_chromesome, j]
+                #
+                # elif name[:8] == "Lighting":
+                #     if name == "Lighting Jan":
+                #         data["Monthly_InternalHeatGain"]["Lighting"]["Jan"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Lighting Feb":
+                #         data["Monthly_InternalHeatGain"]["Lighting"]["Feb"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Lighting Mar":
+                #         data["Monthly_InternalHeatGain"]["Lighting"]["Mar"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Lighting Apr":
+                #         data["Monthly_InternalHeatGain"]["Lighting"]["Apr"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Lighting May":
+                #         data["Monthly_InternalHeatGain"]["Lighting"]["May"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Lighting Jun":
+                #         data["Monthly_InternalHeatGain"]["Lighting"]["Jun"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Lighting Jul":
+                #         data["Monthly_InternalHeatGain"]["Lighting"]["Jul"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Lighting Aug":
+                #         data["Monthly_InternalHeatGain"]["Lighting"]["Aug"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Lighting Sep":
+                #         data["Monthly_InternalHeatGain"]["Lighting"]["Sep"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Lighting Oct":
+                #         data["Monthly_InternalHeatGain"]["Lighting"]["Oct"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Lighting Nov":
+                #         data["Monthly_InternalHeatGain"]["Lighting"]["Nov"] = chromosome[row_of_chromesome, j]
+                #     elif name == "Lighting Dec":
+                #         data["Monthly_InternalHeatGain"]["Lighting"]["Dec"] = chromosome[row_of_chromesome, j]
 
                 elif isinstance(int(name), int) == True:  # Temperature setpoint or Schedule
                     hour_max = self.calibration_param_info[name]["Hour_Max"]
@@ -849,6 +849,7 @@ class BEMP_Calibration_CapX(BEM):
         else:  # CapX
             j = 0
             for param in self.CapX_parameters_no_duplicate:
+                print(param)
                 if param == "Heating COP":
                     data["HeatingCOP"] = chromosome[row_of_chromesome, j]
                     j += 1
@@ -1010,6 +1011,7 @@ class BEMP_Calibration_CapX(BEM):
         print('jsonMod end')
 
     def Linear_Interpolation(self, x1, x2, y1, y2, x):
+
         return ((x - x1) * (y2 - y1) / (x2 - x1)) + y1
 
     def Calibration_Iteration(self, population):
@@ -1296,6 +1298,7 @@ class BEMP_Calibration_CapX(BEM):
             # with open(self.buildingName) as f:
             #     data = json.load(f)
             data = self.jsonData
+            print(self.calibration_parameters)
             initial_chrom = []
             for j, name in enumerate(self.calibration_parameters):
                 if name == "Heating COP":
@@ -1407,7 +1410,6 @@ class BEMP_Calibration_CapX(BEM):
                     else:
                         raise Exception(
                             "Please check the 'Monthly_Min' and 'Monthly_Max' in the 'Monthly Internal Heat Gains' table.")
-                #TODO: Look into set point
                 elif isinstance(int(name), int)== True: # Temperature setpoint or Schedule
                     hour_max = self.calibration_param_info[name]["Hour_Max"]
                     hour_min = self.calibration_param_info[name]["Hour_Min"]

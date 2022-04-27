@@ -363,7 +363,7 @@
                                   >
                                     <v-select
                                       v-model="editHeatForm.day"
-                                      :items="dayType"
+                                      :items="floatInt"
                                       label="Data Type"
                                     ></v-select>
                                   </v-col>

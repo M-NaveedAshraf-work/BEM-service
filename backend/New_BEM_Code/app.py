@@ -25,7 +25,7 @@ app.config.from_object(__name__)
 
 # enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})
-historicalData = "BEM_Optimization_Input_v2_centergy_BEM_2019"
+historicalData = "BEM_Optimization_Input_v2_centergy_BEM_2019.xlsx"
 a = open('./Input/comboFiles.json')
 fileData = json.load(a)
 b = open('./Input/input.json')
@@ -88,6 +88,7 @@ def json_data():
         global historicalData
         global inputData
         data = post_json
+        print(data)
         weatherData = post_weather
         historicalData = post_historical
 
@@ -153,7 +154,7 @@ def calibration_model():
     response_object = {'status': 'success'}
     data["OutputPeriod"] == "Monthly"
     calData["type"] = "Calibration"
-    simulated, real, interval = main(mode="calibration", building_name=data, epw_file_name=weatherData, original_file_name=calData, result_file_name="BEM_Optimization_Input_v2_centergy_BEM_2019")
+    simulated, real, interval = main(mode="calibration", building_name=data, epw_file_name=weatherData, original_file_name=calData, result_file_name=historicalData)
     response_object['real'] = real
     response_object['modeled'] = simulated
     response_object['interval'] = interval
@@ -223,7 +224,7 @@ def capxComponents():
     calData["type"] = "CapX"
     data["OutputPeriod"] == "Monthly"
     simulated, real, interval = main(mode="capX", building_name=data, epw_file_name=weatherData,
-                                     original_file_name=calData, result_file_name="BEM_Optimization_Input_v2_centergy_BEM_2019")
+                                     original_file_name=calData, result_file_name=historicalData)
     response_object['real'] = real
     response_object['modeled'] = simulated
     response_object['interval'] = interval
