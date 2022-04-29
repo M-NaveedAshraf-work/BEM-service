@@ -212,7 +212,7 @@
             "LEDCFL": {
                 "cost": 7000,
                 "fixtures": 100,
-                "param1": 14000
+                "param1": 29
             },
             "LED": {
                 "cost": 14000,

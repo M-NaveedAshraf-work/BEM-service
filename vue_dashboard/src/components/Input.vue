@@ -6161,10 +6161,12 @@ export default {
   watch: {
 
     jsonData() {
+      this.drawChart()
     },
 
     monthlyDeliveredEnergy() {
-      this.drawChart()
+      this.delay(3000).then(() => this.runBEM())
+      console.log('watch Works')
     },
 
 
@@ -6206,6 +6208,10 @@ export default {
   },
   
   methods: {
+
+    delay(time) {
+      return new Promise(resolve => setTimeout(resolve, time));
+    },
 
     getData() {
       const path = 'http://127.0.0.1:5000/input'
@@ -6301,9 +6307,9 @@ export default {
         reader1.readAsText(this.chosenFileBuilding);
         reader1.onload = () => {
           this.inputData = JSON.parse(reader1.result);
+          this.inputData.OutputPeriod = "Monthly"
           this.jsonData = this.inputData
           this.loadBool = this.loadBool + 1
-          console.log('first')
         }
       }
       if (!this.chosenFileData){console.log("No Data File Chosen")}
@@ -6318,7 +6324,6 @@ export default {
 
     combineNewFileBuilding() {
       let jsonData = this.jsonData
-      console.log('second')
       console.log(jsonData)
       let weatherData = this.weatherName
       let historicalData = this.historicalData

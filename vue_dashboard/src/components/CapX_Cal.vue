@@ -2108,7 +2108,6 @@
                               label = "W/m^2"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
@@ -2141,7 +2140,6 @@
                               label = "W/m^2"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>
@@ -2174,7 +2172,6 @@
                               label = "W/m^2"
                               outlined
                               dense
-                              disabled
                               type="number"
                             ></v-text-field>
                           </v-col>

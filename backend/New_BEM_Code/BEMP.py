@@ -152,6 +152,7 @@ class BEM:
         #    self.BEMP_JSON = json.load(f)
         # with open(self.buildingName) as f:
         #    self.BEMP_JSON = json.load(f)
+
         self.BEMP_JSON = self.jsonData
 
         self.outputPeriod = self.BEMP_JSON["OutputPeriod"]

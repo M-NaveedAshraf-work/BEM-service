@@ -46,6 +46,11 @@ build_index = []
 weatherData = "centergy_2019_epw_file.epw"
 a = open('./Input/example_calibration.json')
 calData = json.load(a)
+outputPeriod = [
+    {
+        "OutputPeriod": "Monthly"
+    }
+],
 
 capxData = [
     {
@@ -88,7 +93,12 @@ def json_data():
         global historicalData
         global inputData
         data = post_json
-        print(data)
+        # if 'OutputPeriod' in data:
+        #     print('No New Data')
+        # else:
+        #     data["OutputPeriod"] = "Monthly"
+        #     print('New Data')
+
         weatherData = post_weather
         historicalData = post_historical
 
@@ -167,7 +177,6 @@ def calComponents():
     data["OutputPeriod"] == "Monthly"
     if request.method == 'PUT':
         post_data = request.get_json("calData")
-        print(post_data)
         global calData
         calData = post_data
         response_object['calData'] = calData
@@ -187,7 +196,6 @@ def UQComponents():
         response_object['UQData'] = UQData
         response_object['message'] = "Parameters Updated"
     else:
-        print(UQData)
         response_object['UQData'] = UQData
 
     return jsonify(response_object)
