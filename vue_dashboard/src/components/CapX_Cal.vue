@@ -2790,6 +2790,7 @@
 
 <script>
 import axios from 'axios'
+import ecStat from 'echarts-stat'
 import blank_estar from '../../../backend/New_BEM_Code/Input/blank_estar.json'
 import blank_cal from '../../../backend/New_BEM_Code/Input/blank_example_calibration.json'
 
@@ -3075,7 +3076,14 @@ export default{
       actualData: [0,0,0,0,0,0,0,0,0,0,0,0],
       calData: [0,0,0,0,0,0,0,0,0,0,0,0],
       capxData: [0,0,0,0,0,0,0,0,0,0,0,0],
-      energystarGraphData: [0,0,0,0,0,0,0,0,0,0,0,0],
+      energystarGraphData: [
+        [
+          0
+        ],
+        [
+          1
+        ],
+      ],
       energystarGraphAxis: [1,2,3,4,5,6,7,8,9,10,11,12],
       energystarAxis: [0,0,0,0,0,0,0,0,0,0,0,0],
       subData: [0,0,0,0,0,0,0,0,0,0],
@@ -3580,7 +3588,7 @@ export default{
       //Specify configuration items and data for the chart
       let option = {
         title: {
-          text: 'Actual vs CapX Technology Infused Delivered Energy'
+          text: 'Actual vs CapX Energy Cost ($)'
         },
         tooltip: {
           trigger: 'axis'
@@ -3642,8 +3650,50 @@ export default{
       option && myChart.setOption(option);
     },
 
+    // drawChartEnergystar() {
+    //   //Initialize the echarts instance based on the prepared dom
+    //   this.$echarts.registerTransform(ecStat.transform.histogram)
+    //   let myChart = this.$echarts.init(document.getElementById("energystarchart"));
+    //   //Specify configuration items and data for the chart
+    //   let option = {
+    //     title: {
+    //       text: 'EUI Benchmarking'
+    //     },
+    //     toolbox: {
+    //       feature: {
+    //         saveAsImage: {}
+    //       }
+    //     },
+    //     tooltip: {
+    //       trigger: 'axis'
+    //     },
+    //     xAxis: {
+    //       type: 'category',
+    //       data: this.energystarGraphAxis
+    //     },
+    //     yAxis: {
+    //       type: 'value'
+    //     },
+    //     series: [
+    //       {
+    //         type: 'bar',
+    //         data: this.energystarGraphData,
+    //         markLine: {
+    //           data: [{name: 'Source Building EUI', yAxis: this.energystarData.score.sourceEUI,
+    //             lineStyle: {
+    //               color: 'red'
+    //             }
+    //           }],
+    //         }
+    //       },
+    //     ],
+    //   };
+    //   option && myChart.setOption(option);
+    // },
+
     drawChartEnergystar() {
       //Initialize the echarts instance based on the prepared dom
+      this.$echarts.registerTransform(ecStat.transform.histogram)
       let myChart = this.$echarts.init(document.getElementById("energystarchart"));
       //Specify configuration items and data for the chart
       let option = {
@@ -3655,29 +3705,38 @@ export default{
             saveAsImage: {}
           }
         },
+        dataset: [{
+        source: this.energystarGraphData
+        }, {
+          transform: {
+              type: 'ecStat:histogram'
+          }
+        }],
         tooltip: {
-          trigger: 'axis'
         },
         xAxis: {
-          type: 'category',
-          data: this.energystarGraphAxis
+            type: 'category',
+            scale: true
         },
-        yAxis: {
-          type: 'value'
-        },
-        series: [
-          {
-            type: 'bar',
-            data: this.energystarGraphData,
-            markLine: {
-              data: [{name: 'Source Building EUI', yAxis: this.energystarData.score.sourceEUI,
-                lineStyle: {
+        yAxis: {},
+        series: {
+          name: 'histogram',
+          type: 'bar',
+          barWidth: '99.3%',
+          label: {
+              show: true,
+              position: 'top'
+          },
+          datasetIndex: 1,
+          markLine: {
+            data: [ { name: 'Source Building EUI', xAxis: 170,
+              lineStyle: {
                   color: 'red'
                 }
-              }],
-            }
+              }
+            ],
           },
-        ],
+        },
       };
       option && myChart.setOption(option);
     },

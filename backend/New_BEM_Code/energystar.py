@@ -154,9 +154,14 @@ def runEnergystar(non_gfa,data_gfa, office_gfa, wkhrs,workers,cpus,pctcooled,cdd
     instance = Energystar(non_gfa,data_gfa, office_gfa, wkhrs,workers,cpus,pctcooled,cdd,hdd, site_eui, source_eui, site, source, target, predicted_eui, area, unit, current_eui, min_sqft, max_sqft, year)
     score, predict_eui, adjusted_eui = instance.score()
     usage, target_eui = instance.target_score()
-    eui, build_index = instance.benchmark()
+    benchmark, build_index = instance.benchmark()
 
-    return float(score), float(predict_eui), float(adjusted_eui), float(usage), float(target_eui), eui, build_index
+    A = []
+    for i in range(len(benchmark)):
+        A.append([])
+        A[i].append(benchmark[i])
+
+    return float(score), float(predict_eui), float(adjusted_eui), float(usage), float(target_eui), A, build_index
 
 if __name__ == '__main__':
     print("Please execute the 'main.py' script.")

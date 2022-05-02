@@ -31,5 +31,12 @@
         "minSQFT": 50000,
         "maxSQFT": 507979
     },
-    "benchmark": 1
+    "benchmark": [
+        [
+            0
+        ],
+        [
+            1
+        ]
+    ]
 }
