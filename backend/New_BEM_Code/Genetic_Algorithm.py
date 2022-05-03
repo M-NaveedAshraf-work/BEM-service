@@ -1030,7 +1030,7 @@ class BEMP_Calibration_CapX(BEM):
             self.PumpSystemEnergy()
             self.DHWandSolarWaterHeating()
 
-            outcome, outcome2, outcome3, grouped = self.hourly_BEM()  # outcome: self.deliveredEnergy, outcome2: self.Overall_deliveredEnergy, outcome3: self.deliveredEnergy_fuel
+            outcome, outcome2, outcome3= self.hourly_BEM()  # outcome: self.deliveredEnergy, outcome2: self.Overall_deliveredEnergy, outcome3: self.deliveredEnergy_fuel
             """
             The fitness function is CVRMSE (Coefficient of variation of the Root Mean Square Error)
             CVRMSE = (1/y_bar) * sqrt(((sigma (yi - yhat_i)^2)/(n-p))
@@ -1170,7 +1170,7 @@ class BEMP_Calibration_CapX(BEM):
             self.VentilationAirFlowandVentilationHeatTransfer()
             self.PumpSystemEnergy()
             self.DHWandSolarWaterHeating()
-            outcome, outcome2, outcome3, grouped = self.hourly_BEM()  # outcome = self.deliveredEnergy, outcome2=self.Overall_deliveredEnergy, outcome3=self.deliveredEnergy_fuel
+            outcome, outcome2, outcome3= self.hourly_BEM()  # outcome = self.deliveredEnergy, outcome2=self.Overall_deliveredEnergy, outcome3=self.deliveredEnergy_fuel
 
             delivered_energy_compilation.append(outcome2)
 
@@ -1629,7 +1629,7 @@ class BEMP_Calibration_CapX(BEM):
             self.PumpSystemEnergy()
             self.DHWandSolarWaterHeating()
 
-            outcome, outcome2, outcome3, grouped = self.hourly_BEM()
+            outcome, outcome2, outcome3 = self.hourly_BEM()
             out = np.asarray(outcome[:, -1]) * self.totalArea / 1000
 
             manipulated_result = np.zeros((12, 1))
@@ -1706,7 +1706,7 @@ class BEMP_Calibration_CapX(BEM):
             self.PumpSystemEnergy()
             self.DHWandSolarWaterHeating()
 
-            outcome, outcome2, outcome3, grouped = self.hourly_BEM()
+            outcome, outcome2, outcome3= self.hourly_BEM()
             out = np.asarray(outcome[:, -1]) * self.totalArea / 1000
 
             manipulated_result = np.zeros((12, 1))

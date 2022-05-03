@@ -1784,98 +1784,100 @@ class BEM:
                 
         self.Overall_deliveredEnergy = float(np.sum(self.deliveredEnergy[:,10]))/1000 # unit kWh/m2
 
-        self.outcome = self.deliveredEnergy
-        self.outcome2 = self.Overall_deliveredEnergy
-        self.outcome3 = self.deliveredEnergy_fuel
+        return self.deliveredEnergy, self.Overall_deliveredEnergy, self.deliveredEnergy_fuel
 
-        self.out = np.asarray(self.outcome[:, -1]) * self.totalArea / 1000
-
-        subDeliveredEnergy = np.zeros((12,11))
-        for i in range(11):
-            subDeliveredEnergy[0, i] = np.sum(self.outcome[0:744, i])
-            subDeliveredEnergy[1, i] = np.sum(self.outcome[744:1416, i])
-            subDeliveredEnergy[2, i] = np.sum(self.outcome[0:744, i])
-            subDeliveredEnergy[3, i] = np.sum(self.outcome[1416:2159, i])
-            subDeliveredEnergy[4, i] = np.sum(self.outcome[2159:2880, i])
-            subDeliveredEnergy[5, i] = np.sum(self.outcome[2880:3624, i])
-            subDeliveredEnergy[6, i] = np.sum(self.outcome[3624:4344, i])
-            subDeliveredEnergy[7, i] = np.sum(self.outcome[4344:5088, i])
-            subDeliveredEnergy[8, i] = np.sum(self.outcome[5088:5832, i])
-            subDeliveredEnergy[9, i] = np.sum(self.outcome[5832:6552, i])
-            subDeliveredEnergy[10, i] = np.sum(self.outcome[6552:7296, i])
-            subDeliveredEnergy[11, i] = np.sum(self.outcome[8016:8760, i])
-
-        subMonthlyTotal = np.zeros((12,1))
-        subMonthlyTotal[0, 0] = np.sum(subDeliveredEnergy[:, 0])
-        subMonthlyTotal[1, 0] = np.sum(subDeliveredEnergy[:, 1])
-        subMonthlyTotal[2, 0] = np.sum(subDeliveredEnergy[:, 2])
-        subMonthlyTotal[3, 0] = np.sum(subDeliveredEnergy[:, 3])
-        subMonthlyTotal[4, 0] = np.sum(subDeliveredEnergy[:, 4])
-        subMonthlyTotal[5, 0] = np.sum(subDeliveredEnergy[:, 5])
-        subMonthlyTotal[6, 0] = np.sum(subDeliveredEnergy[:, 6])
-        subMonthlyTotal[7, 0] = np.sum(subDeliveredEnergy[:, 7])
-        subMonthlyTotal[8, 0] = np.sum(subDeliveredEnergy[:, 8])
-        subMonthlyTotal[9, 0] = np.sum(subDeliveredEnergy[:, 9])
-        subMonthlyTotal[10, 0] = np.sum(subDeliveredEnergy[:, 10])
-
-
-
-        manipulated_result = np.zeros((12, 1))
-        manipulated_result[0, 0] = np.sum(self.outcome3[0:744, 0])
-        manipulated_result[1, 0] = np.sum(self.outcome3[744:1416, 0])
-        manipulated_result[2, 0] = np.sum(self.outcome3[1416:2159, 0])
-        manipulated_result[3, 0] = np.sum(self.outcome3[2159:2880, 0])
-        manipulated_result[4, 0] = np.sum(self.outcome3[2880:3624, 0])
-        manipulated_result[5, 0] = np.sum(self.outcome3[3624:4344, 0])
-        manipulated_result[6, 0] = np.sum(self.outcome3[4344:5088, 0])
-        manipulated_result[7, 0] = np.sum(self.outcome3[5088:5832, 0])
-        manipulated_result[8, 0] = np.sum(self.outcome3[5832:6552, 0])
-        manipulated_result[9, 0] = np.sum(self.outcome3[6552:7296, 0])
-        manipulated_result[10, 0] = np.sum(self.outcome3[7296:8016, 0])
-        manipulated_result[11, 0] = np.sum(self.outcome3[8016:8760, 0])
-
-        # deviation = 0
-        # for j in range(self.num_of_loop):
-        #     deviation += (self.measuredData[j, 0] - manipulated_result[j, 0]) ** 2
-        # cvRMSE = (1 / self.y_bar) * sqrt(deviation / (self.num_of_loop * self.number_of_data - 1)) * 100
-        if self.outputPeriod == "Monthly":
-            plot_data = pd.DataFrame(self.out, columns=['Delivered'])
-            plot_data['Month'] = 'blank'
-            plot_data.loc[:743, 'Month'] = 'January'
-            plot_data.loc[744:1415, 'Month'] = 'February'
-            plot_data.loc[1416:2159, 'Month'] = 'March'
-            plot_data.loc[2160:2879, 'Month'] = 'April'
-            plot_data.loc[2880:3623, 'Month'] = 'May'
-            plot_data.loc[3624:4343, 'Month'] = 'June'
-            plot_data.loc[4344:5087, 'Month'] = 'July'
-            plot_data.loc[5088:5831, 'Month'] = 'August'
-            plot_data.loc[5832:6551, 'Month'] = 'Septemeber'
-            plot_data.loc[6552:7295, 'Month'] = 'October'
-            plot_data.loc[7296:8015, 'Month'] = 'November'
-            plot_data.loc[8016:8759, 'Month'] = 'December'
-
-            self.grouped = (plot_data.groupby(['Month'], sort=False).sum()).reset_index()
-        elif self.outputPeriod == "Hourly":
-            self.grouped = pd.DataFrame(self.out, columns=['Delivered'])
-
-
-
-        #self.grouped = (plot_data.groupby(['Month'], sort=False).sum()).reset_index()
-
-
-        # plt.figure(figsize=(14, 8))
-        # plt.plot(grouped.Month.values, grouped.Delivered.values, label="Model", marker='o')
-        # plt.plot(grouped.Month.values, self.measuredData[:, 0], label="Utility", marker='o')
-        # plt.ylim(0, (self.y_max + 100000))
-        # plt.legend()
-        # plt.xlabel('Month')
-        # plt.ylabel('Energy Consumption (kWh)')
-        # plt.title(f"Model Results vs. Utility Data for CV RMSE of {round(best_so_far_fitness_value[-1], 3)}%")
-        # plt.ticklabel_format(style='plain', axis='y')
-        # plt.savefig(f"calibration_result_{self.result_file_name}.png")
-        # plt.show()
-       
-        return self.deliveredEnergy, self.Overall_deliveredEnergy, self.deliveredEnergy_fuel, self.grouped
+        # self.outcome = self.deliveredEnergy
+        # self.outcome2 = self.Overall_deliveredEnergy
+        # self.outcome3 = self.deliveredEnergy_fuel
+        #
+        # self.out = np.asarray(self.outcome[:, -1]) * self.totalArea / 1000
+        #
+        # subDeliveredEnergy = np.zeros((12,11))
+        # for i in range(11):
+        #     subDeliveredEnergy[0, i] = np.sum(self.outcome[0:744, i])
+        #     subDeliveredEnergy[1, i] = np.sum(self.outcome[744:1416, i])
+        #     subDeliveredEnergy[2, i] = np.sum(self.outcome[0:744, i])
+        #     subDeliveredEnergy[3, i] = np.sum(self.outcome[1416:2159, i])
+        #     subDeliveredEnergy[4, i] = np.sum(self.outcome[2159:2880, i])
+        #     subDeliveredEnergy[5, i] = np.sum(self.outcome[2880:3624, i])
+        #     subDeliveredEnergy[6, i] = np.sum(self.outcome[3624:4344, i])
+        #     subDeliveredEnergy[7, i] = np.sum(self.outcome[4344:5088, i])
+        #     subDeliveredEnergy[8, i] = np.sum(self.outcome[5088:5832, i])
+        #     subDeliveredEnergy[9, i] = np.sum(self.outcome[5832:6552, i])
+        #     subDeliveredEnergy[10, i] = np.sum(self.outcome[6552:7296, i])
+        #     subDeliveredEnergy[11, i] = np.sum(self.outcome[8016:8760, i])
+        #
+        # subMonthlyTotal = np.zeros((12,1))
+        # subMonthlyTotal[0, 0] = np.sum(subDeliveredEnergy[:, 0])
+        # subMonthlyTotal[1, 0] = np.sum(subDeliveredEnergy[:, 1])
+        # subMonthlyTotal[2, 0] = np.sum(subDeliveredEnergy[:, 2])
+        # subMonthlyTotal[3, 0] = np.sum(subDeliveredEnergy[:, 3])
+        # subMonthlyTotal[4, 0] = np.sum(subDeliveredEnergy[:, 4])
+        # subMonthlyTotal[5, 0] = np.sum(subDeliveredEnergy[:, 5])
+        # subMonthlyTotal[6, 0] = np.sum(subDeliveredEnergy[:, 6])
+        # subMonthlyTotal[7, 0] = np.sum(subDeliveredEnergy[:, 7])
+        # subMonthlyTotal[8, 0] = np.sum(subDeliveredEnergy[:, 8])
+        # subMonthlyTotal[9, 0] = np.sum(subDeliveredEnergy[:, 9])
+        # subMonthlyTotal[10, 0] = np.sum(subDeliveredEnergy[:, 10])
+        #
+        #
+        #
+        # manipulated_result = np.zeros((12, 1))
+        # manipulated_result[0, 0] = np.sum(self.outcome3[0:744, 0])
+        # manipulated_result[1, 0] = np.sum(self.outcome3[744:1416, 0])
+        # manipulated_result[2, 0] = np.sum(self.outcome3[1416:2159, 0])
+        # manipulated_result[3, 0] = np.sum(self.outcome3[2159:2880, 0])
+        # manipulated_result[4, 0] = np.sum(self.outcome3[2880:3624, 0])
+        # manipulated_result[5, 0] = np.sum(self.outcome3[3624:4344, 0])
+        # manipulated_result[6, 0] = np.sum(self.outcome3[4344:5088, 0])
+        # manipulated_result[7, 0] = np.sum(self.outcome3[5088:5832, 0])
+        # manipulated_result[8, 0] = np.sum(self.outcome3[5832:6552, 0])
+        # manipulated_result[9, 0] = np.sum(self.outcome3[6552:7296, 0])
+        # manipulated_result[10, 0] = np.sum(self.outcome3[7296:8016, 0])
+        # manipulated_result[11, 0] = np.sum(self.outcome3[8016:8760, 0])
+        #
+        # # deviation = 0
+        # # for j in range(self.num_of_loop):
+        # #     deviation += (self.measuredData[j, 0] - manipulated_result[j, 0]) ** 2
+        # # cvRMSE = (1 / self.y_bar) * sqrt(deviation / (self.num_of_loop * self.number_of_data - 1)) * 100
+        # if self.outputPeriod == "Monthly":
+        #     plot_data = pd.DataFrame(self.out, columns=['Delivered'])
+        #     plot_data['Month'] = 'blank'
+        #     plot_data.loc[:743, 'Month'] = 'January'
+        #     plot_data.loc[744:1415, 'Month'] = 'February'
+        #     plot_data.loc[1416:2159, 'Month'] = 'March'
+        #     plot_data.loc[2160:2879, 'Month'] = 'April'
+        #     plot_data.loc[2880:3623, 'Month'] = 'May'
+        #     plot_data.loc[3624:4343, 'Month'] = 'June'
+        #     plot_data.loc[4344:5087, 'Month'] = 'July'
+        #     plot_data.loc[5088:5831, 'Month'] = 'August'
+        #     plot_data.loc[5832:6551, 'Month'] = 'Septemeber'
+        #     plot_data.loc[6552:7295, 'Month'] = 'October'
+        #     plot_data.loc[7296:8015, 'Month'] = 'November'
+        #     plot_data.loc[8016:8759, 'Month'] = 'December'
+        #
+        #     self.grouped = (plot_data.groupby(['Month'], sort=False).sum()).reset_index()
+        # elif self.outputPeriod == "Hourly":
+        #     self.grouped = pd.DataFrame(self.out, columns=['Delivered'])
+        #
+        #
+        #
+        # #self.grouped = (plot_data.groupby(['Month'], sort=False).sum()).reset_index()
+        #
+        #
+        # # plt.figure(figsize=(14, 8))
+        # # plt.plot(grouped.Month.values, grouped.Delivered.values, label="Model", marker='o')
+        # # plt.plot(grouped.Month.values, self.measuredData[:, 0], label="Utility", marker='o')
+        # # plt.ylim(0, (self.y_max + 100000))
+        # # plt.legend()
+        # # plt.xlabel('Month')
+        # # plt.ylabel('Energy Consumption (kWh)')
+        # # plt.title(f"Model Results vs. Utility Data for CV RMSE of {round(best_so_far_fitness_value[-1], 3)}%")
+        # # plt.ticklabel_format(style='plain', axis='y')
+        # # plt.savefig(f"calibration_result_{self.result_file_name}.png")
+        # # plt.show()
+        #
+        # return self.deliveredEnergy, self.Overall_deliveredEnergy, self.deliveredEnergy_fuel, self.grouped
 
 
 def Hourly_BEM_JSON(jsonData, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Esol_30, Esol_45, Esol_60, Esol_90):
@@ -1889,9 +1891,10 @@ def Hourly_BEM_JSON(jsonData, weatherData, SRF_overhang, SRF_fin, SRF_horizon, E
     instance.FanEnergy()
     instance.PumpSystemEnergy()
     instance.DHWandSolarWaterHeating()
-    outcome, outcome2, outcome3, grouped = instance.hourly_BEM()
+    outcome, outcome2, outcome3 = instance.hourly_BEM()
+    # outcome, outcome2, outcome3, grouped = instance.hourly_BEM()
 
-    return outcome, outcome2, outcome3, grouped
+    return outcome, outcome2, outcome3
 
 if __name__ == '__main__':
     print("Please execute the 'main.py' script.")

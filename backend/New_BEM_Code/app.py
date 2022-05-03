@@ -93,11 +93,6 @@ def json_data():
         global historicalData
         global inputData
         data = post_json
-        # if 'OutputPeriod' in data:
-        #     print('No New Data')
-        # else:
-        #     data["OutputPeriod"] = "Monthly"
-        #     print('New Data')
 
         weatherData = post_weather
         historicalData = post_historical
@@ -119,8 +114,45 @@ def json_data():
 @app.route('/BEM', methods=['GET'])
 def bem_model():
     response_object = {'status': 'success'}
-    hourly_delivered_energy, sum_delivered_energy, energy_use_by_fuel, grouped = main(mode="simulation", building_name=data, epw_file_name=weatherData,
+    hourly_delivered_energy, sum_delivered_energy, energy_use_by_fuel= main(mode="simulation", building_name=data, epw_file_name=weatherData,
         original_file_name="centergy_BEM_2019", result_file_name="iteration1")
+
+    out = np.asarray(hourly_delivered_energy[:, -1]) * data['Zone1']['GrossFloorArea'] / 1000
+
+    plot_data = pd.DataFrame(out, columns=['Delivered'])
+    plot_data['Month'] = 'blank'
+    plot_data.loc[:743, 'Month'] = 'January'
+    plot_data.loc[744:1415, 'Month'] = 'February'
+    plot_data.loc[1416:2159, 'Month'] = 'March'
+    plot_data.loc[2160:2879, 'Month'] = 'April'
+    plot_data.loc[2880:3623, 'Month'] = 'May'
+    plot_data.loc[3624:4343, 'Month'] = 'June'
+    plot_data.loc[4344:5087, 'Month'] = 'July'
+    plot_data.loc[5088:5831, 'Month'] = 'August'
+    plot_data.loc[5832:6551, 'Month'] = 'Septemeber'
+    plot_data.loc[6552:7295, 'Month'] = 'October'
+    plot_data.loc[7296:8015, 'Month'] = 'November'
+    plot_data.loc[8016:8759, 'Month'] = 'December'
+    grouped = (plot_data.groupby(['Month'], sort=False).sum()).reset_index()
+
+    # if data['outputPeriod'] == "Monthly":
+    #     plot_data = pd.DataFrame(out, columns=['Delivered'])
+    #     plot_data['Month'] = 'blank'
+    #     plot_data.loc[:743, 'Month'] = 'January'
+    #     plot_data.loc[744:1415, 'Month'] = 'February'
+    #     plot_data.loc[1416:2159, 'Month'] = 'March'
+    #     plot_data.loc[2160:2879, 'Month'] = 'April'
+    #     plot_data.loc[2880:3623, 'Month'] = 'May'
+    #     plot_data.loc[3624:4343, 'Month'] = 'June'
+    #     plot_data.loc[4344:5087, 'Month'] = 'July'
+    #     plot_data.loc[5088:5831, 'Month'] = 'August'
+    #     plot_data.loc[5832:6551, 'Month'] = 'Septemeber'
+    #     plot_data.loc[6552:7295, 'Month'] = 'October'
+    #     plot_data.loc[7296:8015, 'Month'] = 'November'
+    #     plot_data.loc[8016:8759, 'Month'] = 'December'
+    #     grouped = (plot_data.groupby(['Month'], sort=False).sum()).reset_index()
+    # elif data['outputPeriod'] == "Hourly":
+    #     grouped = pd.DataFrame(out, columns=['Delivered'])
 
     subDeliveredEnergy = np.zeros((12, 11))
     for i in range(11):

@@ -41,13 +41,13 @@ def main(mode, building_name, epw_file_name, original_file_name = None, result_f
     if mode == "simulation":
         startTime = time.time()
         # hourly_delivered_energy, sum_delivered_energy, energy_use_by_fuel = Hourly_BEM_JSON("".join(["./Input/",building_name]), climate_data, overhang, fin, horizon, solar_30, solar_45, solar_60, solar_90)
-        outcome, outcome2, outcome3, grouped = Hourly_BEM_JSON(
+        outcome, outcome2, outcome3 = Hourly_BEM_JSON(
             building_name, climate_data, overhang, fin, horizon, solar_30, solar_45, solar_60, solar_90)
 
         executionTime = (time.time() - startTime)
         print(f'Execution time in seconds: {executionTime}')
 
-        return outcome, outcome2, outcome3, grouped
+        return outcome, outcome2, outcome3
 
     elif mode in ["calibration", "capX"]:
         from Genetic_Algorithm import BEMP_Optimization

@@ -404,7 +404,7 @@ class UQ_Object(BEM):
             self.VentilationAirFlowandVentilationHeatTransfer()
             self.PumpSystemEnergy()
             self.DHWandSolarWaterHeating()
-            outcome, outcome2, outcome3, grouped = self.hourly_BEM()
+            outcome, outcome2, outcome3 = self.hourly_BEM()
 
             if self.output_utilized == "Delivered Energy":
                 result_compilation[i, 0] = outcome2  # unit: kWh/m2
@@ -528,7 +528,7 @@ def UQ(buildingName, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Esol_30, E
     instance.FanEnergy()
     instance.PumpSystemEnergy()
     instance.DHWandSolarWaterHeating()
-    outcome, outcome2, outcome3, grouped = instance.hourly_BEM()
+    outcome, outcome2, outcome3 = instance.hourly_BEM()
     instance.LHS()
     firstGraphNames, firstGraphData, secoundGraphNames, secondGraphData = instance.SAUA()
 
