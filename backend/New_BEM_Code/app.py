@@ -119,40 +119,24 @@ def bem_model():
 
     out = np.asarray(hourly_delivered_energy[:, -1]) * data['Zone1']['GrossFloorArea'] / 1000
 
-    plot_data = pd.DataFrame(out, columns=['Delivered'])
-    plot_data['Month'] = 'blank'
-    plot_data.loc[:743, 'Month'] = 'January'
-    plot_data.loc[744:1415, 'Month'] = 'February'
-    plot_data.loc[1416:2159, 'Month'] = 'March'
-    plot_data.loc[2160:2879, 'Month'] = 'April'
-    plot_data.loc[2880:3623, 'Month'] = 'May'
-    plot_data.loc[3624:4343, 'Month'] = 'June'
-    plot_data.loc[4344:5087, 'Month'] = 'July'
-    plot_data.loc[5088:5831, 'Month'] = 'August'
-    plot_data.loc[5832:6551, 'Month'] = 'Septemeber'
-    plot_data.loc[6552:7295, 'Month'] = 'October'
-    plot_data.loc[7296:8015, 'Month'] = 'November'
-    plot_data.loc[8016:8759, 'Month'] = 'December'
-    grouped = (plot_data.groupby(['Month'], sort=False).sum()).reset_index()
-
-    # if data['outputPeriod'] == "Monthly":
-    #     plot_data = pd.DataFrame(out, columns=['Delivered'])
-    #     plot_data['Month'] = 'blank'
-    #     plot_data.loc[:743, 'Month'] = 'January'
-    #     plot_data.loc[744:1415, 'Month'] = 'February'
-    #     plot_data.loc[1416:2159, 'Month'] = 'March'
-    #     plot_data.loc[2160:2879, 'Month'] = 'April'
-    #     plot_data.loc[2880:3623, 'Month'] = 'May'
-    #     plot_data.loc[3624:4343, 'Month'] = 'June'
-    #     plot_data.loc[4344:5087, 'Month'] = 'July'
-    #     plot_data.loc[5088:5831, 'Month'] = 'August'
-    #     plot_data.loc[5832:6551, 'Month'] = 'Septemeber'
-    #     plot_data.loc[6552:7295, 'Month'] = 'October'
-    #     plot_data.loc[7296:8015, 'Month'] = 'November'
-    #     plot_data.loc[8016:8759, 'Month'] = 'December'
-    #     grouped = (plot_data.groupby(['Month'], sort=False).sum()).reset_index()
-    # elif data['outputPeriod'] == "Hourly":
-    #     grouped = pd.DataFrame(out, columns=['Delivered'])
+    if data['OutputPeriod'] == "Monthly":
+        plot_data = pd.DataFrame(out, columns=['Delivered'])
+        plot_data['Month'] = 'blank'
+        plot_data.loc[:743, 'Month'] = 'January'
+        plot_data.loc[744:1415, 'Month'] = 'February'
+        plot_data.loc[1416:2159, 'Month'] = 'March'
+        plot_data.loc[2160:2879, 'Month'] = 'April'
+        plot_data.loc[2880:3623, 'Month'] = 'May'
+        plot_data.loc[3624:4343, 'Month'] = 'June'
+        plot_data.loc[4344:5087, 'Month'] = 'July'
+        plot_data.loc[5088:5831, 'Month'] = 'August'
+        plot_data.loc[5832:6551, 'Month'] = 'Septemeber'
+        plot_data.loc[6552:7295, 'Month'] = 'October'
+        plot_data.loc[7296:8015, 'Month'] = 'November'
+        plot_data.loc[8016:8759, 'Month'] = 'December'
+        grouped = (plot_data.groupby(['Month'], sort=False).sum()).reset_index()
+    elif data['OutputPeriod'] == "Hourly":
+        grouped = pd.DataFrame(out, columns=['Delivered'])
 
     subDeliveredEnergy = np.zeros((12, 11))
     for i in range(11):

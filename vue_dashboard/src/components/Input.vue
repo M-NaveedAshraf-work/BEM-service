@@ -146,7 +146,7 @@
                 align="center"
                 depressed
                 color="primary"
-                v-on:click="getData(); updateData(); runBEM();"
+                v-on:click="updateData();"
               >
               Run BEM
               </v-btn>
@@ -6154,7 +6154,8 @@ export default {
       // Graph Data 
       chart: null,
 
-      loadBool: 0
+      loadBool: 0,
+      runBEMBool: 0,
     }
   },
 
@@ -6204,6 +6205,9 @@ export default {
     },
     loadBool(){
       this.combineNewFileBuilding()
+    },
+    runBEMBool(){
+      this.runBEM()
     }
   },
   
@@ -6233,6 +6237,7 @@ export default {
       axios.put(path, inputData)
       .then(() => {
         this.getData();
+        this.runBEMBool += 1
       })
       .catch((error) => {
         console.error(error);
