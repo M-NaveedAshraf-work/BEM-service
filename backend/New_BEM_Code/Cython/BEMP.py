@@ -9,7 +9,7 @@ cimport cython
 @cython.boundscheck(False)
 cdef class BEM:
     # 0. Constructor
-    cdef public str buildingName
+    cdef public dict jsonData
     cdef double[:,:] weatherData, SRF_overhang, SRF_fin, SRF_horizon, Essol_30, Essol_45, Essol_60, Essol_90
 
     # 1. Variables for the "INPUT" sheet
@@ -87,8 +87,8 @@ cdef class BEM:
     cdef double[:,:] garage_schedule, garage_schedule_all ####
 
     
-    def __init__(self, buildingName, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Essol_30, Essol_45, Essol_60, Essol_90):
-        self.buildingName = buildingName
+    def __init__(self, jsonData, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Essol_30, Essol_45, Essol_60, Essol_90):
+        self.jsonData = jsonData
         self.weatherData  = weatherData
         self.SRF_overhang = SRF_overhang
         self.SRF_fin      = SRF_fin
@@ -233,8 +233,10 @@ cdef class BEM:
         cdef str key
         cdef list hour_index, zone_container, schduel_index, Orientation_container, material_container, window_container
 
-        with open(self.buildingName) as f:
-            self.BEMP_JSON = json.load(f)
+        # with open(self.buildingName) as f:
+        #     self.BEMP_JSON = json.load(f)
+
+        self.BEMP_JSON = self.jsonData
 
         self.left_numeric[0,0] = self.BEMP_JSON["Volume"]
         self.left_numeric[1,0] = self.BEMP_JSON["Height"]
@@ -492,8 +494,8 @@ cdef class BEM:
             pass
     
         # Save the JSON instance
-        with open(self.buildingName, 'w', encoding='utf-8') as f:
-            json.dump(self.BEMP_JSON, f, ensure_ascii=False, indent=4)
+        # with open(self.buildingName, 'w', encoding='utf-8') as f:
+        #     json.dump(self.BEMP_JSON, f, ensure_ascii=False, indent=4)
         
     cpdef GeneralDataProcessing(self):
         cdef int i, j
@@ -1897,14 +1899,14 @@ cdef class BEM:
         return self.deliveredEnergy, self.Overall_deliveredEnergy, self.deliveredEnergy_fuel
 
 
-cpdef tuple Hourly_BEM_JSON(str buildingName, np.ndarray[np.float64_t, ndim=2] weatherData, np.ndarray[np.float64_t, ndim=2] SRF_overhang, np.ndarray[np.float64_t, ndim=2] SRF_fin, np.ndarray[np.float64_t, ndim=2] SRF_horizon,\
+cpdef tuple Hourly_BEM_JSON(dict jsonData, np.ndarray[np.float64_t, ndim=2] weatherData, np.ndarray[np.float64_t, ndim=2] SRF_overhang, np.ndarray[np.float64_t, ndim=2] SRF_fin, np.ndarray[np.float64_t, ndim=2] SRF_horizon,\
                             np.ndarray[np.float64_t, ndim=2] Esol_30, np.ndarray[np.float64_t, ndim=2] Esol_45, np.ndarray[np.float64_t, ndim=2] Esol_60, np.ndarray[np.float64_t, ndim=2] Esol_90):
 
     cdef BEM instance
     cdef double[:,:] outcome, outcome3
     cdef double outcome2
 
-    instance = BEM(buildingName, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Esol_30, Esol_45, Esol_60, Esol_90)
+    instance = BEM(jsonData, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Esol_30, Esol_45, Esol_60, Esol_90)
     instance.readJSON()
     instance.GeneralDataProcessing()
     instance.TransmissionHeatTransfer()
@@ -1920,4 +1922,3 @@ cpdef tuple Hourly_BEM_JSON(str buildingName, np.ndarray[np.float64_t, ndim=2] w
 
 if __name__ == '__main__':
     print("Please execute the 'main.py' script.")
-
