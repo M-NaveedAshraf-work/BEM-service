@@ -1794,7 +1794,7 @@ def BEMP_Optimization(buildingName, weatherData, SRF_overhang, SRF_fin, SRF_hori
     instance.FanEnergy()
     instance.PumpSystemEnergy()
     instance.DHWandSolarWaterHeating()
-    outcome, outcome2, outcome3, grouped = instance.hourly_BEM()
+    outcome, outcome2, outcome3 = instance.hourly_BEM()
     simulated, real, interval = instance.Genetic_Algorithm_Loop()
 
     return simulated, real, interval
