@@ -68,16 +68,16 @@ def main(mode, building_name, epw_file_name, original_file_name = None, result_f
         raise Exception("Please check the mode input")
 
 
-if __name__ == '__main__':
-    # Execute the normal simulation
-
-    # delivered_energy, sum_delivered_energy, energy_use_by_fuel = main(mode="simulation", building_name="centergy_BEM_2019.json", epw_file_name="centergy_2019_epw_file.epw")
-    # Execute the calibration
-    # main(mode="calibration", building_name="centergy_BEM_2019.json", epw_file_name="centergy_2019_epw_file.epw", original_file_name = "centergy_BEM_2019", result_file_name = "iteration1")
-    main(mode="calibration", building_name="park_center_2019_updated.json", epw_file_name="park_center_2019_epw_file.epw",original_file_name = "park_center_2019_best", result_file_name = "iteration1")
-
-    # Execute UQ
-    # main(mode="UQ", building_name="centergy_BEM_2019.json", epw_file_name="Atlanta_TMY3.epw")
+# if __name__ == '__main__':
+#     # Execute the normal simulation
+#
+#     # delivered_energy, sum_delivered_energy, energy_use_by_fuel = main(mode="simulation", building_name="centergy_BEM_2019.json", epw_file_name="centergy_2019_epw_file.epw")
+#     # Execute the calibration
+#     # main(mode="calibration", building_name="centergy_BEM_2019.json", epw_file_name="centergy_2019_epw_file.epw", original_file_name = "centergy_BEM_2019", result_file_name = "iteration1")
+#     main(mode="calibration", building_name="park_center_2019_updated.json", epw_file_name="park_center_2019_epw_file.epw",original_file_name = "park_center_2019_best", result_file_name = "iteration1")
+#
+#     # Execute UQ
+#     # main(mode="UQ", building_name="centergy_BEM_2019.json", epw_file_name="Atlanta_TMY3.epw")
 
 
 

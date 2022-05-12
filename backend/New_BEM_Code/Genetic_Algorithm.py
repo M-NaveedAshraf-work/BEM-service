@@ -615,7 +615,6 @@ class BEMP_Calibration_CapX(BEM):
 
     # def JSON_Modification(self, chromosome, row_of_chromesome,building_name, calibrated = False):
     def JSON_Modification(self, chromosome, row_of_chromesome, calibrated=False):
-        print('jsonMod start')
         # Open JSON instnace
         # self.buildingName = "centergy_BEM_2019.json"
         with open(self.buildingName) as f:
@@ -1008,7 +1007,6 @@ class BEMP_Calibration_CapX(BEM):
                 json.dump(data, f, ensure_ascii=False, indent=4)
         with open(self.buildingName, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
-        print('jsonMod end')
 
     def Linear_Interpolation(self, x1, x2, y1, y2, x):
 

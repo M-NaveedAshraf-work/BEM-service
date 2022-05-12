@@ -1,5 +1,8 @@
 {
     "type": "Calibration",
+    "calGraphData": [0,0,0,0,0,0,0,0,0,0,0,0],
+    "capxGraphData": [0,0,0,0,0,0,0,0,0,0,0,0],
+    "actualGraphData": [0,0,0,0,0,0,0,0,0,0,0,0],
     "ga_settings": {
         "population_size": 100,
         "crossover_rate": 0.9,

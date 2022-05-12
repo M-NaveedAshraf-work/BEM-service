@@ -396,7 +396,7 @@
                                     <v-select
                                       v-model="editHeatForm.min_month"
                                       :items="months"
-                                      label="Minimum Value"
+                                      label="Minimum Month"
                                     ></v-select>
                                   </v-col>
                                   <v-col
@@ -407,7 +407,7 @@
                                     <v-select
                                       v-model="editHeatForm.max_month"
                                       :items="months"
-                                      label="Maximum Value"
+                                      label="Maximum Month"
                                     ></v-select>
                                   </v-col>
                                 </v-row>
@@ -3113,6 +3113,7 @@ export default{
   watch: {
     calData() {
       this.drawChartCal()
+      // this.combineCalibration()
       this.loading = false
       // var audio = new Audio(require('../assets/Turntables.mp3'))
       var audio = new Audio(require('../assets/ding-sound-effect_2.mp3'))
@@ -3161,6 +3162,7 @@ export default{
         this.loading2 = false
 
         this.drawChartCapx()
+        // this.combineCapx()
         // var audio = new Audio(require('../assets/Turntables.mp3'))
         var audio = new Audio(require('../assets/ding-sound-effect_2.mp3'))
         audio.play()
@@ -3202,6 +3204,8 @@ export default{
           this.capxParams = res.data.calData.capxParameters
           this.capxParameterValues = res.data.calData.capxParameterValues
           this.capxSettings = res.data.calData.capxSettings
+          this.calData = res.data.calData.calGraphData
+          this.capxData = res.data.calData.capxGraphData
           // this.combineCalibration()
         })
         .catch((error) => {
@@ -3298,8 +3302,11 @@ export default{
       let capxParameters = this.capxParams
       let capxParameterValues = this.capxParameterValues
       let capxSettings = this.capxSettings
+      let calGraphData = this.calData
+      let capxGraphData = this.capxData
+      let actualGraphData = this.actualData
 
-      let merged = {calibration_parameters, calibration_settings, schedule_parameters, monthly_internal, ga_settings, type, capxParameters, capxParameterValues, capxSettings}
+      let merged = {calibration_parameters, calibration_settings, schedule_parameters, monthly_internal, ga_settings, type, capxParameters, capxParameterValues, capxSettings, calGraphData, capxGraphData, actualGraphData}
       console.log(merged)
 
       this.calCombine = JSON.stringify(merged)
@@ -3316,8 +3323,11 @@ export default{
       let capxParameters = this.capxParams
       let capxParameterValues = this.capxParameterValues
       let capxSettings = this.capxSettings
+      let calGraphData = this.calData
+      let capxGraphData = this.capxData
+      let actualGraphData = this.actualData
 
-      let merged = {calibration_parameters, calibration_settings, schedule_parameters, monthly_internal, ga_settings, type, capxParameters, capxParameterValues, capxSettings}
+      let merged = {calibration_parameters, calibration_settings, schedule_parameters, monthly_internal, ga_settings, type, capxParameters, capxParameterValues, capxSettings, calGraphData, capxGraphData, actualGraphData}
       console.log(merged)
 
       this.calCombine = JSON.stringify(merged)
