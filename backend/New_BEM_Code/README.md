@@ -1,8 +1,10 @@
 # Building-Energy-Model-Code
 
-## Starting the Backend
+You will first want to create a local Cythonized version of BEMP.py before starting the backend server
 
-1) Set up a virtual environment on your machine to the New_BEM_Code Folder
+## Starting the Backend Server
+
+1) Open command prompt anc change directory to the New_BEM_Code Folder
 2) Run:
 ```
 python app.py
