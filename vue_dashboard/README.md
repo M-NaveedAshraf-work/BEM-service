@@ -67,13 +67,19 @@ Output Graphs displays all the outputs from the modules in one easy to view sect
 
 ## Easy Setup
 
-Open terminal and type: 
+*** Initial Set Up ***
+1) Clone the Repo on your local machine
+2) Find the node.js folder in your computers Program Files section
+3) Copy the node_modules folder and paste a copy into: ./Bem_Dashboard/vue_dashboard
+4) Open terminal and type:
+
 ```
 vue ui
 ```
 
 This opens the GUI that makes it easy to set up and serve the BEM Dashboard
 
+*** GUI Setup ***
 1) Select Project Folder in the VUE Project Manager Section
 2) Update/Download Plugins and Dependencies in the Plugins and Dependencies Tabs
 3) Go to Tasks -> Serve -> Serve Task Button -> Open App
