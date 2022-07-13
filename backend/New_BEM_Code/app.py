@@ -1,7 +1,6 @@
 import uuid
 
 from flask import Flask, jsonify, request
-from flask_cors import CORS
 import json
 import pandas as pd
 import numpy as np
@@ -11,6 +10,8 @@ import openpyxl
 from flask_cors import CORS
 from main import main
 from energystar import runEnergystar
+from datetime import datetime
+from multi_year_parser import combine
 from processing import processing
 
 import os
@@ -25,13 +26,22 @@ app.config.from_object(__name__)
 
 # enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})
-historicalData = "BEM_Optimization_Input_v2_centergy_BEM_2019.xlsx"
+load = 1
+global historicalData
+global today
+today = str(datetime.now())
+historicalData1 = "BEM_Optimization_Input_v2_centergy_BEM_2019.xlsx"
+historicalData2 = "BEM_Optimization_Input_v2_centergy_BEM_2019.xlsx"
+historicalData, m_index, d_index, h_index = combine(historicalData1, historicalData2)
 a = open('./Input/comboFiles.json')
 fileData = json.load(a)
 b = open('./Input/input.json')
 inputData = json.load(b)
 e = open('./Input/hourlyXAxis.json')
+global hourlyXAxis
 hourlyXAxis = json.load(e)
+global monthlyXAxis
+monthlyXAxis = hourlyXAxis
 f = open('./Input/centergy_BEM_2019.json')
 data = json.load(f)
 d = open('./Input/energystar_input.json')
@@ -83,29 +93,46 @@ def json_data():
     response_object = {'status': 'success'}
     if request.method == 'PUT':
 
-        postData = request.get_json('inputData')
-        post_json = postData["jsonData"]
-        post_weather = postData["weatherData"]
-        post_historical = postData["historicalData"]
-
         global data
         global weatherData
         global historicalData
+        global historicalData1
+        global historicalData2
         global inputData
+
+        postData = request.get_json('inputData')
+        post_json = postData["jsonData"]
+        post_weather = postData["weatherData"]
+        post_historical1 = postData["historicalData1"]
+        post_historical2 = postData["historicalData2"]
+
         data = post_json
 
         weatherData = post_weather
-        historicalData = post_historical
+        historicalData1 = post_historical1
+        historicalData2 = post_historical2
 
         inputData['jsonData'] = data
         inputData['weatherData'] = weatherData
-        inputData['historicalData'] = historicalData
+        inputData['historicalData1'] = historicalData1
+        inputData['historicalData2'] = historicalData2
+
+        print(historicalData1)
+        print(historicalData2)
+
+        historicalData, m_index, d_index, h_index = combine(historicalData1, historicalData2)
 
         response_object['inputData'] = inputData
     else:
+        historicalData, m_index, d_index, h_index = combine(historicalData1, historicalData2)
+
         inputData['jsonData'] = data
         inputData['weatherData'] = weatherData
-        inputData['historicalData'] = historicalData
+        inputData['historicalData1'] = historicalData1
+        inputData['historicalData2'] = historicalData2
+
+        print(historicalData1)
+        print(historicalData2)
 
         response_object['inputData'] = inputData
     return jsonify(response_object)
@@ -116,6 +143,8 @@ def bem_model():
     response_object = {'status': 'success'}
     hourly_delivered_energy, sum_delivered_energy, energy_use_by_fuel= main(mode="simulation", building_name=data, epw_file_name=weatherData,
         original_file_name="centergy_BEM_2019", result_file_name="iteration1")
+
+    historicalData, m_index, d_index, h_index = combine(historicalData1, historicalData2)
 
     out = np.asarray(hourly_delivered_energy[:, -1]) * data['Zone1']['GrossFloorArea'] / 1000
 
@@ -135,8 +164,16 @@ def bem_model():
         plot_data.loc[7296:8015, 'Month'] = 'November'
         plot_data.loc[8016:8759, 'Month'] = 'December'
         grouped = (plot_data.groupby(['Month'], sort=False).sum()).reset_index()
+
+        ofile = grouped.iloc[m_index:]
+        nfile = grouped.iloc[:m_index]
+        grouped = pd.concat([ofile, nfile])
+
     elif data['OutputPeriod'] == "Hourly":
         grouped = pd.DataFrame(out, columns=['Delivered'])
+        ofile = grouped.iloc[h_index:]
+        nfile = grouped.iloc[:h_index]
+        grouped = pd.concat([ofile, nfile])
 
     subDeliveredEnergy = np.zeros((12, 11))
     for i in range(11):
@@ -168,21 +205,75 @@ def bem_model():
     global monthly
     monthly = grouped.Delivered.tolist()
     global subs
+    global hourlyXAxis
+    global monthlyXAxis
+    global load
+    if load == 1:
+        hourlyXAxis = pd.DataFrame(hourlyXAxis['hourlyXAxis'], columns=['data'])
+        ofile = hourlyXAxis.iloc[h_index:]
+        nfile = hourlyXAxis.iloc[:h_index]
+        hourlyXAxis = pd.concat([ofile, nfile])
+
+        monthlyXAxis = pd.DataFrame(monthlyXAxis['monthlyXAxis'], columns=['month'])
+        ofile2 = monthlyXAxis.iloc[m_index:]
+        nfile2 = monthlyXAxis.iloc[:m_index]
+        monthlyXAxis = pd.concat([ofile2, nfile2])
+        load += 1
+
     subs = subMonthlyTotal.tolist()
     response_object['monthly'] = monthly
     response_object['subs'] = subs
-    response_object['hourlyXAxis'] = hourlyXAxis
+    # response_object['hourlyXAxis'] = hourlyXAxis
+    response_object['hourlyXAxis'] = hourlyXAxis['data'].values.tolist()
+    response_object['monthlyXAxis'] = monthlyXAxis['month'].values.tolist()
 
     return jsonify(response_object)
 
 @app.route('/Calibration', methods=['GET'])
 def calibration_model():
     response_object = {'status': 'success'}
-    data["OutputPeriod"] == "Monthly"
+    # data["OutputPeriod"] == "Monthly"
     calData["type"] = "Calibration"
+    historicalData, m_index, d_index, h_index = combine(historicalData1, historicalData2)
     simulated, real, interval = main(mode="calibration", building_name=data, epw_file_name=weatherData, original_file_name=calData, result_file_name=historicalData)
-    response_object['real'] = real
-    response_object['modeled'] = simulated
+
+    if interval == "Monthly":
+        ofile = simulated.iloc[m_index:]
+        nfile = simulated.iloc[:m_index]
+        simulated = pd.concat([ofile, nfile])
+
+        ofile = real.iloc[m_index:]
+        nfile = real.iloc[:m_index]
+        real = pd.concat([ofile, nfile])
+
+    elif interval == "Daily":
+        ofile = simulated.iloc[d_index:]
+        nfile = simulated.iloc[:d_index]
+        simulated = pd.concat([ofile, nfile])
+
+        ofile = real.iloc[d_index:]
+        nfile = real.iloc[:d_index]
+        real = pd.concat([ofile, nfile])
+
+    elif interval == "Hourly":
+        ofile = simulated.iloc[h_index:]
+        nfile = simulated.iloc[:h_index]
+        simulated = pd.concat([ofile, nfile])
+
+        ofile = real.iloc[h_index:]
+        nfile = real.iloc[:h_index]
+        real = pd.concat([ofile, nfile])
+
+    # real.to_numpy()
+    # simulated.to_numpy()
+    print(real)
+    print(simulated)
+    print(hourlyXAxis)
+
+    response_object['real'] = real['data'].values.tolist()
+    response_object['modeled'] = simulated['data'].values.tolist()
+    response_object['hourlyXAxis'] = hourlyXAxis['data'].values.tolist()
+    response_object['monthlyXAxis'] = monthlyXAxis['month'].values.tolist()
     response_object['interval'] = interval
 
     return jsonify(response_object)
@@ -190,7 +281,7 @@ def calibration_model():
 @app.route('/Cal', methods = ['GET', 'PUT'])
 def calComponents():
     response_object = {'status': 'success'}
-    data["OutputPeriod"] == "Monthly"
+    # data["OutputPeriod"] == "Monthly"
     if request.method == 'PUT':
         post_data = request.get_json("calData")
         global calData
@@ -246,11 +337,45 @@ def UQRuns():
 def capxComponents():
     response_object = {'status': 'success'}
     calData["type"] = "CapX"
-    data["OutputPeriod"] == "Monthly"
+    # data["OutputPeriod"] == "Monthly"
+    historicalData, m_index, d_index, h_index = combine(historicalData1, historicalData2)
     simulated, real, interval = main(mode="capX", building_name=data, epw_file_name=weatherData,
                                      original_file_name=calData, result_file_name=historicalData)
-    response_object['real'] = real
-    response_object['modeled'] = simulated
+
+    if interval == "Monthly":
+        ofile = simulated.iloc[m_index:]
+        nfile = simulated.iloc[:m_index]
+        simulated = pd.concat([ofile, nfile])
+
+        ofile = real.iloc[m_index:]
+        nfile = real.iloc[:m_index]
+        real = pd.concat([ofile, nfile])
+    elif interval == "Daily":
+        ofile = simulated.iloc[d_index:]
+        nfile = simulated.iloc[:d_index]
+        simulated = pd.concat([ofile, nfile])
+
+        ofile = real.iloc[d_index:]
+        nfile = real.iloc[:d_index]
+        real = pd.concat([ofile, nfile])
+    elif interval == "Hourly":
+        ofile = simulated.iloc[h_index:]
+        nfile = simulated.iloc[:h_index]
+        simulated = pd.concat([ofile, nfile])
+
+        ofile = real.iloc[h_index:]
+        nfile = real.iloc[:h_index]
+        real = pd.concat([ofile, nfile])
+
+    # real.to_numpy()
+    # simulated.to_numpy()
+    print(real)
+    print(simulated)
+
+    response_object['real'] = real['data'].values.tolist()
+    response_object['modeled'] = simulated['data'].values.tolist()
+    response_object['hourlyXAxis'] = hourlyXAxis['data'].values.tolist()
+    response_object['monthlyXAxis'] = monthlyXAxis['month'].values.tolist()
     response_object['interval'] = interval
 
     return jsonify(response_object)
@@ -258,7 +383,7 @@ def capxComponents():
 @app.route('/energystar', methods = ['GET', 'PUT'])
 def estarComponents():
     response_object = {'status': 'success'}
-    data["OutputPeriod"] == "Monthly"
+    # data["OutputPeriod"] == "Monthly"
     if request.method == 'PUT':
         post_data = request.get_json("estarData")
         global estarData

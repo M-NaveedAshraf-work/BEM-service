@@ -44,7 +44,8 @@ class BEMP_Calibration_CapX(BEM):
         with open(building_name, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
         # 1. Open the "Calibration" excel file
-        file = openpyxl.load_workbook('./Input/'+self.result_file_name+'', data_only=True)
+        file = self.result_file_name
+        # file = openpyxl.load_workbook('./Input/'+self.result_file_name+'', data_only=True)
         # file = openpyxl.load_workbook('./Input/BEM_Optimization_Input_'+original_file_name+'.xlsx', data_only=True)
         # file = openpyxl.load_workbook('./Input/BEM_Optimization_Input_v2_centergy_BEM_2019.xlsx', data_only=True)
         # file_sheet = file['GeneticAlgorithm_Setting']
@@ -300,36 +301,45 @@ class BEMP_Calibration_CapX(BEM):
             # 4. Read the input elec/natural gas data
         if self.calibration_setting["Data_interval"] == "Monthly":
             self.measuredData = np.zeros((12, 2))
-            self.data_sheet = file['Calibration_Monthly_Data']
+            # self.data_sheet = file['Calibration_Monthly_Data']
+            self.data_sheet = file['monthly']
             self.num_of_loop = 12  # needed in the "Evaluation" method
 
             for i in range(12):
                 if self.calibration_setting["Elec_data"] == "Yes":
-                    self.measuredData[i, 0] = self.data_sheet.cell(row=i + 3, column=2).value
+                    # self.measuredData[i, 0] = self.data_sheet.cell(row=i + 3, column=2).value
+                    self.measuredData[i, 0] = self.data_sheet[i]["Electricity"]
                 if self.calibration_setting["NaturalGas_data"] == "Yes":
-                    self.measuredData[i, 1] = self.data_sheet.cell(row=i + 3, column=3).value
+                    # self.measuredData[i, 1] = self.data_sheet.cell(row=i + 3, column=3).value
+                    self.measuredData[i, 1] = self.data_sheet[i]["Natural Gas"]
 
         elif self.calibration_setting["Data_interval"] == "Daily":
             self.measuredData = np.zeros((365, 2))
-            self.data_sheet = file['Calibration_Daily_Data']
+            # self.data_sheet = file['Calibration_Daily_Data']
+            self.data_sheet = file['daily']
             self.num_of_loop = 365
 
             for i in range(365):
                 if self.calibration_setting["Elec_data"] == "Yes":
-                    self.measuredData[i, 0] = self.data_sheet.cell(row=i + 3, column=2).value
+                    # self.measuredData[i, 0] = self.data_sheet.cell(row=i + 3, column=2).value
+                    self.measuredData[i, 0] = self.data_sheet[i]["Electricity"]
                 if self.calibration_setting["NaturalGas_data"] == "Yes":
-                    self.measuredData[i, 1] = self.data_sheet.cell(row=i + 3, column=3).value
+                    # self.measuredData[i, 1] = self.data_sheet.cell(row=i + 3, column=3).value
+                    self.measuredData[i, 1] = self.data_sheet[i]["Natural Gas"]
 
         elif self.calibration_setting["Data_interval"] == "Hourly":
             self.measuredData = np.zeros((8760, 2))
-            self.data_sheet = file['Calibration_Hourly_Data']
+            # self.data_sheet = file['Calibration_Hourly_Data']
+            self.data_sheet = file['hourly']
             self.num_of_loop = 8760
 
-            for i in range(8760):
+            for i in range(1, 8760):
                 if self.calibration_setting["Elec_data"] == "Yes":
-                    self.measuredData[i, 0] = self.data_sheet.cell(row=i + 3, column=3).value
+                    # self.measuredData[i, 0] = self.data_sheet.cell(row=i + 3, column=3).value
+                    self.measuredData[i, 0] = self.data_sheet[i]["Electricity"]
                 if self.calibration_setting["NaturalGas_data"] == "Yes":
-                    self.measuredData[i, 1] = self.data_sheet.cell(row=i + 3, column=4).value
+                    # self.measuredData[i, 1] = self.data_sheet.cell(row=i + 3, column=4).value
+                    self.measuredData[i, 1] = self.data_sheet[i]["Natural Gas"]
         else:
             raise Exception("Please check the 'Calibration Data Interval' input.")
 
@@ -350,36 +360,45 @@ class BEMP_Calibration_CapX(BEM):
 
         # Monthly
         self.MonthlyData = np.zeros((12, 2))
-        self.data_sheet = file['Calibration_Monthly_Data']
+        # self.data_sheet = file['Calibration_Monthly_Data']
+        self.data_sheet = file['monthly']
         self.num_of_loop_month = 12  # needed in the "Evaluation" method
 
         for i in range(12):
             if self.calibration_setting["Elec_data"] == "Yes":
-                self.MonthlyData[i, 0] = self.data_sheet.cell(row=i + 3, column=2).value
+                # self.MonthlyData[i, 0] = self.data_sheet.cell(row=i + 3, column=2).value
+                self.MonthlyData[i, 0] = self.data_sheet[i]["Electricity"]
             if self.calibration_setting["NaturalGas_data"] == "Yes":
-                self.MonthlyData[i, 1] = self.data_sheet.cell(row=i + 3, column=3).value
+                # self.MonthlyData[i, 1] = self.data_sheet.cell(row=i + 3, column=3).value
+                self.MonthlyData[i, 1] = self.data_sheet[i]["Natural Gas"]
 
         # Daily
         self.DailyData = np.zeros((365, 2))
-        self.data_sheet = file['Calibration_Daily_Data']
+        # self.data_sheet = file['Calibration_Daily_Data']
+        self.data_sheet = file['daily']
         self.num_of_loop_day = 365
 
         for i in range(365):
             if self.calibration_setting["Elec_data"] == "Yes":
-                self.DailyData[i, 0] = self.data_sheet.cell(row=i + 3, column=2).value
+                # self.DailyData[i, 0] = self.data_sheet.cell(row=i + 3, column=2).value
+                self.DailyData[i, 0] = self.data_sheet[i]["Electricity"]
             if self.calibration_setting["NaturalGas_data"] == "Yes":
-                self.DailyData[i, 1] = self.data_sheet.cell(row=i + 3, column=3).value
+                # self.DailyData[i, 1] = self.data_sheet.cell(row=i + 3, column=3).value
+                self.DailyData[i, 1] = self.data_sheet[i]["Natual Gas"]
 
         # Hourly
         self.HourlyData = np.zeros((8760, 2))
-        self.data_sheet = file['Calibration_Hourly_Data']
+        # self.data_sheet = file['Calibration_Hourly_Data']
+        self.data_sheet = file['hourly']
         self.num_of_loop_hour = 8760
 
-        for i in range(8760):
+        for i in range(1, 8760):
             if self.calibration_setting["Elec_data"] == "Yes":
-                self.HourlyData[i, 0] = self.data_sheet.cell(row=i + 3, column=3).value
+                # self.HourlyData[i, 0] = self.data_sheet.cell(row=i + 3, column=3).value
+                self.HourlyData[i, 0] = self.data_sheet[i]["Electricity"]
             if self.calibration_setting["NaturalGas_data"] == "Yes":
-                self.HourlyData[i, 1] = self.data_sheet.cell(row=i + 3, column=4).value
+                # self.HourlyData[i, 1] = self.data_sheet.cell(row=i + 3, column=4).value
+                self.HourlyData[i, 1] = self.data_sheet[i]["Natual Gas"]
 
 
         #Calculate the average data value
@@ -848,7 +867,6 @@ class BEMP_Calibration_CapX(BEM):
         else:  # CapX
             j = 0
             for param in self.CapX_parameters_no_duplicate:
-                print(param)
                 if param == "Heating COP":
                     data["HeatingCOP"] = chromosome[row_of_chromesome, j]
                     j += 1
@@ -1586,26 +1604,26 @@ class BEMP_Calibration_CapX(BEM):
         ##            print(f"\nselected_offspring4:\n{selected_offspring}")
 
         # Record the calibrated values in the "Calibration_Result.csv" file
-        with open(f"./Output/Genetic_Algorithm_Result_{self.result_file_name}.csv", 'w', newline='') as csvfile:
-            # creating a csv writer object
-            csvwriter = csv.writer(csvfile)
-
-            # writing the fields
-            if self.genetic_algorithm_setting["calibration_or_CapX"] == "Calibration":
-                csvwriter.writerow(["cvRMSE Value"])
-            else:
-                csvwriter.writerow(["Net Present Cost [$]"])
-            csvwriter.writerow(best_so_far_fitness_value)
-
-            csvwriter.writerow([])
-            csvwriter.writerow(["best chromosome in each generation"])
-            if self.genetic_algorithm_setting["calibration_or_CapX"] == "Calibration":
-                csvwriter.writerow(self.calibration_parameters)
-            else:
-                csvwriter.writerow(self.CapX_parameters)
-
-            for k in best_so_far_chromosome:
-                csvwriter.writerow(k)
+        # with open(f"./Output/Genetic_Algorithm_Result_{self.result_file_name}.csv", 'w', newline='') as csvfile:
+        #     # creating a csv writer object
+        #     csvwriter = csv.writer(csvfile)
+        #
+        #     # writing the fields
+        #     if self.genetic_algorithm_setting["calibration_or_CapX"] == "Calibration":
+        #         csvwriter.writerow(["cvRMSE Value"])
+        #     else:
+        #         csvwriter.writerow(["Net Present Cost [$]"])
+        #     csvwriter.writerow(best_so_far_fitness_value)
+        #
+        #     csvwriter.writerow([])
+        #     csvwriter.writerow(["best chromosome in each generation"])
+        #     if self.genetic_algorithm_setting["calibration_or_CapX"] == "Calibration":
+        #         csvwriter.writerow(self.calibration_parameters)
+        #     else:
+        #         csvwriter.writerow(self.CapX_parameters)
+        #
+        #     for k in best_so_far_chromosome:
+        #         csvwriter.writerow(k)
         # def visualize_best(self):
         # file = openpyxl.load_workbook('./Input/BEM_Optimization_Input_' + original_file_name + '.xlsx', data_only=True)
         # file_sheet = file['GeneticAlgorithm_Setting']
@@ -1668,10 +1686,12 @@ class BEMP_Calibration_CapX(BEM):
                 data.loc[7296:8015, 'Month'] = 'November'
                 data.loc[8016:8759, 'Month'] = 'December'
                 grouped = (data.groupby(['Month'], sort=False).sum()).reset_index()
-                self.simulated = grouped.Delivered.values.tolist()
+                # self.simulated = grouped.Delivered.values.tolist()
+                self.simulated = grouped.Delivered.values
             elif self.calibration_setting["Data_interval"] == "Hourly":
                 self.delivered = pd.DataFrame(out, columns=['Delivered'])
-                self.simulated = self.delivered.Delivered.values.tolist()
+                # self.simulated = self.delivered.Delivered.values.tolist()
+                self.simulated = self.delivered.Delivered.values
             # plt.figure(figsize=(14, 8))
             # plt.plot(grouped.Month.values, grouped.Delivered.values, label="Model", marker='o')
             # plt.plot(grouped.Month.values, self.measuredData[:, 0], label="Utility", marker='o')
@@ -1684,7 +1704,8 @@ class BEMP_Calibration_CapX(BEM):
             # plt.savefig(f"calibration_result_{self.result_file_name}.png")
             # plt.show()
 
-            return self.simulated, list(self.measuredData[:, 0]), self.calibration_setting["Data_interval"]
+            # return self.simulated, list(self.measuredData[:, 0]), self.calibration_setting["Data_interval"]
+            return pd.DataFrame(self.simulated, columns=['data']), pd.DataFrame(self.measuredData[:, 0], columns=['data']), self.calibration_setting["Data_interval"]
 
 
         else:
@@ -1738,10 +1759,12 @@ class BEMP_Calibration_CapX(BEM):
                 data.loc[7296:8015, 'Month'] = 'November'
                 data.loc[8016:8759, 'Month'] = 'December'
                 grouped = (data.groupby(['Month'], sort=False).sum()).reset_index()
-                self.simulated = grouped.Delivered.values.tolist()
+                # self.simulated = grouped.Delivered.values.tolist()
+                self.simulated = grouped.Delivered.values
             elif self.calibration_setting["Data_interval"] == "Hourly":
                 self.delivered = pd.DataFrame(out, columns=['Delivered'])
-                self.simulated = self.delivered.Delivered.values.tolist()
+                # self.simulated = self.delivered.Delivered.values.tolist()
+                self.simulated = self.delivered.Delivered.values
             # data['Month'] = 'blank'
             # data.loc[:743, 'Month'] = 'January'
             # data.loc[744:1415, 'Month'] = 'February'
@@ -1769,7 +1792,8 @@ class BEMP_Calibration_CapX(BEM):
 
             self.grouped = grouped.Delivered.values
 
-            return self.simulated, list(self.measuredData[:, 0]), self.calibration_setting["Data_interval"]
+            # return self.simulated, list(self.measuredData[:, 0]), self.calibration_setting["Data_interval"]
+            return pd.DataFrame(self.simulated, columns=['data']), pd.DataFrame(self.measuredData[:, 0], columns=['data']), self.calibration_setting["Data_interval"]
 
 
         # for j in range(self.num_of_loop):

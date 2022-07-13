@@ -34,13 +34,23 @@
                     ></v-file-input>
                   </v-row>
                   <v-row>
-                    <v-card-text>Upload Building Hourly Data File</v-card-text>
+                    <v-card-text>Upload Building Hourly Data File for Past Year</v-card-text>
                     <v-file-input
                       accept=".xls, .xlsx"
                       label="Click to Select a Data File"
                       chips
                       outlined
-                      v-model="chosenFileData"
+                      v-model="chosenFileData1"
+                    ></v-file-input>
+                  </v-row>
+                  <v-row>
+                    <v-card-text>Upload Building Hourly Data File for Current Year</v-card-text>
+                    <v-file-input
+                      accept=".xls, .xlsx"
+                      label="Click to Select a Data File"
+                      chips
+                      outlined
+                      v-model="chosenFileData2"
                     ></v-file-input>
                   </v-row>
                   <v-row>
@@ -6114,13 +6124,15 @@ export default {
       // weatherData: ['centergy_2019_epw_file.epw'],
       jsonLoad: false,
 
-      historicalData: null,
+      historicalData1: null,
+      historicalData2: null,
       weatherName: null,
       chosenFileWeather: null,
       fileDataWeather: null,
       chosenFileBuilding: null,
       fileDataBuilding: null,
-      chosenFileData: null,
+      chosenFileData1: null,
+      chosenFileData2: null,
       fileDataHourly: null,
       chosenFileInput: null,
       fileInput: null,
@@ -6138,7 +6150,7 @@ export default {
 
       graphBool : false,
       monthlyDeliveredEnergy: [0,0,0,0,0,0,0,0,0,0,0,0],
-      monthlySchedule: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      monthlySchedule: [],
       hourlySchedule: [],
 
       StateBEM : false,
@@ -6190,10 +6202,13 @@ export default {
     },
     chosenFileBuilding(){
     },
-    chosenFileData(){
+    chosenFileData1(){
+    },
+    chosenFileData2(){
     },
     weatherName(){},
-    historicalData(){},
+    historicalData1(){},
+    historicalData2(){},
     inputData(){},
     fileInput(){},
     fileUQ(){},
@@ -6225,7 +6240,8 @@ export default {
         this.inputData = res.data.inputData;
         this.jsonData = res.data.inputData.jsonData;
         this.weatherName = res.data.inputData.weatherData;
-        this.historicalData = res.data.inputData.historicalData;
+        this.historicalData1 = res.data.inputData.historicalData1;
+        this.historicalData2 = res.data.inputData.historicalData2;
       })
       .catch((error) => {
         console.error(error);
@@ -6287,7 +6303,8 @@ export default {
       axios.get(path)
       .then((res) => {
         this.monthlyDeliveredEnergy = res.data.monthly
-        this.hourlySchedule = res.data.hourlyXAxis.hourlyXAxis
+        this.monthlySchedule = res.data.monthlyXAxis
+        this.hourlySchedule = res.data.hourlyXAxis
         this.drawChart()
       })
       .catch((error) => {
@@ -6318,9 +6335,13 @@ export default {
           this.loadBool = this.loadBool + 1
         }
       }
-      if (!this.chosenFileData){console.log("No Data File Chosen")}
+      if (!this.chosenFileData1){console.log("No Data File Chosen")}
       else {
-        this.historicalData = this.chosenFileData.name
+        this.historicalData1 = this.chosenFileData1.name
+      }
+      if (!this.chosenFileData2){console.log("No Data File Chosen")}
+      else {
+        this.historicalData2 = this.chosenFileData2.name
       }
       if (!this.chosenFileWeather){console.log("No Weather File Chosen")}
       else {
@@ -6332,13 +6353,12 @@ export default {
       let jsonData = this.jsonData
       console.log(jsonData)
       let weatherData = this.weatherName
-      let historicalData = this.historicalData
+      let historicalData1 = this.historicalData1
+      let historicalData2 = this.historicalData2
 
-      console.log(jsonData)
-      console.log(weatherData)
-      console.log(historicalData)
+      let merged = {jsonData, weatherData, historicalData1, historicalData2}
 
-      let merged = {jsonData, weatherData, historicalData}
+      console.log(merged)
 
       this.inputData = JSON.stringify(merged)
     },
@@ -6469,9 +6489,28 @@ export default {
         },
         toolbox: {
           feature: {
+            dataZoom: {
+              yAxisIndex: 'none'
+            },
             saveAsImage: {}
           }
         },
+        dataZoom: [
+          {
+            show: true,
+            realtime: true,
+            start: 0,
+            end: 100,
+            xAxisIndex: [0,1]
+          },
+          {
+            type: 'inside',
+            realtime: true,
+            start: 0,
+            end: 100,
+            xAxisIndex: [0,1]
+          }
+        ],
         xAxis: {
           type: 'category',
           boundaryGap: false,
