@@ -1,0 +1,65 @@
+{
+    "UQInputs": {
+      "UQMode": "Sensitivity Analysis",
+      "confidenceLevel": 0.95, 
+      "energyOutput": "Delivered Energy", 
+      "numLevels": 4, 
+      "status": "success", 
+      "totalSamples": 100
+    }, 
+    "UQParams": [
+      {
+        "param": "AirLeakageLevel"
+      },
+      {
+        "param": "SpecificFanPower"
+      },
+      {
+        "param": "FanControlFactor"
+      },
+      {
+        "param": "OutdoorAir"
+      },
+      {
+        "param": "Roof Absorption Coefficient"
+      },
+      {
+        "param": "Roof Emissivity"
+      },
+      {
+        "param": "Opaque UValue"
+      },
+      {
+        "param": "Opaque Absorption Coefficient"
+      },
+      {
+        "param": "Opaque Emissivity"
+      },
+      {
+        "param": "Window Emissivity"
+      },
+      {
+        "param": "Window SolarTransmittance"
+      },
+      {
+        "param": "Retail Refri Capacity"
+      },
+      {
+        "param": "EV Charger Power"
+      },
+      {
+        "param": "Garage Application"
+      },
+      {
+        "param": "Garage Lighting"
+      },
+      {
+        "param": "Lighting Dimmer Weekday"
+      },
+      {
+        "param": "Lighting Dimmer Weekend"
+      }
+    ], 
+    "heatParams": [
+    ]
+}

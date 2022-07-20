@@ -12,6 +12,7 @@ from main import main
 from energystar import runEnergystar
 from datetime import datetime
 from multi_year_parser import combine
+from auto_calibration import auto_calibrate
 from processing import processing
 
 import os
@@ -235,7 +236,56 @@ def calibration_model():
     # data["OutputPeriod"] == "Monthly"
     calData["type"] = "Calibration"
     historicalData, m_index, d_index, h_index = combine(historicalData1, historicalData2)
-    simulated, real, interval = main(mode="calibration", building_name=data, epw_file_name=weatherData, original_file_name=calData, result_file_name=historicalData)
+    simulated, real, interval, cvRMSE = main(mode="calibration", building_name=data, epw_file_name=weatherData, original_file_name=calData, result_file_name=historicalData)
+
+    if interval == "Monthly":
+        ofile = simulated.iloc[m_index:]
+        nfile = simulated.iloc[:m_index]
+        simulated = pd.concat([ofile, nfile])
+
+        ofile = real.iloc[m_index:]
+        nfile = real.iloc[:m_index]
+        real = pd.concat([ofile, nfile])
+
+    elif interval == "Daily":
+        ofile = simulated.iloc[d_index:]
+        nfile = simulated.iloc[:d_index]
+        simulated = pd.concat([ofile, nfile])
+
+        ofile = real.iloc[d_index:]
+        nfile = real.iloc[:d_index]
+        real = pd.concat([ofile, nfile])
+
+    elif interval == "Hourly":
+        ofile = simulated.iloc[h_index:]
+        nfile = simulated.iloc[:h_index]
+        simulated = pd.concat([ofile, nfile])
+
+        ofile = real.iloc[h_index:]
+        nfile = real.iloc[:h_index]
+        real = pd.concat([ofile, nfile])
+
+    # real.to_numpy()
+    # simulated.to_numpy()
+    print(real)
+    print(simulated)
+    print(hourlyXAxis)
+
+    response_object['real'] = real['data'].values.tolist()
+    response_object['modeled'] = simulated['data'].values.tolist()
+    response_object['hourlyXAxis'] = hourlyXAxis['data'].values.tolist()
+    response_object['monthlyXAxis'] = monthlyXAxis['month'].values.tolist()
+    response_object['interval'] = interval
+
+    return jsonify(response_object)
+
+@app.route('/auto_calibration', methods=['GET'])
+def auto_calibration_model():
+    response_object = {'status': 'success'}
+    # data["OutputPeriod"] == "Monthly"
+    calData["type"] = "Calibration"
+    historicalData, m_index, d_index, h_index = combine(historicalData1, historicalData2)
+    simulated, real, interval = auto_calibrate(data, calData, historicalData, weatherData)
 
     if interval == "Monthly":
         ofile = simulated.iloc[m_index:]

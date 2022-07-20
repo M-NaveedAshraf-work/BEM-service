@@ -1046,7 +1046,7 @@ class BEMP_Calibration_CapX(BEM):
             self.PumpSystemEnergy()
             self.DHWandSolarWaterHeating()
 
-            outcome, outcome2, outcome3= self.hourly_BEM()  # outcome: self.deliveredEnergy, outcome2: self.Overall_deliveredEnergy, outcome3: self.deliveredEnergy_fuel
+            outcome, outcome2, outcome3 = self.hourly_BEM()  # outcome: self.deliveredEnergy, outcome2: self.Overall_deliveredEnergy, outcome3: self.deliveredEnergy_fuel
             """
             The fitness function is CVRMSE (Coefficient of variation of the Root Mean Square Error)
             CVRMSE = (1/y_bar) * sqrt(((sigma (yi - yhat_i)^2)/(n-p))
@@ -1306,6 +1306,7 @@ class BEMP_Calibration_CapX(BEM):
             for i in range(self.genetic_algorithm_setting["num_of_population"]):
                 for j in range(self.num_of_parameters):
                     if self.calibration_param_info[self.calibration_parameters[j]]["Type"] == "Integer":
+                        print(self.calibration_param_info[self.calibration_parameters[j]])
                         offspring[i, j] = randint(self.calibration_param_info[self.calibration_parameters[j]]["Min"],
                                                   self.calibration_param_info[self.calibration_parameters[j]]["Max"])
                     else:  # FLOAT or temperature setpint or schedule
@@ -1662,10 +1663,10 @@ class BEMP_Calibration_CapX(BEM):
             manipulated_result[10, 0] = np.sum(outcome3[7296:8016, 0])
             manipulated_result[11, 0] = np.sum(outcome3[8016:8760, 0])
 
-            # deviation = 0
-            # for j in range(self.num_of_loop):
-            #     deviation += (self.measuredData[j, 0] - manipulated_result[j, 0]) ** 2
-            # cvRMSE = (1 / self.y_bar) * sqrt(deviation / (self.num_of_loop * self.number_of_data - 1)) * 100
+            deviation = 0
+            for j in range(self.num_of_loop):
+                deviation += (self.measuredData[j, 0] - manipulated_result[j, 0]) ** 2
+            cvRMSE = (1 / self.y_bar) * sqrt(deviation / (self.num_of_loop * self.number_of_data - 1)) * 100
 
             data = pd.DataFrame(out, columns=['Delivered'])
 
@@ -1705,7 +1706,7 @@ class BEMP_Calibration_CapX(BEM):
             # plt.show()
 
             # return self.simulated, list(self.measuredData[:, 0]), self.calibration_setting["Data_interval"]
-            return pd.DataFrame(self.simulated, columns=['data']), pd.DataFrame(self.measuredData[:, 0], columns=['data']), self.calibration_setting["Data_interval"]
+            return pd.DataFrame(self.simulated, columns=['data']), pd.DataFrame(self.measuredData[:, 0], columns=['data']), self.calibration_setting["Data_interval"], cvRMSE
 
 
         else:
@@ -1793,7 +1794,7 @@ class BEMP_Calibration_CapX(BEM):
             self.grouped = grouped.Delivered.values
 
             # return self.simulated, list(self.measuredData[:, 0]), self.calibration_setting["Data_interval"]
-            return pd.DataFrame(self.simulated, columns=['data']), pd.DataFrame(self.measuredData[:, 0], columns=['data']), self.calibration_setting["Data_interval"]
+            return pd.DataFrame(self.simulated, columns=['data']), pd.DataFrame(self.measuredData[:, 0], columns=['data']), self.calibration_setting["Data_interval"], "hello"
 
 
         # for j in range(self.num_of_loop):
@@ -1817,9 +1818,27 @@ def BEMP_Optimization(buildingName, weatherData, SRF_overhang, SRF_fin, SRF_hori
     instance.PumpSystemEnergy()
     instance.DHWandSolarWaterHeating()
     outcome, outcome2, outcome3 = instance.hourly_BEM()
-    simulated, real, interval = instance.Genetic_Algorithm_Loop()
+    simulated, real, interval, cvRMSE = instance.Genetic_Algorithm_Loop()
 
     return simulated, real, interval
+
+def Auto_BEMP_Optimization(buildingName, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Esol_30, Esol_45, Esol_60, Esol_90,
+                      original_file_name, result_file_name):
+    instance = BEMP_Calibration_CapX(buildingName, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Esol_30, Esol_45,
+                                     Esol_60, Esol_90, original_file_name, result_file_name)
+    instance.readJSON()
+    instance.GeneralDataProcessing()
+    instance.TransmissionHeatTransfer()
+    instance.VentilationAirFlowandVentilationHeatTransfer()
+    instance.BEMSystem()
+    instance.CoolingandHeatingSystemEnergy()
+    instance.FanEnergy()
+    instance.PumpSystemEnergy()
+    instance.DHWandSolarWaterHeating()
+    outcome, outcome2, outcome3 = instance.hourly_BEM()
+    simulated, real, interval, cvRMSE = instance.Genetic_Algorithm_Loop()
+
+    return simulated, real, interval, cvRMSE
 
 
 if __name__ == '__main__':

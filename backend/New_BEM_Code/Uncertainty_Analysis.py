@@ -30,7 +30,7 @@ class UQ_Object(BEM):
         # self.output_utilized = file_sheet.cell(row=4, column=3).value
         UQData = originalFile
         self.UQ_mode = UQData['UQInputs']['UQMode']
-        self.num_of_sample = int(UQData['UQInputs']['totalSamples'])
+        # self.num_of_sample = int(UQData['UQInputs']['totalSamples'])
         self.output_utilized = UQData['UQInputs']['energyOutput']
 
         i = 0;
@@ -86,6 +86,7 @@ class UQ_Object(BEM):
 
         # close the "UQ_Input" excel file
         # file.save('./Input/UQ_Input.xlsx')
+        self.num_of_sample = (self.param_info["num_vars"] + 1) * 10
 
         self.lhd = lhs(self.param_info["num_vars"], samples=self.num_of_sample)
 
@@ -423,15 +424,15 @@ class UQ_Object(BEM):
         if self.UQ_mode == "Sensitivity Analysis":
             # conduct the Morris method
             self.Y = self.BEMP_Iterator()
-            print(self.param_info)
-            print(self.lhd)
-            print(self.Y)
-            print(self.Y.size)
-            print(self.confidence_level)
-            print(self.num_levels)
+            # print(self.param_info)
+            # print(self.lhd)
+            # print(self.Y)
+            # print(self.Y.size)
+            # print(self.confidence_level)
+            # print(self.num_levels)
             SA_result = morris.analyze(self.param_info, self.lhd, self.Y, conf_level=self.confidence_level,
                                        print_to_console=False, num_levels = self.num_levels)
-            print(SA_result)
+            # print(SA_result)
             # save the result in CSV
             output = []
             for i in range(len(SA_result["names"])):

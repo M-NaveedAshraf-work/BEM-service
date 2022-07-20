@@ -645,6 +645,17 @@
                     v-on:click="runCalibration(); loadState();"
                   >Run Calibration</v-btn>
                 </v-col>
+                <v-col>
+                  <v-btn 
+                    class = "ma-2"
+                    :loading= loading
+                    :disabled= loading
+                    align="center"
+                    depressed
+                    color="green"
+                    v-on:click="runAutoCalibration(); loadState();"
+                  >Run Auto Calibration</v-btn>
+                </v-col>
               </v-row>
             </v-card>
           </v-col>
@@ -3276,6 +3287,21 @@ export default{
 
     runCalibration() {
       const path = 'http://127.0.0.1:5000/Calibration'
+      axios.get(path)
+      .then((res) => {
+        this.actualData = res.data.real
+        this.calData = res.data.modeled
+        this.dataInterval = res.data.interval
+        this.monthlySchedule = res.data.monthlyXAxis
+        this.hourlySchedule = res.data.hourlyXAxis
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+    },
+
+    runAutoCalibration() {
+      const path = 'http://127.0.0.1:5000/auto_calibration'
       axios.get(path)
       .then((res) => {
         this.actualData = res.data.real
