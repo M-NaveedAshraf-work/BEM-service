@@ -5099,7 +5099,6 @@
                   </v-expansion-panel-content>
                 </v-expansion-panel>
               </v-expansion-panels>
-              
             </v-card>
           </v-col>
         </v-row>
@@ -6014,6 +6013,47 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <v-card>
+          <v-card-title>Zero Order Model</v-card-title>
+          <v-col>
+            <v-row>
+              <v-col>
+                <v-file-input
+                  accept=".xls, .xlsx, .csv"
+                  label="Click to Upload a Month of Energy Data"
+                  chips
+                  outlined
+                  v-model="chosenZeroModel"
+                ></v-file-input>
+              </v-col>
+              <v-col>
+                <v-text-field
+                  label = "Estimated Next Month Energy Cost"
+                  outlined
+                  :readonly="true"
+                  v-model="estimatedCost"
+                ></v-text-field>
+              </v-col>
+              <v-col>
+                <v-text-field
+                  label = "Error"
+                  outlined
+                  :readonly="true"
+                  v-model="error"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-btn v-on:click="updateZero()" align="center" depressed color="primary">Run Zero Order Model</v-btn>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 
 </template>
@@ -6123,7 +6163,10 @@ export default {
       weatherData: ['test'],
       // weatherData: ['centergy_2019_epw_file.epw'],
       jsonLoad: false,
+      estimatedCost: 0,
+      error: 0,
 
+      chosenZeroModel: null,
       historicalData1: null,
       historicalData2: null,
       weatherName: null,
@@ -6145,6 +6188,7 @@ export default {
       files: null,
       inputData: null,
       readFile: false,
+      runZeroData: null,
 
       filename: null,
 
@@ -6184,7 +6228,7 @@ export default {
     },
 
 
-    'uploadFie': async function() {
+    'uploadFile': async function() {
       if (this.uploadFile != null) {
         this.uploadData = await this.OpenFile(this.uploadFile)
         this.uploadInput()
@@ -6223,7 +6267,7 @@ export default {
       this.combineNewFileBuilding()
     },
     runBEMBool(){
-      this.runBEM()
+      // this.runBEM()
     }
   },
   
@@ -6463,6 +6507,46 @@ export default {
       }
     },
 
+    loadZeroFile() {
+      if (!this.chosenZeroModel){console.log("No Weather File Chosen")}
+      else {
+        this.chosenZeroModel = this.chosenZeroModel.name
+      }
+      let chosenZeroModel= this.chosenZeroModel
+      let estimatedCost = this.estimatedCost
+      let error = this.error
+
+      let merged = {chosenZeroModel, estimatedCost, error}
+
+      this.runZeroData = JSON.stringify(merged)
+    },
+
+    updateZero() {
+      this.loadZeroFile()
+      const path = 'http://127.0.0.1:5000/runZero'
+      let runZeroData = this.runZeroData
+      axios.put(path, runZeroData)
+      .then(() => {
+        this.getZero();
+      })
+      .catch((error) => {
+        console.error(error);
+        this.getZero();
+      })
+    },
+
+    getZero() {
+      const path = 'http://127.0.0.1:5000/runZero'
+      axios.get(path)
+      .then((res) => {
+        this.estimatedCost = res.data.estimatedCost;
+        this.error = res.data.error;
+        this.chosenZeroModel = res.data.chosenZeroModel;
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+    },
 
     drawChart() {
       let yAxis = []

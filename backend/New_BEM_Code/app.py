@@ -13,7 +13,7 @@ from energystar import runEnergystar
 from datetime import datetime
 from multi_year_parser import combine
 from auto_calibration import auto_calibrate
-from processing import processing
+from zero_order_model import predict
 
 import os
 from fontTools.misc.py23 import xrange
@@ -28,6 +28,7 @@ app.config.from_object(__name__)
 # enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})
 load = 1
+predictedCost = 0
 global historicalData
 global today
 today = str(datetime.now())
@@ -52,6 +53,9 @@ UQData = json.load(h)
 j = open('./Input/runUQ_input.json')
 global runUQData
 runUQData = json.load(j)
+k = open('./Input/runZero.json')
+global runZeroData
+runZeroData = json.load(k)
 global build_index
 build_index = []
 weatherData = "centergy_2019_epw_file.epw"
@@ -511,6 +515,27 @@ def loadProject_model():
         response_object['estarData'] = estarData
     return jsonify(response_object)
 
+@app.route('/runZero', methods = ['GET', 'PUT'])
+def Zero():
+    if request.method == 'PUT':
+        print("Zero Order Model Run")
+        global runZeroData
+        filename = request.get_json("chosenZeroModel")
+        runZeroData["chosenZeroModel"] = filename["chosenZeroModel"]
+        runZeroData['estimatedCost'], runZeroData['error'] = predict(runZeroData["chosenZeroModel"])
+        print(runZeroData)
+    else:
+        print("Get Zero Data")
+        runZeroData = runZeroData
+    return jsonify(runZeroData)
+
+# @app.route('/runZero', methods = ['GET'])
+# def UQRuns():
+#     global runZeroData
+#
+#     runZeroData['Cost'], runZeroData['Error'] = predict(zeroFilename)
+#
+#     return jsonify(runZeroData)
 
 
 if __name__ == '__main__':
