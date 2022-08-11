@@ -35,3 +35,5 @@ python app.py
     10) /graph              methods = ['GET 'PUT'])
     11) /loadProject        methods=['GET 'PUT'])
     12) /runZero            methods = ['GET 'PUT'])
+    
+[Detailed Breakdown of Endpoints](/API_Response_Doc.md)
