@@ -1879,6 +1879,7 @@ class BEMP_Calibration_CapX(BEM):
             self.DHWandSolarWaterHeating()
 
             outcome, outcome2, outcome3= self.hourly_BEM()
+            data = self.jsonData
             out = np.asarray(outcome[:, -1]) * data['Zone1']['GrossFloorArea'] / 1000
             # out = np.asarray(outcome[:, -1])
 

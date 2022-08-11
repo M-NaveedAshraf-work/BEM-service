@@ -59,8 +59,8 @@ runZeroData = json.load(k)
 global build_index
 build_index = []
 weatherData = "centergy_2019_epw_file.epw"
-# a = open('./Input/example_calibration.json')
-a = open('./Input/capX_testing.json')
+a = open('./Input/example_calibration.json')
+# a = open('./Input/capX_testing.json')
 calData = json.load(a)
 outputPeriod = [
     {

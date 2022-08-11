@@ -10,7 +10,7 @@
     "LightingControlFactor": 1.0,
     "ParasiticLightingEnergy": "Yes",
     "ParasiticLightingEnergyAmount": 6.0,
-    "HeatingCOP": 0.61,
+    "HeatingCOP": 0.99,
     "CoolingCOP": 7.1,
     "COP100": 1.0,
     "COP75": 0.9,
