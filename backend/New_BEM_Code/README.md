@@ -19,3 +19,19 @@ python app.py
     5) This should then create a file that starts with "BEMP.cp" 
     6) The file then needs to be moved over to the parent directory "New_BEM_Code"
     
+## Docs
+
+### Service Endpoints
+
+    1) /input               methods=['GET 'PUT'])
+    2) /BEM                 methods=['GET'])
+    3) /Calibration         methods=['GET'])
+    4) /auto_calibration    methods=['GET'])
+    5) /Cal                 methods = ['GET 'PUT'])
+    6) /UQ                  methods = ['GET 'PUT'])
+    7) /runUQ               methods = ['GET'])
+    8) /Capx                methods = ['GET'])
+    9) /energystar          methods = ['GET 'PUT'])
+    10) /graph              methods = ['GET 'PUT'])
+    11) /loadProject        methods=['GET 'PUT'])
+    12) /runZero            methods = ['GET 'PUT'])
