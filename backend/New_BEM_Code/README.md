@@ -36,4 +36,4 @@ python app.py
     11) /loadProject        methods=['GET 'PUT'])
     12) /runZero            methods = ['GET 'PUT'])
     
-[Detailed Breakdown of Endpoints](/API_Response_Doc.md)
+[Detailed Breakdown of Endpoints](https://github.com/Joulea-com/BEM_Dashboard/blob/master/backend/New_BEM_Code/API_Response_Doc.md)
