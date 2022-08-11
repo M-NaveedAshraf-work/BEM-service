@@ -52,18 +52,18 @@ def main(mode, building_name, epw_file_name, original_file_name = None, result_f
     elif mode in ["calibration", "capX"]:
         from Genetic_Algorithm import BEMP_Optimization
         # BEMP_Optimization("".join(["./Input/",building_name]), climate_data, overhang, fin, horizon, solar_30, solar_45, solar_60, solar_90, original_file_name, result_file_name)
-        real, simulated, interval, cvRMSE = BEMP_Optimization(building_name, climate_data, overhang, fin, horizon, solar_30,
+        real, simulated, interval, cvRMSE, ROI, Payback = BEMP_Optimization(building_name, climate_data, overhang, fin, horizon, solar_30,
                           solar_45, solar_60, solar_90, original_file_name, result_file_name)
 
-        return real, simulated, interval, cvRMSE
+        return real, simulated, interval, cvRMSE, ROI, Payback
 
     elif mode == "auto calibration":
         from Genetic_Algorithm import Auto_BEMP_Optimization
-        real, simulated, interval, cvRMSE = Auto_BEMP_Optimization(building_name, climate_data, overhang, fin, horizon,
+        real, simulated, interval, cvRMSE, ROI, Payback = Auto_BEMP_Optimization(building_name, climate_data, overhang, fin, horizon,
                                                               solar_30,
                                                               solar_45, solar_60, solar_90, original_file_name,
                                                               result_file_name)
-        return real, simulated, interval, cvRMSE
+        return real, simulated, interval, cvRMSE, ROI, Payback
 
 
     elif mode == "UQ":

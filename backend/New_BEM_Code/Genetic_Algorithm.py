@@ -443,7 +443,7 @@ class BEMP_Calibration_CapX(BEM):
             self.CapX_parameters = [];
             self.original_num_of_parameters = 0;
             self.CapX_parameters_no_duplicate = []
-            self.discrete_param_set=["Heating and Cooling Plants efficiencies (COPs)", "Heat Recovery Type", "Roof1", "Opaque1", "Window1",\
+            self.discrete_param_set=["Heating and Cooling Plants efficiencies (COPs)", "Roof1", "Opaque1", "Window1",\
                                      "Window1 Overhang Angle_S", "Window1 Overhang Angle_SE", "Window1 Overhang Angle_E", "Window1 Overhang Angle_NE", "Window1 Overhang Angle_N", "Window1 Overhang Angle_NW", "Window1 Overhang Angle_W", "Window1 Overhang Angle_SW",\
                                      "Window1 Fin Angle_S", "Window1 Fin Angle_SE", "Window1 Fin Angle_E", "Window1 Fin Angle_NE", "Window1 Fin Angle_N", "Window1 Fin Angle_NW", "Window1 Fin Angle_W", "Window1 Fin Angle_SW",\
                                      "Natural Ventilation", "Electric Battery", "Lighting Dimmer"] ####
@@ -482,14 +482,34 @@ class BEMP_Calibration_CapX(BEM):
             #         raise Exception("Please check the 'CapX Parameters' table.")
             #     i += 1
             # self.CapX_parameters_no_duplicate = list(dict.fromkeys(self.CapX_parameters))
+
+            capxDataRef = ({"Heating COP": "Discrete", "Cooling COP": "Discrete", "Heating & Cooling COPs": "Discrete",
+                           "Heat Recovery Type": "Discrete", "Building air leakage level": "Discrete", "Specifiec fan power": "Discrete",
+                           "DHW Generation System": "Discrete", "PV module Area": "Discrete", "SHW Collector Area": "Discrete",
+                           "Appliance": "Discrete", "Lighting": "Discrete", "Roof1": "Discrete", "Opaque1": "Discrete",
+                           "Window1": "Discrete", "Window1 Overhang Angle_S": "Discrete", "Window1 Overhang Angle_SE": "Discrete",
+                           "Window1 Overhang Angle_E": "Discrete", "Window1 Overhang Angle_NE": "Discrete",
+                           "Window1 Overhang Angle_N": "Discrete", "Window1 Overhang Angle_NW": "Discrete",
+                           "Window1 Overhang Angle_W": "Discrete", "Window1 Overhang Angle_SW": "Discrete",
+                           "Window1 Fin Angle_S": "Discrete", "Window1 Fin Angle_SE": "Discrete",
+                           "Window1 Fin Angle_E": "Discrete", "Window1 Fin Angle_NE": "Discrete",
+                           "Window1 Fin Angle_N": "Discrete", "Window1 Fin Angle_NW": "Discrete",
+                           "Window1 Fin Angle_W": "Discrete", "Window1 Fin Angle_SW": "Discrete",
+                           "Wind Turbine": "Discrete", "Natural Ventilation": "Discrete",
+                           "Electric Battery": "Discrete", "Lighting Dimmer": "Discrete",
+                           "Window1 SRF_S": "Discrete", "Window1 SRF_SE": "Discrete", "Window1 SRF_E": "Discrete",
+                           "Window1 SRF_NE": "Discrete", "Window1 SRF_N": "Discrete", "Window1 SRF_NW": "Discrete",
+                           "Window1 SRF_W": "Discrete", "Window1 SRF_SW": "Discrete", "Window1 SRF_Roof": "Discrete",
+                           "Window1 SRF All": "Discrete"})
+            capxDataRef = dict(capxDataRef)
+
             state = 'go'
             while state != 'end':
                 if file_sheet["capxParameters"] == []:  ####
                     break
                 elif file_sheet["capxParameters"] != []:
-                    self.CapX_input_parameters[file_sheet["capxParameters"][i]['name']] = file_sheet["capxParameters"][i]['data']
-
-                    if file_sheet["capxParameters"][i]['name'] in self.discrete_param_set and file_sheet["capxParameters"][i]['data'] == "Continuous":
+                    self.CapX_input_parameters[file_sheet["capxParameters"][i]['name']] = capxDataRef[file_sheet["capxParameters"][i]['name']]
+                    if file_sheet["capxParameters"][i]['name'] in self.discrete_param_set and capxDataRef[file_sheet["capxParameters"][i]['name']] == "Continuous":
                         raise Exception(
                             "The type of 'Heating and Cooling Plants efficiencies (COPs)', 'Roof1', 'Opaque1', 'Window1', 'Overhang', 'Fin', 'SRF', 'Natural Ventilation', 'Electric Battery', 'Lighting Dimmer' must be discrete.")
 
@@ -1011,7 +1031,7 @@ class BEMP_Calibration_CapX(BEM):
                     elif param == "Window1 SRF Angle_SW":
                         data["Envelope"]["Window1"]["SW"]["SRF"] = chromosome[row_of_chromesome, j]
                     j += 1
-            print(chromosome)
+            # print(chromosome)
 
         # Save the JSON instance
         # building_name = self.buildingName
@@ -1064,18 +1084,18 @@ class BEMP_Calibration_CapX(BEM):
                     manipulated_result = np.zeros((12, 1))
 
                 if self.calibration_setting["Elec_data"] == "Yes":
-                    manipulated_result[0, 0] = np.sum(outcome3[0:744, 0])
-                    manipulated_result[1, 0] = np.sum(outcome3[744:1416, 0])
-                    manipulated_result[2, 0] = np.sum(outcome3[1416:2159, 0])
-                    manipulated_result[3, 0] = np.sum(outcome3[2159:2880, 0])
-                    manipulated_result[4, 0] = np.sum(outcome3[2880:3624, 0])
-                    manipulated_result[5, 0] = np.sum(outcome3[3624:4344, 0])
-                    manipulated_result[6, 0] = np.sum(outcome3[4344:5088, 0])
-                    manipulated_result[7, 0] = np.sum(outcome3[5088:5832, 0])
-                    manipulated_result[8, 0] = np.sum(outcome3[5832:6552, 0])
-                    manipulated_result[9, 0] = np.sum(outcome3[6552:7296, 0])
-                    manipulated_result[10, 0] = np.sum(outcome3[7296:8016, 0])
-                    manipulated_result[11, 0] = np.sum(outcome3[8016:8760, 0])
+                    manipulated_result[0, 0] = np.sum(outcome[0:744, 0])
+                    manipulated_result[1, 0] = np.sum(outcome[744:1416, 0])
+                    manipulated_result[2, 0] = np.sum(outcome[1416:2159, 0])
+                    manipulated_result[3, 0] = np.sum(outcome[2159:2880, 0])
+                    manipulated_result[4, 0] = np.sum(outcome[2880:3624, 0])
+                    manipulated_result[5, 0] = np.sum(outcome[3624:4344, 0])
+                    manipulated_result[6, 0] = np.sum(outcome[4344:5088, 0])
+                    manipulated_result[7, 0] = np.sum(outcome[5088:5832, 0])
+                    manipulated_result[8, 0] = np.sum(outcome[5832:6552, 0])
+                    manipulated_result[9, 0] = np.sum(outcome[6552:7296, 0])
+                    manipulated_result[10, 0] = np.sum(outcome[7296:8016, 0])
+                    manipulated_result[11, 0] = np.sum(outcome[8016:8760, 0])
 
                 if self.calibration_setting["NaturalGas_data"] == "Yes":
                     manipulated_result[0, 1] = np.sum(outcome3[0:744, 1])
@@ -1100,7 +1120,7 @@ class BEMP_Calibration_CapX(BEM):
                 k = 0
                 for m in range(0, 8760, 24):
                     if self.calibration_setting["Elec_data"] == "Yes":
-                        manipulated_result[k, 0] = np.sum(outcome3[m:m + 24, 0])
+                        manipulated_result[k, 0] = np.sum(outcome[m:m + 24, 0])
                     if self.calibration_setting["NaturalGas_data"] == "Yes":
                         manipulated_result[k, 1] = np.sum(outcome3[m:m + 24, 1])
                     k += 1
@@ -1112,7 +1132,7 @@ class BEMP_Calibration_CapX(BEM):
                     manipulated_result = np.zeros((8760, 1))
 
                 if self.calibration_setting["Elec_data"] == "Yes":
-                    manipulated_result[:, 0] = outcome3[:, 0]
+                    manipulated_result[:, 0] = outcome[:, 0]
                 if self.calibration_setting["NaturalGas_data"] == "Yes":
                     manipulated_result[:, 1] = outcome3[:, 1]
 
@@ -1197,7 +1217,7 @@ class BEMP_Calibration_CapX(BEM):
             # overall_budge_compilation.append(CapX_parameter_upfront_cost)
         print(f"overall_budge_compilation: {overall_budge_compilation}")
         print('capX Iteration end')
-        return overall_budge_compilation, delivered_energy_compilation
+        return overall_budge_compilation, delivered_energy_compilation, CapX_parameter_upfront_cost
 
     def Crossover_Mutation(self, population):
         """
@@ -1436,7 +1456,7 @@ class BEMP_Calibration_CapX(BEM):
                         hour_list.sort()
                     else:
                         hour_list = list(range(hour_min, hour_max + 1))
-                    if self.calibration_param_info[name]["Name"] in ["Heating Temperature Setpoint", "Cooilng Temperature Setpoint"]:
+                    if self.calibration_param_info[name]["Name"] in ["Heating Temperature Setpoint", "Cooling Temperature Setpoint"]:
                         k = hour_list[0]
                         temp = data["TemperatureSetPoint"]["".join(["Hour",str(k)])]["".join([self.calibration_param_info[name]["Name"][:7], "_", self.calibration_param_info[name]["Type"]])]## added '_'
                         initial_chrom.append(temp)
@@ -1447,6 +1467,7 @@ class BEMP_Calibration_CapX(BEM):
             offspring[0] = initial_chrom
 
         else:  # CapX
+            print("Hello I am in CapX")
             for i in range(self.genetic_algorithm_setting["num_of_population"]):
                 j = 0
                 while j < self.num_of_parameters:
@@ -1491,7 +1512,9 @@ class BEMP_Calibration_CapX(BEM):
                 # print(t1-t0)
 
             else:
-                evaluation_from_iteration_method, delivered_energy_comp = self.CapX_Iteration(offspring)
+                print("offspring")
+                print(offspring)
+                evaluation_from_iteration_method, delivered_energy_comp, upfront_cost = self.CapX_Iteration(offspring)
 
             print(f"evaluation_from_iteration_method:\n{evaluation_from_iteration_method}")
 
@@ -1633,6 +1656,133 @@ class BEMP_Calibration_CapX(BEM):
             best = np.zeros((2, self.num_of_parameters))
             best[0, :] = best_so_far_chromosome[-1]
 
+            print(best)
+
+            for j, name in enumerate(self.calibration_parameters):
+                if name == "Heating COP":
+                    data["HeatingCOP"] = best[0, j]
+                elif name == "Cooling COP":
+                    data["CoolingCOP"] = best[0, j]
+                elif name == "Extra ventilation above fresh air supply":
+                    data["ExtraVentilation"] = best[0, j]
+                elif name == "Heat Recovery Type":
+                    data["HeatRecoveryType"] = best[0, j]
+                elif name == "Exhaust Air Recirculation Percentage":
+                    data["ExhaustAirRecirculation"] = best[0, j]
+                elif name == "Building air leakage level":
+                    data["AirLeakageLevel"] = best[0, j]
+                elif name == "Specific Fan Power":
+                    data["SpecificFanPower"] = best[0, j]
+                elif name == "Fan Control Factor":
+                    data["FanControlFactor"] = best[0, j]
+                elif name == "DHW Generation System":
+                    data["DHWGenerationSystem"] = best[0, j]
+                elif name == "Occupancy":
+                    data["Zone1"]["Occupancy"] = best[0, j]
+                elif name == "Appliance":
+                    data["Zone1"]["Appliance"] = best[0, j]
+                elif name == "Lighting":
+                    data["Zone1"]["Lighting"] = best[0, j]
+                elif name == "Outdoor Air":
+                    data["Zone1"]["OutdoorAir"] = best[0, j]
+                elif name == "DHW":
+                    data["Zone1"]["DHW"] = best[0, j]
+                elif name == "Roof1 Uvalue":
+                    data["Material"]["Roof1"]["UValue"] = best[0, j]
+                elif name == "Roof1 Absorption coefficient":
+                    data["Material"]["Roof1"]["Absorptivity"] = best[0, j]
+                elif name == "Roof1 Emissivity":
+                    data["Material"]["Roof1"]["Emissivity"] = best[0, j]
+                elif name == "Opaque1 Uvalue":
+                    data["Material"]["Opaque1"]["UValue"] = best[0, j]
+                elif name == "Opaque1 Absorption coefficient":
+                    data["Material"]["Opaque1"]["Absorptivity"] = best[0, j]
+                elif name == "Opaque1 Emissivity":
+                    data["Material"]["Opaque1"]["Emissivity"] = best[0, j]
+                elif name == "Window1 Uvalue":
+                    data["Material"]["Window1"]["UValue"] = best[0, j]
+                elif name == "Window1 Emissivity":
+                    data["Material"]["Window1"]["Emissivity"] = best[0, j]
+                elif name == "Window1 Solar transmittance":
+                    data["Material"]["Window1"]["SolarTrasmittance"] = best[0, j]
+
+                elif name[:11] == "Window1 SRF":
+                    if name == "Window1 SRF All":
+                        data["Envelope"]["Window1"]["S"]["SRF"] = best[0, j]
+                    elif name == "Window1 SRF_S":
+                        data["Envelope"]["Window1"]["S"]["SRF"] = best[0, j]
+                    elif name == "Window1 SRF_SE":
+                        data["Envelope"]["Window1"]["SE"]["SRF"] = best[0, j]
+                    elif name == "Window1 SRF_E":
+                        data["Envelope"]["Window1"]["E"]["SRF"] = best[0, j]
+                    elif name == "Window1 SRF_NE":
+                        data["Envelope"]["Window1"]["NE"]["SRF"] = best[0, j]
+                    elif name == "Window1 SRF_N":
+                        data["Envelope"]["Window1"]["N"]["SRF"] = best[0, j]
+                    elif name == "Window1 SRF_NW":
+                        data["Envelope"]["Window1"]["NW"]["SRF"] = best[0, j]
+                    elif name == "Window1 SRF_W":
+                        data["Envelope"]["Window1"]["W"]["SRF"] = best[0, j]
+                    elif name == "Window1 SRF_SW":
+                        data["Envelope"]["Window1"]["SW"]["SRF"] = best[0, j]
+
+                elif name == "Retail Refri Capacity":
+                    data["RetailRefrig"]["Capacity"] = best[0, j]
+
+                elif name == "EV Charger Power":
+                    data["ElectricVehicle"]["ChargingPower"] = best[0, j]
+
+                elif name == "Garage Appliance":
+                    data["Garage"]["Appliance"] = best[0, j]
+
+                elif name == "Garage Lighting":
+                    data["Garage"]["Lighting"] = best[0, j]
+
+                elif name == "Lighting Dimmer Weekday":
+                    data["LightingDimmer"]["DimmerSaving_WD"] = best[0, j]
+
+                elif name == "Lighting Dimmer Weekend":
+                    data["LightingDimmer"]["DimmerSaving_WE"] = best[0, j]
+
+                elif "Monthly" in name:  ####
+                    if name[:9] == "Occupancy":
+                        monthly_type = "Occupancy"
+                    elif name[:9] == "Appliance":
+                        monthly_type = "Appliance"
+                    elif name[:8] == "Lighting":
+                        monthly_type = "Lighting"
+
+                    if self.month_list.index(self.calibration_param_info[name]["Month_Min"]) == self.month_list.index(
+                            self.calibration_param_info[name]["Month_Max"]):
+                        month = self.calibration_param_info[name]["Month_Min"]
+                        data["Monthly_InternalHeatGain"][monthly_type][month] = best[0, j]
+
+                    elif self.month_list.index(self.calibration_param_info[name]["Month_Min"]) < self.month_list.index(
+                            self.calibration_param_info[name]["Month_Max"]):
+                        # print(f"calibration_param_info[name]: {self.calibration_param_info[name]}")
+                        z = self.month_list.index(self.calibration_param_info[name]["Month_Min"]) + 1
+                        data["Monthly_InternalHeatGain"][monthly_type][self.month_list[z]] = best[0, j]
+                    else:
+                        raise Exception(
+                            "Please check the 'Monthly_Min' and 'Monthly_Max' in the 'Monthly Internal Heat Gains' table.")
+                elif isinstance(int(name), int)== True: # Temperature setpoint or Schedule
+                    hour_max = self.calibration_param_info[name]["Hour_Max"]
+                    hour_min = self.calibration_param_info[name]["Hour_Min"]
+                    if self.calibration_param_info[name]["Hour_Max"] < self.calibration_param_info[name][
+                        "Hour_Min"]:
+                        hour_list = list(range(hour_min, 25)) + list(range(1, hour_max + 1))
+                        hour_list.sort()
+                    else:
+                        hour_list = list(range(hour_min, hour_max + 1))
+                    if self.calibration_param_info[name]["Name"] in ["Heating Temperature Setpoint", "Cooling Temperature Setpoint"]:
+                        k = hour_list[0]
+                        data["TemperatureSetPoint"]["".join(["Hour",str(k)])]["".join([self.calibration_param_info[name]["Name"][:7], "_", self.calibration_param_info[name]["Type"]])] = best[0, j]
+                    else: # Occupancy, appliance, lighting
+                        k = hour_list[0]
+                        data["Zone1_Schedule"]["".join(["Hour",str(k)])]["".join([self.calibration_param_info[name]["Name"][:-9], "_", self.calibration_param_info[name]["Type"]])] = best[0, j]
+            updated_data = data
+            print("End of Data Assign")
+
             # building_name = self.buildingName
             # self.JSON_Modification(best, 0, building_name, calibrated = True)
             self.JSON_Modification(best, 0, True)
@@ -1647,21 +1797,23 @@ class BEMP_Calibration_CapX(BEM):
             self.DHWandSolarWaterHeating()
 
             outcome, outcome2, outcome3 = self.hourly_BEM()
-            out = np.asarray(outcome[:, -1]) * self.totalArea / 1000
+
+            # out = np.asarray(outcome[:, -1]) * self.totalArea / 1000
+            out = np.asarray(outcome[:, -1]) * data['Zone1']['GrossFloorArea'] / 1000
 
             manipulated_result = np.zeros((12, 1))
-            manipulated_result[0, 0] = np.sum(outcome3[0:744, 0])
-            manipulated_result[1, 0] = np.sum(outcome3[744:1416, 0])
-            manipulated_result[2, 0] = np.sum(outcome3[1416:2159, 0])
-            manipulated_result[3, 0] = np.sum(outcome3[2159:2880, 0])
-            manipulated_result[4, 0] = np.sum(outcome3[2880:3624, 0])
-            manipulated_result[5, 0] = np.sum(outcome3[3624:4344, 0])
-            manipulated_result[6, 0] = np.sum(outcome3[4344:5088, 0])
-            manipulated_result[7, 0] = np.sum(outcome3[5088:5832, 0])
-            manipulated_result[8, 0] = np.sum(outcome3[5832:6552, 0])
-            manipulated_result[9, 0] = np.sum(outcome3[6552:7296, 0])
-            manipulated_result[10, 0] = np.sum(outcome3[7296:8016, 0])
-            manipulated_result[11, 0] = np.sum(outcome3[8016:8760, 0])
+            manipulated_result[0, 0] = np.sum(outcome[0:744, 0])
+            manipulated_result[1, 0] = np.sum(outcome[744:1416, 0])
+            manipulated_result[2, 0] = np.sum(outcome[1416:2159, 0])
+            manipulated_result[3, 0] = np.sum(outcome[2159:2880, 0])
+            manipulated_result[4, 0] = np.sum(outcome[2880:3624, 0])
+            manipulated_result[5, 0] = np.sum(outcome[3624:4344, 0])
+            manipulated_result[6, 0] = np.sum(outcome[4344:5088, 0])
+            manipulated_result[7, 0] = np.sum(outcome[5088:5832, 0])
+            manipulated_result[8, 0] = np.sum(outcome[5832:6552, 0])
+            manipulated_result[9, 0] = np.sum(outcome[6552:7296, 0])
+            manipulated_result[10, 0] = np.sum(outcome[7296:8016, 0])
+            manipulated_result[11, 0] = np.sum(outcome[8016:8760, 0])
 
             deviation = 0
             for j in range(self.num_of_loop):
@@ -1706,7 +1858,7 @@ class BEMP_Calibration_CapX(BEM):
             # plt.show()
 
             # return self.simulated, list(self.measuredData[:, 0]), self.calibration_setting["Data_interval"]
-            return pd.DataFrame(self.simulated, columns=['data']), pd.DataFrame(self.measuredData[:, 0], columns=['data']), self.calibration_setting["Data_interval"], cvRMSE
+            return pd.DataFrame(self.simulated, columns=['data']), pd.DataFrame(self.measuredData[:, 0], columns=['data']), self.calibration_setting["Data_interval"], cvRMSE, updated_data, 0
 
 
         else:
@@ -1727,21 +1879,22 @@ class BEMP_Calibration_CapX(BEM):
             self.DHWandSolarWaterHeating()
 
             outcome, outcome2, outcome3= self.hourly_BEM()
-            out = np.asarray(outcome[:, -1]) * self.totalArea / 1000
+            out = np.asarray(outcome[:, -1]) * data['Zone1']['GrossFloorArea'] / 1000
+            # out = np.asarray(outcome[:, -1])
 
             manipulated_result = np.zeros((12, 1))
-            manipulated_result[0, 0] = np.sum(outcome3[0:744, 0])
-            manipulated_result[1, 0] = np.sum(outcome3[744:1416, 0])
-            manipulated_result[2, 0] = np.sum(outcome3[1416:2159, 0])
-            manipulated_result[3, 0] = np.sum(outcome3[2159:2880, 0])
-            manipulated_result[4, 0] = np.sum(outcome3[2880:3624, 0])
-            manipulated_result[5, 0] = np.sum(outcome3[3624:4344, 0])
-            manipulated_result[6, 0] = np.sum(outcome3[4344:5088, 0])
-            manipulated_result[7, 0] = np.sum(outcome3[5088:5832, 0])
-            manipulated_result[8, 0] = np.sum(outcome3[5832:6552, 0])
-            manipulated_result[9, 0] = np.sum(outcome3[6552:7296, 0])
-            manipulated_result[10, 0] = np.sum(outcome3[7296:8016, 0])
-            manipulated_result[11, 0] = np.sum(outcome3[8016:8760, 0])
+            manipulated_result[0, 0] = np.sum(outcome[0:744, 0])
+            manipulated_result[1, 0] = np.sum(outcome[744:1416, 0])
+            manipulated_result[2, 0] = np.sum(outcome[1416:2159, 0])
+            manipulated_result[3, 0] = np.sum(outcome[2159:2880, 0])
+            manipulated_result[4, 0] = np.sum(outcome[2880:3624, 0])
+            manipulated_result[5, 0] = np.sum(outcome[3624:4344, 0])
+            manipulated_result[6, 0] = np.sum(outcome[4344:5088, 0])
+            manipulated_result[7, 0] = np.sum(outcome[5088:5832, 0])
+            manipulated_result[8, 0] = np.sum(outcome[5832:6552, 0])
+            manipulated_result[9, 0] = np.sum(outcome[6552:7296, 0])
+            manipulated_result[10, 0] = np.sum(outcome[7296:8016, 0])
+            manipulated_result[11, 0] = np.sum(outcome[8016:8760, 0])
 
             data = pd.DataFrame(out, columns=['Delivered'])
 
@@ -1793,8 +1946,24 @@ class BEMP_Calibration_CapX(BEM):
 
             self.grouped = grouped.Delivered.values
 
+            ## Cost Functions
+
+
+            yearlySavings = sum(abs(self.measuredData[:, 0] - self.simulated))
+            ROI = (yearlySavings * self.CapX_setting["Period"]) / upfront_cost * 100
+            Payback = int(upfront_cost / yearlySavings)
+            if Payback == 0:
+                Payback == 1
+            else:
+                Payback += 1
+
+            print("ROI:")
+            print(ROI)
+            print("Payback:")
+            print(Payback)
+
             # return self.simulated, list(self.measuredData[:, 0]), self.calibration_setting["Data_interval"]
-            return pd.DataFrame(self.simulated, columns=['data']), pd.DataFrame(self.measuredData[:, 0], columns=['data']), self.calibration_setting["Data_interval"], "hello"
+            return pd.DataFrame(self.simulated, columns=['data']), pd.DataFrame(self.measuredData[:, 0], columns=['data']), self.calibration_setting["Data_interval"], "hello", ROI, Payback
 
 
         # for j in range(self.num_of_loop):
@@ -1818,9 +1987,9 @@ def BEMP_Optimization(buildingName, weatherData, SRF_overhang, SRF_fin, SRF_hori
     instance.PumpSystemEnergy()
     instance.DHWandSolarWaterHeating()
     outcome, outcome2, outcome3 = instance.hourly_BEM()
-    simulated, real, interval, cvRMSE = instance.Genetic_Algorithm_Loop()
+    simulated, real, interval, cvRMSE, ROI, Payback = instance.Genetic_Algorithm_Loop()
 
-    return simulated, real, interval
+    return simulated, real, interval, cvRMSE, ROI, Payback
 
 def Auto_BEMP_Optimization(buildingName, weatherData, SRF_overhang, SRF_fin, SRF_horizon, Esol_30, Esol_45, Esol_60, Esol_90,
                       original_file_name, result_file_name):
@@ -1836,9 +2005,9 @@ def Auto_BEMP_Optimization(buildingName, weatherData, SRF_overhang, SRF_fin, SRF
     instance.PumpSystemEnergy()
     instance.DHWandSolarWaterHeating()
     outcome, outcome2, outcome3 = instance.hourly_BEM()
-    simulated, real, interval, cvRMSE = instance.Genetic_Algorithm_Loop()
+    simulated, real, interval, cvRMSE, ROI, Payback = instance.Genetic_Algorithm_Loop()
 
-    return simulated, real, interval, cvRMSE
+    return simulated, real, interval, cvRMSE, ROI, Payback
 
 
 if __name__ == '__main__':

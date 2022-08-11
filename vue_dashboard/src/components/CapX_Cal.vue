@@ -2689,17 +2689,6 @@
                                       label="Parameter Name"
                                     ></v-select>
                                   </v-col>
-                                  <v-col
-                                    cols="12"
-                                    sm="12"
-                                    md="12"
-                                  >
-                                    <v-select
-                                      v-model="editCapxForm.data"
-                                      :items="disCont"
-                                      label="Data Type"
-                                    ></v-select>
-                                  </v-col>
                                 </v-row>
                               </v-container>
                             </v-card-text>
@@ -2888,7 +2877,52 @@ export default{
                   'Lighting Monthly',
                   'Window1 SRF All',
                   ],
-      capxOptions: ['Heating COP',
+      capxDataTypes: ['Continuous',
+                    'Continuous',
+                    'Discrete',
+                    'Continuous',
+                    'Continuous',
+                    'Continuous',
+                    'Continuous',
+                    'Continuous',
+                    'Continuous',
+                    'Continuous',
+                    'Continuous',
+                    'Discrete',
+                    'Discrete',
+                    'Discrete',
+                    'Discrete',
+                    'Discrete',
+                    'Discrete',
+                    'Discrete',
+                    'Discrete',
+                    'Discrete',
+                    'Discrete',
+                    'Discrete',
+                    'Discrete',
+                    'Discrete',
+                    'Discrete',
+                    'Discrete',
+                    'Discrete',
+                    'Discrete',
+                    'Discrete',
+                    'Discrete',
+                    'Continuous',
+                    'Discrete',
+                    'Discrete',
+                    'Discrete',
+                    'Continuous',
+                    'Continuous',
+                    'Continuous',
+                    'Continuous',
+                    'Continuous',
+                    'Continuous',
+                    'Continuous',
+                    'Continuous',
+                    'Continuous',
+                    'Continuous',
+                    ],
+                    capxOptions: ['Heating COP',
                     'Cooling COP',
                     'Heating & Cooling COPs',
                     'Heat Recovery Type',
@@ -3055,7 +3089,6 @@ export default{
           sortable: false,
           value: 'name',
         },
-        { text: 'Type', value: 'data' },
         { text: 'Actions', value: 'actions',sortable: false },
       ],
 
@@ -3064,11 +3097,11 @@ export default{
 
       editCapxForm: {
         name: '',
-        data: '',
+        data: 'Discrete',
       },
       defaultCapxForm: {
         name: '',
-        data: '',
+        data: 'Discrete',
       },
 
       // GASettings: [],
@@ -3697,9 +3730,9 @@ export default{
         },
         series: [
           {
-            name: 'Actual',
+            name: 'Calibrated Data',
             type: 'line',
-            data: this.actualData
+            data: this.calData
           },
           {
             name: 'CapX',

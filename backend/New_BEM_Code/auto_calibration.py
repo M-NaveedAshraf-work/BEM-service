@@ -111,7 +111,7 @@ def auto_calibrate(data, calData, historicalData, weatherData):
                   }
 
     gaSettingForm = {"crossover_rate": "", "max_time": "", "mutation_rate": "", "population_size": "", "random_seed": "", "top_percentage": ""}
-    resultForm = {"simulated": "", "real": "", "interval": "", "cvRMSE": ""}
+    resultForm = {"simulated": "", "real": "", "interval": "", "cvRMSE": "", "ROI": "", "Payback": ""}
     results = []
     for k in range(0, 5, 1):
         gaSettingForm["crossover_rate"] = gaSettings["crossover_rate"][k]
@@ -124,13 +124,15 @@ def auto_calibrate(data, calData, historicalData, weatherData):
         calData['ga_settings'] = gaSettingForm
         calData['calibration_parameters'] = calInput
 
-        simulated, real, interval, cvRMSE = main(mode="auto calibration", building_name=data, epw_file_name=weatherData, original_file_name=calData,
+        simulated, real, interval, cvRMSE, ROI, Payback = main(mode="auto calibration", building_name=data, epw_file_name=weatherData, original_file_name=calData,
              result_file_name=historicalData)
 
         resultForm['simulated'] = simulated
         resultForm['real'] = real
         resultForm['interval'] = interval
         resultForm['cvRMSE'] = cvRMSE
+        resultForm['ROI'] = ROI
+        resultForm['Payback'] = Payback
 
         results.append(resultForm.copy())
 
@@ -139,7 +141,7 @@ def auto_calibrate(data, calData, historicalData, weatherData):
         if results[j]['cvRMSE'] < results[bestIndex]['cvRMSE']:
             bestIndex = j
 
-    return results[bestIndex]['simulated'], results[bestIndex]['real'], results[bestIndex]['interval']
+    return results[bestIndex]['simulated'], results[bestIndex]['real'], results[bestIndex]['interval'], results[bestIndex]['cvRMSE'], results[bestIndex]['ROI'], results[bestIndex]['Payback']
 
 
 

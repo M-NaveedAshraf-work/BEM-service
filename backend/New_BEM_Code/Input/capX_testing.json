@@ -1,0 +1,776 @@
+{
+    "type": "Calibration",
+    "calGraphData": [0,0,0,0,0,0,0,0,0,0,0,0],
+    "capxGraphData": [0,0,0,0,0,0,0,0,0,0,0,0],
+    "actualGraphData": [0,0,0,0,0,0,0,0,0,0,0,0],
+    "ga_settings": {
+        "population_size": 100,
+        "crossover_rate": 0.9,
+        "mutation_rate": 0.2,
+        "random_seed": "None",
+        "max_time": 30,
+        "top_percentage": 10
+    },
+    "calibration_settings": {
+        "data_interval": "Monthly",
+        "electricity_data": "Yes",
+        "natural_gas_data": "No",
+        "cvrmse_criterion": 2,
+        "convergence_diff": 1e-06,
+        "n_times_converge": 15
+    },
+    "calibration_parameters": [
+    ],
+    "schedule_parameters": [
+    ],
+    "monthly_internal": [
+    ],
+    "capxSettings": {
+        "discount_rate": 0.02,
+        "period_analysis": 15,
+        "energy_eff_budget": 1000000000000,
+        "energy_del_restriction": 1600,
+        "electricity_cost": 0.12,
+        "natural_gas_cost": 0.1
+    },
+    "capxParameterValues": {
+        "heatingEfficiency": {
+            "Raytherm : Commercial Gas-Fired Instantaneous Water Heaters & Hot Water Supply Boilers with Storage Capacity < 10 Gallons": {
+                "Cost": 100,
+                "Btu": 90000.0,
+                "Param1": 82.0
+            },
+            "A. O. SMITH : Commercial Gas-Fired Storage Water Heaters with Input Capacity of 155,000 Btu/hr or Less and Storage Capacity of 140 Gallons or Less": {
+                "Cost": 100,
+                "Btu": 75100.0,
+                "Param1": 80.0
+            },
+            "SLANT/FIN : Hot Water Commercial Packaged Boilers': {'Cost': 100, 'Btu': 301000.0, 'Param1': 82.5}}, {'SLANT/FIN : Steam Commercial Packaged Boilers": {
+                "Cost": 100,
+                "Btu": 300000.0,
+                "Param1": 79.7
+            },
+            "Delta ss : Commercial Gas-Fired Instantaneous Water Heaters & Hot Water Supply Boilers with Storage Capacity < 10 Gallons": {
+                "Cost": 100,
+                "Btu": 100000.0,
+                "Param1": 85.0
+            }, 
+            "A. O. SMITH : Commercial Gas-Fired Storage Water Heaters with Input Capacity of 155,000 Btu/hr or Less and Storage Capacity of 140 Gallons or Less": {
+                "Cost": 100,
+                "Btu": 75100.0,
+                "Param1": 80.0
+            },
+            "SLANT/FIN : Hot Water Commercial Packaged Boilers": {
+                "Cost": 100,
+                "Btu": 301000.0,
+                "Param1": 82.5
+            },
+            "SLANT/FIN : Steam Commercial Packaged Boilers": {
+                "Cost": 100,
+                "Btu": 300000.0,
+                "Param1": 79.7
+            },
+            "Raytherm : Commercial Gas-Fired Instantaneous Water Heaters & Hot Water Supply Boilers with Storage Capacity < 10 Gallons": {
+                "Cost": 100,
+                "Btu": 135000.0,
+                "Param1": 82.0
+            },
+            "AMERICAN : Commercial Gas-Fired Storage Water Heaters with Input Capacity of 155,000 Btu/hr or Less and Storage Capacity of 140 Gallons or Less": {
+                "Cost": 100,
+                "Btu": 75100.0,
+                "Param1": 80.0
+            },
+            "WEIL-MCLAIN : Hot Water Commercial Packaged Boilers": {
+                "Cost": 100,
+                "Btu": 336000.0,
+                "Param1": 82.7
+            },
+            "SLANT/FIN : Hot Water Commercial Packaged Boilers": {
+                "Cost": 100,
+                "Btu": 300000.0,
+                "Param1": 81.1
+            }
+        },
+        "coolingEfficiency": {
+            "PANASONIC : Multi-Split, -Circuit, or -Head Mini-Split Heat Pump Combinations": {
+                "Cost": 100,
+                "Btu": 16700.0,
+                "Param1": 3.678043691056053
+            },
+            "SAMSUNG : VRF Multi-Split Heat Pumps (Water-Source)": {
+                "Cost": 100,
+                "Btu": 38000.0,
+                "Param1": 4.396068156640701
+            },
+            "DAIKIN : Commercial Package Heat Pumps": {
+                "Cost": 100,
+                "Btu": 16000,
+                "Param1": 5.158053303791756
+            },
+            "SIMON-AIRE : Standard Size Package Terminal Air Conditioners": {
+                "Cost": 100,
+                "Btu": 16000.0,
+                "Param1": 2.7695229386836413
+            },
+            "Islandaire : Non-Standard Size Package Terminal Air Conditioners": {
+                "Cost": 100,
+                "Btu": 7000.0,
+                "Param": 2.754869378161506
+            },
+            "ASPEN : Single-split-system air conditioners": {
+                "Cost": 100,
+                "Btu": 16000.0,
+                "Param1": 3.634083009489646
+            },
+            "LENNOX : Multi-Split, -Circuit, or -Head Mini-Split Heat Pump Combinations": {
+                "Cost": 100,
+                "Btu": 17000.0,
+                "Param1": 3.223783314869847
+            },
+            "SAMSUNG : VRF Multi-Split Heat Pumps (Water-Source)": {
+                "Cost": 100,
+                "Btu": 38000.0,
+                "Param1": 4.249532551419344
+            },
+            "DAIKIN : Commercial Package Heat Pumps": {
+                "Cost": 100,
+                "Btu": 16000,
+                "Param1": 5.158053303791756
+            },
+            "SIMON-AIRE : Standard Size Package Terminal Air Conditioners": {
+                "Cost": 100,
+                "Btu": 16000.0,
+                "Param1": 2.7695229386836413
+            },
+            "Islandaire : Non-Standard Size Package Terminal Air Conditioners": {
+                "Cost": 100,
+                "Btu": 7000.0,
+                "Param1": 2.754869378161506
+            },
+            "ASPEN : Single-split-system air conditioners": {
+                "Cost": 100,
+                "Btu": 16000.0,
+                "Param1": 3.458240283224018
+            }
+        },
+        "heatingCoolingEfficiency": {
+            "heatPumpAA": {
+                "cost": "11900 -10 ton",
+                "param1": 2.05,
+                "param2": 2.8
+            },
+            "heatPumpWA": {
+                "cost": "11650 -10 ton",
+                "param1": 2.28,
+                "param2": 3.21
+            }
+        },
+        "heatRecovery": {
+            "None": {
+                "cost": "0 -O GPM",
+                "param1": 0
+            },
+            "heatExchangePlates": {
+                "cost": "64625 -800 GPM",
+                "param1": 0.9
+            },
+            "twoElement": {
+                "cost": "25800 -152 GPM",
+                "param1": 0.65
+            },
+            "heatExchangePipes": {
+                "cost": "3550 -1700 CFM",
+                "param1": 0.6
+            },
+            "rotation": {
+                "cost": "2000 -",
+                "param1": 0.75
+            }
+        },
+        "airLeakage": {
+            "minimum": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximum": {
+                "cost": 0,
+                "param1": 0
+            }
+        },
+        "specificFanPower": {
+            "inlineCentrifugal": {
+                "cost": "1470 -3400 CFM",
+                "kw": 1000,
+                "CFM": 3400,
+                "param1": 623
+            },
+            "blower": {
+                "cost": "2305 -3600 CFM",
+                "kw": 1000,
+                "CFM": 3400,
+                "param1": 623
+            },
+            "axial": {
+                "cost": "1470 -3400 CFM",
+                "kw": 1000,
+                "CFM": 3400,
+                "param1": 623
+            }
+        },
+        "DHWGenerationSystem": {
+            "Raytherm : Commercial Gas-Fired Instantaneous Water Heaters & Hot Water Supply Boilers with Storage Capacity < 10 Gallons": {
+                "Cost": 100,
+                "Btu": 90000.0,
+                "Gal": 0.0,
+                "Param1": 82.0
+                }, 
+            "A. O. SMITH : Commercial Gas-Fired Storage Water Heaters with Input Capacity of 155,000 Btu/hr or Less and Storage Capacity of 140 Gallons or Less": {
+                "Cost": 100,
+                "Btu": 75100.0,
+                "Gal": 98.0,
+                "Param1": 80.0
+            },
+            "Delta ss : Commercial Gas-Fired Instantaneous Water Heaters & Hot Water Supply Boilers with Storage Capacity < 10 Gallons": {
+                "Cost": 100,
+                "Btu": 100000.0,
+                "Gal": 0.0,
+                "Param1": 85.0
+            },
+            "AMERICAN : Commercial Gas-Fired Storage Water Heaters with Input Capacity of 155,000 Btu/hr or Less and Storage Capacity of 140 Gallons or Less": {
+                "Cost": 100,
+                "Btu": 75100.0,
+                "Gal": 98.0,
+                "Param1": 80.0
+            },
+            "Raytherm : Commercial Gas-Fired Instantaneous Water Heaters & Hot Water Supply Boilers with Storage Capacity < 10 Gallons": {
+                "Cost": 100,
+                "Btu": 135000.0,
+                "Gal": 0.0,
+                "Param1": 82.0
+            },
+            "AMERICAN : Commercial Gas-Fired Storage Water Heaters with Input Capacity of 155,000 Btu/hr or Less and Storage Capacity of 140 Gallons or Less": {
+                "Cost": 100,
+                "Btu": 75100.0,
+                "Gal": 98.0,
+                "Param1": 80.0
+            },
+            "Delta ss : Commercial Gas-Fired Instantaneous Water Heaters & Hot Water Supply Boilers with Storage Capacity < 10 Gallons": {
+                "Cost": 100,
+                "Btu": 150000.0,
+                "Gal": 0.0, 
+                "Param1": 85.0
+            },
+            "LOCHINVAR : Commercial Gas-Fired Storage Water Heaters with Input Capacity of 155,000 Btu/hr or Less and Storage Capacity of 140 Gallons or Less": {
+                "Cost": 100,
+                "Btu": 75100.0,
+                "Gal": 98.0,
+                "Param1": 80.0
+            },
+            "Raytherm : Commercial Gas-Fired Instantaneous Water Heaters & Hot Water Supply Boilers with Storage Capacity < 10 Gallons": {
+                "Cost": 100,
+                "Btu": 180000.0,
+                "Gal": 1.0,
+                "Param1": 82.0
+            },
+            "LOCHINVAR : Commercial Gas-Fired Storage Water Heaters with Input Capacity of 155,000 Btu/hr or Less and Storage Capacity of 140 Gallons or Less": {
+                "Cost": 100,
+                "Btu": 75100.0,
+                "Gal": 98.0,
+                "Param1": 81.0
+            },
+            "CAMUS HYDRONICS : Commercial Gas-Fired Instantaneous Water Heaters & Hot Water Supply Boilers with Storage Capacity >= 10 Gallons & < 140 Gallons": {
+                "Cost": 100,
+                "Btu": 199000.0,
+                "Gal": 42.0,
+                "Param1": 92.0
+            }
+        },
+        "PVModule": {
+            "minimum": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximum": {
+                "cost": 43056,
+                "param1": 500
+            }
+        },
+        "solarCollector": {
+            "minimum": {
+                "cost": 9025,
+                "param1": 40
+            },
+            "maximum": {
+                "cost": 30900,
+                "param1": 216
+            }
+        },
+        "appliance": {
+            "eStarBaseline": {
+                "cost": 0,
+                "param1": 12
+            },
+            "eStarTop10": {
+                "cost": 1350,
+                "param1": 20
+            },
+            "eStarTop5": {
+                "cost": 2120,
+                "param1": 25
+            }
+        },
+        "lighting": {
+            "allCFL": {
+                "cost": 0,
+                "fixtures": 100,
+                "param1": 33
+            },
+            "LEDCFL": {
+                "cost": 7000,
+                "fixtures": 100,
+                "param1": 29
+            },
+            "LED": {
+                "cost": 14000,
+                "fixtures": 100,
+                "param1": 25
+            }
+        },
+        "roof1": {
+            "baseline": {
+                "cost": 0,
+                "param1": 0.24,
+                "param2": 0.7,
+                "param3": 0.6
+            },
+            "improvement1": {
+                "cost": 600,
+                "param1": 0.18,
+                "param2": 0.6,
+                "param3": 0.6
+            },
+            "improvement2": {
+                "cost": 2700,
+                "param1": 0.12,
+                "param2": 0.5,
+                "param3": 0.7
+            }
+        },
+        "opaque1": {
+            "baseline": {
+                "cost": 0,
+                "param1": 0.42,
+                "param2": 0.7,
+                "param3": 0.6
+            },
+            "improvement1": {
+                "cost": 3460,
+                "param1": 0.38,
+                "param2": 0.6,
+                "param3": 0.7
+            },
+            "improvement2": {
+                "cost": 6840,
+                "param1": 0.26,
+                "param2": 0.6,
+                "param3": 0.8
+            }
+        },
+        "window1": {
+            "baseline": {
+                "cost": 0,
+                "param1": 2.5,
+                "param2": 0.7,
+                "param3": 0.5
+            },
+            "improvement1": {
+                "cost": 2140,
+                "param1": 1.53,
+                "param2": 0.16,
+                "param3": 0.2
+            },
+            "improvement2": {
+                "cost": 8700,
+                "param1": 1.2,
+                "param2": 0.24,
+                "param3": 0.2
+            }
+        },
+        "overhangS": {
+            "overhang1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang2": {
+                "cost": 2500,
+                "param1": 30
+            },
+            "overhang3": {
+                "cost": 2500,
+                "param1": 45
+            }
+        },
+        "overhangSE": {
+            "overhang1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang2": {
+                "cost": 2500,
+                "param1": 30
+            },
+            "overhang3": {
+                "cost": 2500,
+                "param1": 45
+            }
+        },
+        "overhangE": {
+            "overhang1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang2": {
+                "cost": 2500,
+                "param1": 30
+            },
+            "overhang3": {
+                "cost": 2500,
+                "param1": 45
+            }
+        },
+        "overhangNE": {
+            "overhang1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang2": {
+                "cost": 2500,
+                "param1": 30
+            },
+            "overhang3": {
+                "cost": 2500,
+                "param1": 45
+            }
+        },
+        "overhangN": {
+            "overhang1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang2": {
+                "cost": 2500,
+                "param1": 30
+            },
+            "overhang3": {
+                "cost": 2500,
+                "param1": 45
+            }
+        },
+        "overhangNW": {
+            "overhang1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang2": {
+                "cost": 2500,
+                "param1": 30
+            },
+            "overhang3": {
+                "cost": 2500,
+                "param1": 45
+            }
+        },
+        "overhangW": {
+            "overhang1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang2": {
+                "cost": 2500,
+                "param1": 30
+            },
+            "overhang3": {
+                "cost": 2500,
+                "param1": 45
+            }
+        },
+        "overhangSW": {
+            "overhang1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "overhang2": {
+                "cost": 2500,
+                "param1": 30
+            },
+            "overhang3": {
+                "cost": 2500,
+                "param1": 45
+            }
+        },
+        "FinS": {
+            "fin1": {
+                "cost": 0,
+                "param1": 11
+            },
+            "fin2": {
+                "cost": 2500,
+                "param1": 8
+            },
+            "fin3": {
+                "cost": 2500,
+                "param1": 9
+            }
+        },
+        "FinSE": {
+            "fin1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin2": {
+                "cost": 2500,
+                "param1": 30
+            },
+            "fin3": {
+                "cost": 2500,
+                "param1": 45
+            }
+        },
+        "FinE": {
+            "fin1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin2": {
+                "cost": 2500,
+                "param1": 30
+            },
+            "fin3": {
+                "cost": 2500,
+                "param1": 45
+            }
+        },
+        "FinNE": {
+            "fin1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin2": {
+                "cost": 2500,
+                "param1": 30
+            },
+            "fin3": {
+                "cost": 2500,
+                "param1": 45
+            }
+        },
+        "FinN": {
+            "fin1": {
+                "cost": 0,
+                "param1": 11
+            },
+            "fin2": {
+                "cost": 2500,
+                "param1": 8
+            },
+            "fin3": {
+                "cost": 2500,
+                "param1": 9
+            }
+        },
+        "FinNW": {
+            "fin1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin2": {
+                "cost": 2500,
+                "param1": 30
+            },
+            "fin3": {
+                "cost": 2500,
+                "param1": 45
+            }
+        },
+        "FinW": {
+            "fin1": {
+                "cost": 0,
+                "param1": 11
+            },
+            "fin2": {
+                "cost": 2500,
+                "param1": 8
+            },
+            "fin3": {
+                "cost": 2500,
+                "param1": 9
+            }
+        },
+        "FinSW": {
+            "fin1": {
+                "cost": 0,
+                "param1": 0
+            },
+            "fin2": {
+                "cost": 2500,
+                "param1": 30
+            },
+            "fin3": {
+                "cost": 2500,
+                "param1": 45
+            }
+        },
+        "windTurbine": {
+            "minimumDiameter": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumDiameter": {
+                "cost": 260000,
+                "param1": 500
+            }
+        },
+        "naturalVentilation": {
+            "baseline": {
+                "cost": 0,
+                "param1": 1,
+                "param2": 1,
+                "param3": 270
+            },
+            "improve1": {
+                "cost": 3460,
+                "param1": 2,
+                "param2": 1,
+                "param3": 270
+            },
+            "improve2": {
+                "cost": 6840,
+                "param1": 1,
+                "param2": 3,
+                "param3": 270
+            }
+        },
+        "electricBattery": {
+            "baseline": {
+                "cost": 0,
+                "param1": 150,
+                "param2": 0.98,
+                "param3": 0.98
+            },
+            "improve1": {
+                "cost": 3460,
+                "param1": 200,
+                "param2": 0.98,
+                "param3": 0.95
+            },
+            "improve2": {
+                "cost": 6840,
+                "param1": 250,
+                "param2": 0.96,
+                "param3": 0.96
+            }
+        },
+        "lightingDimmer": {
+            "minimumDimmer": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumDimmer": {
+                "cost": 8000,
+                "param1": 30
+            }
+        },
+        "windowSRF_S": {
+            "minimumSRF": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumSRF": {
+                "cost": 8000,
+                "param1": 0.6
+            }
+        },
+        "windowSRF_SE": {
+            "minimumSRF": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumSRF": {
+                "cost": 8000,
+                "param1": 0.6
+            }
+        },
+        "windowSRF_E": {
+            "minimumSRF": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumSRF": {
+                "cost": 8000,
+                "param1": 0.6
+            }
+        },
+        "windowSRF_NE": {
+            "minimumSRF": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumSRF": {
+                "cost": 8000,
+                "param1": 0.6
+            }
+        },
+        "windowSRF_N": {
+            "minimumSRF": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumSRF": {
+                "cost": 8000,
+                "param1": 0.6
+            }
+        },
+        "windowSRF_NW": {
+            "minimumSRF": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumSRF": {
+                "cost": 8000,
+                "param1": 0.6
+            }
+        },
+        "windowSRF_W": {
+            "minimumSRF": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumSRF": {
+                "cost": 8000,
+                "param1": 0.6
+            }
+        },
+        "windowSRF_SW": {
+            "minimumSRF": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumSRF": {
+                "cost": 8000,
+                "param1": 0.6
+            }
+        },
+        "windowSRF_Roof": {
+            "minimumSRF": {
+                "cost": 0,
+                "param1": 0
+            },
+            "maximumSRF": {
+                "cost": 8000,
+                "param1": 0.6
+            }
+        }
+    },
+    "capxParameters": [
+    ]
+}

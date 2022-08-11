@@ -10,8 +10,8 @@
     "LightingControlFactor": 1.0,
     "ParasiticLightingEnergy": "Yes",
     "ParasiticLightingEnergyAmount": 6.0,
-    "HeatingCOP": 0.8164468602422679,
-    "CoolingCOP": 4.888264692899533,
+    "HeatingCOP": 0.7452668159525578,
+    "CoolingCOP": 4.6836437236367265,
     "COP100": 1.0,
     "COP75": 0.9,
     "COP50": 0.82,
@@ -26,8 +26,8 @@
     "ExtraVentilation": 0.0,
     "HeatRecoveryType": "Slowly rotating or intermittent heat exchangers (0.7)",
     "ExhaustAirRecirculation": "Exhaust air recirculation  60%",
-    "AirLeakageLevel": 1.1514185022483066,
-    "SpecificFanPower": 1.6299802715457623,
+    "AirLeakageLevel": 2.0,
+    "SpecificFanPower": 2.5,
     "FanControlFactor": 0.65,
     "PumpCoolingControl": "All other cases",
     "PumpHeatingControl": "All other cases",
@@ -63,11 +63,11 @@
     "Zone1": {
         "SpaceName": "Space_Nm",
         "GrossFloorArea": 43213.11,
-        "Occupancy": 33.16878076226851,
+        "Occupancy": 30.91,
         "MatabolicRate": 105.0,
-        "Appliance": 11.079463227202934,
-        "Lighting": 7.3406143248272295,
-        "OutdoorAir": 0.6145776338167072,
+        "Appliance": 13.099276456946004,
+        "Lighting": 10.27254555831506,
+        "OutdoorAir": 8.33,
         "DHW": 4.1
     },
     "TemperatureSetPoint": {
@@ -520,16 +520,16 @@
         "Roof1": {
             "UValue": 0.21,
             "Absorptivity": 0.85,
-            "Emissivity": 0.7858802443967994
+            "Emissivity": 0.7929518053345709
         },
         "Opaque1": {
-            "UValue": 0.39674623230799105,
-            "Absorptivity": 0.6664804328487169,
-            "Emissivity": 0.9280604103292608
+            "UValue": 0.37840367791539986,
+            "Absorptivity": 0.7,
+            "Emissivity": 0.92
         },
         "Window1": {
-            "UValue": 0.24580184558664644,
-            "Emissivity": -0.037875901530764165,
+            "UValue": 0.2935935299380026,
+            "Emissivity": -0.036142153396077986,
             "SolarTrasmittance": 0.41
         }
     },
@@ -547,12 +547,12 @@
         "DischargingPowerLimit": 0.0
     },
     "LightingDimmer": {
-        "DimmerSaving_WD": 0.8631408464887047,
-        "DimmerSaving_WE": 0.005636591234844013
+        "DimmerSaving_WD": 0.0,
+        "DimmerSaving_WE": 0.0
     },
     "ElectricVehicle": {
         "No_EVCharger": 0.0,
-        "ChargingPower": 0.002289724226727012,
+        "ChargingPower": 0.0,
         "Hour1": {
             "EV_Weekday": 0.0,
             "EV_Weekend": 0.0
@@ -651,14 +651,14 @@
         }
     },
     "RetailRefrig": {
-        "Capacity": 0.0065839016060998705,
+        "Capacity": 0.0,
         "Zone": ""
     },
     "Garage": {
         "SpaceName": "",
         "Occupancy": 0.0,
         "Appliance": 2.0,
-        "Lighting": -0.697737674470364
+        "Lighting": 8.0
     },
     "Garage_Schedule": {
         "Hour1": {

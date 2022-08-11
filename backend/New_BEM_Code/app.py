@@ -59,7 +59,8 @@ runZeroData = json.load(k)
 global build_index
 build_index = []
 weatherData = "centergy_2019_epw_file.epw"
-a = open('./Input/example_calibration.json')
+# a = open('./Input/example_calibration.json')
+a = open('./Input/capX_testing.json')
 calData = json.load(a)
 outputPeriod = [
     {
@@ -146,6 +147,8 @@ def json_data():
 @app.route('/BEM', methods=['GET'])
 def bem_model():
     response_object = {'status': 'success'}
+    global data
+    data = data
     hourly_delivered_energy, sum_delivered_energy, energy_use_by_fuel= main(mode="simulation", building_name=data, epw_file_name=weatherData,
         original_file_name="centergy_BEM_2019", result_file_name="iteration1")
 
@@ -236,11 +239,19 @@ def bem_model():
 
 @app.route('/Calibration', methods=['GET'])
 def calibration_model():
+    global data
+    print("Beginning Data")
+    print(type(data))
+    print(data)
     response_object = {'status': 'success'}
-    # data["OutputPeriod"] == "Monthly"
     calData["type"] = "Calibration"
     historicalData, m_index, d_index, h_index = combine(historicalData1, historicalData2)
-    simulated, real, interval, cvRMSE = main(mode="calibration", building_name=data, epw_file_name=weatherData, original_file_name=calData, result_file_name=historicalData)
+    simulated, real, interval, cvRMSE, data_calibrated, Payback = main(mode="calibration", building_name=data, epw_file_name=weatherData, original_file_name=calData, result_file_name=historicalData)
+
+    data = data_calibrated
+    print("Updated Data")
+    print(type(data))
+    print(data)
 
     if interval == "Monthly":
         ofile = simulated.iloc[m_index:]
@@ -269,11 +280,6 @@ def calibration_model():
         nfile = real.iloc[:h_index]
         real = pd.concat([ofile, nfile])
 
-    # real.to_numpy()
-    # simulated.to_numpy()
-    print(real)
-    print(simulated)
-    print(hourlyXAxis)
 
     response_object['real'] = real['data'].values.tolist()
     response_object['modeled'] = simulated['data'].values.tolist()
@@ -285,11 +291,14 @@ def calibration_model():
 
 @app.route('/auto_calibration', methods=['GET'])
 def auto_calibration_model():
+    global data
+
     response_object = {'status': 'success'}
-    # data["OutputPeriod"] == "Monthly"
     calData["type"] = "Calibration"
     historicalData, m_index, d_index, h_index = combine(historicalData1, historicalData2)
-    simulated, real, interval = auto_calibrate(data, calData, historicalData, weatherData)
+    simulated, real, interval, cvRMSE, data_calibrated, Payback = auto_calibrate(data, calData, historicalData, weatherData)
+
+    data = data_calibrated
 
     if interval == "Monthly":
         ofile = simulated.iloc[m_index:]
@@ -393,7 +402,7 @@ def capxComponents():
     calData["type"] = "CapX"
     # data["OutputPeriod"] == "Monthly"
     historicalData, m_index, d_index, h_index = combine(historicalData1, historicalData2)
-    simulated, real, interval = main(mode="capX", building_name=data, epw_file_name=weatherData,
+    simulated, real, interval, cvRMSE, ROI, Payback = main(mode="capX", building_name=data, epw_file_name=weatherData,
                                      original_file_name=calData, result_file_name=historicalData)
 
     if interval == "Monthly":
