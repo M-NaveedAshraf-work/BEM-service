@@ -1,5 +1,5 @@
 # from  CPython.BEMP import BEM
-from BEMP import BEM
+from CPython.BEMP import BEM
 import numpy as np
 import openpyxl
 from random import random, randint, uniform, seed

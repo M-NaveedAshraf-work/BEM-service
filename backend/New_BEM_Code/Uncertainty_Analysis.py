@@ -1,4 +1,4 @@
-from BEMP import BEM
+from CPython.BEMP import BEM
 import numpy as np
 import pandas as pd
 from scipy.stats import norm, lognorm

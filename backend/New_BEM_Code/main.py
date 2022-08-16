@@ -1,5 +1,5 @@
-from BEMP import Hourly_BEM_JSON
-# from CPython.BEMP import Hourly_BEM_JSON
+# from BEMP import Hourly_BEM_JSON
+from CPython.BEMP import Hourly_BEM_JSON
 from CSV_to_JSON import json_Insance_Generation
 import numpy as np
 import time
